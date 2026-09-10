@@ -1,0 +1,138 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================================
+   Weights, Design, and Estimands — design tokens
+   ----------------------------------------------------------------------------
+   Two layers, kept apart (the organizing idea borrowed from ctzn-viz):
+
+     1. CHROME — a near-monochrome reading surface with one accent.
+     2. DATA   — palettes named by MEANING. A chart asks for "weighted" or
+                 "unweighted", never for "blue". The --role-* tokens are the
+                 only way a mark gets a colour.
+
+   Token NAMES are a contract (docs/CONTRACT.md §9). Values may be tuned.
+   ========================================================================== */
+
+:root {
+  /* chrome: surfaces */
+  --canvas:          oklch(0.985 0.004 90);
+  --surface:         oklch(1 0 0);
+  --surface-sunken:  oklch(0.965 0.005 90);
+
+  /* chrome: line work */
+  --border:          oklch(0.905 0.004 260);
+  --border-strong:   oklch(0.820 0.006 260);
+
+  /* chrome: text */
+  --text:            oklch(0.235 0.010 260);
+  --text-secondary:  oklch(0.470 0.012 260);
+  --text-muted:      oklch(0.615 0.012 260);
+
+  /* chrome: the single accent */
+  --accent:          oklch(0.620 0.140 62);
+  --accent-subtle:   oklch(0.955 0.030 70);
+
+  /* chrome: status */
+  --positive:        oklch(0.520 0.115 155);
+  --negative:        oklch(0.545 0.170 27);
+  --warning:         oklch(0.660 0.140 75);
+
+  /* chart chrome */
+  --chart-grid:       oklch(0.925 0.004 260);
+  --chart-axis:       oklch(0.845 0.005 260);
+  --chart-label:      oklch(0.470 0.012 260);
+  --chart-tick:       oklch(0.615 0.012 260);
+  --chart-annotation: oklch(0.235 0.010 260);
+  --chart-band:       oklch(0.235 0.010 260 / 0.07);
+
+  /* data: categorical, hue-ordered for adjacency contrast (ctzn-viz values) */
+  --cat-1: oklch(0.520 0.150 250);
+  --cat-2: oklch(0.585 0.175 32);
+  --cat-3: oklch(0.545 0.120 165);
+  --cat-4: oklch(0.640 0.140 78);
+  --cat-5: oklch(0.500 0.160 305);
+  --cat-6: oklch(0.560 0.108 208);
+  --cat-7: oklch(0.560 0.160 8);
+  --cat-8: oklch(0.560 0.020 60);
+
+  /* data: sequential and diverging */
+  --seq-1: oklch(0.940 0.020 195);
+  --seq-2: oklch(0.860 0.048 195);
+  --seq-3: oklch(0.760 0.075 193);
+  --seq-4: oklch(0.650 0.092 192);
+  --seq-5: oklch(0.535 0.095 192);
+  --seq-6: oklch(0.410 0.082 194);
+  --div-1: oklch(0.480 0.165 28);
+  --div-2: oklch(0.630 0.130 40);
+  --div-3: oklch(0.780 0.075 62);
+  --div-4: oklch(0.925 0.014 90);
+  --div-5: oklch(0.775 0.062 225);
+  --div-6: oklch(0.620 0.105 245);
+  --div-7: oklch(0.470 0.135 255);
+
+  /* data: ROLES — the book's semantic palette */
+  --role-weighted:   var(--cat-1);
+  --role-unweighted: oklch(0.600 0.020 260);
+  --role-design:     var(--cat-2);
+  --role-naive:      oklch(0.720 0.015 260);
+  --role-truth:      var(--text);
+  --role-benchmark:  var(--cat-4);
+  --role-treated:    var(--cat-5);
+  --role-control:    var(--cat-6);
+  --role-highlight:  var(--accent);
+  --role-muted:      var(--text-muted);
+}
+
+.dark {
+  --canvas:          oklch(0.155 0.008 265);
+  --surface:         oklch(0.192 0.010 265);
+  --surface-sunken:  oklch(0.128 0.008 265);
+  --border:          oklch(0.300 0.012 265);
+  --border-strong:   oklch(0.410 0.014 265);
+  --text:            oklch(0.930 0.006 90);
+  --text-secondary:  oklch(0.760 0.010 260);
+  --text-muted:      oklch(0.620 0.012 260);
+  --accent:          oklch(0.760 0.130 70);
+  --accent-subtle:   oklch(0.300 0.050 70);
+  --positive:        oklch(0.700 0.120 155);
+  --negative:        oklch(0.680 0.160 27);
+  --warning:         oklch(0.780 0.130 80);
+  --chart-grid:       oklch(0.270 0.010 265);
+  --chart-axis:       oklch(0.380 0.012 265);
+  --chart-label:      oklch(0.760 0.010 260);
+  --chart-tick:       oklch(0.620 0.012 260);
+  --chart-annotation: oklch(0.930 0.006 90);
+  --chart-band:       oklch(0.930 0.006 90 / 0.09);
+  --cat-1: oklch(0.700 0.130 250);
+  --cat-2: oklch(0.720 0.150 35);
+  --cat-3: oklch(0.720 0.110 165);
+  --cat-4: oklch(0.790 0.120 80);
+  --cat-5: oklch(0.700 0.130 305);
+  --cat-6: oklch(0.740 0.090 208);
+  --cat-7: oklch(0.720 0.130 8);
+  --cat-8: oklch(0.650 0.020 60);
+  --role-unweighted: oklch(0.600 0.015 260);
+  --role-naive:      oklch(0.480 0.012 260);
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-sunken: var(--surface-sunken);
+  --color-rule: var(--border);
+  --color-ink: var(--text);
+  --color-ink-2: var(--text-secondary);
+  --color-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --font-serif: var(--font-source-serif), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", monospace;
+}
+
+html { background: var(--canvas); color: var(--text); }
+body { font-family: var(--font-serif); -webkit-font-smoothing: antialiased; }
+.katex { font-size: 1.04em; }
+.katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.25rem 0; }

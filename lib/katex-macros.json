@@ -1,0 +1,16 @@
+{
+  "\\E": "\\mathbb{E}",
+  "\\Var": "\\operatorname{Var}",
+  "\\Cov": "\\operatorname{Cov}",
+  "\\plim": "\\operatorname*{plim}",
+  "\\DEFF": "\\mathrm{DEFF}",
+  "\\DEFT": "\\mathrm{DEFT}",
+  "\\CV": "\\mathrm{CV}",
+  "\\SE": "\\mathrm{SE}",
+  "\\nKish": "n_{\\text{Kish}}",
+  "\\ndesign": "n_{\\text{design}}",
+  "\\nDDC": "n_{\\text{DDC}}",
+  "\\PATE": "\\text{PATE}",
+  "\\ATT": "\\text{ATT}",
+  "\\ATU": "\\text{ATU}"
+}
