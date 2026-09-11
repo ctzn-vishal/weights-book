@@ -122,7 +122,7 @@
       "variance_estimator": "Not computed: the extract carries no replicate weights or design variables (weights-only tier)."
     },
     "poverty_child_2021": {
-      "assumptions": "IPUMS POVERTY reproduces the official measure (an open pipeline decision); SPMPOV weighted by ASECWT reproduces Census SPM rates (the SPM weight is not in the store); reported income and benefits are accurate enough for both measures.",
+      "assumptions": "IPUMS POVERTY reproduces the official measure (IPUMS also offers OFFPOV, which this extract lacks); SPMPOV weighted by ASECWT reproduces Census SPM rates (the SPM weight is not in the extract); reported income and benefits are accurate enough for both measures.",
       "estimand": "Two estimands: the share of children in families whose pre-tax money income is below the official threshold, and the share in SPM units whose resources after taxes, transfers, and necessary expenses are below the SPM threshold",
       "estimator": "sum(w_i y_i) / sum(w_i) over children in each measure's universe, w = ASECWT",
       "explicit_weights": "ASECWT, the ASEC person weight.",

@@ -7,7 +7,7 @@
     }
   ],
   "format": "pct1",
-  "note": "Income year = survey year minus 1. The official measure uses IPUMS POVERTY (open pipeline decision #8). The SPM lines break between 2019 and 2020: Census revised the SPM methodology from the 2019 estimates onward, and the 2019 point here is SPMPOV as first released, which matches the unrevised published rate. Estimates from 2020 on use 2020 Census-based population controls.",
+  "note": "Income year = survey year minus 1. The official measure uses IPUMS POVERTY; IPUMS also offers OFFPOV, which this extract lacks. The SPM lines break between 2019 and 2020: Census revised the SPM methodology from the 2019 estimates onward, and the 2019 point here is SPMPOV as first released, which matches the unrevised published rate. Estimates from 2020 on use 2020 Census-based population controls.",
   "series": [
     {
       "name": "Children, Official",

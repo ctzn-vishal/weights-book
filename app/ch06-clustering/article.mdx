@@ -1,7 +1,5 @@
 import { ClusterDesignWorksheet } from '@/components/widgets/ClusterDesignWorksheet'
 
-{/* Chapter 6, first draft. Every number is a Fact or lives in a Chart; build.py regenerates them. */}
-
 ## Millions of records, dozens of policy shocks
 
 The Medicaid comparison in this chapter uses <Fact id="ch6.records_design" /> American Community Survey (ACS) person records from <Fact id="ch6.states_design" /> states: <Fact id="ch6.states_treated" /> in the January 2014 expansion cohort and <Fact id="ch6.states_comparison" /> comparison states that had not expanded by the end of 2019. A PERWT-weighted linear probability model of being uninsured, with state and year fixed effects and an indicator for cohort states from 2014 on, puts the change in the uninsured-rate gap at <Fact id="ch6.beta" /> percentage points. Treat every record as an independent draw, with a heteroskedasticity-robust (HC1) standard error, and the coefficient comes back as <Fact id="ch6.ci_hc1" ci />. Change one argument so that the standard error is clustered by state, and the same coefficient comes back as <Fact id="ch6.ci_state" ci />, with a standard error <Fact id="ch6.ratio_state_hc1" /> as large. More interviews help measure each state's outcome. They do not create more state policy decisions.

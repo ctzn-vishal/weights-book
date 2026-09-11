@@ -4,10 +4,10 @@
     "figures/atus_estimands.json": "2b54e1f51bfa5d3be3a7cb77149c366ca41e02434476c195d0a63c084a8aa765",
     "figures/atus_six_estimands.json": "32130e3acc9898f7f3b135cab6f7aaca50222155ca5d8cd9ef9613984c1b6d24",
     "figures/foodsec_units.json": "e03cdfba81b157ba8313af9a898cf24c78ed53976914dbfe3b7f685613463779",
-    "figures/poverty_official_spm.json": "f99d3a76e862dcec1de99d052ef5ef1b7819855830acc32c86fa09a553363821",
+    "figures/poverty_official_spm.json": "4bfea992bf35911ce28d36f9b787d6c407a5074e8c95ecf9f3c305a5c37c75e8",
     "figures/poverty_validation.json": "1dcbede5655ac59b0bc8557e00119b7117963eb69f37b19b22830db77cc99cfb",
     "figures/turnout_conventions.json": "e33aec643057c7df0ff9f1b216f326ceadfc69457e8eaddfa39c897b31497cb9",
-    "ledger.json": "48e53069f57723dc967ed36cac47f595b94a100c9784861d1fbeae20acd5bda7"
+    "ledger.json": "d4eb848273b7823099fa09f1a6ce8e25fbb49f9248604d8c19373641f3b0c50f"
   },
   "code": "build.py",
   "generated_at": "2026-09-11T01:43:17+00:00",

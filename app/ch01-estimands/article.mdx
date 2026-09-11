@@ -53,12 +53,6 @@ The voters did not change. The weighted share without an answer was <Fact id="ch
 
 </Figure>
 
-<Callout kind="draft" title="Note for the author: the store's turnout recode was fixed">
-
-Until September 10, 2026, the store's `voted_census` dropped VOTED = "Not in universe" from the denominator, so for 2022 and 2024 it returned the label-trusting rates above, and its documentation blamed zero supplement weights. Both were corrected upstream that day: these records carry positive weights, and the store's recode now counts them as nonvoters and reproduces the published rates. Decide whether the published chapter should mention the store.
-
-</Callout>
-
 <Ledger id="ch1.turnout_2020" />
 
 ## How much do Americans work?
@@ -174,19 +168,7 @@ For older Americans the ordering reverses: <Fact id="ch1.pov_off_65_2021" /> off
 
 The ASEC is the one source in this chapter with replicate weights, so its intervals are design-based. Each uses the 160 successive-difference replicate weights, $$\widehat{\Var}(\hat\theta) = \tfrac{4}{160}\sum_{r=1}^{160}(\hat\theta_r - \hat\theta)^2$$, with 159 degrees of freedom. The interval for a gap comes from the replicate estimates of the gap itself, so it accounts for both measures being computed on the same children. [Chapter 3](/ch03-design#replicate-weights-briefly) and [Lab 3](/ch03-lab-replicates) develop the machinery.
 
-Two qualifications travel with these rates until a re-extract resolves them. The official rates use IPUMS's `POVERTY` variable rather than its `OFFPOV` variable, and the SPM rates use the ASEC person weight rather than the SPM weight IPUMS recommends, which this extract lacks. The official rates reproduce <Fact id="ch1.pov_match_official" /> published rates, and the SPM rates are never more than <Fact id="ch1.pov_max_spm_gap" /> percentage points from the published figures, but both are provisional until they are rebuilt from the recommended variable and weight.
-
-<Callout kind="draft" title="Pending pipeline decision #8: official poverty from POVERTY">
-
-**What this build does.** Official poverty is IPUMS `POVERTY` = 10 ("below poverty"), and SPM poverty is `SPMPOV` = 1. Both are weighted by the ASEC person weight, `ASECWT`.
-
-**Why it is pending.** The data store's open decision #8 says not to derive official poverty from `POVERTY` and to add IPUMS's `OFFPOV` in a re-extract. IPUMS also recommends its SPM weight for `SPMPOV`, and the store does not have it.
-
-**Why the numbers stand for now.** The `POVERTY`-based rates reproduce <Fact id="ch1.pov_match_official" /> published official rates (all people, children, and people 65 and older, 2019–2024). The SPM rates reproduce <Fact id="ch1.pov_match_spm" /> and are never more than <Fact id="ch1.pov_max_spm_gap" /> percentage points from the published figure.
-
-**Next step.** Rerun both measures from `OFFPOV` and the SPM weight when the re-extract lands, and replace this note with the result.
-
-</Callout>
+Two qualifications apply to these rates. Official poverty here is IPUMS's `POVERTY` variable, not its `OFFPOV` variable, and the SPM rates use the ASEC person weight rather than the SPM weight IPUMS recommends, which this extract lacks. Checked against the Census Bureau's published rates for all people, children, and people 65 and older in 2019–2024, the official rates reproduce <Fact id="ch1.pov_match_official" />, and the SPM rates reproduce <Fact id="ch1.pov_match_spm" /> and are never more than <Fact id="ch1.pov_max_spm_gap" /> percentage points away.
 
 <Details summary="Replication check against the Census Bureau's published rates">
 
@@ -200,7 +182,7 @@ Two qualifications travel with these rates until a re-extract resolves them. The
 
 <Callout kind="box" title="Provenance: the PSID's low-income oversample">
 
-The Panel Study of Income Dynamics began in 1968 by combining a national probability sample with a large supplementary sample of low-income families, drawn on purpose to study poverty. A poverty rate computed from the pooled file without weights describes that pooled sample, in which poor families are overrepresented by design. It does not describe the country. Solon, Haider, and Wooldridge use this case to motivate the first reason to weight: when the goal is a population descriptive statistic and units were sampled with unequal probabilities, the weights are what point the estimator at the population quantity <Cite id="solon2015" />. The ATUS weekend oversample is the same situation in a current survey. This draft does not yet reproduce the PSID numbers.
+The Panel Study of Income Dynamics began in 1968 by combining a national probability sample with a large supplementary sample of low-income families, drawn on purpose to study poverty. A poverty rate computed from the pooled file without weights describes that pooled sample, in which poor families are overrepresented by design. It does not describe the country. Solon, Haider, and Wooldridge use this case to motivate the first reason to weight: when the goal is a population descriptive statistic and units were sampled with unequal probabilities, the weights are what point the estimator at the population quantity <Cite id="solon2015" />. The ATUS weekend oversample is the same situation in a current survey. The box describes the case; it does not reproduce the PSID numbers.
 
 </Callout>
 

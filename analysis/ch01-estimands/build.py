@@ -1033,8 +1033,8 @@ def build_poverty() -> None:
                                "Var = (4/160) sum_r (theta_r - theta)^2, df = 159, centred on the full-sample "
                                "estimate. svy 0.28 with method='replication' and variance_center='estimate', "
                                "checked against a hand computation and R survey 4.5."),
-           assumptions=("IPUMS POVERTY reproduces the official measure (an open pipeline decision); SPMPOV "
-                        "weighted by ASECWT reproduces Census SPM rates (the SPM weight is not in the store); "
+           assumptions=("IPUMS POVERTY reproduces the official measure (IPUMS also offers OFFPOV, which this extract lacks); SPMPOV "
+                        "weighted by ASECWT reproduces Census SPM rates (the SPM weight is not in the extract); "
                         "reported income and benefits are accurate enough for both measures."),
            facts=["ch1.pov_off_child_2021", "ch1.pov_spm_child_2021", "ch1.pov_gap_child_2021"])
 
@@ -1066,8 +1066,8 @@ def build_poverty() -> None:
                 f"({pct(res[('spm', 'age65', 2024)]['est'])} versus {pct(res[('official', 'age65', 2024)]['est'])} in 2024)."),
         "source": ("IPUMS CPS ASEC 2020-2025 (analysis/cps/cps_asec/part_2020_2025.parquet); 95% intervals "
                    "from 160 SDR replicate weights, df = 159"),
-        "note": ("Income year = survey year minus 1. The official measure uses IPUMS POVERTY (open pipeline "
-                 "decision #8). The SPM lines break between 2019 and 2020: Census revised the SPM methodology "
+        "note": ("Income year = survey year minus 1. The official measure uses IPUMS POVERTY; IPUMS also "
+                 "offers OFFPOV, which this extract lacks. The SPM lines break between 2019 and 2020: Census revised the SPM methodology "
                  "from the 2019 estimates onward, and the 2019 point here is SPMPOV as first released, which "
                  "matches the unrevised published rate. Estimates from 2020 on use 2020 Census-based population "
                  "controls."),
