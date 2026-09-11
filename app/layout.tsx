@@ -33,6 +33,8 @@ export const metadata: Metadata = {
     url: SITE_URL,
     locale: 'en_US',
   },
+  // The share image itself is app/opengraph-image.png (Next's file convention), the cover on a wide card.
+  twitter: { card: 'summary_large_image' },
   // Draft: excluded from indexing until the verification gate passes.
   robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
 };
