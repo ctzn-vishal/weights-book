@@ -1,0 +1,96 @@
+{
+  "alt": "Table of sample size, weight CV, Kish effective sample size, and their ratio for BRFSS 2024, ATUS 2023, CPS ASEC 2024, CPS Food Security December 2023 households, and CPS Voting 2020.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "survey",
+      "label": "Survey"
+    },
+    {
+      "align": "left",
+      "key": "unit",
+      "label": "Unit"
+    },
+    {
+      "align": "left",
+      "key": "weight",
+      "label": "Weight"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "n",
+      "label": "n"
+    },
+    {
+      "align": "right",
+      "format": "num2",
+      "key": "cv",
+      "label": "CV(w)"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "nkish",
+      "label": "n Kish"
+    },
+    {
+      "align": "right",
+      "format": "num2",
+      "key": "ratio",
+      "label": "n Kish / n"
+    }
+  ],
+  "highlight_key": "ratio",
+  "note": "All records with a positive weight; Food Security counts households (PERNUM = 1). Kish's formula ignores the outcome and the strata; it prices only weight dispersion.",
+  "rows": [
+    {
+      "cv": 2.03306,
+      "n": 450353,
+      "nkish": 87730.813,
+      "ratio": 0.194805,
+      "survey": "BRFSS 2024 (49 states + DC)",
+      "unit": "adults",
+      "weight": "_LLCPWT"
+    },
+    {
+      "cv": 0.9103,
+      "n": 8548,
+      "nkish": 4674.4963,
+      "ratio": 0.546853,
+      "survey": "ATUS 2023",
+      "unit": "person-days",
+      "weight": "WT06"
+    },
+    {
+      "cv": 0.649442,
+      "n": 30863,
+      "nkish": 21707.377,
+      "ratio": 0.703346,
+      "survey": "CPS Food Security, Dec 2023",
+      "unit": "households",
+      "weight": "FSSUPPWTH"
+    },
+    {
+      "cv": 0.6119,
+      "n": 144265,
+      "nkish": 104964.19,
+      "ratio": 0.727579,
+      "survey": "CPS ASEC 2024",
+      "unit": "persons",
+      "weight": "ASECWT"
+    },
+    {
+      "cv": 0.549293,
+      "n": 111665,
+      "nkish": 85782.462,
+      "ratio": 0.768213,
+      "survey": "CPS Voting and Registration 2020",
+      "unit": "persons",
+      "weight": "VOSUPPWT"
+    }
+  ],
+  "source": "BRFSS 2024 (CDC); IPUMS ATUS 2023; IPUMS CPS ASEC 2024, Food Security Dec 2023, Voting 2020 (analysis/)",
+  "title": "Kish effective sample sizes in five federal surveys",
+  "type": "table"
+}

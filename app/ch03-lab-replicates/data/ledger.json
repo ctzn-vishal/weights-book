@@ -1,0 +1,25 @@
+{
+  "key": "ch3lab",
+  "ledgers": {
+    "state_uninsured": {
+      "assumptions": "The replicates reproduce the sampling and weighting variability of the design. PUMS is a subsample of the full ACS, so these SEs are larger than those on data.census.gov. Coverage is point-in-time and self-reported. Pairwise tests are per comparison; with 1,275 of them some false positives are expected, and a Bonferroni family-wise version is stricter.",
+      "estimand": "For each state, the share of that population with no health insurance coverage at the time of interview; for every pair of states, the difference between their shares.",
+      "estimator": "Weighted share within each state (Hajek ratio): sum of PERWT x uninsured over sum of PERWT; pairwise differences of those shares.",
+      "explicit_weights": "PERWT, the ACS final person weight: the inverse of the selection probability, adjusted for nonresponse and calibrated to population controls by the Census Bureau.",
+      "facts": [
+        "ch3lab.us_rate",
+        "ch3lab.top_rate",
+        "ch3lab.bottom_rate",
+        "ch3lab.ratio_median",
+        "ch3lab.pairs_sig_sdr",
+        "ch3lab.pairs_sig_naive",
+        "ch3lab.adj_sig_sdr"
+      ],
+      "implicit_weights": "None beyond PERWT: each estimate is a weighted mean, so a respondent's leverage is his or her share of the state's total weight.",
+      "randomness": "Repeated sampling of addresses and group-quarters residents under the ACS design, with the Census Bureau's weighting repeated on each hypothetical sample.",
+      "target_population": "Civilian noninstitutionalized adults aged 19 to 64 in each of the 50 states and DC in 2024. IPUMS approximation: residents of institutional group quarters and members of the Armed Forces are dropped; noninstitutional group quarters (college dorms, shelters) stay in.",
+      "title": "Which state differences in the uninsured rate are real? (ACS 2024)",
+      "variance_estimator": "Successive difference replication with the 80 person replicate weights REPWTP1-80: Var = (4/80) x sum over r of (theta_r - theta)^2, df = 79. Differences use the replicate covariance. 90% margin of error = 1.645 x SE (ACS convention); pairwise tests at the 90% level."
+    }
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "alt": "Table of the software used to build the book, with the version installed on the build machine and each tool's role.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "tool",
+      "label": "Tool"
+    },
+    {
+      "align": "left",
+      "key": "version",
+      "label": "Version"
+    },
+    {
+      "align": "left",
+      "key": "role",
+      "label": "Role in the book"
+    }
+  ],
+  "note": "Versions differ across machines; the manifests record which chapter was built when.",
+  "rows": [
+    {
+      "role": "analysis language for every build.py",
+      "tool": "Python",
+      "version": "3.13.14"
+    },
+    {
+      "role": "design-based estimation (Taylor and replication); the book's computational spine",
+      "tool": "svy",
+      "version": "0.28.0"
+    },
+    {
+      "role": "compiled engine behind svy",
+      "tool": "svy-rs",
+      "version": "0.17.0"
+    },
+    {
+      "role": "scans and pre-aggregation over the parquet store",
+      "tool": "duckdb",
+      "version": "1.5.5"
+    },
+    {
+      "role": "data frames; the independent second path for point estimates",
+      "tool": "polars",
+      "version": "1.43.0"
+    },
+    {
+      "role": "interchange with pyfixest",
+      "tool": "pandas",
+      "version": "3.0.5"
+    },
+    {
+      "role": "simulation and hand-coded formulas",
+      "tool": "numpy",
+      "version": "2.5.1"
+    },
+    {
+      "role": "t quantiles",
+      "tool": "scipy",
+      "version": "1.18.0"
+    },
+    {
+      "role": "parquet I/O",
+      "tool": "pyarrow",
+      "version": "25.0.0"
+    },
+    {
+      "role": "regressions with fixed effects and cluster-robust variance",
+      "tool": "pyfixest",
+      "version": "0.60.0"
+    },
+    {
+      "role": "independent oracle for design-based results",
+      "tool": "R",
+      "version": "4.6.1"
+    },
+    {
+      "role": "sentinel checks (svydesign, svrepdesign)",
+      "tool": "R survey",
+      "version": "4.5"
+    },
+    {
+      "role": "reads the parquet store directly from R",
+      "tool": "R arrow",
+      "version": "25.0.1"
+    },
+    {
+      "role": "site build and scripts/check-mdx.mjs",
+      "tool": "Node.js",
+      "version": "24.19.0"
+    },
+    {
+      "role": "static site framework",
+      "tool": "Next.js",
+      "version": "16.3.4"
+    },
+    {
+      "role": "MDX 3 compiler",
+      "tool": "@mdx-js/mdx",
+      "version": "3.1.1"
+    },
+    {
+      "role": "math rendering",
+      "tool": "KaTeX",
+      "version": "0.16.47"
+    },
+    {
+      "role": "components and widgets",
+      "tool": "React",
+      "version": "19.3.0"
+    }
+  ],
+  "source": "importlib.metadata (Python), packageVersion() via Rscript (R), node --version, node_modules/*/package.json (site)",
+  "subtitle": "Captured by appendix-c-reproducibility/build.py when the artifacts were last built",
+  "title": "Tool versions on the build machine",
+  "type": "table"
+}

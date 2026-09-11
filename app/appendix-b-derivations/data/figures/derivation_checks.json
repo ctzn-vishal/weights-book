@@ -1,0 +1,135 @@
+{
+  "alt": "Table listing, for each derivation in Appendix B, the claim, the numerical check run in the build script, the result, and whether it is consistent with the claim.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "section",
+      "label": "Block"
+    },
+    {
+      "align": "left",
+      "key": "claim",
+      "label": "Claim as stated"
+    },
+    {
+      "align": "left",
+      "key": "check",
+      "label": "Check"
+    },
+    {
+      "align": "left",
+      "key": "result",
+      "label": "Result"
+    },
+    {
+      "align": "left",
+      "key": "status",
+      "label": "Status"
+    }
+  ],
+  "note": "Consistent means the check behaved as the derivation says under its conditions; a check is not a proof.",
+  "rows": [
+    {
+      "check": "Poisson sampling, 20,000 draws, outcome unrelated to pi",
+      "claim": "HT total is design-unbiased when every pi_i > 0 and is known",
+      "result": "HT mean minus T = -0.88 Monte Carlo SEs",
+      "section": "B.1",
+      "status": "consistent"
+    },
+    {
+      "check": "same draws, outcome unrelated to pi",
+      "claim": "Hajek mean is not exactly unbiased; its variance can be far below HT/N's",
+      "result": "Hajek bias -0.0002 (MC SE 0.0006); Var(HT/N) / Var(Hajek) = 102.15",
+      "section": "B.1",
+      "status": "consistent"
+    },
+    {
+      "check": "Poisson sampling, 20,000 draws, outcome proportional to pi",
+      "claim": "HT total is design-unbiased when every pi_i > 0 and is known",
+      "result": "HT mean minus T = -0.82 Monte Carlo SEs",
+      "section": "B.1",
+      "status": "consistent"
+    },
+    {
+      "check": "same draws, outcome proportional to pi",
+      "claim": "Hajek mean is not exactly unbiased; its variance can be far below HT/N's",
+      "result": "Hajek bias +0.0068 (MC SE 0.0008); Var(HT/N) / Var(Hajek) = 1.42",
+      "section": "B.1",
+      "status": "consistent"
+    },
+    {
+      "check": "hand formula vs svy vs pyfixest CRV1, 40 PSUs",
+      "claim": "One stratum, weighted mean: Taylor (with replacement) equals CRV1 exactly",
+      "result": "svy vs hand 0.0e+00; CRV1 vs svy 0.0e+00 (relative)",
+      "section": "B.2",
+      "status": "consistent"
+    },
+    {
+      "check": "outcome with stratum means 0, 3, 6, 9",
+      "claim": "Informative strata: CRV1 omits the stratification gain and is conservative",
+      "result": "CRV1 SE / Taylor SE = 2.22; with uninformative strata 0.98",
+      "section": "B.2",
+      "status": "consistent"
+    },
+    {
+      "check": "slope SE: svy GLM vs hand sandwich vs pyfixest CRV1",
+      "claim": "Regression (K = 2): CRV1 = Taylor x (N - 1)/(N - K), a small-sample factor",
+      "result": "svy vs hand 1.3e-16; CRV1 / svy = 1.000748 vs sqrt((N-1)/(N-K)) = 1.000748",
+      "section": "B.2",
+      "status": "consistent"
+    },
+    {
+      "check": "equal clusters (m = 20), rho_u = 0.1, regressor constant within clusters",
+      "claim": "Moulton: Var(OLS slope) / conventional OLS variance = 1 + (m - 1) rho_x rho_u",
+      "result": "Monte Carlo ratio 3.01 vs formula 2.90",
+      "section": "B.3",
+      "status": "consistent"
+    },
+    {
+      "check": "equal clusters (m = 20), rho_u = 0.1, regressor half within-cluster",
+      "claim": "Moulton: Var(OLS slope) / conventional OLS variance = 1 + (m - 1) rho_x rho_u",
+      "result": "Monte Carlo ratio 1.89 vs formula 1.93",
+      "section": "B.3",
+      "status": "consistent"
+    },
+    {
+      "check": "three cells, p = 0.1, 0.5, 0.9; unweighted",
+      "claim": "Saturated OLS slope = sum over cells of n_x p_x(1 - p_x) Delta_x / sum n_x p_x(1 - p_x), exactly in sample",
+      "result": "|OLS - formula| = 4.4e-16",
+      "section": "B.4",
+      "status": "consistent"
+    },
+    {
+      "check": "same data with unequal weights",
+      "claim": "Same identity for WLS with the weighted cell shares and treatment rates",
+      "result": "|WLS - formula| = 2.2e-16; WLS 1.955 vs weighted cell-average (PATE analogue) 1.908 vs ATT analogue 2.440",
+      "section": "B.4",
+      "status": "consistent"
+    },
+    {
+      "check": "X in {0,1,2}, p = 0.05, 0.90, 0.95, cell effects 1, 1, 5; n = 2,000,000",
+      "claim": "Linear control, nonlinear propensity: implicit cell weights p(x)(1 - L(x)) can be negative",
+      "result": "weights +0.140, +1.131, -0.271; population slope -0.0857, simulated OLS -0.0936",
+      "section": "B.4",
+      "status": "consistent"
+    },
+    {
+      "check": "5,000 lognormal weights",
+      "claim": "n_Kish = (sum w)^2 / sum w^2 = n / (1 + CV(w)^2)",
+      "result": "relative difference 1.8e-16",
+      "section": "B.5",
+      "status": "consistent"
+    },
+    {
+      "check": "N = 10,000, recording depends on Y",
+      "claim": "Meng: sample mean error = rho(R,Y) x sqrt((1 - f)/f) x sigma_Y, an identity",
+      "result": "error 7.9064 vs identity 7.9064",
+      "section": "B.5",
+      "status": "consistent"
+    }
+  ],
+  "source": "appendix-b-derivations/build.py (seed 20260910); synthetic data only",
+  "subtitle": "Each derivation's claim, checked on synthetic data built to satisfy its conditions",
+  "title": "Numerical checks of the stated results",
+  "type": "table"
+}

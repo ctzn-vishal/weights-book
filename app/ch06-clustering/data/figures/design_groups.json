@@ -1,0 +1,74 @@
+{
+  "alt": "Table of the five design groups with the rule that defines each, the states in it, the number of states, and ACS person records 2011–2019.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "group",
+      "label": "Group"
+    },
+    {
+      "align": "left",
+      "key": "rule",
+      "label": "Rule"
+    },
+    {
+      "align": "left",
+      "key": "states",
+      "label": "States"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "count",
+      "label": "States (n)"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "records",
+      "label": "Records"
+    }
+  ],
+  "note": "Dates are effective (coverage) dates, not adoption or approval dates.",
+  "rows": [
+    {
+      "count": 15,
+      "group": "January 2014 expansion cohort (treated)",
+      "records": 543835,
+      "rule": "ACA expansion effective 2014-01-01; no statewide expansion for low-income adults in 2010–2011 and no broad adult coverage before 2014",
+      "states": "AR, AZ, CO, HI, IA, IL, KY, MD, ND, NM, NV, OH, OR, RI, WV"
+    },
+    {
+      "count": 15,
+      "group": "Comparison",
+      "records": 940170,
+      "rule": "No ACA expansion in effect by 2019-12-31 and no statewide change in adult eligibility during 2011–2019",
+      "states": "AL, FL, GA, ID, KS, MO, MS, NC, NE, OK, SC, SD, TN, TX, WY"
+    },
+    {
+      "count": 10,
+      "group": "Set aside: January 2014 expanders with earlier coverage",
+      "records": 682937,
+      "rule": "Expanded 2014-01-01 but already covered low-income adults statewide (ACA early option or Section 1115 waiver, 2010–2011) or broadly (pre-ACA programs)",
+      "states": "CA, CT, DC, DE, MA, MN, NJ, NY, VT, WA"
+    },
+    {
+      "count": 9,
+      "group": "Set aside: later adopters through 2019",
+      "records": 356912,
+      "rule": "ACA expansion effective after 2014-01-01 and by 2019-12-31",
+      "states": "AK, IN, LA, ME, MI, MT, NH, PA, VA"
+    },
+    {
+      "count": 2,
+      "group": "Set aside: other eligibility change in the window",
+      "records": 54776,
+      "rule": "No ACA expansion by 2019, but a statewide waiver changed adult eligibility during 2011–2019",
+      "states": "UT, WI"
+    }
+  ],
+  "source": "KFF Status of State Medicaid Expansion Decisions; medicaid.gov; see _data/expansion_dates.csv for per-state sources",
+  "subtitle": "Rules applied to the verified expansion-date panel (_data/expansion_dates.csv)",
+  "title": "Who is in the design",
+  "type": "table"
+}

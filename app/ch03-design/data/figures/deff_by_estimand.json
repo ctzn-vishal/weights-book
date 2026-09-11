@@ -1,0 +1,86 @@
+{
+  "alt": "Dot plot of design effects for hypertension prevalence, awareness, treatment, control and prevalence among adults 18 to 39, ranging from about 1.6 to 5.3 and differing between the 2017–March 2020 and August 2021–August 2023 samples.",
+  "format": "num2",
+  "note": "Subgroup pre-specified before estimation. The 2017–March 2020 sample oversampled by race, Hispanic origin and income; the August 2021–August 2023 sample did not.",
+  "reference": {
+    "label": "Simple random sample",
+    "value": 1
+  },
+  "rows": [
+    {
+      "estimate": 2.71789,
+      "group": "Aug 2021–Aug 2023",
+      "label": "Prevalence",
+      "n": 6084,
+      "role": "cat1"
+    },
+    {
+      "estimate": 2.1159,
+      "group": "Aug 2021–Aug 2023",
+      "label": "Awareness",
+      "n": 3240,
+      "role": "cat1"
+    },
+    {
+      "estimate": 1.79956,
+      "group": "Aug 2021–Aug 2023",
+      "label": "Treatment",
+      "n": 3238,
+      "role": "cat1"
+    },
+    {
+      "estimate": 1.70381,
+      "group": "Aug 2021–Aug 2023",
+      "label": "Control",
+      "n": 3242,
+      "role": "cat1"
+    },
+    {
+      "estimate": 2.29947,
+      "group": "Aug 2021–Aug 2023",
+      "label": "Prevalence, ages 18–39",
+      "n": 1712,
+      "role": "cat1"
+    },
+    {
+      "estimate": 5.28643,
+      "group": "2017–Mar 2020",
+      "label": "Prevalence",
+      "n": 7948,
+      "role": "cat2"
+    },
+    {
+      "estimate": 3.24653,
+      "group": "2017–Mar 2020",
+      "label": "Awareness",
+      "n": 4297,
+      "role": "cat2"
+    },
+    {
+      "estimate": 3.15364,
+      "group": "2017–Mar 2020",
+      "label": "Treatment",
+      "n": 4295,
+      "role": "cat2"
+    },
+    {
+      "estimate": 1.62294,
+      "group": "2017–Mar 2020",
+      "label": "Control",
+      "n": 4305,
+      "role": "cat2"
+    },
+    {
+      "estimate": 3.03168,
+      "group": "2017–Mar 2020",
+      "label": "Prevalence, ages 18–39",
+      "n": 2608,
+      "role": "cat2"
+    }
+  ],
+  "source": "NHANES 2017–March 2020 and August 2021–August 2023; chapter calculations",
+  "subtitle": "Design effect by estimand and survey period",
+  "title": "There is no single NHANES design effect",
+  "type": "dot",
+  "x_label": "Design effect (variance ÷ simple-random-sample variance)"
+}

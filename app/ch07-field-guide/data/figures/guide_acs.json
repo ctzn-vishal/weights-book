@@ -1,0 +1,117 @@
+{
+  "alt": "Table declaring the ACS 2024 1-year release: universe, weights, successive difference replication with 80 replicates and 79 degrees of freedom, pooling, series breaks, known traps, and the date each item was verified.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "item",
+      "label": "Item"
+    },
+    {
+      "align": "left",
+      "key": "value",
+      "label": "Declaration"
+    },
+    {
+      "align": "left",
+      "key": "source",
+      "label": "Provenance"
+    }
+  ],
+  "note": "Provenance: design.json = machine-readable manifest field; design.json notes = the manifest's free text; producer = documentation read 2026-09-10; computed = counted from the store by build.py; book guidance = editorial, not a producer rule.",
+  "rows": [
+    {
+      "item": "Pinned release",
+      "source": "computed from data",
+      "value": "ACS 2024 1-year sample, IPUMS USA (SAMPLE = 202401)"
+    },
+    {
+      "item": "Records",
+      "source": "computed from data",
+      "value": "3,422,888 person records in the 2024 sample"
+    },
+    {
+      "item": "Universe",
+      "source": "design.json notes",
+      "value": "Persons in housing units and group quarters (2005, the first ACS year, covers the household population only)"
+    },
+    {
+      "item": "Canonical weight",
+      "source": "design.json",
+      "value": "PERWT; person weight; household-level tabs use HHWT on PERNUM=1"
+    },
+    {
+      "item": "Alternate weights",
+      "source": "design.json",
+      "value": "HHWT (household)"
+    },
+    {
+      "item": "Variance method",
+      "source": "design.json",
+      "value": "Replicate: successive difference replication"
+    },
+    {
+      "item": "Replicate weights",
+      "source": "design.json",
+      "value": "REPWTP1–REPWTP80 (person) and REPWT1–REPWT80 (household), in the companion file usa/acs_repwt joined on SAMPLE, SERIAL, PERNUM"
+    },
+    {
+      "item": "Variance formula",
+      "source": "design.json",
+      "value": "(4/80) × Σ_r (θ_r − θ̂)², deviations taken from the full-sample estimate (the mse option)"
+    },
+    {
+      "item": "Design df",
+      "source": "design.json",
+      "value": "79 (80 replicates - 1, per IPUMS USA repwt FAQ)"
+    },
+    {
+      "item": "Strata and PSUs",
+      "source": "producer: IPUMS USA repwt FAQ; acs.dictionary.json",
+      "value": "None declared with the replicates: treat the sample as one stratum with no PSU. The extract also carries IPUMS STRATA and CLUSTER for Taylor linearization; the book uses the replicates"
+    },
+    {
+      "item": "Lonely-PSU rule",
+      "source": "book guidance",
+      "value": "Not applicable: no PSUs are declared"
+    },
+    {
+      "item": "Pooling rule",
+      "source": "book guidance",
+      "value": "Not recorded. For a multi-year period prefer the ACS 5-year sample; to pool k one-year samples, divide PERWT and every replicate weight by k before estimating totals (means and shares are unchanged)"
+    },
+    {
+      "item": "Series breaks",
+      "source": "design.json notes",
+      "value": "2005 = household population only (no group quarters). 2020 1-year is the experimental release. PUMA boundaries change at 2012 and 2022 vintages."
+    },
+    {
+      "item": "Negative replicate values",
+      "source": "design.json",
+      "value": "negative replicate values may occur under SDR (explicitly documented in the CPS FAQ; the USA FAQ does not address it)"
+    },
+    {
+      "item": "Trap: svy default call",
+      "source": "verified in this build (synthetic frame)",
+      "value": "The default estimation call ignores declared replicate weights and returns a Taylor SE with df = n − 1. Pass method=\"replication\" and variance_center=\"estimate\", then assert df = 79"
+    },
+    {
+      "item": "Trap: bare REPWTP",
+      "source": "producer: IPUMS USA repwt FAQ",
+      "value": "IPUMS extracts can carry a variable named REPWTP (a flag): select REPWTP1–REPWTP80 by name, never with a wildcard"
+    },
+    {
+      "item": "Trap: PUMS is a subsample",
+      "source": "book guidance",
+      "value": "Replicate SEs from the PUMS will not reproduce the margins of error Census publishes from the full ACS sample"
+    },
+    {
+      "item": "Last verified",
+      "source": "design.json; this build",
+      "value": "Replicate block verified 2026-07-11 against https://usa.ipums.org/usa/repwt.shtml; FAQ re-read 2026-09-10"
+    }
+  ],
+  "source": "IPUMS USA repwt FAQ (https://usa.ipums.org/usa/repwt.shtml)",
+  "subtitle": "IPUMS USA person file with the 80-replicate companion file",
+  "title": "ACS 2024 1-year: declared",
+  "type": "table"
+}

@@ -1,0 +1,427 @@
+{
+  "alt": "Dot plot of the 51 state uninsured rates for adults 19 to 64, sorted from highest to lowest, each with a 90% margin-of-error bar; neighboring states' bars overlap through most of the ranking, while Texas at the top and Massachusetts at the bottom stand clear.",
+  "domain": [
+    0,
+    0.25
+  ],
+  "format": "pct0",
+  "reference": {
+    "label": "United States",
+    "value": 0.112686
+  },
+  "rows": [
+    {
+      "ci_high": 0.218719,
+      "ci_low": 0.213203,
+      "estimate": 0.215961,
+      "label": "Texas",
+      "n": 161135,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.168499,
+      "ci_low": 0.161201,
+      "estimate": 0.16485,
+      "label": "Georgia",
+      "n": 61745,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.165924,
+      "ci_low": 0.155115,
+      "estimate": 0.160519,
+      "label": "Oklahoma",
+      "n": 20824,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.161425,
+      "ci_low": 0.147641,
+      "estimate": 0.154533,
+      "label": "Nevada",
+      "n": 17864,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.156752,
+      "ci_low": 0.151609,
+      "estimate": 0.15418,
+      "label": "Florida",
+      "n": 112312,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.159554,
+      "ci_low": 0.140749,
+      "estimate": 0.150151,
+      "label": "New Mexico",
+      "n": 10736,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.157002,
+      "ci_low": 0.127165,
+      "estimate": 0.142083,
+      "label": "Alaska",
+      "n": 3543,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.148389,
+      "ci_low": 0.134798,
+      "estimate": 0.141593,
+      "label": "Mississippi",
+      "n": 15542,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.153481,
+      "ci_low": 0.12321,
+      "estimate": 0.138346,
+      "label": "Wyoming",
+      "n": 3250,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.143155,
+      "ci_low": 0.133465,
+      "estimate": 0.13831,
+      "label": "Arizona",
+      "n": 39422,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.139634,
+      "ci_low": 0.131873,
+      "estimate": 0.135753,
+      "label": "Tennessee",
+      "n": 41223,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.136268,
+      "ci_low": 0.126654,
+      "estimate": 0.131461,
+      "label": "South Carolina",
+      "n": 30118,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.137515,
+      "ci_low": 0.122717,
+      "estimate": 0.130116,
+      "label": "Arkansas",
+      "n": 16841,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.129229,
+      "ci_low": 0.118892,
+      "estimate": 0.12406,
+      "label": "Alabama",
+      "n": 28110,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.131298,
+      "ci_low": 0.109982,
+      "estimate": 0.12064,
+      "label": "Montana",
+      "n": 5695,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.124418,
+      "ci_low": 0.11685,
+      "estimate": 0.120634,
+      "label": "North Carolina",
+      "n": 61230,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.127887,
+      "ci_low": 0.111825,
+      "estimate": 0.119856,
+      "label": "Idaho",
+      "n": 10907,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.12485,
+      "ci_low": 0.110113,
+      "estimate": 0.117482,
+      "label": "Kansas",
+      "n": 15843,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.119068,
+      "ci_low": 0.109735,
+      "estimate": 0.114402,
+      "label": "Louisiana",
+      "n": 24025,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.122257,
+      "ci_low": 0.0961623,
+      "estimate": 0.10921,
+      "label": "South Dakota",
+      "n": 4801,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.11257,
+      "ci_low": 0.10463,
+      "estimate": 0.1086,
+      "label": "New Jersey",
+      "n": 53215,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.115895,
+      "ci_low": 0.0983636,
+      "estimate": 0.107129,
+      "label": "Nebraska",
+      "n": 10556,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.111895,
+      "ci_low": 0.0991333,
+      "estimate": 0.105514,
+      "label": "Utah",
+      "n": 20219,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.10729,
+      "ci_low": 0.0997122,
+      "estimate": 0.103501,
+      "label": "Missouri",
+      "n": 34762,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.10627,
+      "ci_low": 0.0972257,
+      "estimate": 0.101748,
+      "label": "Colorado",
+      "n": 35502,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.102765,
+      "ci_low": 0.0951601,
+      "estimate": 0.0989623,
+      "label": "Indiana",
+      "n": 38866,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.101416,
+      "ci_low": 0.0952002,
+      "estimate": 0.0983081,
+      "label": "Illinois",
+      "n": 72142,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.101353,
+      "ci_low": 0.0921933,
+      "estimate": 0.096773,
+      "label": "Kentucky",
+      "n": 25565,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.0965067,
+      "ci_low": 0.0889333,
+      "estimate": 0.09272,
+      "label": "Virginia",
+      "n": 48887,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.103884,
+      "ci_low": 0.0812618,
+      "estimate": 0.0925729,
+      "label": "Delaware",
+      "n": 4942,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.0945619,
+      "ci_low": 0.0884922,
+      "estimate": 0.091527,
+      "label": "Ohio",
+      "n": 66038,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.0943719,
+      "ci_low": 0.0881899,
+      "estimate": 0.0912809,
+      "label": "Washington",
+      "n": 46221,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.0982765,
+      "ci_low": 0.0829678,
+      "estimate": 0.0906221,
+      "label": "West Virginia",
+      "n": 9582,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.0898867,
+      "ci_low": 0.0794908,
+      "estimate": 0.0846888,
+      "label": "Connecticut",
+      "n": 20919,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.0884513,
+      "ci_low": 0.0801211,
+      "estimate": 0.0842862,
+      "label": "Maryland",
+      "n": 34942,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.0843392,
+      "ci_low": 0.0815844,
+      "estimate": 0.0829618,
+      "label": "California",
+      "n": 226532,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.0857186,
+      "ci_low": 0.0758401,
+      "estimate": 0.0807793,
+      "label": "Iowa",
+      "n": 17637,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.0873747,
+      "ci_low": 0.071785,
+      "estimate": 0.0795798,
+      "label": "Maine",
+      "n": 7645,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.0815086,
+      "ci_low": 0.0757716,
+      "estimate": 0.0786401,
+      "label": "Pennsylvania",
+      "n": 71843,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.0893445,
+      "ci_low": 0.0641565,
+      "estimate": 0.0767505,
+      "label": "North Dakota",
+      "n": 4240,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.0802404,
+      "ci_low": 0.0728281,
+      "estimate": 0.0765343,
+      "label": "Oregon",
+      "n": 24472,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.0792378,
+      "ci_low": 0.0698691,
+      "estimate": 0.0745534,
+      "label": "Wisconsin",
+      "n": 32996,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.0775753,
+      "ci_low": 0.067714,
+      "estimate": 0.0726447,
+      "label": "Minnesota",
+      "n": 31455,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.0744973,
+      "ci_low": 0.0687689,
+      "estimate": 0.0716331,
+      "label": "Michigan",
+      "n": 54833,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.072568,
+      "ci_low": 0.068679,
+      "estimate": 0.0706235,
+      "label": "New York",
+      "n": 119434,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.0746062,
+      "ci_low": 0.059582,
+      "estimate": 0.0670941,
+      "label": "New Hampshire",
+      "n": 7750,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.0726961,
+      "ci_low": 0.0567913,
+      "estimate": 0.0647437,
+      "label": "Rhode Island",
+      "n": 5696,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.0743899,
+      "ci_low": 0.0538147,
+      "estimate": 0.0641023,
+      "label": "Vermont",
+      "n": 3631,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.067893,
+      "ci_low": 0.0478685,
+      "estimate": 0.0578808,
+      "label": "District of Columbia",
+      "n": 4365,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.0537749,
+      "ci_low": 0.0405208,
+      "estimate": 0.0471479,
+      "label": "Hawaii",
+      "n": 7827,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.0392906,
+      "ci_low": 0.034725,
+      "estimate": 0.0370078,
+      "label": "Massachusetts",
+      "n": 43524,
+      "role": "design"
+    }
+  ],
+  "source": "IPUMS USA, ACS 2024 1-year; PERWT and REPWTP1-80; SDR variance (4/80, df 79).",
+  "subtitle": "Adults 19–64, 2024. Bars are ±1.645 SDR standard errors, the ACS convention.",
+  "title": "State uninsured rates with 90% margins of error",
+  "type": "dot",
+  "x_label": "Uninsured rate, adults 19–64"
+}

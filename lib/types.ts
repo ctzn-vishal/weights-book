@@ -187,6 +187,8 @@ export interface ReplicateUnit {
   label: string;
   estimate: number;
   reps: number[];
+  /** Optional naive iid SE, shown by ReplicateRanking's comparison view. */
+  naive_se?: number | null;
 }
 /**
  * SDR replicate estimates. Var(theta) = scale * sum_r (theta_r - theta)^2, so a

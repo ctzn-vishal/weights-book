@@ -1,0 +1,1070 @@
+{
+  "code": "build.py (with wfhlib.py, test_wfhlib.py, verify.R)",
+  "diagnostics": {
+    "dumouchel_duncan_levels": {
+      "F_cr": 92.959055,
+      "F_hc1": 97.340485,
+      "b_wD": -0.69086974,
+      "df2_cr": 702162,
+      "df2_hc1": 984459,
+      "p_cr": 3.4204083e-155,
+      "p_hc1": 9.2116531e-163,
+      "p_wD_cr": 8.544249e-09,
+      "q": 8,
+      "t_wD_cr": -5.7573542,
+      "t_wD_hc1": -5.8706859
+    },
+    "dumouchel_duncan_log": {
+      "F_cr": 75.613361,
+      "F_hc1": 80.854728,
+      "b_wD": -0.0081358795,
+      "df2_cr": 702162,
+      "df2_hc1": 984459,
+      "p_cr": 2.3426645e-125,
+      "p_hc1": 2.1948483e-134,
+      "p_wD_cr": 0.00023307543,
+      "q": 8,
+      "t_wD_cr": -3.6801734,
+      "t_wD_hc1": -3.7329543
+    },
+    "headline_lpm_range": {
+      "ols": {
+        "max": 0.22167269,
+        "min": 0.011342423,
+        "neg_controls": 0,
+        "treated_above_1": 0
+      },
+      "wls": {
+        "max": 0.22094967,
+        "min": 0.0085018956,
+        "neg_controls": 0,
+        "treated_above_1": 0
+      }
+    },
+    "influence": [
+      {
+        "change": 0.00020512957,
+        "dim": "State",
+        "gap": -0.0044200739,
+        "label": "Alabama",
+        "ratio": 1.0028862,
+        "share_u": 0.01421062,
+        "share_w": 0.014251634
+      },
+      {
+        "change": 7.7659507e-05,
+        "dim": "State",
+        "gap": -0.0045475439,
+        "label": "Alaska",
+        "ratio": 1.258611,
+        "share_u": 0.001628279,
+        "share_w": 0.0020493699
+      },
+      {
+        "change": 2.9653929e-08,
+        "dim": "State",
+        "gap": -0.0046251738,
+        "label": "Arizona",
+        "ratio": 1.039077,
+        "share_u": 0.020394627,
+        "share_w": 0.021191586
+      },
+      {
+        "change": 0.00016577336,
+        "dim": "State",
+        "gap": -0.0044594301,
+        "label": "Arkansas",
+        "ratio": 1.0003833,
+        "share_u": 0.0084430788,
+        "share_w": 0.0084463151
+      },
+      {
+        "change": -0.0012389869,
+        "dim": "State",
+        "gap": -0.0058641903,
+        "label": "California",
+        "ratio": 0.97999528,
+        "share_u": 0.11499937,
+        "share_w": 0.11269883
+      },
+      {
+        "change": -1.1263476e-05,
+        "dim": "State",
+        "gap": -0.0046364669,
+        "label": "Colorado",
+        "ratio": 0.96393889,
+        "share_u": 0.02006958,
+        "share_w": 0.019345849
+      },
+      {
+        "change": -0.00043170777,
+        "dim": "State",
+        "gap": -0.0050569112,
+        "label": "Connecticut",
+        "ratio": 0.95503204,
+        "share_u": 0.01181645,
+        "share_w": 0.011285089
+      },
+      {
+        "change": 0.00024995925,
+        "dim": "State",
+        "gap": -0.0043752442,
+        "label": "Delaware",
+        "ratio": 1.1101084,
+        "share_u": 0.0027232789,
+        "share_w": 0.0030231349
+      },
+      {
+        "change": -0.00017157744,
+        "dim": "State",
+        "gap": -0.0047967809,
+        "label": "District of Columbia",
+        "ratio": 0.96852601,
+        "share_u": 0.0027283578,
+        "share_w": 0.0026424855
+      },
+      {
+        "change": 0.00012963715,
+        "dim": "State",
+        "gap": -0.0044955663,
+        "label": "Florida",
+        "ratio": 1.1205637,
+        "share_u": 0.058543894,
+        "share_w": 0.065602163
+      },
+      {
+        "change": 0.00094581752,
+        "dim": "State",
+        "gap": -0.0036793859,
+        "label": "Georgia",
+        "ratio": 0.99060231,
+        "share_u": 0.033543767,
+        "share_w": 0.033228533
+      },
+      {
+        "change": 2.8849021e-05,
+        "dim": "State",
+        "gap": -0.0045963544,
+        "label": "Hawaii",
+        "ratio": 0.95605041,
+        "share_u": 0.004457198,
+        "share_w": 0.004261306
+      },
+      {
+        "change": 1.287931e-05,
+        "dim": "State",
+        "gap": -0.0046123241,
+        "label": "Idaho",
+        "ratio": 0.97885614,
+        "share_u": 0.0054699205,
+        "share_w": 0.0053542653
+      },
+      {
+        "change": 0.00023337212,
+        "dim": "State",
+        "gap": -0.0043918313,
+        "label": "Illinois",
+        "ratio": 0.95971528,
+        "share_u": 0.0402834,
+        "share_w": 0.038660594
+      },
+      {
+        "change": 2.2768622e-05,
+        "dim": "State",
+        "gap": -0.0046024348,
+        "label": "Indiana",
+        "ratio": 0.96667046,
+        "share_u": 0.021260062,
+        "share_w": 0.020551474
+      },
+      {
+        "change": 0.00011285146,
+        "dim": "State",
+        "gap": -0.004512352,
+        "label": "Iowa",
+        "ratio": 0.98147217,
+        "share_u": 0.0099575916,
+        "share_w": 0.0097730991
+      },
+      {
+        "change": 0.00018599304,
+        "dim": "State",
+        "gap": -0.0044392104,
+        "label": "Kansas",
+        "ratio": 0.98849,
+        "share_u": 0.0089987049,
+        "share_w": 0.0088951298
+      },
+      {
+        "change": -0.00017303643,
+        "dim": "State",
+        "gap": -0.0047982399,
+        "label": "Kentucky",
+        "ratio": 0.96938635,
+        "share_u": 0.013129841,
+        "share_w": 0.012727888
+      },
+      {
+        "change": -4.3590044e-05,
+        "dim": "State",
+        "gap": -0.0046687935,
+        "label": "Louisiana",
+        "ratio": 1.0121119,
+        "share_u": 0.012097819,
+        "share_w": 0.012244346
+      },
+      {
+        "change": -0.00015883665,
+        "dim": "State",
+        "gap": -0.0047840401,
+        "label": "Maine",
+        "ratio": 1.0622048,
+        "share_u": 0.0037685061,
+        "share_w": 0.0040029251
+      },
+      {
+        "change": 5.6524093e-05,
+        "dim": "State",
+        "gap": -0.0045686794,
+        "label": "Maryland",
+        "ratio": 0.97385816,
+        "share_u": 0.020937048,
+        "share_w": 0.020389715
+      },
+      {
+        "change": 0.00014016575,
+        "dim": "State",
+        "gap": -0.0044850377,
+        "label": "Massachusetts",
+        "ratio": 0.94295097,
+        "share_u": 0.024114376,
+        "share_w": 0.022738674
+      },
+      {
+        "change": -7.6680054e-05,
+        "dim": "State",
+        "gap": -0.0047018835,
+        "label": "Michigan",
+        "ratio": 1.0010737,
+        "share_u": 0.028638614,
+        "share_w": 0.028669365
+      },
+      {
+        "change": -0.00048926332,
+        "dim": "State",
+        "gap": -0.0051144668,
+        "label": "Minnesota",
+        "ratio": 1.0272707,
+        "share_u": 0.017663222,
+        "share_w": 0.018144911
+      },
+      {
+        "change": -2.5683567e-05,
+        "dim": "State",
+        "gap": -0.004650887,
+        "label": "Mississippi",
+        "ratio": 1.0219268,
+        "share_u": 0.0078315854,
+        "share_w": 0.0080033073
+      },
+      {
+        "change": 0.00031726709,
+        "dim": "State",
+        "gap": -0.0043079364,
+        "label": "Missouri",
+        "ratio": 0.98789331,
+        "share_u": 0.018704386,
+        "share_w": 0.018477937
+      },
+      {
+        "change": -0.00011424193,
+        "dim": "State",
+        "gap": -0.0047394454,
+        "label": "Montana",
+        "ratio": 1.0889979,
+        "share_u": 0.0027283578,
+        "share_w": 0.002971176
+      },
+      {
+        "change": 2.7687786e-05,
+        "dim": "State",
+        "gap": -0.0045975157,
+        "label": "Nebraska",
+        "ratio": 0.99680944,
+        "share_u": 0.0060671932,
+        "share_w": 0.0060478354
+      },
+      {
+        "change": 1.1534514e-06,
+        "dim": "State",
+        "gap": -0.00462405,
+        "label": "Nevada",
+        "ratio": 1.0230847,
+        "share_u": 0.0094172021,
+        "share_w": 0.0096345957
+      },
+      {
+        "change": 1.4428226e-05,
+        "dim": "State",
+        "gap": -0.0046107752,
+        "label": "New Hampshire",
+        "ratio": 1.0368294,
+        "share_u": 0.004408441,
+        "share_w": 0.0045708013
+      },
+      {
+        "change": -0.00028491616,
+        "dim": "State",
+        "gap": -0.0049101196,
+        "label": "New Jersey",
+        "ratio": 0.97448758,
+        "share_u": 0.030276035,
+        "share_w": 0.02950362
+      },
+      {
+        "change": 3.9635086e-05,
+        "dim": "State",
+        "gap": -0.0045855684,
+        "label": "New Mexico",
+        "ratio": 1.0572742,
+        "share_u": 0.0051753473,
+        "share_w": 0.0054717612
+      },
+      {
+        "change": 0.00027660912,
+        "dim": "State",
+        "gap": -0.0043485943,
+        "label": "New York",
+        "ratio": 0.93639743,
+        "share_u": 0.061482516,
+        "share_w": 0.05757207
+      },
+      {
+        "change": 0.00055217347,
+        "dim": "State",
+        "gap": -0.00407303,
+        "label": "North Carolina",
+        "ratio": 0.99456419,
+        "share_u": 0.032827649,
+        "share_w": 0.032649204
+      },
+      {
+        "change": -0.00014553488,
+        "dim": "State",
+        "gap": -0.0047707383,
+        "label": "North Dakota",
+        "ratio": 1.0268352,
+        "share_u": 0.0023108764,
+        "share_w": 0.0023728892
+      },
+      {
+        "change": 0.00018099337,
+        "dim": "State",
+        "gap": -0.0044442101,
+        "label": "Ohio",
+        "ratio": 0.96326983,
+        "share_u": 0.036603266,
+        "share_w": 0.035258822
+      },
+      {
+        "change": 0.00028454212,
+        "dim": "State",
+        "gap": -0.0043406613,
+        "label": "Oklahoma",
+        "ratio": 1.0822747,
+        "share_u": 0.010447193,
+        "share_w": 0.011306732
+      },
+      {
+        "change": -0.00020545812,
+        "dim": "State",
+        "gap": -0.0048306616,
+        "label": "Oregon",
+        "ratio": 0.97466565,
+        "share_u": 0.012589451,
+        "share_w": 0.012270506
+      },
+      {
+        "change": 3.7379829e-05,
+        "dim": "State",
+        "gap": -0.0045878236,
+        "label": "Pennsylvania",
+        "ratio": 0.98647113,
+        "share_u": 0.0394332,
+        "share_w": 0.038899714
+      },
+      {
+        "change": 1.3589385e-05,
+        "dim": "State",
+        "gap": -0.0046116141,
+        "label": "Rhode Island",
+        "ratio": 1.1005203,
+        "share_u": 0.0030513726,
+        "share_w": 0.0033580973
+      },
+      {
+        "change": -9.0520019e-05,
+        "dim": "State",
+        "gap": -0.0047157235,
+        "label": "South Carolina",
+        "ratio": 0.98780831,
+        "share_u": 0.015830773,
+        "share_w": 0.015637769
+      },
+      {
+        "change": -1.6805278e-05,
+        "dim": "State",
+        "gap": -0.0046420087,
+        "label": "South Dakota",
+        "ratio": 1.0190185,
+        "share_u": 0.00263897,
+        "share_w": 0.0026891593
+      },
+      {
+        "change": 0.00036692457,
+        "dim": "State",
+        "gap": -0.0042582789,
+        "label": "Tennessee",
+        "ratio": 0.96809882,
+        "share_u": 0.021872572,
+        "share_w": 0.021174811
+      },
+      {
+        "change": -0.00055309639,
+        "dim": "State",
+        "gap": -0.0051782998,
+        "label": "Texas",
+        "ratio": 1.0850638,
+        "share_u": 0.085756368,
+        "share_w": 0.093051129
+      },
+      {
+        "change": -0.00021067534,
+        "dim": "State",
+        "gap": -0.0048358788,
+        "label": "Utah",
+        "ratio": 0.96465756,
+        "share_u": 0.010202392,
+        "share_w": 0.0098418147
+      },
+      {
+        "change": -5.2769225e-05,
+        "dim": "State",
+        "gap": -0.0046779727,
+        "label": "Vermont",
+        "ratio": 0.98433709,
+        "share_u": 0.0019604358,
+        "share_w": 0.0019297296
+      },
+      {
+        "change": 3.6982703e-06,
+        "dim": "State",
+        "gap": -0.0046215052,
+        "label": "Virginia",
+        "ratio": 0.97384002,
+        "share_u": 0.028603063,
+        "share_w": 0.027854807
+      },
+      {
+        "change": 2.1951375e-05,
+        "dim": "State",
+        "gap": -0.0046032521,
+        "label": "Washington",
+        "ratio": 0.98178906,
+        "share_u": 0.024796973,
+        "share_w": 0.024345397
+      },
+      {
+        "change": 1.9589781e-05,
+        "dim": "State",
+        "gap": -0.0046056137,
+        "label": "West Virginia",
+        "ratio": 0.99262077,
+        "share_u": 0.0048208436,
+        "share_w": 0.0047852695
+      },
+      {
+        "change": -0.00027326674,
+        "dim": "State",
+        "gap": -0.0048984702,
+        "label": "Wisconsin",
+        "ratio": 0.99434277,
+        "share_u": 0.018591635,
+        "share_w": 0.018486458
+      },
+      {
+        "change": 2.3044376e-05,
+        "dim": "State",
+        "gap": -0.0046021591,
+        "label": "Wyoming",
+        "ratio": 0.97733432,
+        "share_u": 0.0016943041,
+        "share_w": 0.0016559015
+      },
+      {
+        "change": -0.00066224288,
+        "dim": "Occupation group",
+        "gap": -0.0052874463,
+        "label": "Management",
+        "ratio": 0.96681243,
+        "share_u": 0.14181772,
+        "share_w": 0.13711113
+      },
+      {
+        "change": -0.00017763417,
+        "dim": "Occupation group",
+        "gap": -0.0048028376,
+        "label": "Business & financial",
+        "ratio": 0.97660989,
+        "share_u": 0.075901369,
+        "share_w": 0.074126028
+      },
+      {
+        "change": 6.2206216e-05,
+        "dim": "Occupation group",
+        "gap": -0.0045629972,
+        "label": "Computer & math",
+        "ratio": 0.98602625,
+        "share_u": 0.053046548,
+        "share_w": 0.052305289
+      },
+      {
+        "change": -0.00073652877,
+        "dim": "Occupation group",
+        "gap": -0.0053617322,
+        "label": "Architecture & engineering",
+        "ratio": 0.95821633,
+        "share_u": 0.030849945,
+        "share_w": 0.029560921
+      },
+      {
+        "change": -0.00026017872,
+        "dim": "Occupation group",
+        "gap": -0.0048853822,
+        "label": "Life, physical & social science",
+        "ratio": 0.93002003,
+        "share_u": 0.01489728,
+        "share_w": 0.013854769
+      },
+      {
+        "change": -0.00041020992,
+        "dim": "Occupation group",
+        "gap": -0.0050354134,
+        "label": "Community & social service",
+        "ratio": 0.96796522,
+        "share_u": 0.020877117,
+        "share_w": 0.020208323
+      },
+      {
+        "change": -8.5895766e-05,
+        "dim": "Occupation group",
+        "gap": -0.0047110992,
+        "label": "Legal",
+        "ratio": 0.93616615,
+        "share_u": 0.013171487,
+        "share_w": 0.012330701
+      },
+      {
+        "change": 0.0025348224,
+        "dim": "Occupation group",
+        "gap": -0.002090381,
+        "label": "Education & library",
+        "ratio": 0.9229898,
+        "share_u": 0.069442088,
+        "share_w": 0.064094339
+      },
+      {
+        "change": -0.00012951861,
+        "dim": "Occupation group",
+        "gap": -0.0047547221,
+        "label": "Arts, design, media & sports",
+        "ratio": 0.96954865,
+        "share_u": 0.016415856,
+        "share_w": 0.015915971
+      },
+      {
+        "change": -0.0013585571,
+        "dim": "Occupation group",
+        "gap": -0.0059837606,
+        "label": "Healthcare practitioners",
+        "ratio": 0.9660018,
+        "share_u": 0.075356916,
+        "share_w": 0.072794917
+      },
+      {
+        "change": -5.0486216e-05,
+        "dim": "Occupation group",
+        "gap": -0.0046756897,
+        "label": "Healthcare support",
+        "ratio": 1.0972634,
+        "share_u": 0.025862516,
+        "share_w": 0.028377992
+      },
+      {
+        "change": 0.00019885155,
+        "dim": "Occupation group",
+        "gap": -0.0044263519,
+        "label": "Protective service",
+        "ratio": 1.020054,
+        "share_u": 0.023904111,
+        "share_w": 0.024383483
+      },
+      {
+        "change": -0.0006501555,
+        "dim": "Occupation group",
+        "gap": -0.005275359,
+        "label": "Food preparation & serving",
+        "ratio": 1.1531191,
+        "share_u": 0.026695447,
+        "share_w": 0.030783028
+      },
+      {
+        "change": -0.00022468984,
+        "dim": "Occupation group",
+        "gap": -0.0048498933,
+        "label": "Building & grounds",
+        "ratio": 1.1150796,
+        "share_u": 0.022623226,
+        "share_w": 0.025226696
+      },
+      {
+        "change": -0.00021720559,
+        "dim": "Occupation group",
+        "gap": -0.004842409,
+        "label": "Personal care & service",
+        "ratio": 1.0949212,
+        "share_u": 0.010942888,
+        "share_w": 0.0119816
+      },
+      {
+        "change": 0.00013890796,
+        "dim": "Occupation group",
+        "gap": -0.0044862955,
+        "label": "Sales",
+        "ratio": 1.0197466,
+        "share_u": 0.070543183,
+        "share_w": 0.071936171
+      },
+      {
+        "change": 0.0016572086,
+        "dim": "Occupation group",
+        "gap": -0.0029679949,
+        "label": "Office & admin support",
+        "ratio": 0.98480228,
+        "share_u": 0.10771122,
+        "share_w": 0.10607425
+      },
+      {
+        "change": -3.7722103e-05,
+        "dim": "Occupation group",
+        "gap": -0.0046629256,
+        "label": "Farming, fishing & forestry",
+        "ratio": 0.94083809,
+        "share_u": 0.0047578659,
+        "share_w": 0.0044763814
+      },
+      {
+        "change": 6.7164994e-05,
+        "dim": "Occupation group",
+        "gap": -0.0045580385,
+        "label": "Construction & extraction",
+        "ratio": 1.1036209,
+        "share_u": 0.039300135,
+        "share_w": 0.043372452
+      },
+      {
+        "change": 0.00019473268,
+        "dim": "Occupation group",
+        "gap": -0.0044304708,
+        "label": "Installation & repair",
+        "ratio": 0.98236565,
+        "share_u": 0.033459458,
+        "share_w": 0.032869422
+      },
+      {
+        "change": 0.00057671631,
+        "dim": "Occupation group",
+        "gap": -0.0040484871,
+        "label": "Production",
+        "ratio": 1.015514,
+        "share_u": 0.055786079,
+        "share_w": 0.056651545
+      },
+      {
+        "change": 0.00030424988,
+        "dim": "Occupation group",
+        "gap": -0.0043209536,
+        "label": "Transportation & moving",
+        "ratio": 1.0782705,
+        "share_u": 0.062997029,
+        "share_w": 0.067927838
+      },
+      {
+        "change": 4.3773131e-05,
+        "dim": "Occupation group",
+        "gap": -0.0045814303,
+        "label": "Military specific",
+        "ratio": 0.99896348,
+        "share_u": 0.0036405191,
+        "share_w": 0.0036367456
+      },
+      {
+        "change": 0.00015737466,
+        "dim": "Education",
+        "gap": -0.0044678288,
+        "label": "Less than HS",
+        "ratio": 1.1726541,
+        "share_u": 0.054595597,
+        "share_w": 0.064021752
+      },
+      {
+        "change": 0.00015413284,
+        "dim": "Education",
+        "gap": -0.0044710706,
+        "label": "HS",
+        "ratio": 1.0368741,
+        "share_u": 0.20766094,
+        "share_w": 0.21531825
+      },
+      {
+        "change": 0.0026435101,
+        "dim": "Education",
+        "gap": -0.0019816933,
+        "label": "Some college",
+        "ratio": 1.0047621,
+        "share_u": 0.27056756,
+        "share_w": 0.27185602
+      },
+      {
+        "change": -0.0055836924,
+        "dim": "Education",
+        "gap": -0.010208896,
+        "label": "BA+",
+        "ratio": 0.96067448,
+        "share_u": 0.46717591,
+        "share_w": 0.44880397
+      }
+    ],
+    "moulton": {
+      "hh": {
+        "empirical": 1.0942994,
+        "factor": 1.0415122,
+        "rho_u": 0.29287782,
+        "rho_x": 0.22344409,
+        "size_term": 0.6343381
+      },
+      "state": {
+        "empirical": 27.635789,
+        "factor": 6.8557716,
+        "rho_u": 0.023506857,
+        "rho_x": 0.0058357621,
+        "size_term": 42686.641
+      }
+    },
+    "signed_weights_occind": {
+      "ols": {
+        "by_og_neg_mass": [
+          0.012617658,
+          0.00037668744,
+          0.0,
+          0.0078513666,
+          0.0078657958,
+          0.0043240415,
+          0.0,
+          0.048949884,
+          0.0063909636,
+          0.11185104,
+          0.037664398,
+          0.059457281,
+          0.061910084,
+          0.074202568,
+          0.0097684876,
+          0.025277332,
+          0.062698059,
+          0.0022263524,
+          0.04603304,
+          0.10789208,
+          0.14204427,
+          0.16293243,
+          0.0076661854
+        ],
+        "by_og_share_commuters_neg": [
+          0.0091078433,
+          0.00053701573,
+          0.0,
+          0.021891011,
+          0.039743075,
+          0.017184035,
+          0.0,
+          0.068895706,
+          0.027969091,
+          0.086731864,
+          0.10458564,
+          0.19021836,
+          0.19812989,
+          0.21001766,
+          0.074718933,
+          0.041871669,
+          0.053516802,
+          0.064588473,
+          0.12584552,
+          0.21344533,
+          0.22031111,
+          0.214809,
+          0.14370195
+        ],
+        "ctrl_neg_mass_share": 0.013103191,
+        "max": 0.79261044,
+        "min": -0.17210725,
+        "n_neg_controls": 74112,
+        "n_treated_above_1": 0,
+        "neg_mass_share": 0.0066385821,
+        "share_commuters_neg": 0.087568989
+      },
+      "wls": {
+        "by_og_neg_mass": [
+          0.013317302,
+          0.0003083209,
+          0.0,
+          0.0066308414,
+          0.0078064693,
+          0.0047677149,
+          1.6457146e-05,
+          0.049981284,
+          0.0078533404,
+          0.10080646,
+          0.045235153,
+          0.061042796,
+          0.070653411,
+          0.072503674,
+          0.0093050633,
+          0.028021889,
+          0.052303625,
+          0.0040321451,
+          0.047969666,
+          0.097356518,
+          0.14296671,
+          0.16990413,
+          0.0072170361
+        ],
+        "by_og_share_commuters_neg": [
+          0.0095386534,
+          0.00049527811,
+          0.0,
+          0.019310946,
+          0.037129088,
+          0.018977048,
+          6.809895e-05,
+          0.073248699,
+          0.029737718,
+          0.084441469,
+          0.10849152,
+          0.18339563,
+          0.1930392,
+          0.19303446,
+          0.06546199,
+          0.043487741,
+          0.044786206,
+          0.096541179,
+          0.1169306,
+          0.19350303,
+          0.21030856,
+          0.20197191,
+          0.13730314
+        ],
+        "ctrl_neg_mass_share": 0.0131706,
+        "max": 0.7779968,
+        "min": -0.17253062,
+        "n_neg_controls": 71013,
+        "n_treated_above_1": 0,
+        "neg_mass_share": 0.00667319,
+        "share_commuters_neg": 0.086004354
+      }
+    },
+    "topcoding": {
+      "min_records_at_state_max": 15,
+      "n_hw_below_2": 1107,
+      "share": 0.014087712,
+      "share_comm": 0.013062327,
+      "share_w": 0.012501768,
+      "share_wfh": 0.020369459,
+      "state_max_hi": 907000.0,
+      "state_max_lo": 398000.0
+    }
+  },
+  "generated_at": "2026-09-11T01:42:30+00:00",
+  "inputs": [
+    {
+      "note": "SAMPLE 202401; SAMPLE = 202401 AND CLASSWKR = 2 AND AGE BETWEEN 25 AND 64 AND UHRSWORK >= 30 AND WKSWORK2 IN (4, 5, 6) AND INCWAGE > 0 AND TRANWORK <> 0; sample flow {'persons_2024': 3422888, 'wage_25_64': 1314595, 'hours_30': 1084659, 'weeks_40': 1012915, 'wage_pos': 1012834, 'at_work': 984475}",
+      "path": "analysis/usa/acs/part_2020_2024.parquet",
+      "rows": 984475
+    },
+    {
+      "note": "REPWTP1-80 joined on SAMPLE+SERIAL+PERNUM, one read; 1:1 alignment asserted",
+      "path": "analysis/usa/acs_repwt/part_2020_2024.parquet",
+      "rows": 984475
+    },
+    {
+      "note": "SDR, 80 replicates, c = 4/80, df = 79",
+      "path": "analysis/usa/metadata/acs.design.json"
+    },
+    {
+      "note": "labels asserted: TRANWORK 80 'Worked at home'; CLASSWKR 2 'Works for wages'; WKSWORK2 4 '40-47 weeks', 6 '50-52 weeks'",
+      "path": "analysis/usa/metadata/acs.dictionary.json"
+    }
+  ],
+  "key": "ch4",
+  "slug": "ch04-regression",
+  "status": "draft",
+  "validation": [
+    {
+      "check": "v4 audition reproduction (PLAN_v4 section 2; age, age^2, female, EDUC-general dummies)",
+      "expected": {
+        "adj_ols": 0.2153,
+        "adj_wls": 0.2096,
+        "n": 984475,
+        "prev_unweighted_pct": 14.03,
+        "prev_weighted_pct": 13.66,
+        "raw_ols": 0.3493,
+        "raw_wls": 0.3454
+      },
+      "got": {
+        "adj_ols": 0.2153,
+        "adj_wls": 0.2096,
+        "n": 984475,
+        "prev_unweighted_pct": 14.03,
+        "prev_weighted_pct": 13.66,
+        "raw_ols": 0.3493,
+        "raw_wls": 0.3454
+      },
+      "result": "match"
+    },
+    {
+      "check": "cell-moment engine vs within-transformed WLS (headline, raw, levels; OLS and WLS)",
+      "result": "agree to 1e-9"
+    },
+    {
+      "check": "pyfixest 0.60 cross-check (headline WLS, CR1 by household; occupation+industry+state WLS, heteroskedasticity-robust)",
+      "details": {
+        "headline_wls_beta": 0.20329544,
+        "headline_wls_crhh": 0.0024279688,
+        "occind_wls_beta": 0.077696157,
+        "occind_wls_hc": 0.0022898132,
+        "ours_headline_wls_beta": 0.20329544,
+        "ours_headline_wls_crhh": 0.0024279688,
+        "ours_occind_wls_beta": 0.077696157,
+        "ours_occind_wls_hc1": 0.0022898132
+      },
+      "result": "agree"
+    },
+    {
+      "check": "R sentinel (verify.R): survey 4.5 svrepdesign(type='successive-difference', mse=TRUE) and fixest",
+      "fixest": "0.14.2",
+      "r_version": "R version 4.6.1 (2026-06-24 ucrt)",
+      "result": "run",
+      "rows": [
+        {
+          "abs_diff_estimate": 7.9392048e-13,
+          "check": "fixest_headline_wls_crhh",
+          "method": "fixest CR1 SERIAL",
+          "py_estimate": 0.20329544,
+          "py_se": 0.0024279688,
+          "r_estimate": 0.20329544,
+          "r_se": 0.0024279688,
+          "rel_diff_se": 1.4443116e-12
+        },
+        {
+          "abs_diff_estimate": 1.6532331e-12,
+          "check": "fixest_headline_ols_crhh",
+          "method": "fixest CR1 SERIAL",
+          "py_estimate": 0.20792064,
+          "py_se": 0.0019023792,
+          "r_estimate": 0.20792064,
+          "r_se": 0.0019023792,
+          "rel_diff_se": 7.844366e-13
+        },
+        {
+          "abs_diff_estimate": 6.1708971e-13,
+          "check": "fixest_occind_wls_hetero",
+          "method": "fixest hetero",
+          "py_estimate": 0.077696157,
+          "py_se": 0.0022898132,
+          "r_estimate": 0.077696157,
+          "r_se": 0.0022898132,
+          "rel_diff_se": 1.369303e-09
+        },
+        {
+          "abs_diff_estimate": 1.405015e-12,
+          "check": "fixest_occind_ols_hetero",
+          "method": "fixest hetero",
+          "py_estimate": 0.07613509,
+          "py_se": 0.0017870768,
+          "r_estimate": 0.07613509,
+          "r_se": 0.0017870768,
+          "rel_diff_se": 1.3863189e-10
+        },
+        {
+          "abs_diff_estimate": 2.7783331e-14,
+          "check": "svymean_D",
+          "method": "svymean",
+          "py_estimate": 0.13661629,
+          "py_se": 0.00045150462,
+          "r_estimate": 0.13661629,
+          "r_se": 0.00045150462,
+          "rel_diff_se": 5.5878464e-13
+        },
+        {
+          "abs_diff_estimate": 7.9392048e-13,
+          "check": "wr_headline_log",
+          "method": "withReplicates(normal equations)",
+          "py_estimate": 0.20329544,
+          "py_se": 0.0022719132,
+          "r_estimate": 0.20329544,
+          "r_se": 0.0022719132,
+          "rel_diff_se": 8.1934839e-12
+        },
+        {
+          "abs_diff_estimate": 5.4303784e-14,
+          "check": "wr_cellfe_log",
+          "method": "withReplicates(within-cell WLS)",
+          "py_estimate": 0.11844985,
+          "py_se": 0.0022288805,
+          "r_estimate": 0.11844985,
+          "r_se": 0.0022288805,
+          "rel_diff_se": 4.306104e-12
+        },
+        {
+          "abs_diff_estimate": 3.3134606e-13,
+          "check": "svyglm_raw_log",
+          "method": "svyglm",
+          "py_estimate": 0.34543665,
+          "py_se": 0.0025776655,
+          "r_estimate": 0.34543665,
+          "r_se": 0.0025803461,
+          "rel_diff_se": 0.0010399382
+        },
+        {
+          "abs_diff_estimate": 2.0608515e-13,
+          "check": "svyglm_headline_log",
+          "method": "svyglm",
+          "py_estimate": 0.20329544,
+          "py_se": 0.0022719132,
+          "r_estimate": 0.20329544,
+          "r_se": 0.0022735457,
+          "rel_diff_se": 0.00071855852
+        },
+        {
+          "abs_diff_estimate": 6.1035621e-12,
+          "check": "svyglm_headline_levels",
+          "method": "svyglm",
+          "py_estimate": 8.6190327,
+          "py_se": 0.1238827,
+          "r_estimate": 8.6190327,
+          "r_se": 0.1239005,
+          "rel_diff_se": 0.00014365174
+        }
+      ],
+      "survey": "4.5"
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "alt": "Table declaring the BRFSS 2024 release: coverage without Tennessee, the weighting chain, 2,393 strata with every respondent its own PSU, the need for a lonely-PSU rule, pooling, series breaks, and known traps.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "item",
+      "label": "Item"
+    },
+    {
+      "align": "left",
+      "key": "value",
+      "label": "Declaration"
+    },
+    {
+      "align": "left",
+      "key": "source",
+      "label": "Provenance"
+    }
+  ],
+  "note": "Provenance: design.json = machine-readable manifest field; design.json notes = the manifest's free text; producer = documentation read 2026-09-10; computed = counted from the store by build.py; book guidance = editorial, not a producer rule.",
+  "rows": [
+    {
+      "item": "Pinned release",
+      "source": "producer: CDC; BRFSS_2026 CHANGELOG",
+      "value": "BRFSS 2024 combined landline and cell-phone file (LLCP2024), released August 2025; store: BRFSS_2026 cleaned parquet (iyear = 2024)"
+    },
+    {
+      "item": "Records",
+      "source": "computed from data",
+      "value": "457,670 respondents in 53 jurisdictions"
+    },
+    {
+      "item": "Universe",
+      "source": "producer: CDC 2024 overview; computed from data",
+      "value": "Noninstitutionalized adults 18 and older in 49 states, DC, Guam, Puerto Rico, and the US Virgin Islands. Tennessee could not collect enough data for the 2024 public file: the target is adults in participating jurisdictions, not US adults"
+    },
+    {
+      "item": "Canonical weight",
+      "source": "producer: CDC complex sampling weights",
+      "value": "_LLCPWT (store: xllcpwt), the raked final weight"
+    },
+    {
+      "item": "Alternate weights",
+      "source": "producer: CDC complex sampling weights; CDC 2024 weighting description",
+      "value": "_LCPWTV1, _LCPWTV2, _LCPWTV3 for module questions asked on questionnaire versions 1–3 (files LLCP24V1–LLCP24V3); _CLLCPWT for child interviews"
+    },
+    {
+      "item": "Weight construction",
+      "source": "producer: CDC 2024 weighting description",
+      "value": "Design weight = _STRWT × (1/NUMPHON4) × NUMADULT (both factors 1 for cell respondents); dual-frame compositing for dual phone users; truncation within region at the mean ± 1.96 SD (_LLCPWT2); raking to 8 state margins plus up to 8 regional and county margins, age by sex last"
+    },
+    {
+      "item": "Weights in the store",
+      "source": "BRFSS_2026 README; v4 plan",
+      "value": "Only the final xllcpwt; _STRWT, _WT2RAKE, _LLCPWT2, NUMADULT, and NUMPHON4 were dropped by the harmonized build"
+    },
+    {
+      "item": "Variance method",
+      "source": "producer: CDC complex sampling weights",
+      "value": "Taylor linearization with _STSTR (strata) and _PSU (store: xststr, xpsu)"
+    },
+    {
+      "item": "Strata and PSUs",
+      "source": "computed from data",
+      "value": "2,393 strata and 457,670 PSUs: every respondent is its own PSU (43,913 distinct PSU codes, reused across strata)"
+    },
+    {
+      "item": "Design df",
+      "source": "computed from data",
+      "value": "455,277 (PSUs − strata)"
+    },
+    {
+      "item": "Lonely-PSU rule",
+      "source": "computed from data; producer: CDC complex sampling weights",
+      "value": "Required even for national estimates: 110 strata hold a single respondent in the full 2024 file. CDC's R example sets survey.lonely.psu = \"adjust\"; the book uses \"adjust\" in R and \"center\" in svy"
+    },
+    {
+      "item": "Pooling rule",
+      "source": "book guidance",
+      "value": "Not covered by the 2024 documents consulted. When pooling years, keep each year's strata distinct and divide weights by the number of years before estimating totals"
+    },
+    {
+      "item": "Series breaks",
+      "source": "producer: CDC; BRFSS_2026 CHANGELOG; v4 plan",
+      "value": "Raking and cell phones from 2011 (CDC: begin new trend lines in 2011); coverage changes by year (2021 omits Florida; 2023 omits Kentucky and Pennsylvania; 2024 omits Tennessee); 2020 collection disrupted by COVID; the 2023 file was re-released in February 2025 without sexual orientation and gender identity items, which the 2024 file also omits"
+    },
+    {
+      "item": "Geography",
+      "source": "producer: CDC 2024 weighting description",
+      "value": "Built for state estimates: each state's sample is weighted to its own adult population"
+    },
+    {
+      "item": "Trap: self-report",
+      "source": "producer: CDC 2024 overview; book guidance",
+      "value": "Every measure is self-reported by telephone; weighting repairs representation, not measurement"
+    },
+    {
+      "item": "Last verified",
+      "source": "this build",
+      "value": "CDC 2024 overview, weighting description, and complex-sampling-weights document read 2026-09-10"
+    }
+  ],
+  "source": "CDC BRFSS 2024 overview (https://www.cdc.gov/brfss/annual_data/2024/pdf/Overview_2024-508.pdf); CDC BRFSS 2024 weighting description (https://www.cdc.gov/brfss/annual_data/2024/pdf/2024-Weightning-Description-508.pdf); CDC BRFSS 2024 complex sampling weights (https://www.cdc.gov/brfss/annual_data/2024/pdf/Complex-Sampling-Weights-and-Preparing-Module-Data-for-Analysis-2024-508.pdf)",
+  "subtitle": "CDC combined landline and cell-phone file; the book's store keeps the final weight",
+  "title": "BRFSS 2024: declared",
+  "type": "table"
+}

@@ -1,0 +1,78 @@
+{
+  "alt": "An interactive list of six answers to 'how much do Americans work', from 155.4 minutes per day (all diaries, unweighted) to 496.4 minutes (employed people on days they worked); each option names its population of days, weight, and sample size.",
+  "format": "min1",
+  "note": "Weights-only extract: point estimates only; no intervals.",
+  "options": [
+    {
+      "display": "155.4",
+      "estimate": 155.3522,
+      "id": "all_unweighted",
+      "label": "All person-days, unweighted",
+      "ledger": "ch1.atus_work_unweighted",
+      "n": 8548,
+      "note": "Same target as the next option, wrong estimator: weekend diaries are 48.9% of the sample but 28.8% of weighted days.",
+      "unit": "person-day",
+      "weight": "none"
+    },
+    {
+      "display": "213.8",
+      "estimate": 213.773,
+      "id": "all_weighted",
+      "label": "All person-days",
+      "ledger": "ch1.atus_work",
+      "n": 8548,
+      "note": "The figure BLS publishes: 3.56 hours a day.",
+      "unit": "person-day",
+      "weight": "WT06"
+    },
+    {
+      "display": "272.0",
+      "estimate": 272.0416,
+      "id": "weekdays",
+      "label": "Weekdays only",
+      "ledger": "ch1.atus_work_weekday",
+      "n": 4366,
+      "note": "A different population of days: Saturdays and Sundays are excluded.",
+      "unit": "weekday person-day",
+      "weight": "WT06"
+    },
+    {
+      "display": "325.8",
+      "estimate": 325.7663,
+      "id": "employed",
+      "label": "Employed people",
+      "ledger": "ch1.atus_work_employed",
+      "n": 4976,
+      "note": "A different population of people: those employed at their interview.",
+      "unit": "person-day of an employed person",
+      "weight": "WT06"
+    },
+    {
+      "display": "487.5",
+      "estimate": 487.5007,
+      "id": "days_worked",
+      "label": "Days with any work",
+      "ledger": "ch1.atus_work_anywork",
+      "n": 2897,
+      "note": "Conditions on the outcome: only the 43.9% of days that include work.",
+      "unit": "person-day with work",
+      "weight": "WT06"
+    },
+    {
+      "display": "496.4",
+      "estimate": 496.3768,
+      "id": "employed_days_worked",
+      "label": "Employed people, on days they worked",
+      "ledger": "ch1.atus_work_employed_worked",
+      "n": 2804,
+      "note": "Conditions on both employment and the outcome.",
+      "unit": "work day of an employed person",
+      "weight": "WT06"
+    }
+  ],
+  "question": "How much do Americans work?",
+  "source": "IPUMS ATUS 2023 (analysis/atus/atus_respondent.parquet)",
+  "subtitle": "ATUS 2023, minutes per day of working and work-related activities",
+  "title": "How much do Americans work? Six defensible answers",
+  "type": "estimand-set"
+}

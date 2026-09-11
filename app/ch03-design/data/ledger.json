@@ -1,0 +1,59 @@
+{
+  "key": "ch3",
+  "ledgers": {
+    "nhanes_cascade": {
+      "assumptions": "Weights correct for differential nonresponse; the oscillometric protocol measures blood pressure comparably across participants; medication use is self-reported; averaging up to three readings defines the participant's blood pressure",
+      "estimand": "Finite-population proportions: hypertension among adults; awareness, treatment and control among adults with hypertension (NCHS Data Brief 511 definitions). Also the prevalence directly standardized to the 2000 U.S. population",
+      "estimator": "Weighted ratio (Hájek) means over domains of the declared design; age-adjusted prevalence = Σ_a s_a p̂_a over 18–39, 40–59, 60+",
+      "explicit_weights": "WTMEC2YR, the examination weight: base weights for unequal selection probabilities with nonresponse and calibration adjustments. s_a = 2000 standard-population shares (0.4203, 0.3572, 0.2225) in the age-adjusted estimate",
+      "facts": [
+        "ch3.htn_prev",
+        "ch3.htn_aware",
+        "ch3.htn_treat",
+        "ch3.htn_control",
+        "ch3.htn_prev_adj"
+      ],
+      "implicit_weights": "None beyond the explicit weights; every estimate is a weighted mean of a 0/1 indicator",
+      "randomness": "Selection of PSUs and of people within PSUs in a stratified multistage sample; nonresponse treated as handled by the weight adjustments",
+      "target_population": "U.S. civilian noninstitutionalized adults 18 and older, excluding pregnant women, August 2021–August 2023",
+      "title": "How many adults have hypertension, know it, treat it, and control it? (NHANES August 2021–August 2023)",
+      "variance_estimator": "Taylor linearization with 15 masked strata and 30 PSUs (with-replacement approximation); design df 15; 95% intervals estimate ± t(15)·SE"
+    },
+    "nhis_domain": {
+      "assumptions": "With-replacement PSU approximation; the domain proportion is shown only to study its standard error (effective n below 30 fails NCHS presentation standards)",
+      "estimand": "Share (and number) who delayed medical care because of cost in the past 12 months",
+      "estimator": "Weighted ratio mean and weighted total within the domain",
+      "explicit_weights": "SAMPWEIGHT, the sample-adult weight",
+      "facts": [
+        "ch3.sparse_se_full",
+        "ch3.sparse_se_sub",
+        "ch3.sparse_short",
+        "ch3.sparse_total_short"
+      ],
+      "implicit_weights": "None",
+      "randomness": "Selection of PSUs within 52 strata and of households and adults within PSUs; domain membership is itself random",
+      "target_population": "U.S. civilian noninstitutionalized adults 18+ without health insurance and in poor self-rated health, 2023",
+      "title": "A sparse domain, estimated two ways (NHIS 2023)",
+      "variance_estimator": "Taylor linearization on the full declared design, (STRATA, PSU) composite key (662 PSUs); contrasted with deleting non-domain rows first under certainty, adjust, and average lonely-PSU rules"
+    },
+    "period_change": {
+      "assumptions": "Comparable definitions and instruments (oscillometric in both periods; medication question changed wording and skip pattern in 2021–2023); no adjustment for multiple comparisons, as in NCHS reports",
+      "estimand": "Differences between the two periods in finite-population proportions, overall and in five pre-specified groups (24 comparisons)",
+      "estimator": "Difference of two independent weighted ratio means",
+      "explicit_weights": "WTMECPRP (2017–March 2020 pre-pandemic file) and WTMEC2YR (August 2021–August 2023)",
+      "facts": [
+        "ch3.chg_control",
+        "ch3.pre_aware",
+        "ch3.pre_treat",
+        "ch3.pre_control",
+        "ch3.chg_sig_naive",
+        "ch3.chg_sig_design"
+      ],
+      "implicit_weights": "None",
+      "randomness": "Two independent stratified multistage samples",
+      "target_population": "U.S. civilian noninstitutionalized adults 18+ with hypertension (pregnant women excluded) in 2017–March 2020 and in August 2021–August 2023",
+      "title": "Did awareness, treatment, or control change after the pandemic?",
+      "variance_estimator": "Sum of the two Taylor variances (15 and 25 df), t with Satterthwaite df; compared with naive iid and weights-only variances"
+    }
+  }
+}

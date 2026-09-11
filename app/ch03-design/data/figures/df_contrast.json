@@ -1,0 +1,112 @@
+{
+  "alt": "Table comparing NHANES, NHIS and BRFSS: NHANES has 30 PSUs and 15 design degrees of freedom and its design effect comes mostly from clustering; BRFSS has one respondent per PSU and about 455,000 degrees of freedom and its design effect comes almost entirely from unequal weights.",
+  "columns": [
+    {
+      "key": "survey",
+      "label": "Survey"
+    },
+    {
+      "key": "estimand",
+      "label": "Example estimand"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "n",
+      "label": "Analytic n"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "strata",
+      "label": "Strata"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "psus",
+      "label": "PSUs"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "df",
+      "label": "Design df"
+    },
+    {
+      "align": "right",
+      "format": "num2",
+      "key": "t",
+      "label": "t(0.975)"
+    },
+    {
+      "align": "right",
+      "format": "ratio2",
+      "key": "kish",
+      "label": "1 + CV(w)²"
+    },
+    {
+      "align": "right",
+      "format": "ratio2",
+      "key": "wfac",
+      "label": "Weighting factor"
+    },
+    {
+      "align": "right",
+      "format": "ratio2",
+      "key": "cfac",
+      "label": "Clustering × strata factor"
+    },
+    {
+      "align": "right",
+      "format": "ratio2",
+      "key": "deff",
+      "label": "DEFF"
+    }
+  ],
+  "note": "DEFF = weighting factor × clustering-and-stratification factor, by construction: (weights-only SE / naive SE)² × (design SE / weights-only SE)². BRFSS 2024 omits Tennessee; its Taylor SE uses the adjust rule for 110 single-respondent strata.",
+  "rows": [
+    {
+      "cfac": 1.8010342,
+      "deff": 2.7178857,
+      "df": 15,
+      "estimand": "Hypertension, measured or medicated",
+      "kish": 1.5232732,
+      "n": 6084,
+      "psus": 30,
+      "strata": 15,
+      "survey": "NHANES Aug 2021–Aug 2023",
+      "t": 2.1314495,
+      "wfac": 1.5090695
+    },
+    {
+      "cfac": 1.2563526,
+      "deff": 1.6374969,
+      "df": 610,
+      "estimand": "Ever told hypertension",
+      "kish": 1.4230732,
+      "n": 29471,
+      "psus": 662,
+      "strata": 52,
+      "survey": "NHIS 2023 sample adults",
+      "t": 1.9638606,
+      "wfac": 1.3033738
+    },
+    {
+      "cfac": 0.99580362,
+      "deff": 5.2398449,
+      "df": 455277,
+      "estimand": "Fair or poor general health",
+      "kish": 5.1337364,
+      "n": 456360,
+      "psus": 457670,
+      "strata": 2393,
+      "survey": "BRFSS 2024",
+      "t": 1.9599692,
+      "wfac": 5.2619259
+    }
+  ],
+  "source": "NHANES August 2021–August 2023; IPUMS NHIS 2023; CDC BRFSS 2024; chapter calculations",
+  "title": "Complex surveys, opposite sources of uncertainty",
+  "type": "table"
+}

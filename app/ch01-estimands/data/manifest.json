@@ -1,0 +1,708 @@
+{
+  "artifact_sha256": {
+    "facts.json": "b65f70250df816c5a25ad07f1fbbbba3eb00386a07ae94fd58521b225d28e0f2",
+    "figures/atus_estimands.json": "2b54e1f51bfa5d3be3a7cb77149c366ca41e02434476c195d0a63c084a8aa765",
+    "figures/atus_six_estimands.json": "32130e3acc9898f7f3b135cab6f7aaca50222155ca5d8cd9ef9613984c1b6d24",
+    "figures/foodsec_units.json": "e03cdfba81b157ba8313af9a898cf24c78ed53976914dbfe3b7f685613463779",
+    "figures/poverty_official_spm.json": "f99d3a76e862dcec1de99d052ef5ef1b7819855830acc32c86fa09a553363821",
+    "figures/poverty_validation.json": "1dcbede5655ac59b0bc8557e00119b7117963eb69f37b19b22830db77cc99cfb",
+    "figures/turnout_conventions.json": "e33aec643057c7df0ff9f1b216f326ceadfc69457e8eaddfa39c897b31497cb9",
+    "ledger.json": "311c76d92016615c329c1e9f183e6989f5847d415b10600b0e8d205f455cf0e2"
+  },
+  "code": "build.py",
+  "generated_at": "2026-09-11T01:43:17+00:00",
+  "inputs": [
+    {
+      "note": "YEAR = 2023; CASEID, WT06, BLS_WORK, DAY, HOLIDAY, emp3",
+      "path": "analysis/atus/atus_respondent.parquet",
+      "rows": 8548
+    },
+    {
+      "note": "citizens 18+ (citizen_b = 1, AGE >= 18), November supplements 2008-2024",
+      "path": "analysis/cps/cps_voter.parquet",
+      "rows": 790925
+    },
+    {
+      "note": "raw VOTED codes for the same records (joined on YEAR, SERIAL, PERNUM), to flag 'Not in universe'",
+      "path": "parquet/cps/cps_voter.parquet",
+      "rows": 790925
+    },
+    {
+      "note": "YEAR = 2023, MONTH = 12 (December 2023 Food Security Supplement)",
+      "path": "analysis/cps/cps_foodsec.parquet",
+      "rows": 99074
+    },
+    {
+      "note": "survey years 2020-2025 (income years 2019-2024); AGE, ASECWT, POVERTY, SPMPOV",
+      "path": "analysis/cps/cps_asec/part_2020_2025.parquet",
+      "rows": 906757
+    },
+    {
+      "note": "REPWTP1-REPWTP160, joined 1:1 on YEAR, SERIAL, PERNUM",
+      "path": "analysis/cps/cps_asec_repwt/part_2020_2025.parquet",
+      "rows": 906757
+    }
+  ],
+  "key": "ch1",
+  "slug": "ch01-estimands",
+  "software": {
+    "duckdb": "1.5.5",
+    "numpy": "2.5.1",
+    "polars": "1.43.0",
+    "python": "3.13.14",
+    "scipy": "1.18.0",
+    "svy": "0.28.0"
+  },
+  "status": "draft",
+  "validation": [
+    {
+      "id": "atus_all_unweighted_vs_v4_audition",
+      "kind": "regression",
+      "note": "n = 8548 vs 8548",
+      "ours": 155.3522,
+      "reference": 155.4,
+      "result": "match",
+      "source": "docs/PLAN_v4_implementation.md section 3.1 (raw store)"
+    },
+    {
+      "id": "atus_all_weighted_vs_v4_audition",
+      "kind": "regression",
+      "note": "n = 8548 vs 8548",
+      "ours": 213.773,
+      "reference": 213.8,
+      "result": "match",
+      "source": "docs/PLAN_v4_implementation.md section 3.1 (raw store)"
+    },
+    {
+      "id": "atus_weekdays_vs_v4_audition",
+      "kind": "regression",
+      "note": "n = 4366 vs 4366",
+      "ours": 272.0416,
+      "reference": 272.0,
+      "result": "match",
+      "source": "docs/PLAN_v4_implementation.md section 3.1 (raw store)"
+    },
+    {
+      "id": "atus_employed_vs_v4_audition",
+      "kind": "regression",
+      "note": "n = 4976 vs 4976",
+      "ours": 325.7663,
+      "reference": 325.8,
+      "result": "match",
+      "source": "docs/PLAN_v4_implementation.md section 3.1 (raw store)"
+    },
+    {
+      "id": "atus_days_worked_vs_v4_audition",
+      "kind": "regression",
+      "note": "n = 2897 vs 2897",
+      "ours": 487.5007,
+      "reference": 487.5,
+      "result": "match",
+      "source": "docs/PLAN_v4_implementation.md section 3.1 (raw store)"
+    },
+    {
+      "id": "atus_employed_days_worked_vs_v4_audition",
+      "kind": "regression",
+      "note": "n = 2804 vs 2804",
+      "ours": 496.3768,
+      "reference": 496.4,
+      "result": "match",
+      "source": "docs/PLAN_v4_implementation.md section 3.1 (raw store)"
+    },
+    {
+      "id": "atus_weighted_hours_vs_bls",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 3.5629,
+      "reference": 3.56,
+      "result": "match",
+      "source": "BLS, American Time Use Survey - 2023 Results, USDL-24-1208 (June 27, 2024), Table 1, 'Working and work-related activities'"
+    },
+    {
+      "id": "atus_share_engaged_vs_bls",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 43.851,
+      "reference": 43.9,
+      "result": "match",
+      "source": "BLS, American Time Use Survey - 2023 Results, USDL-24-1208 (June 27, 2024), Table 1, 'Working and work-related activities'"
+    },
+    {
+      "id": "atus_hours_if_engaged_vs_bls",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 8.125,
+      "reference": 8.13,
+      "result": "match",
+      "source": "BLS, American Time Use Survey - 2023 Results, USDL-24-1208 (June 27, 2024), Table 1, 'Working and work-related activities'"
+    },
+    {
+      "id": "turnout_census_2008_vs_published",
+      "kind": "benchmark",
+      "note": "Census convention: all citizen adults with a positive supplement weight in the denominator; supplement nonrespondents count as nonvoters.",
+      "ours": 63.64,
+      "reference": 63.6,
+      "result": "match",
+      "source": "Census Bureau, reported voting rates of the citizen population 18+ (historical Table A-1), as recorded in logs/validation_benchmarks_clean.md"
+    },
+    {
+      "id": "turnout_census_2010_vs_published",
+      "kind": "benchmark",
+      "note": "Census convention: all citizen adults with a positive supplement weight in the denominator; supplement nonrespondents count as nonvoters.",
+      "ours": 45.535,
+      "reference": 45.5,
+      "result": "match",
+      "source": "Census Bureau, reported voting rates of the citizen population 18+ (historical Table A-1), as recorded in logs/validation_benchmarks_clean.md"
+    },
+    {
+      "id": "turnout_census_2012_vs_published",
+      "kind": "benchmark",
+      "note": "Census convention: all citizen adults with a positive supplement weight in the denominator; supplement nonrespondents count as nonvoters.",
+      "ours": 61.813,
+      "reference": 61.8,
+      "result": "match",
+      "source": "Census Bureau, reported voting rates of the citizen population 18+ (historical Table A-1), as recorded in logs/validation_benchmarks_clean.md"
+    },
+    {
+      "id": "turnout_census_2014_vs_published",
+      "kind": "benchmark",
+      "note": "Census convention: all citizen adults with a positive supplement weight in the denominator; supplement nonrespondents count as nonvoters.",
+      "ours": 41.944,
+      "reference": 41.9,
+      "result": "match",
+      "source": "Census Bureau, reported voting rates of the citizen population 18+ (historical Table A-1), as recorded in logs/validation_benchmarks_clean.md"
+    },
+    {
+      "id": "turnout_census_2016_vs_published",
+      "kind": "benchmark",
+      "note": "Census convention: all citizen adults with a positive supplement weight in the denominator; supplement nonrespondents count as nonvoters.",
+      "ours": 61.384,
+      "reference": 61.4,
+      "result": "match",
+      "source": "Census Bureau, reported voting rates of the citizen population 18+ (historical Table A-1), as recorded in logs/validation_benchmarks_clean.md"
+    },
+    {
+      "id": "turnout_census_2018_vs_published",
+      "kind": "benchmark",
+      "note": "Census convention: all citizen adults with a positive supplement weight in the denominator; supplement nonrespondents count as nonvoters.",
+      "ours": 53.437,
+      "reference": 53.4,
+      "result": "match",
+      "source": "Census Bureau, reported voting rates of the citizen population 18+ (historical Table A-1), as recorded in logs/validation_benchmarks_clean.md"
+    },
+    {
+      "id": "turnout_census_2020_vs_published",
+      "kind": "benchmark",
+      "note": "Census convention: all citizen adults with a positive supplement weight in the denominator; supplement nonrespondents count as nonvoters.",
+      "ours": 66.767,
+      "reference": 66.8,
+      "result": "match",
+      "source": "Census Bureau, reported voting rates of the citizen population 18+ (historical Table A-1), as recorded in logs/validation_benchmarks_clean.md"
+    },
+    {
+      "id": "turnout_census_2022_vs_published",
+      "kind": "benchmark",
+      "note": "Census convention: all citizen adults with a positive supplement weight in the denominator; supplement nonrespondents count as nonvoters.",
+      "ours": 52.202,
+      "reference": 52.2,
+      "result": "match",
+      "source": "Census Bureau release, May 2, 2023: 52.2% of the citizen voting-age population voted"
+    },
+    {
+      "id": "turnout_recode_2022_vs_published",
+      "kind": "benchmark",
+      "note": "A recode that treats VOTED = 'Not in universe' as structural (as the store's voted_census did until its 2026-09-10 correction) drops 8,597 positive-weight citizen adults (supplement nonrespondents since 'No Response' was removed as a category in November 2022).",
+      "ours": 59.514,
+      "reference": 52.2,
+      "result": "differs",
+      "source": "Census Bureau release, May 2, 2023: 52.2% of the citizen voting-age population voted"
+    },
+    {
+      "id": "turnout_census_2024_vs_published",
+      "kind": "benchmark",
+      "note": "Census convention: all citizen adults with a positive supplement weight in the denominator; supplement nonrespondents count as nonvoters.",
+      "ours": 65.346,
+      "reference": 65.3,
+      "result": "match",
+      "source": "Census Bureau release, April 30, 2025: 65.3% of the citizen voting-age population voted"
+    },
+    {
+      "id": "turnout_recode_2024_vs_published",
+      "kind": "benchmark",
+      "note": "A recode that treats VOTED = 'Not in universe' as structural (as the store's voted_census did until its 2026-09-10 correction) drops 7,398 positive-weight citizen adults (supplement nonrespondents since 'No Response' was removed as a category in November 2022).",
+      "ours": 73.377,
+      "reference": 65.3,
+      "result": "differs",
+      "source": "Census Bureau release, April 30, 2025: 65.3% of the citizen voting-age population voted"
+    },
+    {
+      "id": "vosuppwt_equals_wtfinl",
+      "kind": "internal",
+      "note": "The voting supplement weight carries no adjustment for supplement nonresponse.",
+      "ours": "max |VOSUPPWT - WTFINL| <= 0.01 on every positive-weight record",
+      "reference": "2008-2024 citizen adults",
+      "result": "match",
+      "source": "analysis/cps/cps_voter.parquet"
+    },
+    {
+      "id": "foodsec_households_vs_usda",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 13.548,
+      "reference": 13.5,
+      "result": "match",
+      "source": "USDA ERS, Household Food Security in the United States in 2023 (ERR-337; Rabbitt, Reed-Jones, Hales, and Burke, September 2024)"
+    },
+    {
+      "id": "foodsec_hh_sample_vs_usda",
+      "kind": "benchmark",
+      "note": "30,824 with a food security status plus 39 without",
+      "ours": 30863,
+      "reference": 30863,
+      "result": "match",
+      "source": "USDA ERS, Household Food Security in the United States in 2023 (ERR-337; Rabbitt, Reed-Jones, Hales, and Burke, September 2024)"
+    },
+    {
+      "id": "foodsec_fi_households_vs_usda",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 17.955,
+      "reference": 18.0,
+      "result": "match",
+      "source": "USDA ERS, Household Food Security in the United States in 2023 (ERR-337; Rabbitt, Reed-Jones, Hales, and Burke, September 2024)"
+    },
+    {
+      "id": "foodsec_people_rate_vs_usda",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 14.33,
+      "reference": 14.3,
+      "result": "match",
+      "source": "USDA ERS, Household Food Security in the United States in 2023 (ERR-337; Rabbitt, Reed-Jones, Hales, and Burke, September 2024)"
+    },
+    {
+      "id": "foodsec_people_count_vs_usda",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 47.389,
+      "reference": 47.4,
+      "result": "match",
+      "source": "USDA ERS, Household Food Security in the United States in 2023 (ERR-337; Rabbitt, Reed-Jones, Hales, and Burke, September 2024)"
+    },
+    {
+      "id": "foodsec_children_count_vs_usda",
+      "kind": "benchmark",
+      "note": "USDA's child and adult counts may classify some household members differently; the people total matches.",
+      "ours": 13.896,
+      "reference": 13.8,
+      "result": "differs",
+      "source": "USDA ERS, Household Food Security in the United States in 2023 (ERR-337; Rabbitt, Reed-Jones, Hales, and Burke, September 2024)"
+    },
+    {
+      "id": "foodsec_adults_count_vs_usda",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 33.493,
+      "reference": 33.6,
+      "result": "differs",
+      "source": "USDA ERS, Household Food Security in the United States in 2023 (ERR-337; Rabbitt, Reed-Jones, Hales, and Burke, September 2024)"
+    },
+    {
+      "id": "poverty_official_all_2019",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 10.469,
+      "reference": 10.5,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_official_all_2020",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 11.463,
+      "reference": 11.5,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_official_all_2021",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 11.559,
+      "reference": 11.6,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_official_all_2022",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 11.489,
+      "reference": 11.5,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_official_all_2023",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 11.087,
+      "reference": 11.1,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_official_all_2024",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 10.638,
+      "reference": 10.6,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_official_child_2019",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 14.379,
+      "reference": 14.4,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_official_child_2020",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 16.03,
+      "reference": 16.0,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_official_child_2021",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 15.285,
+      "reference": 15.3,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_official_child_2022",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 14.989,
+      "reference": 15.0,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_official_child_2023",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 15.257,
+      "reference": 15.3,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_official_child_2024",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 14.267,
+      "reference": 14.3,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_official_age65_2019",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 8.869,
+      "reference": 8.9,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_official_age65_2020",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 8.939,
+      "reference": 8.9,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_official_age65_2021",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 10.329,
+      "reference": 10.3,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_official_age65_2022",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 10.188,
+      "reference": 10.2,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_official_age65_2023",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 9.736,
+      "reference": 9.7,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_official_age65_2024",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 9.933,
+      "reference": 9.9,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_spm_all_2019",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 11.717,
+      "reference": 11.7,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_spm_all_2020",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 9.15,
+      "reference": 9.2,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_spm_all_2021",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 7.769,
+      "reference": 7.8,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_spm_all_2022",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 12.388,
+      "reference": 12.4,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_spm_all_2023",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 12.931,
+      "reference": 12.9,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_spm_all_2024",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 12.927,
+      "reference": 12.9,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_spm_child_2019",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 12.403,
+      "reference": 12.5,
+      "result": "differs",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_spm_child_2020",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 9.674,
+      "reference": 9.7,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_spm_child_2021",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 5.177,
+      "reference": 5.2,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_spm_child_2022",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 12.398,
+      "reference": 12.4,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_spm_child_2023",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 13.778,
+      "reference": 13.7,
+      "result": "differs",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_spm_child_2024",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 13.345,
+      "reference": 13.4,
+      "result": "differs",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_spm_age65_2019",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 12.723,
+      "reference": 12.8,
+      "result": "differs",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_spm_age65_2020",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 9.456,
+      "reference": 9.5,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_spm_age65_2021",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 10.652,
+      "reference": 10.7,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_spm_age65_2022",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 14.169,
+      "reference": 14.1,
+      "result": "differs",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_spm_age65_2023",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 14.074,
+      "reference": 14.2,
+      "result": "differs",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "poverty_spm_age65_2024",
+      "kind": "benchmark",
+      "note": "",
+      "ours": 14.953,
+      "reference": 15.0,
+      "result": "match",
+      "source": "Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3"
+    },
+    {
+      "id": "svy_vs_hand_sdr",
+      "kind": "internal",
+      "note": "svy 0.28 replication path (df = 159) against a numpy SDR computation",
+      "ours": "36 ASEC estimates and SEs",
+      "reference": "tolerance 1e-12 / 1e-10",
+      "result": "match",
+      "source": "build.py"
+    },
+    {
+      "id": "r_survey_pov_off_child_2021",
+      "kind": "oracle",
+      "note": "|diff| estimate 3.1e-16, SE 3.0e-18",
+      "ours": {
+        "estimate": 0.1528542941,
+        "se": 0.003699187
+      },
+      "reference": {
+        "df": 159,
+        "estimate": 0.1528542941,
+        "se": 0.003699187
+      },
+      "result": "match",
+      "source": "R R version 4.6.1 (2026-06-24 ucrt), survey 4.5: svrepdesign(type = 'successive-difference', mse = TRUE)"
+    },
+    {
+      "id": "r_survey_pov_spm_child_2021",
+      "kind": "oracle",
+      "note": "|diff| estimate 4.2e-17, SE 3.5e-18",
+      "ours": {
+        "estimate": 0.051773779,
+        "se": 0.0021515727
+      },
+      "reference": {
+        "df": 159,
+        "estimate": 0.051773779,
+        "se": 0.0021515727
+      },
+      "result": "match",
+      "source": "R R version 4.6.1 (2026-06-24 ucrt), survey 4.5: svrepdesign(type = 'successive-difference', mse = TRUE)"
+    },
+    {
+      "id": "r_survey_pov_spm_65_2021",
+      "kind": "oracle",
+      "note": "|diff| estimate 4.2e-16, SE 1.7e-18",
+      "ours": {
+        "estimate": 0.1065245245,
+        "se": 0.0025821598
+      },
+      "reference": {
+        "df": 159,
+        "estimate": 0.1065245245,
+        "se": 0.0025821598
+      },
+      "result": "match",
+      "source": "R R version 4.6.1 (2026-06-24 ucrt), survey 4.5: svrepdesign(type = 'successive-difference', mse = TRUE)"
+    },
+    {
+      "id": "r_survey_pov_gap_child_2021",
+      "kind": "oracle",
+      "note": "|diff| estimate 1.5e-16, SE 3.0e-18",
+      "ours": {
+        "estimate": 0.1010805151,
+        "se": 0.0031254668
+      },
+      "reference": {
+        "df": 159,
+        "estimate": 0.1010805151,
+        "se": 0.0031254668
+      },
+      "result": "match",
+      "source": "R R version 4.6.1 (2026-06-24 ucrt), survey 4.5: svrepdesign(type = 'successive-difference', mse = TRUE)"
+    }
+  ]
+}

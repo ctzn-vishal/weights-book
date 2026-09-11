@@ -1,0 +1,74 @@
+Every number in the booklet comes from a script that can be rerun, and every script reads data that a reader can obtain.
+
+## Data sources and pinned releases
+
+Each chapter's `artifacts/manifest.json` lists the files it read, with row counts. The list below is compiled from those manifests.
+
+- **American Community Survey, IPUMS USA** <Cite id="ipums_usa" />. The 2024 1-year sample, with its 80 person replicate weights, carries [Lab 3](/ch03-lab-replicates), which also checks its code against the Census Bureau's 2024 PUMS verification estimates. The same sample, restricted to wage and salary workers aged 25 to 64 who usually work at least 30 hours a week for 40 or more weeks a year, carries the work-at-home wage regressions of [Chapter 4](/ch04-regression) and [Chapter 5](/ch05-hidden-weights), again with its person replicate weights. The 1-year samples for 2008–2019, with person replicate weights for the design window, carry the Medicaid-expansion comparison of [Chapter 6](/ch06-clustering). The [Chapter 7](/ch07-field-guide) guide uses the 2024 sample's design manifest and weight total. Design and replicate methods follow the Census Bureau's documentation <Cite id="census_acs_dm" />.
+- **Current Population Survey, IPUMS CPS** <Cite id="ipums_cps" />. [Chapter 1](/ch01-estimands) uses the November Voting and Registration supplements for 2008–2024, the December 2023 Food Security supplement, and the Annual Social and Economic Supplement (ASEC) for survey years 2020–2025 (income years 2019–2024), with its 160 replicate weights, for the comparison of poverty measures <Cite id="census_spm" />. [Chapter 2](/ch02-weights) compares the weights of the ASEC 2024, the December 2023 Food Security supplement, and the November 2020 voting supplement. The Chapter 7 guide declares the ASEC 2025.
+- **American Time Use Survey, IPUMS ATUS** <Cite id="ipums_atus" />. The 2023 file carries the work-time estimands of Chapter 1 and the design-weight example of Chapter 2; the 2024 file has a Chapter 7 guide. Published BLS estimates are the external benchmark <Cite id="bls_atus" />.
+- **National Health Interview Survey, IPUMS NHIS** <Cite id="ipums_nhis" />. The 2023 sample adults carry the domain-estimation lesson of [Chapter 3](/ch03-design); the 2024 file has a Chapter 7 guide, which uses the 2023 file to count the PSUs the two years share.
+- **NHANES**, National Center for Health Statistics <Cite id="nhanes" />. Chapter 3 uses the August 2021–August 2023 cycle, the 2017–March 2020 pre-pandemic file for the period comparison, and the 2017–2018 cycle for the comparison of blood-pressure instruments; the August 2021–August 2023 cycle also has a Chapter 7 guide. The official hypertension data brief is Chapter 3's external benchmark <Cite id="nchs_db511" />.
+- **BRFSS**, Centers for Disease Control and Prevention <Cite id="brfss2024" />. Chapter 2 rebuilds the weight chain from the raw 2024 public file, which omits Tennessee, checks its coding against CDC's 2024 codebook, and uses the harmonized 2014–2024 store for coverage by year. Chapter 3 uses the 2023 and 2024 files, and the 2024 file has a Chapter 7 guide.
+- **State Medicaid-expansion dates** for Chapter 6: effective coverage dates for the 50 states and DC from KFF's tracker <Cite id="kff2026" />, checked state by state against federal and state documents, with a source recorded for every state.
+- **Synthetic data.** Chapter 0's example, the interactives, and the numerical checks of [Appendix B](/appendix-b-derivations) use seeded synthetic populations; no survey data enter them.
+
+## Reproducibility tiers
+
+Each result carries one of three promises.
+
+- **Tier 1, publicly reproducible.** The inputs are public-use files that anyone can obtain, either from the producers (Census Bureau, Bureau of Labor Statistics, National Center for Health Statistics, CDC) or through IPUMS extracts, which require a free account and agreement to IPUMS terms. Every headline result in the first edition is Tier 1.
+- **Tier 2, reproducible after registration.** Data whose producer requires an application or a data-use agreement beyond a free account. The classic PSID replication box of Chapter 1 would be the only first-edition use; this draft does not yet reproduce it.
+- **Tier 3, reproducible only from released aggregates.** None in the first edition.
+
+The Box store and its build scripts make the booklet reproducible for the author; the tiers are the promise to the reader.
+
+## Validation layers
+
+A number reaches the page only after passing the layers that apply to it.
+
+1. **Two implementations.** Design-based estimates and standard errors are computed through `svy`'s declared design and again with an independent hand-coded formula, and each chapter's manifest records the agreement.
+2. **R `survey` sentinel checks.** Two or three headline design-based results per chapter are recomputed in R's `survey` package, the field's reference implementation, and the comparison is recorded in the chapter's manifest. Chapter 7's `verify.R` also sources every R declaration in the field guide against the store and confirms two documented failure modes: R stops on NHIS 2024 without `nest = TRUE`, and on the full BRFSS 2024 file without a lonely-PSU rule.
+3. **Published benchmarks.** Each chapter compares its headline numbers with published figures and records the comparison in its manifest: ATUS work time with BLS, turnout with the Census Bureau, food insecurity with USDA, poverty rates with the Census Bureau, BRFSS mental distress with CDC's codebook, the hypertension cascade with NCHS Data Brief 511, and ACS totals with the Census Bureau's PUMS verification estimates. The data pipeline also reproduces a set of published figures on its cleaned store (Figure C.1). All are external benchmarks, not truth: a published figure carries its own sampling and processing error.
+4. **Checks of mathematical claims.** Each interactive's claims and each derivation in [Appendix B](/appendix-b-derivations) are checked on seeded synthetic data.
+5. **Determinism.** Rebuilding a chapter from the same inputs produces byte-identical facts, ledgers, and figures; only the manifest's timestamp changes.
+
+<Figure n="C.1" caption="The data pipeline's cleaned store reproduces published CPS, NHIS, ATUS, and ACS figures; the log's exact-required set matches.">
+  <Chart id="appC.benchmarks" />
+</Figure>
+
+Two rows need a reading note. The TUS smoking series differs between raw and clean stores from 2018 on because the clean store uses a derived current-smoking variable that keeps the standard definition across a questionnaire change; and the NHIS row lists six published values against seven re-computed years, so the year alignment of the published list should be confirmed before the row is quoted.
+
+## How to rebuild
+
+1. **Data.** IPUMS extracts are defined in the pipeline's `definitions/` and downloaded and cleaned into the Box store's `analysis/` layer; NHANES is downloaded from NCHS and assembled by the NHANES scripts; BRFSS is downloaded from CDC as SAS transport files and harmonized by the BRFSS scripts. Microdata stay in the author's store.
+2. **Artifacts.** In each chapter folder, `python build.py` reads only the columns it needs, computes every number, and writes `artifacts/`: `facts.json`, `ledger.json`, `figures/*.json`, and `manifest.json` with inputs and validation results. Optional `verify.R` scripts run the R checks.
+3. **Export.** The integrator's `export.py` copies the artifacts and the chapter's MDX into the site repository, where each page reads its numbers from those files and never from typed text.
+4. **Check.** `node scripts/check-mdx.mjs` compiles each page with the site's own MDX pipeline and confirms that every fact, figure, ledger, and citation it references exists.
+5. **Deploy.** The static site is built with Next.js and deployed to Vercel under the `/weights` path, marked as a draft and excluded from search indexing.
+
+Figure C.2 lists the software versions the builds recorded.
+
+<Figure n="C.2" caption="The artifacts were built with svy, R survey, and the Python and Node toolchains listed here; the build script records versions each time it runs.">
+  <Chart id="appC.tool_versions" />
+</Figure>
+
+## The auditions: what was kept, replaced, and learned
+
+The proposal required each application to pass an audition before a chapter was written: the substantive question had to be worth answering on its own, and a central technical correction had to have a visible payoff. The auditions changed the empirical spine.
+
+| Chapter | Planned application | Built on | Why |
+|---|---|---|---|
+| 1 | Housing-cost burden, ACS 2024 | ATUS, "How much do Americans work?"; CPS turnout; CPS food security by household, person, and child; CPS ASEC official versus supplemental poverty | The ACS extract has no housing-cost variables. ATUS shows the whole weighting mechanism, weekend oversampling and person-day weights, in one small table. Housing burden returns as a second application if the extract is acquired. Census-convention turnout reproduces every published rate from 2008 to 2024, including 2022 and 2024, once supplement nonrespondents coded "Not in universe" are counted as nonvoters. |
+| 2 | BRFSS weight construction | BRFSS 2024 | Kept. The harmonized store holds only the final weight, so the raking chain is re-exported from the raw 2024 file for the waterfall figure. |
+| 3 | NHANES hypertension cascade | NHANES August 2021–August 2023, plus the BRFSS–NHANES design contrast and an NHIS domain-estimation lesson | Kept and extended. The audition found that deleting rows instead of declaring a domain matters when strata lose PSUs, which became the chapter's domain lesson; the chapter's thinning experiment shows the understatement growing gradually and becoming serious only in very small domains. |
+| 4 | Telework and earnings, CPS monthly | ACS work-at-home, with replicate weights | No CPS basic monthly or earnings file is in the store; the ACS has a pre-2020 series. The construct differs: the ACS records the usual means of commuting, the CPS any telework in the reference week. |
+| 5 | Hidden weights, same CPS sample | the same ACS work-at-home sample | Kept in design; work-at-home prevalence and within-group wage contrasts vary widely across education groups, which is what the implicit weights need. |
+| 6 | Medicaid expansion and uninsurance | ACS person files, 2011–2019: the January 2014 expansion cohort against states not expanded by 2019 | Kept. The audition's split of states into expansion and comparison groups was approximate; Chapter 6 replaces it with a sourced panel of effective coverage dates and stated cohort rules. The minimum-wage and paid-leave backups were not needed. |
+| 7 | Four release guides | six guides: ACS, CPS ASEC, NHIS, ATUS, NHANES, BRFSS | All six are on disk; the machine-readable design fields exist for only a few datasets, so the guides mark each item's provenance. |
+
+One audition failed in the sense the proposal defined, and the failure is informative. In the ACS 2024 audition sample of full-time wage and salary workers, weighting barely moved the raw or the adjusted work-at-home wage contrast. The proposal's rule would have cut the application. The implementation plan recommends amending the rule so that an application also passes when a correction demonstrably does not change the answer and a reader would have assumed it would. That is Solon, Haider, and Wooldridge's own argument about when weighting matters <Cite id="solon2015" />, so [Chapter 4](/ch04-regression) reports the agreement and hands the interesting question, whose contrast the regression summarizes, to [Chapter 5](/ch05-hidden-weights). The classic replications, the 1968 PSID poverty rate and the Wolfers divorce-law regressions, remain boxes: provenance and validation, not headline applications.
+
+## Terms of use
+
+IPUMS data are used under the IPUMS terms of use: they are cited as each collection requests, and IPUMS microdata are never redistributed. The site publishes aggregates only: estimates, standard errors, intervals, counts, and the design facts in the field guide, each exported as a small JSON artifact. The same rule applies to NHANES and BRFSS, which are cited as their producers request. Microdata never leave the author's store, and nothing on the site allows a record to be reconstructed.

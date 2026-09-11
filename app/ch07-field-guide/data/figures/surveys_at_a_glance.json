@@ -1,0 +1,101 @@
+{
+  "alt": "Table comparing the six surveys: pinned release, unit, canonical weight, variance method, number of independent units, design degrees of freedom, and the variance tier in the book's store.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "survey",
+      "label": "Survey"
+    },
+    {
+      "align": "left",
+      "key": "unit",
+      "label": "A row is"
+    },
+    {
+      "align": "left",
+      "key": "weight",
+      "label": "Canonical weight"
+    },
+    {
+      "align": "left",
+      "key": "method",
+      "label": "Variance method"
+    },
+    {
+      "align": "left",
+      "key": "units",
+      "label": "Independent units"
+    },
+    {
+      "align": "right",
+      "key": "df",
+      "label": "Design df"
+    },
+    {
+      "align": "left",
+      "key": "tier",
+      "label": "Tier in the store"
+    }
+  ],
+  "note": "Design df: replicates minus 1 for replicate designs; PSUs minus strata for Taylor designs.",
+  "rows": [
+    {
+      "df": "79",
+      "method": "successive difference replication",
+      "survey": "ACS 2024 1-year",
+      "tier": "replicate",
+      "unit": "a person (households: HHWT on PERNUM = 1)",
+      "units": "80 replicates",
+      "weight": "PERWT"
+    },
+    {
+      "df": "159",
+      "method": "SDR and modified half-sample replication",
+      "survey": "CPS ASEC 2025",
+      "tier": "replicate",
+      "unit": "a person (households: ASECWTH)",
+      "units": "160 replicates",
+      "weight": "ASECWT"
+    },
+    {
+      "df": "610 (rule of thumb)",
+      "method": "Taylor linearization",
+      "survey": "NHIS 2024",
+      "tier": "taylor",
+      "unit": "a sample adult or sample child",
+      "units": "662 PSUs in 52 strata",
+      "weight": "SAMPWEIGHT"
+    },
+    {
+      "df": "not available",
+      "method": "producer: 160 replicates; store: weights only",
+      "survey": "ATUS 2024",
+      "tier": "weights only (SEs understated)",
+      "unit": "a person-day (one diary day)",
+      "units": "none in the store",
+      "weight": "WT06"
+    },
+    {
+      "df": "15",
+      "method": "Taylor linearization",
+      "survey": "NHANES Aug 2021–Aug 2023",
+      "tier": "taylor",
+      "unit": "a person (exam or interview)",
+      "units": "30 PSUs in 15 strata",
+      "weight": "WTMEC2YR or WTINT2YR"
+    },
+    {
+      "df": "455,277",
+      "method": "Taylor linearization",
+      "survey": "BRFSS 2024",
+      "tier": "taylor",
+      "unit": "an adult respondent",
+      "units": "457,670 PSUs (one per respondent) in 2,393 strata",
+      "weight": "_LLCPWT"
+    }
+  ],
+  "source": "Design manifests (design.json) and counts computed by ch07-field-guide/build.py; ATUS replicates per the BLS ATUS user's guide",
+  "subtitle": "What a row represents, which weight, and where the uncertainty comes from",
+  "title": "Six surveys at a glance",
+  "type": "table"
+}

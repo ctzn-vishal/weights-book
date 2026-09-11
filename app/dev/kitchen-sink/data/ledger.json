@@ -1,0 +1,17 @@
+{
+  "key": "dev",
+  "ledgers": {
+    "work": {
+      "assumptions": "Fixture: the time-diary day is a random day for each respondent; nonresponse is ignorable given the weighting classes.",
+      "estimand": "Fixture: mean minutes worked per person-day, all days of the year.",
+      "estimator": "Fixture: ratio of weighted sums, total weighted minutes over total weight.",
+      "explicit_weights": "Fixture: the final person-day weight, which adjusts the design weight for nonresponse and day of week.",
+      "facts": ["dev.work_minutes", "dev.hyp_share"],
+      "implicit_weights": "None: a weighted mean gives each person-day its weight and nothing else.",
+      "randomness": "Fixture: repeated sampling of households and the random assignment of a diary day.",
+      "target_population": "Fixture: civilian noninstitutional population 15 and older, person-days of one calendar year.",
+      "title": "Fixture ledger: how much do Americans work?",
+      "variance_estimator": "Fixture: weights only, so the standard error is understated; no uncertainty lesson rests on it."
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "key": "ch6",
+  "ledgers": {
+    "descriptive_contrast": {
+      "assumptions": "The ACS replicate weights represent the sampling and weighting variability; the descriptive target makes no counterfactual claim",
+      "estimand": "How much more the uninsured share fell in the cohort states than in the comparison states, as a finite-population descriptive contrast (no causal claim)",
+      "estimator": "Same regression and same coefficient as the policy ledger",
+      "explicit_weights": "PERWT",
+      "facts": [
+        "ch6.beta",
+        "ch6.ci_sdr",
+        "ch6.ci_household"
+      ],
+      "implicit_weights": "Same as the policy ledger",
+      "randomness": "ACS sampling of addresses (households) within strata; nothing about which states expanded is treated as random",
+      "target_population": "civilian and military household population ages 19–64 with family income at or below 138% of the poverty threshold (IPUMS POVERTY 1–138), in the 30 design states, 2011–2019, with the states and their policies taken as given",
+      "title": "The same number as a survey description of fixed states",
+      "variance_estimator": "Successive difference replication with the 80 ACS person replicate weights, scale 4/80, df 79; CRV1 by household as an approximation"
+    },
+    "policy_inference": {
+      "assumptions": "Parallel trends between cohort and comparison (assumed, not established); no anticipation; no spillovers across states; states' shocks independent of one another; the stated cohort and exclusion rules",
+      "estimand": "Average effect of the 2014 expansion on the uninsured share among people in the expansion cohort, 2014–2019 (an ATT), under parallel trends",
+      "estimator": "PERWT-weighted linear probability model with state and year fixed effects; equivalently WLS on state-year means weighted by population",
+      "explicit_weights": "PERWT (ACS person weight) to represent each state-year population; cells enter stage two in proportion to their weighted population",
+      "facts": [
+        "ch6.beta",
+        "ch6.ci_state",
+        "ch6.ci_cv3",
+        "ch6.ci_wcb",
+        "ch6.ci_ri"
+      ],
+      "implicit_weights": "Regression weights across states and years: each state's contribution depends on its population and on its within-state variation in treatment; larger states count more",
+      "randomness": "Assignment of expansion across states (the policy was chosen state by state), plus ACS sampling of households within each state-year",
+      "target_population": "civilian and military household population ages 19–64 with family income at or below 138% of the poverty threshold (IPUMS POVERTY 1–138), in the 30 design states (January 2014 expansion cohort and states not expanded by 2019), 2011–2019",
+      "title": "Medicaid expansion and uninsurance: inference for the policy comparison",
+      "variance_estimator": "CRV1 clustered by state with t(29); CRV3 jackknife and wild cluster restricted bootstrap as few-cluster checks; randomization inference over assignment as a sensitivity"
+    }
+  }
+}

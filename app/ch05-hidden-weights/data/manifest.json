@@ -1,0 +1,1508 @@
+{
+  "code": "../ch04-regression/build.py (shared pipeline with wfhlib.py; this folder's build.py calls it)",
+  "diagnostics": {
+    "cell_merges": [
+      {
+        "merged": "HS or less",
+        "occupation": "Architecture & engineering",
+        "reason": "cell 'less than HS' had n = 313, WFH = 23, commuters = 290"
+      },
+      {
+        "merged": "HS or less",
+        "occupation": "Life, physical & social science",
+        "reason": "cell 'less than HS' had n = 135, WFH = 14, commuters = 121"
+      },
+      {
+        "merged": "HS or less",
+        "occupation": "Community & social service",
+        "reason": "cell 'less than HS' had n = 273, WFH = 22, commuters = 251"
+      },
+      {
+        "merged": "HS or less",
+        "occupation": "Legal",
+        "reason": "cell 'less than HS' had n = 76, WFH = 8, commuters = 68"
+      },
+      {
+        "merged": "HS or less",
+        "occupation": "Arts, design, media & sports",
+        "reason": "cell 'less than HS' had n = 220, WFH = 22, commuters = 198"
+      },
+      {
+        "merged": "HS or less",
+        "occupation": "Protective service",
+        "reason": "cell 'less than HS' had n = 465, WFH = 19, commuters = 446"
+      },
+      {
+        "merged": "HS or less",
+        "occupation": "Military specific",
+        "reason": "cell 'less than HS' had n = 23, WFH = 6, commuters = 17"
+      }
+    ],
+    "cellfe_lpm_range": {
+      "max": 0.44254999,
+      "min": -0.015163357,
+      "neg_controls": 3929,
+      "neg_controls_wshare": 0.0054549693
+    },
+    "cells": [
+      {
+        "label": "Management · less than HS",
+        "n": 2952,
+        "p": 0.078583321,
+        "p_se": 0.0068504353,
+        "pop_share": 0.003248382,
+        "reg_share": 0.0022044042,
+        "reg_share_ols": 0.0019870782,
+        "tau": 0.21928354,
+        "tau_ols": 0.22058374,
+        "tau_se": 0.061898208
+      },
+      {
+        "label": "Management · HS",
+        "n": 16311,
+        "p": 0.089178871,
+        "p_se": 0.0029149713,
+        "pop_share": 0.016782953,
+        "reg_share": 0.012776183,
+        "reg_share_ols": 0.012436266,
+        "tau": 0.16362415,
+        "tau_ols": 0.18197724,
+        "tau_se": 0.022365794
+      },
+      {
+        "label": "Management · some college",
+        "n": 31206,
+        "p": 0.1399103,
+        "p_se": 0.0024315786,
+        "pop_share": 0.03147435,
+        "reg_share": 0.035496693,
+        "reg_share_ols": 0.035726854,
+        "tau": 0.23616078,
+        "tau_ols": 0.23858917,
+        "tau_se": 0.01052236
+      },
+      {
+        "label": "Management · BA+",
+        "n": 89147,
+        "p": 0.24123275,
+        "p_se": 0.001697969,
+        "pop_share": 0.08560545,
+        "reg_share": 0.14685338,
+        "reg_share_ols": 0.15365175,
+        "tau": 0.18383424,
+        "tau_ols": 0.17867853,
+        "tau_se": 0.0068865319
+      },
+      {
+        "label": "Business & financial · less than HS",
+        "n": 701,
+        "p": 0.13672467,
+        "p_se": 0.015571889,
+        "pop_share": 0.00083264281,
+        "reg_share": 0.00092107,
+        "reg_share_ols": 0.00080676195,
+        "tau": 0.064360898,
+        "tau_ols": 0.10079619,
+        "tau_se": 0.080866152
+      },
+      {
+        "label": "Business & financial · HS",
+        "n": 6287,
+        "p": 0.18788403,
+        "p_se": 0.0065808236,
+        "pop_share": 0.0064718567,
+        "reg_share": 0.009254959,
+        "reg_share_ols": 0.0090497506,
+        "tau": 0.17051555,
+        "tau_ols": 0.14355372,
+        "tau_se": 0.018270536
+      },
+      {
+        "label": "Business & financial · some college",
+        "n": 14653,
+        "p": 0.26832307,
+        "p_se": 0.0049819161,
+        "pop_share": 0.014790258,
+        "reg_share": 0.027213901,
+        "reg_share_ols": 0.026977211,
+        "tau": 0.11042073,
+        "tau_ols": 0.13024461,
+        "tau_se": 0.012943117
+      },
+      {
+        "label": "Business & financial · BA+",
+        "n": 53082,
+        "p": 0.3209425,
+        "p_se": 0.0025727927,
+        "pop_share": 0.052031271,
+        "reg_share": 0.10627617,
+        "reg_share_ols": 0.10890281,
+        "tau": 0.092352882,
+        "tau_ols": 0.095855439,
+        "tau_se": 0.0052391858
+      },
+      {
+        "label": "Computer & math · less than HS",
+        "n": 397,
+        "p": 0.19884485,
+        "p_se": 0.025766532,
+        "pop_share": 0.00044191659,
+        "reg_share": 0.00065979491,
+        "reg_share_ols": 0.00060168945,
+        "tau": 0.072198675,
+        "tau_ols": 0.060576782,
+        "tau_se": 0.098563067
+      },
+      {
+        "label": "Computer & math · HS",
+        "n": 2565,
+        "p": 0.28268892,
+        "p_se": 0.011841271,
+        "pop_share": 0.0026430168,
+        "reg_share": 0.0050228932,
+        "reg_share_ols": 0.0049135799,
+        "tau": 0.13310339,
+        "tau_ols": 0.13326259,
+        "tau_se": 0.030462418
+      },
+      {
+        "label": "Computer & math · some college",
+        "n": 10581,
+        "p": 0.35877381,
+        "p_se": 0.0068237011,
+        "pop_share": 0.010518941,
+        "reg_share": 0.022679929,
+        "reg_share_ols": 0.022881542,
+        "tau": 0.17451357,
+        "tau_ols": 0.19546723,
+        "tau_se": 0.013512072
+      },
+      {
+        "label": "Computer & math · BA+",
+        "n": 38680,
+        "p": 0.4101194,
+        "p_se": 0.0030068954,
+        "pop_share": 0.038701414,
+        "reg_share": 0.087748347,
+        "reg_share_ols": 0.087817746,
+        "tau": 0.044519506,
+        "tau_ols": 0.048977185,
+        "tau_se": 0.0062552372
+      },
+      {
+        "label": "Architecture & engineering · HS or less",
+        "n": 2496,
+        "p": 0.086000841,
+        "p_se": 0.0076147476,
+        "pop_share": 0.0025278836,
+        "reg_share": 0.0018622726,
+        "reg_share_ols": 0.0016618716,
+        "tau": 0.18722431,
+        "tau_ols": 0.23037198,
+        "tau_se": 0.05101729
+      },
+      {
+        "label": "Architecture & engineering · some college",
+        "n": 5646,
+        "p": 0.12347847,
+        "p_se": 0.0049700965,
+        "pop_share": 0.0054402689,
+        "reg_share": 0.0055183836,
+        "reg_share_ols": 0.0058136726,
+        "tau": 0.1991068,
+        "tau_ols": 0.19544887,
+        "tau_se": 0.026733235
+      },
+      {
+        "label": "Architecture & engineering · BA+",
+        "n": 22229,
+        "p": 0.1661313,
+        "p_se": 0.002995308,
+        "pop_share": 0.021592769,
+        "reg_share": 0.028034651,
+        "reg_share_ols": 0.028788464,
+        "tau": 0.10534913,
+        "tau_ols": 0.08926095,
+        "tau_se": 0.011020543
+      },
+      {
+        "label": "Life, physical & social science · HS or less",
+        "n": 793,
+        "p": 0.080793243,
+        "p_se": 0.015527465,
+        "pop_share": 0.00080095128,
+        "reg_share": 0.00055748352,
+        "reg_share_ols": 0.00040438594,
+        "tau": 0.18280291,
+        "tau_ols": 0.096719276,
+        "tau_se": 0.095521046
+      },
+      {
+        "label": "Life, physical & social science · some college",
+        "n": 1263,
+        "p": 0.095049733,
+        "p_se": 0.014863379,
+        "pop_share": 0.001235353,
+        "reg_share": 0.00099587394,
+        "reg_share_ols": 0.00084360559,
+        "tau": 0.10606801,
+        "tau_ols": 0.12022877,
+        "tau_se": 0.056797706
+      },
+      {
+        "label": "Life, physical & social science · BA+",
+        "n": 12610,
+        "p": 0.16033604,
+        "p_se": 0.00404926,
+        "pop_share": 0.011818465,
+        "reg_share": 0.014911984,
+        "reg_share_ols": 0.016127996,
+        "tau": 0.17634816,
+        "tau_ols": 0.17474364,
+        "tau_se": 0.01520848
+      },
+      {
+        "label": "Community & social service · HS or less",
+        "n": 1523,
+        "p": 0.10026084,
+        "p_se": 0.0089895677,
+        "pop_share": 0.0015532931,
+        "reg_share": 0.0013132247,
+        "reg_share_ols": 0.0012394433,
+        "tau": 0.063901312,
+        "tau_ols": 0.089021128,
+        "tau_se": 0.053338033
+      },
+      {
+        "label": "Community & social service · some college",
+        "n": 2697,
+        "p": 0.10231638,
+        "p_se": 0.0070222582,
+        "pop_share": 0.0027539087,
+        "reg_share": 0.0023705859,
+        "reg_share_ols": 0.0022600124,
+        "tau": 0.11607833,
+        "tau_ols": 0.10014889,
+        "tau_se": 0.038918784
+      },
+      {
+        "label": "Community & social service · BA+",
+        "n": 16333,
+        "p": 0.1240099,
+        "p_se": 0.0029322214,
+        "pop_share": 0.015901122,
+        "reg_share": 0.016189036,
+        "reg_share_ols": 0.017057338,
+        "tau": 0.03141001,
+        "tau_ols": 0.0048785555,
+        "tau_se": 0.017665712
+      },
+      {
+        "label": "Legal · HS or less",
+        "n": 698,
+        "p": 0.15140793,
+        "p_se": 0.016557882,
+        "pop_share": 0.00070526942,
+        "reg_share": 0.00084925933,
+        "reg_share_ols": 0.00087750786,
+        "tau": 0.1638149,
+        "tau_ols": 0.11912514,
+        "tau_se": 0.070608269
+      },
+      {
+        "label": "Legal · some college",
+        "n": 1778,
+        "p": 0.16318287,
+        "p_se": 0.012073182,
+        "pop_share": 0.0017993958,
+        "reg_share": 0.0023028706,
+        "reg_share_ols": 0.0024845244,
+        "tau": 0.074910942,
+        "tau_ols": 0.093311668,
+        "tau_se": 0.033273778
+      },
+      {
+        "label": "Legal · BA+",
+        "n": 10491,
+        "p": 0.22154648,
+        "p_se": 0.0048160485,
+        "pop_share": 0.0098260353,
+        "reg_share": 0.015882306,
+        "reg_share_ols": 0.017028731,
+        "tau": 0.062373456,
+        "tau_ols": 0.063529007,
+        "tau_se": 0.020025104
+      },
+      {
+        "label": "Education & library · less than HS",
+        "n": 646,
+        "p": 0.043072353,
+        "p_se": 0.0084228998,
+        "pop_share": 0.00067078827,
+        "reg_share": 0.00025911995,
+        "reg_share_ols": 0.00028384198,
+        "tau": 0.082069856,
+        "tau_ols": 0.093840004,
+        "tau_se": 0.13287792
+      },
+      {
+        "label": "Education & library · HS",
+        "n": 3681,
+        "p": 0.048364348,
+        "p_se": 0.0052677014,
+        "pop_share": 0.0038211448,
+        "reg_share": 0.0016482657,
+        "reg_share_ols": 0.0015216971,
+        "tau": 0.29974097,
+        "tau_ols": 0.26963227,
+        "tau_se": 0.060195733
+      },
+      {
+        "label": "Education & library · some college",
+        "n": 7383,
+        "p": 0.050425903,
+        "p_se": 0.0031750592,
+        "pop_share": 0.0073831021,
+        "reg_share": 0.0033132874,
+        "reg_share_ols": 0.0034139496,
+        "tau": 0.22925411,
+        "tau_ols": 0.22001751,
+        "tau_se": 0.033500833
+      },
+      {
+        "label": "Education & library · BA+",
+        "n": 56654,
+        "p": 0.063262602,
+        "p_se": 0.0012359158,
+        "pop_share": 0.052219304,
+        "reg_share": 0.029002383,
+        "reg_share_ols": 0.031151806,
+        "tau": 0.075149384,
+        "tau_ols": 0.072528838,
+        "tau_se": 0.011246551
+      },
+      {
+        "label": "Arts, design, media & sports · HS or less",
+        "n": 1337,
+        "p": 0.11196428,
+        "p_se": 0.0113324,
+        "pop_share": 0.001432201,
+        "reg_share": 0.0013346014,
+        "reg_share_ols": 0.0012931266,
+        "tau": 0.19907111,
+        "tau_ols": 0.32141951,
+        "tau_se": 0.11773999
+      },
+      {
+        "label": "Arts, design, media & sports · some college",
+        "n": 3148,
+        "p": 0.19752805,
+        "p_se": 0.0085219808,
+        "pop_share": 0.0031198985,
+        "reg_share": 0.0046348617,
+        "reg_share_ols": 0.004840828,
+        "tau": 0.18576907,
+        "tau_ols": 0.21257648,
+        "tau_se": 0.036461901
+      },
+      {
+        "label": "Arts, design, media & sports · BA+",
+        "n": 11676,
+        "p": 0.28302449,
+        "p_se": 0.0053860888,
+        "pop_share": 0.011363872,
+        "reg_share": 0.02161187,
+        "reg_share_ols": 0.022656449,
+        "tau": 0.1697217,
+        "tau_ols": 0.16710503,
+        "tau_se": 0.014985388
+      },
+      {
+        "label": "Healthcare practitioners · less than HS",
+        "n": 534,
+        "p": 0.058767267,
+        "p_se": 0.01311445,
+        "pop_share": 0.00060514695,
+        "reg_share": 0.00031371194,
+        "reg_share_ols": 0.00031331514,
+        "tau": 0.30952562,
+        "tau_ols": 0.14807049,
+        "tau_se": 0.24396546
+      },
+      {
+        "label": "Healthcare practitioners · HS",
+        "n": 3712,
+        "p": 0.074506668,
+        "p_se": 0.0061247953,
+        "pop_share": 0.0039034289,
+        "reg_share": 0.0025226232,
+        "reg_share_ols": 0.0023523946,
+        "tau": 0.0073265138,
+        "tau_ols": 0.046352492,
+        "tau_se": 0.042850706
+      },
+      {
+        "label": "Healthcare practitioners · some college",
+        "n": 20710,
+        "p": 0.076838981,
+        "p_se": 0.0022279042,
+        "pop_share": 0.020370131,
+        "reg_share": 0.013542241,
+        "reg_share_ols": 0.013667611,
+        "tau": -0.0034832132,
+        "tau_ols": -0.012379699,
+        "tau_se": 0.015341458
+      },
+      {
+        "label": "Healthcare practitioners · BA+",
+        "n": 49231,
+        "p": 0.07733705,
+        "p_se": 0.0016334235,
+        "pop_share": 0.047916211,
+        "reg_share": 0.032044303,
+        "reg_share_ols": 0.032591418,
+        "tau": -0.011050837,
+        "tau_ols": -0.01651657,
+        "tau_se": 0.012062359
+      },
+      {
+        "label": "Healthcare support · less than HS",
+        "n": 2064,
+        "p": 0.13192549,
+        "p_se": 0.0081060163,
+        "pop_share": 0.0023741796,
+        "reg_share": 0.0025482203,
+        "reg_share_ols": 0.002265368,
+        "tau": -0.098053788,
+        "tau_ols": -0.13490348,
+        "tau_se": 0.041814928
+      },
+      {
+        "label": "Healthcare support · HS",
+        "n": 7682,
+        "p": 0.077267335,
+        "p_se": 0.0033850027,
+        "pop_share": 0.0087668645,
+        "reg_share": 0.0058580599,
+        "reg_share_ols": 0.0055450033,
+        "tau": -0.13945137,
+        "tau_ols": -0.1296745,
+        "tau_se": 0.028665176
+      },
+      {
+        "label": "Healthcare support · some college",
+        "n": 11328,
+        "p": 0.077626922,
+        "p_se": 0.0033542356,
+        "pop_share": 0.012536221,
+        "reg_share": 0.0084124658,
+        "reg_share_ols": 0.0079587498,
+        "tau": -0.14769176,
+        "tau_ols": -0.1353253,
+        "tau_se": 0.026850258
+      },
+      {
+        "label": "Healthcare support · BA+",
+        "n": 4387,
+        "p": 0.11860787,
+        "p_se": 0.0055740999,
+        "pop_share": 0.0047007271,
+        "reg_share": 0.0046055914,
+        "reg_share_ols": 0.0043485921,
+        "tau": -0.079300691,
+        "tau_ols": -0.11248879,
+        "tau_se": 0.040750404
+      },
+      {
+        "label": "Protective service · HS or less",
+        "n": 5543,
+        "p": 0.03737172,
+        "p_se": 0.0032775064,
+        "pop_share": 0.0059515463,
+        "reg_share": 0.0020066388,
+        "reg_share_ols": 0.0018596537,
+        "tau": 0.10157968,
+        "tau_ols": 0.086315252,
+        "tau_se": 0.051187399
+      },
+      {
+        "label": "Protective service · some college",
+        "n": 10006,
+        "p": 0.039377784,
+        "p_se": 0.0024555331,
+        "pop_share": 0.01044346,
+        "reg_share": 0.0037024227,
+        "reg_share_ols": 0.0035321593,
+        "tau": 0.039477785,
+        "tau_ols": 0.073619078,
+        "tau_se": 0.042755413
+      },
+      {
+        "label": "Protective service · BA+",
+        "n": 7984,
+        "p": 0.071748506,
+        "p_se": 0.0037410823,
+        "pop_share": 0.0079884768,
+        "reg_share": 0.0049863204,
+        "reg_share_ols": 0.0050514358,
+        "tau": 0.13153777,
+        "tau_ols": 0.12146406,
+        "tau_se": 0.037035728
+      },
+      {
+        "label": "Food preparation & serving · less than HS",
+        "n": 4641,
+        "p": 0.024191537,
+        "p_se": 0.0026119505,
+        "pop_share": 0.0058594226,
+        "reg_share": 0.0012963449,
+        "reg_share_ols": 0.0011880291,
+        "tau": 0.0024494942,
+        "tau_ols": 0.011734302,
+        "tau_se": 0.067433663
+      },
+      {
+        "label": "Food preparation & serving · HS",
+        "n": 10211,
+        "p": 0.02814833,
+        "p_se": 0.0022451645,
+        "pop_share": 0.011901252,
+        "reg_share": 0.0030512862,
+        "reg_share_ols": 0.0025502226,
+        "tau": 0.005553257,
+        "tau_ols": 0.017252115,
+        "tau_se": 0.042549738
+      },
+      {
+        "label": "Food preparation & serving · some college",
+        "n": 8019,
+        "p": 0.03258994,
+        "p_se": 0.002335136,
+        "pop_share": 0.0090567281,
+        "reg_share": 0.0026761052,
+        "reg_share_ols": 0.0023040733,
+        "tau": 0.059724169,
+        "tau_ols": -0.0026937772,
+        "tau_se": 0.046749003
+      },
+      {
+        "label": "Food preparation & serving · BA+",
+        "n": 3410,
+        "p": 0.046166803,
+        "p_se": 0.0043850639,
+        "pop_share": 0.0039656259,
+        "reg_share": 0.0016366344,
+        "reg_share_ols": 0.0014315681,
+        "tau": 0.074625009,
+        "tau_ols": 0.013515343,
+        "tau_se": 0.053190001
+      },
+      {
+        "label": "Building & grounds · less than HS",
+        "n": 5051,
+        "p": 0.027184919,
+        "p_se": 0.0029857779,
+        "pop_share": 0.0064658695,
+        "reg_share": 0.001602592,
+        "reg_share_ols": 0.0013319295,
+        "tau": 0.0034244203,
+        "tau_ols": -0.084484958,
+        "tau_se": 0.059097779
+      },
+      {
+        "label": "Building & grounds · HS",
+        "n": 9940,
+        "p": 0.032799215,
+        "p_se": 0.0023913746,
+        "pop_share": 0.01096322,
+        "reg_share": 0.003259537,
+        "reg_share_ols": 0.0026362082,
+        "tau": 0.042093549,
+        "tau_ols": 0.057717059,
+        "tau_se": 0.056937186
+      },
+      {
+        "label": "Building & grounds · some college",
+        "n": 5382,
+        "p": 0.039567448,
+        "p_se": 0.0035643956,
+        "pop_share": 0.005704248,
+        "reg_share": 0.002031613,
+        "reg_share_ols": 0.0018833235,
+        "tau": 0.032511552,
+        "tau_ols": -0.0030015296,
+        "tau_se": 0.050800771
+      },
+      {
+        "label": "Building & grounds · BA+",
+        "n": 1899,
+        "p": 0.059568219,
+        "p_se": 0.0074504211,
+        "pop_share": 0.0020933585,
+        "reg_share": 0.0010990646,
+        "reg_share_ols": 0.00090077035,
+        "tau": -0.093916893,
+        "tau_ols": -0.15768396,
+        "tau_se": 0.090487127
+      },
+      {
+        "label": "Personal care & service · less than HS",
+        "n": 967,
+        "p": 0.053756061,
+        "p_se": 0.0091835089,
+        "pop_share": 0.0010645318,
+        "reg_share": 0.0005074893,
+        "reg_share_ols": 0.00048408525,
+        "tau": -0.10834452,
+        "tau_ols": -0.081194647,
+        "tau_se": 0.11063878
+      },
+      {
+        "label": "Personal care & service · HS",
+        "n": 3478,
+        "p": 0.05668722,
+        "p_se": 0.0049440478,
+        "pop_share": 0.0040441431,
+        "reg_share": 0.0020267728,
+        "reg_share_ols": 0.0016679649,
+        "tau": 0.041217229,
+        "tau_ols": -0.0088225332,
+        "tau_se": 0.06795549
+      },
+      {
+        "label": "Personal care & service · some college",
+        "n": 3787,
+        "p": 0.067484124,
+        "p_se": 0.0055132914,
+        "pop_share": 0.0042165488,
+        "reg_share": 0.0024868676,
+        "reg_share_ols": 0.0021222448,
+        "tau": -0.010311315,
+        "tau_ols": -0.11623895,
+        "tau_se": 0.051833524
+      },
+      {
+        "label": "Personal care & service · BA+",
+        "n": 2541,
+        "p": 0.085323513,
+        "p_se": 0.0063595742,
+        "pop_share": 0.0026563766,
+        "reg_share": 0.0019429587,
+        "reg_share_ols": 0.001990276,
+        "tau": -0.14380845,
+        "tau_ols": -0.13226296,
+        "tau_se": 0.082471619
+      },
+      {
+        "label": "Sales · less than HS",
+        "n": 3493,
+        "p": 0.055515993,
+        "p_se": 0.0050719072,
+        "pop_share": 0.0039040267,
+        "reg_share": 0.0019185061,
+        "reg_share_ols": 0.0016183457,
+        "tau": 0.18487519,
+        "tau_ols": 0.21796308,
+        "tau_se": 0.069777879
+      },
+      {
+        "label": "Sales · HS",
+        "n": 17601,
+        "p": 0.067197659,
+        "p_se": 0.0024008624,
+        "pop_share": 0.018518577,
+        "reg_share": 0.010879002,
+        "reg_share_ols": 0.01053999,
+        "tau": 0.20755168,
+        "tau_ols": 0.19949186,
+        "tau_se": 0.026637968
+      },
+      {
+        "label": "Sales · some college",
+        "n": 22030,
+        "p": 0.12374354,
+        "p_se": 0.0028057524,
+        "pop_share": 0.022830902,
+        "reg_share": 0.023201418,
+        "reg_share_ols": 0.022376234,
+        "tau": 0.30218351,
+        "tau_ols": 0.329838,
+        "tau_se": 0.016718315
+      },
+      {
+        "label": "Sales · BA+",
+        "n": 26324,
+        "p": 0.25375848,
+        "p_se": 0.0036485345,
+        "pop_share": 0.026682666,
+        "reg_share": 0.047355113,
+        "reg_share_ols": 0.046967601,
+        "tau": 0.32728905,
+        "tau_ols": 0.32864027,
+        "tau_se": 0.012921627
+      },
+      {
+        "label": "Office & admin support · less than HS",
+        "n": 3313,
+        "p": 0.08788321,
+        "p_se": 0.0065579981,
+        "pop_share": 0.0036540336,
+        "reg_share": 0.0027451532,
+        "reg_share_ols": 0.0024386407,
+        "tau": 0.1103555,
+        "tau_ols": 0.12037748,
+        "tau_se": 0.039070335
+      },
+      {
+        "label": "Office & admin support · HS",
+        "n": 27289,
+        "p": 0.12604189,
+        "p_se": 0.0028364315,
+        "pop_share": 0.027336869,
+        "reg_share": 0.028222272,
+        "reg_share_ols": 0.026646809,
+        "tau": 0.083217349,
+        "tau_ols": 0.072414092,
+        "tau_se": 0.011415045
+      },
+      {
+        "label": "Office & admin support · some college",
+        "n": 43926,
+        "p": 0.15808627,
+        "p_se": 0.002244153,
+        "pop_share": 0.043942273,
+        "reg_share": 0.054812794,
+        "reg_share_ols": 0.05310623,
+        "tau": 0.069938262,
+        "tau_ols": 0.073879489,
+        "tau_se": 0.0086520097
+      },
+      {
+        "label": "Office & admin support · BA+",
+        "n": 31511,
+        "p": 0.20963642,
+        "p_se": 0.0030463593,
+        "pop_share": 0.031141076,
+        "reg_share": 0.048357624,
+        "reg_share_ols": 0.048431697,
+        "tau": 0.1706321,
+        "tau_ols": 0.19074032,
+        "tau_se": 0.011005253
+      },
+      {
+        "label": "Farming, fishing & forestry · less than HS",
+        "n": 1768,
+        "p": 0.027533863,
+        "p_se": 0.0042273194,
+        "pop_share": 0.0019915091,
+        "reg_share": 0.00049976016,
+        "reg_share_ols": 0.00061019181,
+        "tau": 0.044282365,
+        "tau_ols": 0.079384979,
+        "tau_se": 0.090162787
+      },
+      {
+        "label": "Farming, fishing & forestry · HS",
+        "n": 1537,
+        "p": 0.034113513,
+        "p_se": 0.005676289,
+        "pop_share": 0.0013690267,
+        "reg_share": 0.00042276804,
+        "reg_share_ols": 0.00058094912,
+        "tau": -0.038928379,
+        "tau_ols": -0.077178712,
+        "tau_se": 0.12036798
+      },
+      {
+        "label": "Farming, fishing & forestry · some college",
+        "n": 859,
+        "p": 0.048492718,
+        "p_se": 0.009177101,
+        "pop_share": 0.00067955563,
+        "reg_share": 0.00029386736,
+        "reg_share_ols": 0.00038959011,
+        "tau": -0.27952071,
+        "tau_ols": -0.34361672,
+        "tau_se": 0.15771746
+      },
+      {
+        "label": "Farming, fishing & forestry · BA+",
+        "n": 520,
+        "p": 0.10967574,
+        "p_se": 0.018399666,
+        "pop_share": 0.00043628992,
+        "reg_share": 0.00039927455,
+        "reg_share_ols": 0.00040660311,
+        "tau": 0.15346915,
+        "tau_ols": 0.17965696,
+        "tau_se": 0.16746736
+      },
+      {
+        "label": "Construction & extraction · less than HS",
+        "n": 7543,
+        "p": 0.027065213,
+        "p_se": 0.0023092174,
+        "pop_share": 0.010214456,
+        "reg_share": 0.0025208564,
+        "reg_share_ols": 0.0020108055,
+        "tau": -0.012460424,
+        "tau_ols": 0.011149118,
+        "tau_se": 0.039761731
+      },
+      {
+        "label": "Construction & extraction · HS",
+        "n": 16916,
+        "p": 0.034881045,
+        "p_se": 0.0021479646,
+        "pop_share": 0.018386649,
+        "reg_share": 0.0058011032,
+        "reg_share_ols": 0.004756175,
+        "tau": 0.05892186,
+        "tau_ols": 0.018650072,
+        "tau_se": 0.031672858
+      },
+      {
+        "label": "Construction & extraction · some college",
+        "n": 11381,
+        "p": 0.035835368,
+        "p_se": 0.0022504986,
+        "pop_share": 0.011676261,
+        "reg_share": 0.0037809814,
+        "reg_share_ols": 0.0033494354,
+        "tau": -0.10006668,
+        "tau_ols": -0.089380434,
+        "tau_se": 0.044474317
+      },
+      {
+        "label": "Construction & extraction · BA+",
+        "n": 2850,
+        "p": 0.058971042,
+        "p_se": 0.0053983461,
+        "pop_share": 0.0030950861,
+        "reg_share": 0.0016097269,
+        "reg_share_ols": 0.0014754143,
+        "tau": 0.13299368,
+        "tau_ols": 0.20093442,
+        "tau_se": 0.079158474
+      },
+      {
+        "label": "Installation & repair · less than HS",
+        "n": 2888,
+        "p": 0.028412562,
+        "p_se": 0.0032898253,
+        "pop_share": 0.0032149731,
+        "reg_share": 0.00083177777,
+        "reg_share_ols": 0.00080498264,
+        "tau": -0.058998525,
+        "tau_ols": -0.0093322729,
+        "tau_se": 0.075007179
+      },
+      {
+        "label": "Installation & repair · HS",
+        "n": 13478,
+        "p": 0.031642568,
+        "p_se": 0.0022050339,
+        "pop_share": 0.013424334,
+        "reg_share": 0.0038551194,
+        "reg_share_ols": 0.0035518804,
+        "tau": -0.043304178,
+        "tau_ols": -0.011943849,
+        "tau_se": 0.042195875
+      },
+      {
+        "label": "Installation & repair · some college",
+        "n": 13614,
+        "p": 0.036144561,
+        "p_se": 0.0022633673,
+        "pop_share": 0.013242297,
+        "reg_share": 0.0043237031,
+        "reg_share_ols": 0.004260834,
+        "tau": 0.043047386,
+        "tau_ols": 0.024211311,
+        "tau_se": 0.02736592
+      },
+      {
+        "label": "Installation & repair · BA+",
+        "n": 2960,
+        "p": 0.074324603,
+        "p_se": 0.0058229425,
+        "pop_share": 0.0029878188,
+        "reg_share": 0.0019265632,
+        "reg_share_ols": 0.0017242012,
+        "tau": 0.10829394,
+        "tau_ols": 0.12247855,
+        "tau_se": 0.046880278
+      },
+      {
+        "label": "Production · less than HS",
+        "n": 7044,
+        "p": 0.028338868,
+        "p_se": 0.0024480573,
+        "pop_share": 0.0081716709,
+        "reg_share": 0.002108851,
+        "reg_share_ols": 0.0017606124,
+        "tau": 0.004287245,
+        "tau_ols": 0.021309208,
+        "tau_se": 0.04441108
+      },
+      {
+        "label": "Production · HS",
+        "n": 24272,
+        "p": 0.02804595,
+        "p_se": 0.0016700022,
+        "pop_share": 0.024511901,
+        "reg_share": 0.0062622523,
+        "reg_share_ols": 0.0055496618,
+        "tau": 0.041289121,
+        "tau_ols": 0.062663323,
+        "tau_se": 0.033308016
+      },
+      {
+        "label": "Production · some college",
+        "n": 17359,
+        "p": 0.035282914,
+        "p_se": 0.0017444484,
+        "pop_share": 0.017546595,
+        "reg_share": 0.0055975111,
+        "reg_share_ols": 0.005640031,
+        "tau": 0.023770289,
+        "tau_ols": 0.047717966,
+        "tau_se": 0.029620399
+      },
+      {
+        "label": "Production · BA+",
+        "n": 6245,
+        "p": 0.08967056,
+        "p_se": 0.0049128855,
+        "pop_share": 0.006421378,
+        "reg_share": 0.0049126338,
+        "reg_share_ols": 0.0049252457,
+        "tau": 0.26595774,
+        "tau_ols": 0.30630211,
+        "tau_se": 0.034802126
+      },
+      {
+        "label": "Transportation & moving · less than HS",
+        "n": 8241,
+        "p": 0.028297118,
+        "p_se": 0.0023198954,
+        "pop_share": 0.0096101628,
+        "reg_share": 0.002476533,
+        "reg_share_ols": 0.0022447727,
+        "tau": -0.069783961,
+        "tau_ols": -0.021817879,
+        "tau_se": 0.048104287
+      },
+      {
+        "label": "Transportation & moving · HS",
+        "n": 28064,
+        "p": 0.028757854,
+        "p_se": 0.0014780132,
+        "pop_share": 0.030654441,
+        "reg_share": 0.0080244464,
+        "reg_share_ols": 0.0069358107,
+        "tau": -0.021602623,
+        "tau_ols": -0.014889726,
+        "tau_se": 0.028976492
+      },
+      {
+        "label": "Transportation & moving · some college",
+        "n": 18219,
+        "p": 0.037076761,
+        "p_se": 0.0018970287,
+        "pop_share": 0.019621736,
+        "reg_share": 0.0065655116,
+        "reg_share_ols": 0.0054324371,
+        "tau": -0.019694741,
+        "tau_ols": -0.0024707607,
+        "tau_se": 0.037161925
+      },
+      {
+        "label": "Transportation & moving · BA+",
+        "n": 7495,
+        "p": 0.065299038,
+        "p_se": 0.0038636084,
+        "pop_share": 0.0080414984,
+        "reg_share": 0.0045999609,
+        "reg_share_ols": 0.0042089139,
+        "tau": 0.099139123,
+        "tau_ols": 0.11213469,
+        "tau_se": 0.040015811
+      },
+      {
+        "label": "Military specific · HS or less",
+        "n": 528,
+        "p": 0.078016282,
+        "p_se": 0.015505248,
+        "pop_share": 0.00054547388,
+        "reg_share": 0.00036772245,
+        "reg_share_ols": 0.00032109984,
+        "tau": 0.08724037,
+        "tau_ols": 0.078657098,
+        "tau_se": 0.099321369
+      },
+      {
+        "label": "Military specific · some college",
+        "n": 1392,
+        "p": 0.055530157,
+        "p_se": 0.0087071545,
+        "pop_share": 0.0014735898,
+        "reg_share": 0.00072432136,
+        "reg_share_ols": 0.0007201728,
+        "tau": -0.32051697,
+        "tau_ols": -0.3451627,
+        "tau_se": 0.10130137
+      },
+      {
+        "label": "Military specific · BA+",
+        "n": 1664,
+        "p": 0.051674888,
+        "p_se": 0.0075668525,
+        "pop_share": 0.0016176819,
+        "reg_share": 0.00074296372,
+        "reg_share_ols": 0.00073594853,
+        "tau": -0.042777496,
+        "tau_ols": -0.025888842,
+        "tau_se": 0.080844248
+      }
+    ],
+    "occupation_groups": [
+      {
+        "label": "Management",
+        "neg_share_commuters": 0.0095386534,
+        "occ_range": [
+          10,
+          440
+        ],
+        "pop_share": 0.13711113,
+        "prev": 0.19550839,
+        "prev_se": 0.0014541881,
+        "reg_share": 0.19733066,
+        "soc": "11"
+      },
+      {
+        "label": "Business & financial",
+        "neg_share_commuters": 0.00049527811,
+        "occ_range": [
+          500,
+          960
+        ],
+        "pop_share": 0.074126028,
+        "prev": 0.29675696,
+        "prev_se": 0.0019467245,
+        "reg_share": 0.1436661,
+        "soc": "13"
+      },
+      {
+        "label": "Computer & math",
+        "neg_share_commuters": 0.0,
+        "occ_range": [
+          1005,
+          1240
+        ],
+        "pop_share": 0.052305289,
+        "prev": 0.39156931,
+        "prev_se": 0.0029804951,
+        "reg_share": 0.11611096,
+        "soc": "15"
+      },
+      {
+        "label": "Architecture & engineering",
+        "neg_share_commuters": 0.019310946,
+        "occ_range": [
+          1305,
+          1560
+        ],
+        "pop_share": 0.029560921,
+        "prev": 0.15142934,
+        "prev_se": 0.0025171481,
+        "reg_share": 0.035415307,
+        "soc": "17"
+      },
+      {
+        "label": "Life, physical & social science",
+        "neg_share_commuters": 0.037129088,
+        "occ_range": [
+          1600,
+          1980
+        ],
+        "pop_share": 0.013854769,
+        "prev": 0.14991641,
+        "prev_se": 0.0036239461,
+        "reg_share": 0.016465341,
+        "soc": "19"
+      },
+      {
+        "label": "Community & social service",
+        "neg_share_commuters": 0.018977048,
+        "occ_range": [
+          2001,
+          2060
+        ],
+        "pop_share": 0.020208323,
+        "prev": 0.11922814,
+        "prev_se": 0.0028837107,
+        "reg_share": 0.019872847,
+        "soc": "21"
+      },
+      {
+        "label": "Legal",
+        "neg_share_commuters": 6.809895e-05,
+        "occ_range": [
+          2100,
+          2180
+        ],
+        "pop_share": 0.012330701,
+        "prev": 0.20901793,
+        "prev_se": 0.0045527267,
+        "reg_share": 0.019034436,
+        "soc": "23"
+      },
+      {
+        "label": "Education & library",
+        "neg_share_commuters": 0.073248699,
+        "occ_range": [
+          2205,
+          2555
+        ],
+        "pop_share": 0.064094339,
+        "prev": 0.060684427,
+        "prev_se": 0.001081324,
+        "reg_share": 0.034223055,
+        "soc": "25"
+      },
+      {
+        "label": "Arts, design, media & sports",
+        "neg_share_commuters": 0.029737718,
+        "occ_range": [
+          2600,
+          2920
+        ],
+        "pop_share": 0.015915971,
+        "prev": 0.25087233,
+        "prev_se": 0.0043408697,
+        "reg_share": 0.027581333,
+        "soc": "27"
+      },
+      {
+        "label": "Healthcare practitioners",
+        "neg_share_commuters": 0.084441469,
+        "occ_range": [
+          3000,
+          3550
+        ],
+        "pop_share": 0.072794917,
+        "prev": 0.076891533,
+        "prev_se": 0.001351767,
+        "reg_share": 0.04842288,
+        "soc": "29"
+      },
+      {
+        "label": "Healthcare support",
+        "neg_share_commuters": 0.10849152,
+        "occ_range": [
+          3601,
+          3655
+        ],
+        "pop_share": 0.028377992,
+        "prev": 0.088846967,
+        "prev_se": 0.0022685536,
+        "reg_share": 0.021424337,
+        "soc": "31"
+      },
+      {
+        "label": "Protective service",
+        "neg_share_commuters": 0.18339563,
+        "occ_range": [
+          3700,
+          3960
+        ],
+        "pop_share": 0.024383483,
+        "prev": 0.049493384,
+        "prev_se": 0.00181829,
+        "reg_share": 0.010695382,
+        "soc": "33"
+      },
+      {
+        "label": "Food preparation & serving",
+        "neg_share_commuters": 0.1930392,
+        "occ_range": [
+          4000,
+          4160
+        ],
+        "pop_share": 0.030783028,
+        "prev": 0.031023176,
+        "prev_se": 0.0012180114,
+        "reg_share": 0.0086603707,
+        "soc": "35"
+      },
+      {
+        "label": "Building & grounds",
+        "neg_share_commuters": 0.19303446,
+        "occ_range": [
+          4200,
+          4255
+        ],
+        "pop_share": 0.025226696,
+        "prev": 0.035111983,
+        "prev_se": 0.0017039675,
+        "reg_share": 0.0079928066,
+        "soc": "37"
+      },
+      {
+        "label": "Personal care & service",
+        "neg_share_commuters": 0.06546199,
+        "occ_range": [
+          4330,
+          4655
+        ],
+        "pop_share": 0.0119816,
+        "prev": 0.066575226,
+        "prev_se": 0.0028337803,
+        "reg_share": 0.0069640885,
+        "soc": "39"
+      },
+      {
+        "label": "Sales",
+        "neg_share_commuters": 0.043487741,
+        "occ_range": [
+          4700,
+          4965
+        ],
+        "pop_share": 0.071936171,
+        "prev": 0.15370946,
+        "prev_se": 0.0018276478,
+        "reg_share": 0.083354039,
+        "soc": "41"
+      },
+      {
+        "label": "Office & admin support",
+        "neg_share_commuters": 0.044786206,
+        "occ_range": [
+          5000,
+          5940
+        ],
+        "pop_share": 0.10607425,
+        "prev": 0.16254362,
+        "prev_se": 0.0015087935,
+        "reg_share": 0.13413784,
+        "soc": "43"
+      },
+      {
+        "label": "Farming, fishing & forestry",
+        "neg_share_commuters": 0.096541179,
+        "occ_range": [
+          6005,
+          6130
+        ],
+        "pop_share": 0.0044763814,
+        "prev": 0.040733832,
+        "prev_se": 0.0039963688,
+        "reg_share": 0.0016156701,
+        "soc": "45"
+      },
+      {
+        "label": "Construction & extraction",
+        "neg_share_commuters": 0.1169306,
+        "occ_range": [
+          6200,
+          6950
+        ],
+        "pop_share": 0.043372452,
+        "prev": 0.035016363,
+        "prev_se": 0.0012974095,
+        "reg_share": 0.013712668,
+        "soc": "47"
+      },
+      {
+        "label": "Installation & repair",
+        "neg_share_commuters": 0.19350303,
+        "occ_range": [
+          7000,
+          7640
+        ],
+        "pop_share": 0.032869422,
+        "prev": 0.037020166,
+        "prev_se": 0.0015064477,
+        "reg_share": 0.010937163,
+        "soc": "49"
+      },
+      {
+        "label": "Production",
+        "neg_share_commuters": 0.21030856,
+        "occ_range": [
+          7700,
+          8990
+        ],
+        "pop_share": 0.056651545,
+        "prev": 0.037314764,
+        "prev_se": 0.0010009514,
+        "reg_share": 0.018881248,
+        "soc": "51"
+      },
+      {
+        "label": "Transportation & moving",
+        "neg_share_commuters": 0.20197191,
+        "occ_range": [
+          9005,
+          9760
+        ],
+        "pop_share": 0.067927838,
+        "prev": 0.035421536,
+        "prev_se": 0.0010554813,
+        "reg_share": 0.021666452,
+        "soc": "53"
+      },
+      {
+        "label": "Military specific",
+        "neg_share_commuters": 0.13730314,
+        "occ_range": [
+          9800,
+          9830
+        ],
+        "pop_share": 0.0036367456,
+        "prev": 0.057187957,
+        "prev_se": 0.0057938909,
+        "reg_share": 0.0018350075,
+        "soc": "55"
+      }
+    ],
+    "replicate_factor_se_m5_ols": 0.0018473912,
+    "sloczynski_ch4_headline": {
+      "ols": {
+        "V0": 0.0039356067,
+        "V1": 0.0027656677,
+        "ape": 0.19222084,
+        "att": 0.21005547,
+        "atu": 0.18930965,
+        "delta": -0.75676914,
+        "implied": 0.20792064,
+        "rho": 0.14032657,
+        "w0": 0.10290429,
+        "w1": 0.89709571
+      },
+      "wls": {
+        "V0": 0.0038904463,
+        "V1": 0.0028095071,
+        "ape": 0.18656625,
+        "att": 0.20555032,
+        "atu": 0.18356234,
+        "delta": -0.76083287,
+        "implied": 0.20329544,
+        "rho": 0.13661629,
+        "w0": 0.10255084,
+        "w1": 0.89744916
+      }
+    }
+  },
+  "generated_at": "2026-09-11T01:42:30+00:00",
+  "inputs": [
+    {
+      "note": "SAMPLE 202401; SAMPLE = 202401 AND CLASSWKR = 2 AND AGE BETWEEN 25 AND 64 AND UHRSWORK >= 30 AND WKSWORK2 IN (4, 5, 6) AND INCWAGE > 0 AND TRANWORK <> 0; sample flow {'persons_2024': 3422888, 'wage_25_64': 1314595, 'hours_30': 1084659, 'weeks_40': 1012915, 'wage_pos': 1012834, 'at_work': 984475}",
+      "path": "analysis/usa/acs/part_2020_2024.parquet",
+      "rows": 984475
+    },
+    {
+      "note": "REPWTP1-80 joined on SAMPLE+SERIAL+PERNUM, one read; 1:1 alignment asserted",
+      "path": "analysis/usa/acs_repwt/part_2020_2024.parquet",
+      "rows": 984475
+    },
+    {
+      "note": "SDR, 80 replicates, c = 4/80, df = 79",
+      "path": "analysis/usa/metadata/acs.design.json"
+    },
+    {
+      "note": "labels asserted: TRANWORK 80 'Worked at home'; CLASSWKR 2 'Works for wages'; WKSWORK2 4 '40-47 weeks', 6 '50-52 weeks'",
+      "path": "analysis/usa/metadata/acs.dictionary.json"
+    }
+  ],
+  "key": "ch5",
+  "slug": "ch05-hidden-weights",
+  "status": "draft",
+  "validation": [
+    {
+      "check": "unit tests (test_wfhlib.py): Sloczynski published numerical example (IZA DP 11866, Table 1), in-sample identities, simulated-population recovery, sandwich SEs vs statsmodels, implied-weight representation, SDR formula",
+      "details": {
+        "identities": {
+          "ols": {
+            "beta": 0.37916303,
+            "w1": 0.59427631
+          },
+          "wls": {
+            "beta": 0.40020236,
+            "w1": 0.59802787
+          }
+        },
+        "implied_weights": {
+          "neg_control_weights": 0,
+          "neg_treated_weights": 0
+        },
+        "population_recovery": {
+          "att_hat": 0.39761985,
+          "att_true": 0.39687278,
+          "atu_hat": 0.30085329,
+          "atu_true": 0.30102493,
+          "rho": 0.22233529,
+          "w1_hat": 0.79954477,
+          "w1_true": 0.79796252
+        },
+        "published_example": {
+          "angrist_w_tau1": 0.48,
+          "ate": -0.2,
+          "att": 1.0,
+          "atu": -0.25,
+          "ols": 0.92,
+          "w1": 0.936
+        },
+        "sandwich_vs_statsmodels": {
+          "ols": {
+            "cr": 0.043605865,
+            "hc1": 0.039371328
+          },
+          "wls": {
+            "cr": 0.050215628,
+            "hc1": 0.044436305
+          }
+        },
+        "sdr": {
+          "ok": true
+        }
+      },
+      "result": "pass"
+    },
+    {
+      "check": "exact identities on the real data (moment engine = within WLS = sparse dummies; FWL cell representation; Sloczynski w1*ATT + w0*ATU = coefficient; PATE split)",
+      "result": "agree to 1e-9"
+    },
+    {
+      "check": "R sentinel for the cell-fixed-effect projection (survey::withReplicates, within-cell WLS on all 80 SDR replicates) and the weighted WFH share (svymean); full R table in the ch4 manifest",
+      "result": "run",
+      "rows": [
+        {
+          "abs_diff_estimate": 2.7783331e-14,
+          "check": "svymean_D",
+          "method": "svymean",
+          "py_estimate": 0.13661629,
+          "py_se": 0.00045150462,
+          "r_estimate": 0.13661629,
+          "r_se": 0.00045150462,
+          "rel_diff_se": 5.5878464e-13
+        },
+        {
+          "abs_diff_estimate": 5.4303784e-14,
+          "check": "wr_cellfe_log",
+          "method": "withReplicates(within-cell WLS)",
+          "py_estimate": 0.11844985,
+          "py_se": 0.0022288805,
+          "r_estimate": 0.11844985,
+          "r_se": 0.0022288805,
+          "rel_diff_se": 4.306104e-12
+        }
+      ]
+    },
+    {
+      "check": "cells.json implicit-weight average reproduces wls_coef",
+      "result": "|diff| = 1.26e-15"
+    }
+  ]
+}

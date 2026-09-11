@@ -1,0 +1,88 @@
+{
+  "alt": "Dot plot of the work-from-home coefficient in four specifications. Weighted and unweighted estimates nearly coincide in every row, while adding controls moves the estimate from about 0.35 to about 0.08 log points.",
+  "format": "num3",
+  "note": "Weighted intervals: 80-replicate SDR, t with 79 df. OLS intervals use household-clustered (CR1) standard errors and the normal critical value. '+ occupation and industry' adds fixed effects for detailed occupation, industry, and state.",
+  "reference": {
+    "label": "no difference",
+    "value": 0
+  },
+  "rows": [
+    {
+      "ci_high": 0.35344091,
+      "ci_low": 0.34514242,
+      "estimate": 0.34929167,
+      "group": "Raw difference",
+      "label": "Unweighted (OLS)",
+      "n": 984475,
+      "role": "unweighted"
+    },
+    {
+      "ci_high": 0.35056737,
+      "ci_low": 0.34030594,
+      "estimate": 0.34543665,
+      "group": "Raw difference",
+      "label": "Weighted (WLS, PERWT)",
+      "n": 984475,
+      "role": "weighted"
+    },
+    {
+      "ci_high": 0.21164923,
+      "ci_low": 0.20419204,
+      "estimate": 0.20792064,
+      "group": "+ age, sex, education",
+      "label": "Unweighted (OLS)",
+      "n": 984475,
+      "role": "unweighted"
+    },
+    {
+      "ci_high": 0.20781757,
+      "ci_low": 0.19877331,
+      "estimate": 0.20329544,
+      "group": "+ age, sex, education",
+      "label": "Weighted (WLS, PERWT)",
+      "n": 984475,
+      "role": "weighted"
+    },
+    {
+      "ci_high": 0.20373479,
+      "ci_low": 0.19633641,
+      "estimate": 0.2000356,
+      "group": "+ state",
+      "label": "Unweighted (OLS)",
+      "n": 984475,
+      "role": "unweighted"
+    },
+    {
+      "ci_high": 0.2031122,
+      "ci_low": 0.19433935,
+      "estimate": 0.19872577,
+      "group": "+ state",
+      "label": "Weighted (WLS, PERWT)",
+      "n": 984475,
+      "role": "weighted"
+    },
+    {
+      "ci_high": 0.07968781,
+      "ci_low": 0.07258237,
+      "estimate": 0.07613509,
+      "group": "+ occupation and industry",
+      "label": "Unweighted (OLS)",
+      "n": 984475,
+      "role": "unweighted"
+    },
+    {
+      "ci_high": 0.082177802,
+      "ci_low": 0.073214512,
+      "estimate": 0.077696157,
+      "group": "+ occupation and industry",
+      "label": "Weighted (WLS, PERWT)",
+      "n": 984475,
+      "role": "weighted"
+    }
+  ],
+  "source": "IPUMS USA, ACS 2024 1-year (SAMPLE 202401), analysis/usa/acs/part_2020_2024.parquet; replicate weights REPWTP1–80 from analysis/usa/acs_repwt/part_2020_2024.parquet",
+  "subtitle": "Coefficient on working from home, log hourly wage, 2024 ACS full-time wage and salary workers aged 25–64",
+  "title": "The WFH wage gap shrinks with each control; weighting barely moves it",
+  "type": "dot",
+  "x_label": "Adjusted WFH − commuter difference in log hourly wage (log points)"
+}

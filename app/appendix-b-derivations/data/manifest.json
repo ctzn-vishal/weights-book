@@ -1,0 +1,96 @@
+{
+  "code": "build.py",
+  "generated_at": "2026-09-11T00:38:10Z",
+  "inputs": [],
+  "key": "appB",
+  "slug": "appendix-b-derivations",
+  "status": "draft",
+  "validation": [
+    {
+      "check": "B.1: Poisson sampling, 20,000 draws, outcome unrelated to pi",
+      "pass": true,
+      "z": -0.8813635006
+    },
+    {
+      "bias": -0.0001891688,
+      "check": "B.1: same draws, outcome unrelated to pi",
+      "pass": true,
+      "var_ratio": 102.14824015
+    },
+    {
+      "check": "B.1: Poisson sampling, 20,000 draws, outcome proportional to pi",
+      "pass": true,
+      "z": -0.8224625602
+    },
+    {
+      "bias": 0.0068282223,
+      "check": "B.1: same draws, outcome proportional to pi",
+      "pass": true,
+      "var_ratio": 1.4247881037
+    },
+    {
+      "check": "B.2: hand formula vs svy vs pyfixest CRV1, 40 PSUs",
+      "pass": true,
+      "rel_crv1": 0.0,
+      "rel_hand": 0.0
+    },
+    {
+      "check": "B.2: outcome with stratum means 0, 3, 6, 9",
+      "pass": true,
+      "ratio_informative": 2.2230534681,
+      "ratio_uninformative": 0.9790460692
+    },
+    {
+      "check": "B.2: slope SE: svy GLM vs hand sandwich vs pyfixest CRV1",
+      "crv1_over_svy": 1.0007482231,
+      "expected": 1.0007482231,
+      "pass": true,
+      "svy_vs_hand": 0.0
+    },
+    {
+      "check": "B.3: equal clusters (m = 20), rho_u = 0.1, regressor constant within clusters",
+      "formula": 2.9,
+      "mc_ratio": 3.0062589986,
+      "pass": true,
+      "rho_x": 1.0
+    },
+    {
+      "check": "B.3: equal clusters (m = 20), rho_u = 0.1, regressor half within-cluster",
+      "formula": 1.9345491287,
+      "mc_ratio": 1.885064207,
+      "pass": true,
+      "rho_x": 0.4918679625
+    },
+    {
+      "check": "B.4: three cells, p = 0.1, 0.5, 0.9; unweighted",
+      "formula": 2.0971664693,
+      "ols": 2.0971664693,
+      "pass": true
+    },
+    {
+      "att_analogue": 2.4395264423,
+      "check": "B.4: same data with unequal weights",
+      "formula": 1.9552047597,
+      "pass": true,
+      "pate_analogue": 1.907694197,
+      "wls": 1.9552047597
+    },
+    {
+      "beta_pop": -0.0857142857,
+      "beta_sim": -0.0935771346,
+      "check": "B.4: X in {0,1,2}, p = 0.05, 0.90, 0.95, cell effects 1, 1, 5; n = 2,000,000",
+      "min_weight": -0.2714285714,
+      "pass": true
+    },
+    {
+      "check": "B.5: 5,000 lognormal weights",
+      "pass": true
+    },
+    {
+      "check": "B.5: N = 10,000, recording depends on Y",
+      "error": 7.9064099301,
+      "identity": 7.9064099301,
+      "pass": true
+    }
+  ]
+}

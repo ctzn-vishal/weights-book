@@ -1,0 +1,58 @@
+{
+  "alt": "Dot plot of frequent mental distress prevalence under six weights, from unweighted through stratum, household, and dual-frame design weights to the raking input and the final raked weight.",
+  "format": "pct1",
+  "note": "Stages 1-3 are rebuilt from public variables; the raking input and final weight are shipped on the file and documented by CDC, but cannot be rebuilt record by record. Intermediate stages are diagnostics, not estimates: their totals are not population counts.",
+  "reference": {
+    "label": "Final weight",
+    "value": 0.15560378
+  },
+  "rows": [
+    {
+      "estimate": 0.13893536,
+      "group": "No weights",
+      "label": "Unweighted",
+      "n": 442292,
+      "role": "unweighted"
+    },
+    {
+      "estimate": 0.14658125,
+      "group": "Rebuilt from public variables",
+      "label": "Stratum weight (_STRWT)",
+      "n": 442292,
+      "role": "design"
+    },
+    {
+      "estimate": 0.14363251,
+      "group": "Rebuilt from public variables",
+      "label": "× adults ÷ phones (_WT2RAKE)",
+      "n": 442292,
+      "role": "design"
+    },
+    {
+      "estimate": 0.15018936,
+      "group": "Rebuilt from public variables",
+      "label": "× dual-frame factor (_WT2RAKE × _DUALCOR)",
+      "n": 442292,
+      "role": "design"
+    },
+    {
+      "estimate": 0.14481706,
+      "group": "Documented by CDC, not rebuildable",
+      "label": "Raking input (_LLCPWT2)",
+      "n": 442292,
+      "role": "muted"
+    },
+    {
+      "estimate": 0.15560378,
+      "group": "Documented by CDC, not rebuildable",
+      "label": "Final weight (_LLCPWT)",
+      "n": 442292,
+      "role": "weighted"
+    }
+  ],
+  "source": "CDC BRFSS 2024 public file; weights _STRWT, _WT2RAKE, _DUALCOR, _LLCPWT2, _LLCPWT",
+  "subtitle": "BRFSS 2024, adults in the 49 states and DC that released data; share reporting 14+ poor mental health days",
+  "title": "Frequent mental distress, one weight at a time",
+  "type": "dot",
+  "x_label": "Share of adults with frequent mental distress"
+}

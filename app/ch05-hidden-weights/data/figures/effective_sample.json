@@ -1,0 +1,151 @@
+{
+  "alt": "Slope chart from each occupation group's share of workers to its share of the regression's implicit weight; computer, business, and management groups gain weight while production, transportation, and food service lose it.",
+  "format": "pct1",
+  "left_label": "Share of workers",
+  "note": "Implicit weight of a cell = N_c p_c (1 − p_c) (Angrist 1998), summed within occupation group.",
+  "right_label": "Share of regression weight",
+  "rows": [
+    {
+      "label": "Management",
+      "left": 0.13711113,
+      "right": 0.19733066,
+      "role": "weighted"
+    },
+    {
+      "label": "Business & financial",
+      "left": 0.074126028,
+      "right": 0.1436661,
+      "role": "highlight"
+    },
+    {
+      "label": "Office & admin support",
+      "left": 0.10607425,
+      "right": 0.13413784,
+      "role": "weighted"
+    },
+    {
+      "label": "Computer & math",
+      "left": 0.052305289,
+      "right": 0.11611096,
+      "role": "highlight"
+    },
+    {
+      "label": "Sales",
+      "left": 0.071936171,
+      "right": 0.083354039,
+      "role": "weighted"
+    },
+    {
+      "label": "Healthcare practitioners",
+      "left": 0.072794917,
+      "right": 0.04842288,
+      "role": "muted"
+    },
+    {
+      "label": "Architecture & engineering",
+      "left": 0.029560921,
+      "right": 0.035415307,
+      "role": "weighted"
+    },
+    {
+      "label": "Education & library",
+      "left": 0.064094339,
+      "right": 0.034223055,
+      "role": "muted"
+    },
+    {
+      "label": "Arts, design, media & sports",
+      "left": 0.015915971,
+      "right": 0.027581333,
+      "role": "highlight"
+    },
+    {
+      "label": "Transportation & moving",
+      "left": 0.067927838,
+      "right": 0.021666452,
+      "role": "muted"
+    },
+    {
+      "label": "Healthcare support",
+      "left": 0.028377992,
+      "right": 0.021424337,
+      "role": "weighted"
+    },
+    {
+      "label": "Community & social service",
+      "left": 0.020208323,
+      "right": 0.019872847,
+      "role": "weighted"
+    },
+    {
+      "label": "Legal",
+      "left": 0.012330701,
+      "right": 0.019034436,
+      "role": "highlight"
+    },
+    {
+      "label": "Production",
+      "left": 0.056651545,
+      "right": 0.018881248,
+      "role": "muted"
+    },
+    {
+      "label": "Life, physical & social science",
+      "left": 0.013854769,
+      "right": 0.016465341,
+      "role": "weighted"
+    },
+    {
+      "label": "Construction & extraction",
+      "left": 0.043372452,
+      "right": 0.013712668,
+      "role": "muted"
+    },
+    {
+      "label": "Installation & repair",
+      "left": 0.032869422,
+      "right": 0.010937163,
+      "role": "muted"
+    },
+    {
+      "label": "Protective service",
+      "left": 0.024383483,
+      "right": 0.010695382,
+      "role": "muted"
+    },
+    {
+      "label": "Food preparation & serving",
+      "left": 0.030783028,
+      "right": 0.0086603707,
+      "role": "muted"
+    },
+    {
+      "label": "Building & grounds",
+      "left": 0.025226696,
+      "right": 0.0079928066,
+      "role": "muted"
+    },
+    {
+      "label": "Personal care & service",
+      "left": 0.0119816,
+      "right": 0.0069640885,
+      "role": "muted"
+    },
+    {
+      "label": "Military specific",
+      "left": 0.0036367456,
+      "right": 0.0018350075,
+      "role": "muted"
+    },
+    {
+      "label": "Farming, fishing & forestry",
+      "left": 0.0044763814,
+      "right": 0.0016156701,
+      "role": "muted"
+    }
+  ],
+  "source": "IPUMS USA, ACS 2024 1-year (SAMPLE 202401), analysis/usa/acs/part_2020_2024.parquet; replicate weights REPWTP1–80 from analysis/usa/acs_repwt/part_2020_2024.parquet",
+  "subtitle": "Share of workers vs share of the survey-weighted regression's implicit weight, by occupation group",
+  "title": "The regression's effective sample is not the population",
+  "type": "slope"
+}

@@ -1,0 +1,333 @@
+{
+  "code": "build.py",
+  "generated_at": "2026-09-11T00:44:49Z",
+  "inputs": [
+    {
+      "note": "canonical weights, replicate block, notes",
+      "path": "ipums/analysis/usa/metadata/acs.design.json"
+    },
+    {
+      "note": "see_parent: acs",
+      "path": "ipums/analysis/usa/metadata/acs_repwt.design.json"
+    },
+    {
+      "note": "canonical weights, replicate block, notes",
+      "path": "ipums/analysis/cps/metadata/cps_asec.design.json"
+    },
+    {
+      "note": "see_parent: cps_asec",
+      "path": "ipums/analysis/cps/metadata/cps_asec_repwt.design.json"
+    },
+    {
+      "note": "extended block: variance tier, lonely-PSU rule, pooling, breaks, geography",
+      "path": "ipums/analysis/nhis/metadata/nhis_core.design.json"
+    },
+    {
+      "note": "weights and notes",
+      "path": "ipums/analysis/atus/metadata/atus_respondent.design.json"
+    },
+    {
+      "note": "weights, pooling, double-count caveat, lonely-PSU guidance",
+      "path": "NHANES/data/processed/design.json"
+    },
+    {
+      "note": "store provenance; no design.json exists",
+      "path": "BRFSS/BRFSS_2026/{README,CHANGELOG,VERIFICATION}.md"
+    },
+    {
+      "note": "YEAR, SERIAL, PERNUM, REPWTP1-REPWTP160 for YEAR = 2025 (read by the executed snippet)",
+      "path": "ipums/analysis/cps/cps_asec_repwt/part_2020_2025.parquet",
+      "rows": 142125
+    },
+    {
+      "note": "YEAR, STRATA, PSU, SAMPWEIGHT, PERWEIGHT, ASTATFLG, AGE, current_smoker; 2023 and 2024 used",
+      "path": "ipums/analysis/nhis/nhis_core/part_2015_2024.parquet",
+      "rows": 581530
+    },
+    {
+      "note": "design and weight columns plus RIDAGEYR, htn_measured; CYCLE_YEAR = 2021 used",
+      "path": "NHANES/data/processed/nhanes_analysis.parquet",
+      "rows": 128809
+    },
+    {
+      "note": "iyear, xststr, xpsu, xllcpwt, xstate, State, Health; iyear = 2024 used",
+      "path": "BRFSS/BRFSS_2026/cleaned/brfss_multi_rec.parquet",
+      "rows": 4874919
+    },
+    {
+      "note": "YEAR, WT06, STRATA, BLS_WORK; YEAR = 2024 used",
+      "path": "ipums/analysis/atus/atus_respondent.parquet",
+      "rows": 252808
+    },
+    {
+      "note": "YEAR, ASECWT, ASECFLAG, uninsured_ly; YEAR = 2025 used",
+      "path": "ipums/analysis/cps/cps_asec/part_2020_2025.parquet",
+      "rows": 906757
+    },
+    {
+      "note": "YEAR, SAMPLE, PERWT for 2024 (rows = 2024 person records; cached count)",
+      "path": "ipums/analysis/usa/acs/part_2020_2024.parquet",
+      "rows": 3422888
+    }
+  ],
+  "key": "ch7",
+  "producer_documents": {
+    "BLS ATUS user's guide (June 2026)": "https://www.bls.gov/tus/atususersguide.pdf",
+    "BLS CPS sample redesign": "https://www.bls.gov/cps/methods/sample_redesign_2025.htm",
+    "CDC BRFSS 2024 complex sampling weights": "https://www.cdc.gov/brfss/annual_data/2024/pdf/Complex-Sampling-Weights-and-Preparing-Module-Data-for-Analysis-2024-508.pdf",
+    "CDC BRFSS 2024 overview": "https://www.cdc.gov/brfss/annual_data/2024/pdf/Overview_2024-508.pdf",
+    "CDC BRFSS 2024 weighting description": "https://www.cdc.gov/brfss/annual_data/2024/pdf/2024-Weightning-Description-508.pdf",
+    "Census ASEC documentation": "https://www.census.gov/programs-surveys/sahie/technical-documentation/model-input-data/cpsasec.html",
+    "IPUMS ATUS RWT06": "https://www.atusdata.org/atus-action/variables/RWT06",
+    "IPUMS CPS repwt FAQ": "https://cps.ipums.org/cps/repwt.shtml",
+    "IPUMS NHIS variance note": "https://nhis.ipums.org/nhis/userNotes_variance.shtml",
+    "IPUMS USA repwt FAQ": "https://usa.ipums.org/usa/repwt.shtml",
+    "NCHS 2024 NHIS survey description": "https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Dataset_Documentation/NHIS/2024/srvydesc-508.pdf",
+    "NCHS DEMO_L documentation": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2021/DataFiles/DEMO_L.htm",
+    "NCHS NHANES 2021-2023 overview brief": "https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/overviewbrief.aspx?Cycle=2021-2023",
+    "NHANES tutorial: variance estimation": "https://wwwn.cdc.gov/nchs/nhanes/tutorials/varianceestimation.aspx"
+  },
+  "producer_documents_read": "2026-09-10",
+  "slug": "ch07-field-guide",
+  "status": "draft",
+  "validation": [
+    {
+      "check": "companion manifests point to their parents",
+      "pass": true
+    },
+    {
+      "adults": 32629,
+      "check": "NHIS 2024: ASTATFLG = 1 rows are adults and the remaining rows are children",
+      "children": 8360,
+      "pass": true
+    },
+    {
+      "check": "NHIS 2024: every record carries a positive SAMPWEIGHT and PERWEIGHT is not released",
+      "pass": true
+    },
+    {
+      "check": "NHANES 2021-2023 counts equal NCHS's DEMO_L documentation (11,933 interviewed; 8,860 examined; 15 pseudo-strata, 30 pseudo-PSUs)",
+      "examined": 8860,
+      "interviewed": 11933,
+      "pass": true,
+      "psus": 30,
+      "strata": 15
+    },
+    {
+      "check": "BRFSS 2024: Tennessee absent, every respondent its own PSU",
+      "jurisdictions": 53,
+      "pass": true
+    },
+    {
+      "check": "ATUS 2024: positive WT06 on every respondent, no design variables in the extract",
+      "n": 7669,
+      "pass": true
+    },
+    {
+      "asecflag_counts": "[[1, 142125]]",
+      "check": "CPS ASEC 2025: record and weight counts",
+      "pass": true,
+      "positive_weight": 142125,
+      "rows": 142125
+    },
+    {
+      "check": "ACS 2024: one IPUMS sample code; sum of PERWT matches the store benchmark (340.1 million)",
+      "pass": true,
+      "perwt_sum_millions": 340.1,
+      "sample": 202401
+    },
+    {
+      "check": "Python snippets ran verbatim against the store (NHIS, NHANES, BRFSS, ATUS, CPS ASEC)",
+      "not_executed": "ACS (3.2 GB replicate part): API checked on a synthetic frame instead",
+      "pass": true
+    },
+    {
+      "check": "svy SdrWgts(prefix='REPWTP', n_reps=80): default call ignores replicates (df = n - 1)",
+      "default_df": 599,
+      "default_se": 0.0197682825,
+      "pass": true
+    },
+    {
+      "check": "svy SdrWgts(prefix='REPWTP', n_reps=80): method='replication', variance_center='estimate' equals (4/80) x sum of squared deviations from the full-sample estimate, df = 79",
+      "hand": 0.0229596501,
+      "pass": true,
+      "rep_mean_centered_se": 0.0228027248,
+      "se": 0.0229596501
+    },
+    {
+      "check": "svy SdrWgts(prefix='REPWTP', n_reps=160): default call ignores replicates (df = n - 1)",
+      "default_df": 599,
+      "default_se": 0.0194295223,
+      "pass": true
+    },
+    {
+      "check": "svy SdrWgts(prefix='REPWTP', n_reps=160): method='replication', variance_center='estimate' equals (4/160) x sum of squared deviations from the full-sample estimate, df = 159",
+      "hand": 0.0227450709,
+      "pass": true,
+      "rep_mean_centered_se": 0.0227450505,
+      "se": 0.0227450709
+    },
+    {
+      "check": "svy SdrWgts(prefix='RWT06_', n_reps=160): default call ignores replicates (df = n - 1)",
+      "default_df": 599,
+      "default_se": 0.0192117879,
+      "pass": true
+    },
+    {
+      "check": "svy SdrWgts(prefix='RWT06_', n_reps=160): method='replication', variance_center='estimate' equals (4/160) x sum of squared deviations from the full-sample estimate, df = 159",
+      "hand": 0.0211311188,
+      "pass": true,
+      "rep_mean_centered_se": 0.0210133979,
+      "se": 0.0211311188
+    },
+    {
+      "check": "svy SdrWgts scale= and df= are honored on the replication path (contrary to CONTRACT section 6); the default call ignores the whole replicate specification",
+      "default_df": 599,
+      "df": 10,
+      "pass": true,
+      "se_ratio": 3.1622776602
+    },
+    {
+      "check": "CPS ASEC 2025 real data: replicate SE equals the hand SDR formula; default call reports df = n - 1",
+      "default_df": 141910,
+      "default_se": 0.0008600268,
+      "hand_se": 0.0011205975,
+      "n": 141911,
+      "negative_replicate_values": 132,
+      "pass": true,
+      "rep_mean_centered_se": 0.0011202859,
+      "replicate_se": 0.0011205975
+    },
+    {
+      "check": "NHIS 2024: svy gives identical results with the PSU label or the (STRATA, PSU) key",
+      "pass": true
+    },
+    {
+      "check": "NHIS 2024: domain estimate on the full file equals the estimate on the adult rows (all PSUs retained)",
+      "domain_se": 0.0023660121,
+      "pass": true,
+      "rows_se": 0.0023660121
+    },
+    {
+      "check": "NHIS 2024: CRV1 on the composite key equals Taylor with strata ignored (Appendix B.2)",
+      "crv1": 0.0026169777,
+      "pass": true,
+      "taylor_no_strata": 0.0026169777
+    },
+    {
+      "check": "NHIS 2024: current smoking reproduces the store benchmark (NCHS published 9.9%)",
+      "estimate": 0.0993554527,
+      "pass": true
+    },
+    {
+      "Int16": "ComputeError: cannot create series from Int16",
+      "Int8": "ComputeError: cannot create series from Int8",
+      "check": "svy 0.28: a where= expression on an 8- or 16-bit integer column raises ComputeError; Int32 or wider works (narrow integer outcomes are fine)",
+      "pass": true
+    },
+    {
+      "check": "BRFSS 2024: svy refuses the full-file design without a lonely-PSU rule",
+      "message": "SingletonError: ❌ 110 singleton PSU(s) detected [SINGLETON_ERROR]",
+      "pass": true
+    },
+    {
+      "check": "verify.R completed",
+      "pass": true,
+      "r": "R version 4.6.1 (2026-06-24 ucrt)",
+      "returncode": 0,
+      "survey": "4.5"
+    },
+    {
+      "check": "R snippet nhis vs svy: same estimate and SE",
+      "pass": true,
+      "r_degf": "610",
+      "r_est": 0.0993554527,
+      "r_se": 0.0023660121,
+      "rel_se_diff": 0.0,
+      "seconds": "0.2",
+      "svy_df": 610,
+      "svy_est": 0.0993554527,
+      "svy_se": 0.0023660121
+    },
+    {
+      "check": "R snippet nhanes vs svy: same estimate and SE",
+      "pass": true,
+      "r_degf": "15",
+      "r_est": 0.3749506288,
+      "r_se": 0.009438646,
+      "rel_se_diff": 0.0,
+      "seconds": "0.1",
+      "svy_df": 15,
+      "svy_est": 0.3749506288,
+      "svy_se": 0.009438646
+    },
+    {
+      "check": "R snippet brfss vs svy: same estimate and SE",
+      "pass": true,
+      "r_degf": "455277",
+      "r_est": 0.1957624328,
+      "r_se": 0.001344506,
+      "rel_se_diff": 0.0,
+      "seconds": "192.7",
+      "svy_df": 453967,
+      "svy_est": 0.1957624328,
+      "svy_se": 0.001344506
+    },
+    {
+      "check": "R snippet atus vs svy: same estimate and SE",
+      "pass": true,
+      "r_degf": "7668",
+      "r_est": 205.5040950767,
+      "r_se": 4.3451512437,
+      "rel_se_diff": 0.0,
+      "seconds": "0.1",
+      "svy_df": 7668,
+      "svy_est": 205.5040950767,
+      "svy_se": 4.3451512437
+    },
+    {
+      "check": "R snippet asec vs svy: same estimate and SE",
+      "pass": true,
+      "r_degf": "159",
+      "r_est": 0.0804107878,
+      "r_se": 0.0011205975,
+      "rel_se_diff": 0.0,
+      "seconds": "11.6",
+      "svy_df": 159,
+      "svy_est": 0.0804107878,
+      "svy_se": 0.0011205975
+    },
+    {
+      "check": "R svydesign stops on NHIS 2024 without nest = TRUE",
+      "message": "Clusters not nested in strata at top level; you may want nest=TRUE.",
+      "pass": true
+    },
+    {
+      "check": "R survey (lonely.psu = 'fail') stops on the full BRFSS 2024 design",
+      "message": "Stratum (22049) has only one PSU at stage 1",
+      "pass": true
+    },
+    {
+      "check": "R survey type='successive-difference': scale 4/80, df 79, equals the hand formula",
+      "degf": "79",
+      "pass": true,
+      "scale": "0.05",
+      "se_hand": "0.0216360442882701",
+      "se_survey": "0.0216360442882701"
+    },
+    {
+      "check": "R survey type='successive-difference': scale 4/160, df 159, equals the hand formula",
+      "degf": "159",
+      "pass": true,
+      "scale": "0.025",
+      "se_hand": "0.021095318758714",
+      "se_survey": "0.021095318758714"
+    },
+    {
+      "check": "every generated snippet appears verbatim in article.mdx",
+      "missing": "",
+      "pass": true
+    }
+  ],
+  "verify": "verify.R (sourced snippets: snippets/*.R)"
+}

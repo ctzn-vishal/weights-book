@@ -1,0 +1,81 @@
+{
+  "alt": "Event-study coefficients by year: near zero in 2011 and 2012, zero by construction in 2013, then negative from 2014 and larger in magnitude through 2019, with state-clustered intervals several points wide.",
+  "annotations": [
+    {
+      "label": "Expansion takes effect",
+      "x": 2014
+    }
+  ],
+  "format": "num1",
+  "note": "2013 is the reference year (no interval). Identification by parallel trends is assumed, not established.",
+  "series": [
+    {
+      "name": "Gap relative to 2013 (state-clustered 95% interval)",
+      "role": "design",
+      "segments": [
+        [
+          {
+            "hi": 1.8862,
+            "lo": -2.4358,
+            "x": 2011,
+            "y": -0.2748
+          },
+          {
+            "hi": 1.6634,
+            "lo": -0.6748,
+            "x": 2012,
+            "y": 0.4943
+          },
+          {
+            "hi": null,
+            "lo": null,
+            "x": 2013,
+            "y": 0.0
+          },
+          {
+            "hi": -2.7037,
+            "lo": -7.6644,
+            "x": 2014,
+            "y": -5.1841
+          },
+          {
+            "hi": -4.9424,
+            "lo": -10.7711,
+            "x": 2015,
+            "y": -7.8568
+          },
+          {
+            "hi": -5.0037,
+            "lo": -11.5313,
+            "x": 2016,
+            "y": -8.2675
+          },
+          {
+            "hi": -6.1026,
+            "lo": -12.092,
+            "x": 2017,
+            "y": -9.0973
+          },
+          {
+            "hi": -4.7932,
+            "lo": -11.778,
+            "x": 2018,
+            "y": -8.2856
+          },
+          {
+            "hi": -5.9884,
+            "lo": -12.2728,
+            "x": 2019,
+            "y": -9.1306
+          }
+        ]
+      ]
+    }
+  ],
+  "source": "IPUMS USA, ACS 1-year samples 2011–2019 (analysis/usa/acs/part_2010_2014.parquet, part_2015_2019.parquet); expansion dates in _data/expansion_dates.csv (KFF; medicaid.gov)",
+  "subtitle": "Expansion cohort minus comparison, with state and year fixed effects; 95% intervals clustered by state, t(29)",
+  "title": "Year-by-year gap relative to 2013",
+  "type": "line",
+  "x_label": "ACS survey year",
+  "y_label": "Difference in uninsured share (percentage points)"
+}

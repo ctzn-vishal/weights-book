@@ -1,0 +1,104 @@
+{
+  "alt": "Table of six estimates of daily work time from ATUS 2023: 155.4 minutes unweighted, 213.8 weighted over all person-days, 272.0 on weekdays, 325.8 for employed people, 487.5 on days with any work, and 496.4 for employed people on days they worked, with the population of days, weight, and number of diaries for each.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "label",
+      "label": "Answer"
+    },
+    {
+      "align": "left",
+      "key": "population",
+      "label": "Population of days"
+    },
+    {
+      "align": "left",
+      "key": "conditions",
+      "label": "Conditions on"
+    },
+    {
+      "align": "left",
+      "key": "weight",
+      "label": "Weight"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "n",
+      "label": "Diaries"
+    },
+    {
+      "align": "right",
+      "format": "min1",
+      "key": "minutes",
+      "label": "Minutes per day"
+    },
+    {
+      "align": "right",
+      "format": "num2",
+      "key": "hours",
+      "label": "Hours per day"
+    }
+  ],
+  "note": "Weights-only extract: point estimates only. The first two rows share a target; each later row changes the population of days.",
+  "rows": [
+    {
+      "conditions": "nothing",
+      "hours": 2.5892,
+      "label": "All person-days, unweighted",
+      "minutes": 155.3522,
+      "n": 8548,
+      "population": "All person-days (each diary counted once)",
+      "weight": "none"
+    },
+    {
+      "conditions": "nothing",
+      "hours": 3.5629,
+      "label": "All person-days",
+      "minutes": 213.773,
+      "n": 8548,
+      "population": "All person-days",
+      "weight": "WT06"
+    },
+    {
+      "conditions": "the day of the week",
+      "hours": 4.534,
+      "label": "Weekdays only",
+      "minutes": 272.0416,
+      "n": 4366,
+      "population": "Monday–Friday person-days",
+      "weight": "WT06"
+    },
+    {
+      "conditions": "employment status",
+      "hours": 5.4294,
+      "label": "Employed people",
+      "minutes": 325.7663,
+      "n": 4976,
+      "population": "Person-days of employed people",
+      "weight": "WT06"
+    },
+    {
+      "conditions": "the outcome itself",
+      "hours": 8.125,
+      "label": "Days with any work",
+      "minutes": 487.5007,
+      "n": 2897,
+      "population": "Person-days that include some work",
+      "weight": "WT06"
+    },
+    {
+      "conditions": "employment and the outcome",
+      "hours": 8.2729,
+      "label": "Employed people, on days they worked",
+      "minutes": 496.3768,
+      "n": 2804,
+      "population": "Work days of employed people",
+      "weight": "WT06"
+    }
+  ],
+  "source": "IPUMS ATUS 2023 (analysis/atus/atus_respondent.parquet)",
+  "subtitle": "ATUS 2023: minutes per day of working and work-related activities",
+  "title": "Six answers to one question",
+  "type": "table"
+}

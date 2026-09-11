@@ -1,0 +1,188 @@
+{
+  "alt": "Table of the weighted share of age, sex, phone-status, and education groups under each of the six weighting stages, from unweighted to the final weight.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "group",
+      "label": "Group"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "unweighted",
+      "label": "Unweighted"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "strwt",
+      "label": "Stratum weight"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "wt2rake",
+      "label": "× adults ÷ phones"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "composite",
+      "label": "× dual-frame factor"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "llcpwt2",
+      "label": "Raking input"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "final",
+      "label": "Final weight"
+    }
+  ],
+  "highlight_key": "final",
+  "note": "n = 450,353. Phone status: landline-frame respondents without a cell phone are landline only; cell-frame respondents without a landline are cell only; everyone else is a dual user (_DUALUSE). Education shares exclude the 0.5% with missing education.",
+  "rows": [
+    {
+      "composite": 0.086356377,
+      "final": 0.12189519,
+      "group": "Age: 18–24",
+      "llcpwt2": 0.082012876,
+      "strwt": 0.082125018,
+      "unweighted": 0.064893539,
+      "wt2rake": 0.078094647
+    },
+    {
+      "composite": 0.14130064,
+      "final": 0.16717155,
+      "group": "Age: 25–34",
+      "llcpwt2": 0.12900283,
+      "strwt": 0.13305969,
+      "unweighted": 0.10899894,
+      "wt2rake": 0.1261837
+    },
+    {
+      "composite": 0.15770862,
+      "final": 0.1672074,
+      "group": "Age: 35–44",
+      "llcpwt2": 0.14373949,
+      "strwt": 0.14965007,
+      "unweighted": 0.13195871,
+      "wt2rake": 0.14257275
+    },
+    {
+      "composite": 0.15543554,
+      "final": 0.15252873,
+      "group": "Age: 45–54",
+      "llcpwt2": 0.14716311,
+      "strwt": 0.15082072,
+      "unweighted": 0.14017671,
+      "wt2rake": 0.14746248
+    },
+    {
+      "composite": 0.171537,
+      "final": 0.15613148,
+      "group": "Age: 55–64",
+      "llcpwt2": 0.17288156,
+      "strwt": 0.17152567,
+      "unweighted": 0.17480954,
+      "wt2rake": 0.17285344
+    },
+    {
+      "composite": 0.28766182,
+      "final": 0.23506565,
+      "group": "Age: 65 or older",
+      "llcpwt2": 0.32520013,
+      "strwt": 0.31281883,
+      "unweighted": 0.37916257,
+      "wt2rake": 0.33283298
+    },
+    {
+      "composite": 0.49676316,
+      "final": 0.49148446,
+      "group": "Sex: Male",
+      "llcpwt2": 0.49353282,
+      "strwt": 0.49164727,
+      "unweighted": 0.47607765,
+      "wt2rake": 0.48673397
+    },
+    {
+      "composite": 0.50323684,
+      "final": 0.50851554,
+      "group": "Sex: Female",
+      "llcpwt2": 0.50646718,
+      "strwt": 0.50835273,
+      "unweighted": 0.52392235,
+      "wt2rake": 0.51326603
+    },
+    {
+      "composite": 0.018350207,
+      "final": 0.023532124,
+      "group": "Phone: Landline only",
+      "llcpwt2": 0.023571154,
+      "strwt": 0.010682684,
+      "unweighted": 0.026039573,
+      "wt2rake": 0.016041877
+    },
+    {
+      "composite": 0.14811113,
+      "final": 0.25788617,
+      "group": "Phone: Both (dual user)",
+      "llcpwt2": 0.25824041,
+      "strwt": 0.21728898,
+      "unweighted": 0.30188097,
+      "wt2rake": 0.25527292
+    },
+    {
+      "composite": 0.83353866,
+      "final": 0.71858171,
+      "group": "Phone: Cell only",
+      "llcpwt2": 0.71818843,
+      "strwt": 0.77202834,
+      "unweighted": 0.67207946,
+      "wt2rake": 0.7286852
+    },
+    {
+      "composite": 0.067907105,
+      "final": 0.11020298,
+      "group": "Education: Less than high school",
+      "llcpwt2": 0.069742975,
+      "strwt": 0.065355279,
+      "unweighted": 0.058529642,
+      "wt2rake": 0.064093713
+    },
+    {
+      "composite": 0.24131829,
+      "final": 0.27209388,
+      "group": "Education: High school graduate",
+      "llcpwt2": 0.23741513,
+      "strwt": 0.23964338,
+      "unweighted": 0.25278837,
+      "wt2rake": 0.24046393
+    },
+    {
+      "composite": 0.25479176,
+      "final": 0.29501074,
+      "group": "Education: Some college",
+      "llcpwt2": 0.2526875,
+      "strwt": 0.25511643,
+      "unweighted": 0.26377753,
+      "wt2rake": 0.25563504
+    },
+    {
+      "composite": 0.42971137,
+      "final": 0.31662981,
+      "group": "Education: College graduate",
+      "llcpwt2": 0.43402162,
+      "strwt": 0.43382377,
+      "unweighted": 0.41974407,
+      "wt2rake": 0.43378786
+    }
+  ],
+  "source": "CDC BRFSS 2024 public file; all respondents in the 49 states and DC",
+  "title": "Who gains and loses weighted share along the chain",
+  "type": "table"
+}

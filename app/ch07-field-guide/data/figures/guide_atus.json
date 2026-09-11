@@ -1,0 +1,112 @@
+{
+  "alt": "Table declaring the ATUS 2024 release: universe, the diary-day weight, day-of-week sampling, the absence of design variables in the book's extract, the producer's 160 replicate weights, pooling, and known traps.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "item",
+      "label": "Item"
+    },
+    {
+      "align": "left",
+      "key": "value",
+      "label": "Declaration"
+    },
+    {
+      "align": "left",
+      "key": "source",
+      "label": "Provenance"
+    }
+  ],
+  "note": "Provenance: design.json = machine-readable manifest field; design.json notes = the manifest's free text; producer = documentation read 2026-09-10; computed = counted from the store by build.py; book guidance = editorial, not a producer rule.",
+  "rows": [
+    {
+      "item": "Pinned release",
+      "source": "computed from data",
+      "value": "ATUS 2024 (IPUMS ATUS, YEAR = 2024)"
+    },
+    {
+      "item": "Records",
+      "source": "computed from data",
+      "value": "7,669 respondents, one diary day each"
+    },
+    {
+      "item": "Universe",
+      "source": "producer: BLS ATUS user's guide",
+      "value": "Civilian noninstitutional population age 15 and older; one person per household, drawn from households completing their final CPS interview"
+    },
+    {
+      "item": "Unit",
+      "source": "design.json",
+      "value": "diary-day weight: sums to person-DAYS, not persons (2003-2019, 2021+)"
+    },
+    {
+      "item": "Canonical weight",
+      "source": "design.json; producer: BLS",
+      "value": "WT06 (BLS: TUFNWGTP on multi-year files, TUFINLWGT on annual files)"
+    },
+    {
+      "item": "Alternate weights",
+      "source": "design.json",
+      "value": "WT20: REQUIRED for any analysis touching 2020 (COVID collection break; represents Jan1-Mar17 + May10-Dec31 2020 only)"
+    },
+    {
+      "item": "Day sampling",
+      "source": "producer: BLS ATUS user's guide",
+      "value": "10 percent of the sample is assigned to each weekday and 25 percent to each weekend day; the weights return weekdays to about 5/7 of person-days"
+    },
+    {
+      "item": "Variance in the store",
+      "source": "design.json notes; computed from data",
+      "value": "Weights only: no strata, PSUs, or replicate weights in the extract (STRATA is empty), so SEs understate design variance. No replicate weights in store: weights-only variance understates SEs; BLS publishes replicate weights if needed later."
+    },
+    {
+      "item": "Producer replicates",
+      "source": "producer: BLS ATUS user's guide; IPUMS ATUS",
+      "value": "160 replicate final weights (IPUMS RWT06_1–RWT06_160; BLS FINLWGT001–FINLWGT160); Var = (4/160) × Σ_r (Ŷ_r − Ŷ_0)², the 4 coming from replicate factors 1.7, 1.0, and 0.3"
+    },
+    {
+      "item": "Design df",
+      "source": "book guidance",
+      "value": "Not stated by BLS; the replicate-count convention gives 159"
+    },
+    {
+      "item": "Lonely-PSU rule",
+      "source": "book guidance",
+      "value": "Not applicable"
+    },
+    {
+      "item": "Pooling rule",
+      "source": "producer: BLS; design.json notes",
+      "value": "Combine years whose weights were built the same way: WT06 for 2003–2019 and 2021 onward, WT20 for 2020. Do NOT splice WT06/WT20 into one column."
+    },
+    {
+      "item": "Series breaks",
+      "source": "producer: BLS; design.json",
+      "value": "2020: collection suspended March 18 to May 9, 2020, and WT20 represents only the days covered; the weighting method changed each year from 2003 to 2006"
+    },
+    {
+      "item": "Zero-weight rows",
+      "source": "design.json",
+      "value": "2020 rows have WT06=0 (use WT20); some zero WT06 elsewhere per BLS practice"
+    },
+    {
+      "item": "Trap: person-days",
+      "source": "design.json",
+      "value": "Weights sum to person-days, not persons: an average over days is not an average over people"
+    },
+    {
+      "item": "Trap: unweighted tabulations",
+      "source": "producer: BLS ATUS user's guide",
+      "value": "Unweighted tabulations overstate activities done more often on weekends"
+    },
+    {
+      "item": "Last verified",
+      "source": "this build",
+      "value": "BLS user's guide (June 2026 edition) and IPUMS RWT06 description read 2026-09-10"
+    }
+  ],
+  "source": "BLS ATUS user's guide (June 2026) (https://www.bls.gov/tus/atususersguide.pdf); IPUMS ATUS RWT06 (https://www.atusdata.org/atus-action/variables/RWT06)",
+  "subtitle": "IPUMS ATUS respondent file; the book's extract carries weights only",
+  "title": "ATUS 2024: declared",
+  "type": "table"
+}

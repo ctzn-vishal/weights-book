@@ -1,0 +1,39 @@
+{
+  "key": "ch4",
+  "ledgers": {
+    "adjusted_gap": {
+      "assumptions": "TRANWORK codes the primary means of transportation last week, so hybrid workers who mostly commute count as commuters; hourly wages use weeks-worked interval midpoints and state top-coded wage income as released; no causal interpretation.",
+      "estimand": "The population linear-projection coefficient on working from home (TRANWORK = 80) in a regression of log hourly wage on WFH, age, age², sex, and four education levels. A descriptive adjusted contrast between WFH workers and commuters, not the causal effect of working from home.",
+      "estimator": "WLS with PERWT on 984,475 person records; OLS with equal case weights reported alongside.",
+      "explicit_weights": "PERWT, the ACS person weight: base weight adjusted for noninterview and calibrated to Census population estimates. Equal case weights in the OLS comparison.",
+      "facts": [
+        "ch4.adj_wls",
+        "ch4.adj_ols",
+        "ch4.n_sample",
+        "ch4.prev_w",
+        "ch4.se_wls_sdr"
+      ],
+      "implicit_weights": "Within education groups, the coefficient averages WFH–commuter contrasts with weights proportional to population share × p(1 − p), where p is the WFH share; high-overlap groups count most (Chapter 5).",
+      "randomness": "The ACS sample of addresses and the response process. WFH is not assigned by any design.",
+      "target_population": "Wage and salary workers aged 25–64 in the 2024 ACS who usually worked 30+ hours a week for 40+ weeks in the past 12 months, had positive wage income, and were at work in the reference week; about 105 million people.",
+      "title": "Do people who work from home earn more? The adjusted contrast (ACS 2024)",
+      "variance_estimator": "Successive difference replication with 80 replicate weights: Var = (4/80)Σ(β_r − β)², df = 79."
+    },
+    "occupation_adjusted": {
+      "assumptions": "Occupation and industry are measured for the main job; controlling for them conditions on outcomes of the same choices that shape WFH, so the contrast is not a structural wage premium.",
+      "estimand": "The population linear-projection coefficient on WFH after adding fixed effects for detailed occupation, industry, and state: a WFH–commuter contrast among workers with the same recorded job and location, still descriptive.",
+      "estimator": "WLS with PERWT and 841 fixed-effect dummies, solved as sparse normal equations.",
+      "explicit_weights": "PERWT (ACS person weight). Equal case weights for OLS.",
+      "facts": [
+        "ch4.occind_wls",
+        "ch4.occind_ols",
+        "ch4.occind_shrink"
+      ],
+      "implicit_weights": "A linear probability model for WFH with additive fixed effects; about 9% of weighted commuters get negative implied weight because their predicted WFH probability is below zero (Chapter 5).",
+      "randomness": "The ACS sample and response process.",
+      "target_population": "Wage and salary workers aged 25–64 in the 2024 ACS who usually worked 30+ hours a week for 40+ weeks in the past 12 months, had positive wage income, and were at work in the reference week.",
+      "title": "The same contrast within occupation, industry, and state",
+      "variance_estimator": "SDR, 80 replicates, each a full re-solve of the fixed-effect normal equations; df = 79."
+    }
+  }
+}

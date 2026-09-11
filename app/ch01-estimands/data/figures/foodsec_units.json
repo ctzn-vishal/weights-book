@@ -1,0 +1,62 @@
+{
+  "alt": "Dot plot of food insecurity in 2023: 12.47% of households unweighted; 13.55% with the supplement household weight, 13.55% with the scale weight, 13.51% with the basic monthly household weight; 14.33% of people and 19.18% of children live in food-insecure households.",
+  "domain": [
+    0.1,
+    0.21
+  ],
+  "format": "pct2",
+  "note": "Weights-only extract: point estimates only, no intervals. Reference line: USDA ERS (ERR-337).",
+  "reference": {
+    "label": "USDA published, households: 13.5%",
+    "value": 0.135
+  },
+  "rows": [
+    {
+      "estimate": 0.12474,
+      "group": "Households",
+      "label": "Households, unweighted",
+      "n": 30824,
+      "role": "unweighted"
+    },
+    {
+      "estimate": 0.135479,
+      "group": "Households",
+      "label": "Households, FSSUPPWTH",
+      "n": 30824,
+      "role": "weighted"
+    },
+    {
+      "estimate": 0.135479,
+      "group": "Households",
+      "label": "Households, FSHWTSCALE",
+      "n": 30824,
+      "role": "weighted"
+    },
+    {
+      "estimate": 0.135098,
+      "group": "Households",
+      "label": "Households, HWTFINL",
+      "n": 30824,
+      "role": "weighted"
+    },
+    {
+      "estimate": 0.143304,
+      "group": "People",
+      "label": "People, FSSUPPWT",
+      "n": 72169,
+      "role": "cat2"
+    },
+    {
+      "estimate": 0.19177,
+      "group": "People",
+      "label": "Children, FSSUPPWT",
+      "n": 14805,
+      "role": "highlight"
+    }
+  ],
+  "source": "IPUMS CPS, December 2023 Food Security Supplement (analysis/cps/cps_foodsec.parquet)",
+  "subtitle": "Food insecurity, CPS December 2023 Food Security Supplement",
+  "title": "One indicator, three units, four weights",
+  "type": "dot",
+  "x_label": "Share in food-insecure households"
+}

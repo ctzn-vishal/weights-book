@@ -1,0 +1,21 @@
+{
+  "alt": "Table of fixture design facts for four surveys: respondents, strata, a median design effect, coverage, and the variance method, with one survey highlighted.",
+  "columns": [
+    { "key": "survey", "label": "Survey" },
+    { "format": "int", "key": "n", "label": "Respondents" },
+    { "format": "int", "key": "strata", "label": "Strata" },
+    { "format": "num2", "key": "deff", "label": "Median DEFF" },
+    { "format": "pct1", "key": "coverage", "label": "Coverage" },
+    { "align": "left", "key": "variance", "label": "Variance method" }
+  ],
+  "highlight_key": "is_focus",
+  "rows": [
+    { "coverage": 0.921, "deff": 1.21, "n": 3373378, "strata": null, "survey": "ACS", "variance": "SDR, 80 replicates" },
+    { "coverage": 0.874, "deff": 1.58, "is_focus": true, "n": 144265, "strata": null, "survey": "CPS ASEC", "variance": "SDR, 160 replicates" },
+    { "coverage": 0.95, "deff": 1.93, "n": 29522, "strata": 300, "survey": "NHIS", "variance": "Taylor, (STRATA, PSU)" },
+    { "coverage": 0.88, "deff": 2.48, "n": 11933, "strata": 15, "survey": "NHANES", "variance": "Taylor" }
+  ],
+  "source": "Kitchen-sink fixture; illustrative values only.",
+  "title": "Design facts for four surveys (fixture)",
+  "type": "table"
+}

@@ -1,0 +1,128 @@
+{
+  "alt": "Line chart: for state pairs 1 to 12 places apart in the ranking, the share whose difference is statistically distinguishable, under replicate (SDR) standard errors and under naive iid standard errors; the naive line sits above the replicate line at short distances and both reach 100% by about ten places.",
+  "format": "pct0",
+  "series": [
+    {
+      "name": "Replicate SE of the difference (SDR)",
+      "role": "design",
+      "segments": [
+        [
+          {
+            "x": 1,
+            "y": 0.04
+          },
+          {
+            "x": 2,
+            "y": 0.204082
+          },
+          {
+            "x": 3,
+            "y": 0.333333
+          },
+          {
+            "x": 4,
+            "y": 0.574468
+          },
+          {
+            "x": 5,
+            "y": 0.673913
+          },
+          {
+            "x": 6,
+            "y": 0.777778
+          },
+          {
+            "x": 7,
+            "y": 0.909091
+          },
+          {
+            "x": 8,
+            "y": 0.906977
+          },
+          {
+            "x": 9,
+            "y": 1.0
+          },
+          {
+            "x": 10,
+            "y": 0.97561
+          },
+          {
+            "x": 11,
+            "y": 1.0
+          },
+          {
+            "x": 12,
+            "y": 1.0
+          }
+        ]
+      ]
+    },
+    {
+      "name": "Naive iid SEs, independence assumed",
+      "role": "naive",
+      "segments": [
+        [
+          {
+            "x": 1,
+            "y": 0.14
+          },
+          {
+            "x": 2,
+            "y": 0.387755
+          },
+          {
+            "x": 3,
+            "y": 0.6875
+          },
+          {
+            "x": 4,
+            "y": 0.765957
+          },
+          {
+            "x": 5,
+            "y": 0.956522
+          },
+          {
+            "x": 6,
+            "y": 1.0
+          },
+          {
+            "x": 7,
+            "y": 1.0
+          },
+          {
+            "x": 8,
+            "y": 1.0
+          },
+          {
+            "x": 9,
+            "y": 1.0
+          },
+          {
+            "x": 10,
+            "y": 1.0
+          },
+          {
+            "x": 11,
+            "y": 1.0
+          },
+          {
+            "x": 12,
+            "y": 1.0
+          }
+        ]
+      ]
+    }
+  ],
+  "source": "IPUMS USA, ACS 2024 1-year; PERWT and REPWTP1-80; SDR variance (4/80, df 79).",
+  "subtitle": "Share of state pairs a given number of places apart whose difference is significant at the 90% level.",
+  "title": "How far apart must two states be in the ranking to be distinguishable?",
+  "type": "line",
+  "x_label": "Distance in rank between the two states",
+  "y_domain": [
+    0,
+    1
+  ],
+  "y_label": "Pairs distinguishable"
+}

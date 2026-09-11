@@ -1,0 +1,147 @@
+{
+  "alt": "Two lines from 2011 to 2019: the uninsured share in the January 2014 expansion cohort and in states not expanded by 2019; both fall in 2014, the expansion states much more, and the gap then stays wider.",
+  "annotations": [
+    {
+      "label": "Expansion takes effect (January 2014)",
+      "x": 2014
+    }
+  ],
+  "format": "pct0",
+  "note": "Adults 19–64 with family income at or below 138% of poverty; household population (POVERTY excludes group quarters).",
+  "series": [
+    {
+      "name": "January 2014 expansion cohort (15 states)",
+      "role": "treated",
+      "segments": [
+        [
+          {
+            "hi": 0.394592,
+            "lo": 0.384532,
+            "x": 2011,
+            "y": 0.389562
+          },
+          {
+            "hi": 0.385885,
+            "lo": 0.374905,
+            "x": 2012,
+            "y": 0.380395
+          },
+          {
+            "hi": 0.372333,
+            "lo": 0.362326,
+            "x": 2013,
+            "y": 0.367329
+          },
+          {
+            "hi": 0.26482,
+            "lo": 0.25522,
+            "x": 2014,
+            "y": 0.26002
+          },
+          {
+            "hi": 0.197757,
+            "lo": 0.188519,
+            "x": 2015,
+            "y": 0.193138
+          },
+          {
+            "hi": 0.176637,
+            "lo": 0.166465,
+            "x": 2016,
+            "y": 0.171551
+          },
+          {
+            "hi": 0.1748,
+            "lo": 0.165264,
+            "x": 2017,
+            "y": 0.170032
+          },
+          {
+            "hi": 0.182363,
+            "lo": 0.172229,
+            "x": 2018,
+            "y": 0.177296
+          },
+          {
+            "hi": 0.182515,
+            "lo": 0.17211,
+            "x": 2019,
+            "y": 0.177312
+          }
+        ]
+      ]
+    },
+    {
+      "name": "Not expanded by 2019 (15 states)",
+      "role": "control",
+      "segments": [
+        [
+          {
+            "hi": 0.496431,
+            "lo": 0.488211,
+            "x": 2011,
+            "y": 0.492321
+          },
+          {
+            "hi": 0.479369,
+            "lo": 0.471078,
+            "x": 2012,
+            "y": 0.475224
+          },
+          {
+            "hi": 0.470383,
+            "lo": 0.462234,
+            "x": 2013,
+            "y": 0.466309
+          },
+          {
+            "hi": 0.415906,
+            "lo": 0.406644,
+            "x": 2014,
+            "y": 0.411275
+          },
+          {
+            "hi": 0.374707,
+            "lo": 0.367046,
+            "x": 2015,
+            "y": 0.370876
+          },
+          {
+            "hi": 0.358938,
+            "lo": 0.35122,
+            "x": 2016,
+            "y": 0.355079
+          },
+          {
+            "hi": 0.365708,
+            "lo": 0.357288,
+            "x": 2017,
+            "y": 0.361498
+          },
+          {
+            "hi": 0.365399,
+            "lo": 0.356527,
+            "x": 2018,
+            "y": 0.360963
+          },
+          {
+            "hi": 0.374023,
+            "lo": 0.365508,
+            "x": 2019,
+            "y": 0.369765
+          }
+        ]
+      ]
+    }
+  ],
+  "source": "IPUMS USA, ACS 1-year samples 2011–2019 (analysis/usa/acs/part_2010_2014.parquet, part_2015_2019.parquet); expansion dates in _data/expansion_dates.csv (KFF; medicaid.gov); replicate weights REPWTP1–80 (analysis/usa/acs_repwt)",
+  "subtitle": "PERWT-weighted; bands are 95% SDR replicate intervals (survey sampling only)",
+  "title": "Uninsured share, low-income adults 19–64",
+  "type": "line",
+  "x_label": "ACS survey year",
+  "y_domain": [
+    0,
+    0.6
+  ],
+  "y_label": "Uninsured share"
+}

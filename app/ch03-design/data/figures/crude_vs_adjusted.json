@@ -1,0 +1,88 @@
+{
+  "alt": "Dot plot: age-adjusted prevalence is about 3 points below crude prevalence for all adults, and the gap between men and women is wider after age adjustment (about 49 versus 40 percent) than before (about 51 versus 45 percent).",
+  "domain": [
+    0.3,
+    0.6
+  ],
+  "format": "pct1",
+  "note": "Standardization weights s_a = 0.4203 (18–39), 0.3572 (40–59), 0.2225 (60+).",
+  "rows": [
+    {
+      "ci_high": 0.499146,
+      "ci_low": 0.454142,
+      "estimate": 0.476644,
+      "group": "Aug 2021–Aug 2023",
+      "label": "All adults, crude",
+      "n": 6084,
+      "role": "cat1"
+    },
+    {
+      "ci_high": 0.469105,
+      "ci_low": 0.421175,
+      "estimate": 0.44514,
+      "group": "Aug 2021–Aug 2023",
+      "label": "All adults, age-adjusted",
+      "n": 6084,
+      "role": "cat2"
+    },
+    {
+      "ci_high": 0.53211,
+      "ci_low": 0.484708,
+      "estimate": 0.508409,
+      "group": "Aug 2021–Aug 2023",
+      "label": "Men, crude",
+      "n": 2776,
+      "role": "cat1"
+    },
+    {
+      "ci_high": 0.514183,
+      "ci_low": 0.461495,
+      "estimate": 0.487839,
+      "group": "Aug 2021–Aug 2023",
+      "label": "Men, age-adjusted",
+      "n": 2776,
+      "role": "cat2"
+    },
+    {
+      "ci_high": 0.477216,
+      "ci_low": 0.414375,
+      "estimate": 0.445796,
+      "group": "Aug 2021–Aug 2023",
+      "label": "Women, crude",
+      "n": 3308,
+      "role": "cat1"
+    },
+    {
+      "ci_high": 0.429277,
+      "ci_low": 0.373363,
+      "estimate": 0.40132,
+      "group": "Aug 2021–Aug 2023",
+      "label": "Women, age-adjusted",
+      "n": 3308,
+      "role": "cat2"
+    },
+    {
+      "ci_high": 0.50746,
+      "ci_low": 0.45438,
+      "estimate": 0.48092,
+      "group": "2017–Mar 2020",
+      "label": "All adults, crude",
+      "n": 7948,
+      "role": "cat1"
+    },
+    {
+      "ci_high": 0.474733,
+      "ci_low": 0.426401,
+      "estimate": 0.450567,
+      "group": "2017–Mar 2020",
+      "label": "All adults, age-adjusted",
+      "n": 7948,
+      "role": "cat2"
+    }
+  ],
+  "source": "NHANES; 2000 U.S. standard population (Census P25-1130); chapter calculations",
+  "subtitle": "Hypertension prevalence, crude and age-adjusted to the 2000 U.S. standard population, 95% intervals",
+  "title": "Survey weights and standardization weights answer different questions",
+  "type": "dot",
+  "x_label": "Percent of adults"
+}

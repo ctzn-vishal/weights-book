@@ -1,0 +1,203 @@
+{
+  "alt": "Line chart, 2019 to 2024: child poverty is 15.3% under the official measure but 5.2% under the SPM in 2021, while poverty among people 65 and older is higher under the SPM in every year (15.0% versus 9.9% in 2024).",
+  "annotations": [
+    {
+      "label": "Expanded Child Tax Credit",
+      "x": 2021
+    }
+  ],
+  "format": "pct1",
+  "note": "Income year = survey year minus 1. The official measure uses IPUMS POVERTY (open pipeline decision #8). The SPM lines break between 2019 and 2020: Census revised the SPM methodology from the 2019 estimates onward, and the 2019 point here is SPMPOV as first released, which matches the unrevised published rate. Estimates from 2020 on use 2020 Census-based population controls.",
+  "series": [
+    {
+      "name": "Children, Official",
+      "role": "cat1",
+      "segments": [
+        [
+          {
+            "hi": 0.149874,
+            "lo": 0.137699,
+            "x": 2019,
+            "y": 0.143787
+          },
+          {
+            "hi": 0.167106,
+            "lo": 0.1535,
+            "x": 2020,
+            "y": 0.160303
+          },
+          {
+            "hi": 0.16016,
+            "lo": 0.145548,
+            "x": 2021,
+            "y": 0.152854
+          },
+          {
+            "hi": 0.157067,
+            "lo": 0.142709,
+            "x": 2022,
+            "y": 0.149888
+          },
+          {
+            "hi": 0.160053,
+            "lo": 0.145078,
+            "x": 2023,
+            "y": 0.152565
+          },
+          {
+            "hi": 0.14955,
+            "lo": 0.135785,
+            "x": 2024,
+            "y": 0.142667
+          }
+        ]
+      ]
+    },
+    {
+      "name": "Children, SPM",
+      "role": "cat2",
+      "segments": [
+        [
+          {
+            "hi": 0.129834,
+            "lo": 0.118222,
+            "x": 2019,
+            "y": 0.124028
+          }
+        ],
+        [
+          {
+            "hi": 0.102087,
+            "lo": 0.091391,
+            "x": 2020,
+            "y": 0.096739
+          },
+          {
+            "hi": 0.056023,
+            "lo": 0.047524,
+            "x": 2021,
+            "y": 0.051774
+          },
+          {
+            "hi": 0.130097,
+            "lo": 0.117871,
+            "x": 2022,
+            "y": 0.123984
+          },
+          {
+            "hi": 0.144575,
+            "lo": 0.130982,
+            "x": 2023,
+            "y": 0.137779
+          },
+          {
+            "hi": 0.139602,
+            "lo": 0.127302,
+            "x": 2024,
+            "y": 0.133452
+          }
+        ]
+      ]
+    },
+    {
+      "name": "65 and older, Official",
+      "role": "cat3",
+      "segments": [
+        [
+          {
+            "hi": 0.092984,
+            "lo": 0.084394,
+            "x": 2019,
+            "y": 0.088689
+          },
+          {
+            "hi": 0.094618,
+            "lo": 0.084163,
+            "x": 2020,
+            "y": 0.089391
+          },
+          {
+            "hi": 0.108319,
+            "lo": 0.098267,
+            "x": 2021,
+            "y": 0.103293
+          },
+          {
+            "hi": 0.107213,
+            "lo": 0.096552,
+            "x": 2022,
+            "y": 0.101883
+          },
+          {
+            "hi": 0.10227,
+            "lo": 0.092457,
+            "x": 2023,
+            "y": 0.097364
+          },
+          {
+            "hi": 0.104072,
+            "lo": 0.094591,
+            "x": 2024,
+            "y": 0.099332
+          }
+        ]
+      ]
+    },
+    {
+      "name": "65 and older, SPM",
+      "role": "cat4",
+      "segments": [
+        [
+          {
+            "hi": 0.132966,
+            "lo": 0.121491,
+            "x": 2019,
+            "y": 0.127229
+          }
+        ],
+        [
+          {
+            "hi": 0.099822,
+            "lo": 0.089301,
+            "x": 2020,
+            "y": 0.094561
+          },
+          {
+            "hi": 0.111624,
+            "lo": 0.101425,
+            "x": 2021,
+            "y": 0.106525
+          },
+          {
+            "hi": 0.147784,
+            "lo": 0.135591,
+            "x": 2022,
+            "y": 0.141687
+          },
+          {
+            "hi": 0.146844,
+            "lo": 0.134634,
+            "x": 2023,
+            "y": 0.140739
+          },
+          {
+            "hi": 0.155757,
+            "lo": 0.143303,
+            "x": 2024,
+            "y": 0.14953
+          }
+        ]
+      ]
+    }
+  ],
+  "source": "IPUMS CPS ASEC 2020-2025 (analysis/cps/cps_asec/part_2020_2025.parquet); 95% intervals from 160 SDR replicate weights, df = 159",
+  "subtitle": "Share in poverty by income year, CPS ASEC 2020-2025, with 95% replicate intervals",
+  "title": "Two definitions of poverty, opposite verdicts by age",
+  "type": "line",
+  "x_label": "Income year",
+  "y_domain": [
+    0,
+    0.2
+  ],
+  "y_label": "Share in poverty"
+}

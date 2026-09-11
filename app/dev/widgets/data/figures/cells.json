@@ -1,0 +1,110 @@
+{
+  "alt": "Twelve fixture occupation-by-education cells with population shares, telework rates, and adjusted log-wage contrasts, for testing the HiddenEffectWeights widget.",
+  "cells": [
+    {
+      "effect": 0.21,
+      "effect_se": 0.017,
+      "label": "Management, BA+",
+      "n": 3971,
+      "pop_share": 0.0651,
+      "treat_share": 0.52
+    },
+    {
+      "effect": 0.093,
+      "effect_se": 0.028,
+      "label": "Management, no BA",
+      "n": 2434,
+      "pop_share": 0.0399,
+      "treat_share": 0.18
+    },
+    {
+      "effect": 0.161,
+      "effect_se": 0.012,
+      "label": "Professional, BA+",
+      "n": 7942,
+      "pop_share": 0.1302,
+      "treat_share": 0.48
+    },
+    {
+      "effect": 0.065,
+      "effect_se": 0.022,
+      "label": "Professional, no BA",
+      "n": 4868,
+      "pop_share": 0.0798,
+      "treat_share": 0.14
+    },
+    {
+      "effect": 0.079,
+      "effect_se": 0.024,
+      "label": "Office and admin support, BA+",
+      "n": 2379,
+      "pop_share": 0.039,
+      "treat_share": 0.3
+    },
+    {
+      "effect": 0.035,
+      "effect_se": 0.022,
+      "label": "Office and admin support, no BA",
+      "n": 5551,
+      "pop_share": 0.091,
+      "treat_share": 0.12
+    },
+    {
+      "effect": 0.123,
+      "effect_se": 0.028,
+      "label": "Sales, BA+",
+      "n": 1830,
+      "pop_share": 0.03,
+      "treat_share": 0.26
+    },
+    {
+      "effect": 0.027,
+      "effect_se": 0.032,
+      "label": "Sales, no BA",
+      "n": 4270,
+      "pop_share": 0.07,
+      "treat_share": 0.07
+    },
+    {
+      "effect": 0.031,
+      "effect_se": 0.063,
+      "label": "Service, BA+",
+      "n": 1244,
+      "pop_share": 0.0204,
+      "treat_share": 0.06
+    },
+    {
+      "effect": -0.014,
+      "effect_se": 0.04,
+      "label": "Service, no BA",
+      "n": 9126,
+      "pop_share": 0.1496,
+      "treat_share": 0.02
+    },
+    {
+      "effect": 0.044,
+      "effect_se": 0.059,
+      "label": "Production and transport, BA+",
+      "n": 2086,
+      "pop_share": 0.0342,
+      "treat_share": 0.04
+    },
+    {
+      "effect": 0.006,
+      "effect_se": 0.043,
+      "label": "Production and transport, no BA",
+      "n": 15299,
+      "pop_share": 0.2508,
+      "treat_share": 0.01
+    }
+  ],
+  "effect_format": "num3",
+  "ols_coef": 0.129,
+  "outcome_label": "Log hourly earnings",
+  "source": "Synthetic fixture in app/dev/widgets/data; not CPS data.",
+  "subtitle": "Fake values for widget development, not CPS estimates.",
+  "title": "Telework contrasts by occupation and education (fixture)",
+  "treatment_label": "Teleworked",
+  "type": "cells",
+  "wls_coef": 0.117
+}

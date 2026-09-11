@@ -23,22 +23,18 @@ import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import rehypeSlug from 'rehype-slug';
+// Component names, figure types, and the reference scanner are shared with
+// gen-registry.mjs and verify-book.mjs (scripts/lib/book-contract.mjs), so the
+// three agree on the contract.
+import {
+  CHART_TYPES, FIGURE_TYPES, GLOBAL_COMPONENTS, WIDGETS, WIDGET_DATA, blankNonProse, scanReferences,
+} from './lib/book-contract.mjs';
+
+export { GLOBAL_COMPONENTS, WIDGETS };
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '..');
 const macros = JSON.parse(readFileSync(join(root, 'lib', 'katex-macros.json'), 'utf8'));
-
-/** Available in every chapter without an import (mdx-components.tsx). */
-export const GLOBAL_COMPONENTS = [
-  'Fact', 'KeyNumber', 'Chart', 'Figure', 'Ledger', 'Callout', 'SideNote', 'Cite',
-  'Closing', 'Learned', 'Changed', 'NotEstablished', 'Details',
-];
-/** Imported explicitly from '@/components/widgets/<Name>'. */
-export const WIDGETS = [
-  'PopulationSampler', 'WeightBuilder', 'HiddenEffectWeights',
-  'EstimandSwitcher', 'ReplicateRanking', 'ClusterDesignWorksheet',
-];
-const FIGURE_TYPES = ['dot', 'bar', 'line', 'slope', 'table', 'histogram', 'cells', 'estimand-set', 'replicates'];
 
 // ---------------------------------------------------------------- args
 const argv = process.argv.slice(2);
@@ -83,11 +79,7 @@ try {
 // Source with fenced code, inline code, and math blanked out (same length, so
 // line numbers survive) for the lints below.
 const blank = (m) => m.replace(/[^\n]/g, ' ');
-const stripped = src
-  .replace(/```[\s\S]*?```/g, blank)
-  .replace(/\$\$[\s\S]*?\$\$/g, blank)
-  .replace(/`[^`\n]*`/g, blank)
-  .replace(/\{\/\*[\s\S]*?\*\/\}/g, blank);
+const stripped = blankNonProse(src);
 
 // ---------------------------------------------------------------- 2. components
 const imported = new Set();
@@ -154,10 +146,27 @@ const ref = (kind, id, idx, table) => {
   if (loadedKeys.has(id.split('.')[0])) errors.push(`line ${lineOf(idx)}: ${kind} "${id}" not found`);
   else warnings.push(`line ${lineOf(idx)}: ${kind} "${id}" belongs to a chapter not passed with --data (not checked)`);
 };
-for (const m of stripped.matchAll(/<(Fact|KeyNumber)\b[^>]*?\bid=["']([^"']+)["']/g)) { usedFacts.add(m[2]); ref('fact', m[2], m.index, facts); }
-for (const m of stripped.matchAll(/<(Chart|EstimandSwitcher|ReplicateRanking)\b[^>]*?\bid=["']([^"']+)["']/g)) ref('figure', m[2], m.index, figures);
-for (const m of stripped.matchAll(/<HiddenEffectWeights\b[^>]*?\bcellsId=["']([^"']+)["']/g)) ref('figure', m[1], m.index, figures);
-for (const m of stripped.matchAll(/<Ledger\b[^>]*?\bid=["']([^"']+)["']/g)) ref('ledger', m[1], m.index, ledgers);
+const scanned = scanReferences(stripped);
+for (const f of scanned.facts) {
+  usedFacts.add(f.id);
+  ref('fact', f.id, f.index, facts);
+  // The site build would fail here: <Fact ci> needs an interval to print.
+  if (f.ci && facts.has(f.id) && !facts.get(f.id).ci_display) {
+    errors.push(`line ${lineOf(f.index)}: <Fact id="${f.id}" ci> but the fact has no ci_display`);
+  }
+}
+for (const g of scanned.figures) {
+  ref('figure', g.id, g.index, figures);
+  const fig = figures.get(g.id);
+  if (!fig) continue;
+  // The site build would fail here too: <Chart> draws chart types only, and each widget needs its own type.
+  if (g.tag === 'Chart' && FIGURE_TYPES.includes(fig.type) && !CHART_TYPES.includes(fig.type)) {
+    errors.push(`line ${lineOf(g.index)}: <Chart id="${g.id}"> points at widget data ("${fig.type}")`);
+  }
+  const w = WIDGET_DATA[g.tag];
+  if (w && fig.type !== w.type) errors.push(`line ${lineOf(g.index)}: <${g.tag}> needs a "${w.type}" figure, but "${g.id}" is "${fig.type}"`);
+}
+for (const l of scanned.ledgers) ref('ledger', l.id, l.index, ledgers);
 if (checked) {
   for (const id of facts.keys()) {
     if (ownKeys.has(id.split('.')[0]) && !usedFacts.has(id)) warnings.push(`orphan fact "${id}" is never cited in this chapter`);
@@ -165,14 +174,14 @@ if (checked) {
 }
 
 // citations
-const cites = [...stripped.matchAll(/<Cite\b[^>]*?\bid=["']([^"']+)["']/g)];
+const cites = scanned.cites;
 if (cites.length) {
   if (existsSync(refsPath)) {
     const refs = JSON.parse(readFileSync(refsPath, 'utf8'));
     const keys = new Set(Object.keys(refs.references ?? refs));
-    for (const m of cites) {
-      for (const id of m[1].split(',').map((s) => s.trim())) {
-        if (!keys.has(id)) warnings.push(`line ${lineOf(m.index)}: citation "${id}" not in ${basename(refsPath)}`);
+    for (const c of cites) {
+      for (const id of c.raw.split(',').map((s) => s.trim())) {
+        if (!keys.has(id)) warnings.push(`line ${lineOf(c.index)}: citation "${id}" not in ${basename(refsPath)}`);
       }
     }
   } else {
@@ -186,7 +195,11 @@ const prose = stripped
   .replace(/<[^>]*>/g, blank)
   .replace(/^#{1,6}\s.*$/gm, blank);
 const numberPattern = /(?<![\w.])(\$\s?\d[\d,]*(?:\.\d+)?|\d+(?:\.\d+)?\s?%|\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+\.\d+)(?![\w])/g;
+// Cross-references are labels, not data: "Figure 3.1", "Figures 3L.1 and 3L.2", "Table 2.4",
+// "Section 5.2", "§7.3", "equation 4.1".
+const crossRef = /(?:Figures?|Fig\.|Tables?|Chapters?|Sections?|Appendix|Appendices|Equations?|Eqs?\.|§)\s*(?:[0-9A-Z.]+(?:\s*(?:,|and|or|to|–|-)\s*)?)*$/i;
 for (const m of prose.matchAll(numberPattern)) {
+  if (crossRef.test(prose.slice(Math.max(0, m.index - 40), m.index))) continue;
   warnings.push(`line ${lineOf(m.index)}: possible hand-typed number "${m[1].trim()}" (use <Fact id="..."/>, or explain in NOTES.md)`);
 }
 

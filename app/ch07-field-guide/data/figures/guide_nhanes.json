@@ -1,0 +1,112 @@
+{
+  "alt": "Table declaring the NHANES August 2021 to August 2023 release: universe, sample design, exam and interview weights, 15 pseudo-strata and 30 pseudo-PSUs with 15 degrees of freedom, pooling rules, series breaks, and response rates.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "item",
+      "label": "Item"
+    },
+    {
+      "align": "left",
+      "key": "value",
+      "label": "Declaration"
+    },
+    {
+      "align": "left",
+      "key": "source",
+      "label": "Provenance"
+    }
+  ],
+  "note": "Provenance: design.json = machine-readable manifest field; design.json notes = the manifest's free text; producer = documentation read 2026-09-10; computed = counted from the store by build.py; book guidance = editorial, not a producer rule.",
+  "rows": [
+    {
+      "item": "Pinned release",
+      "source": "design.json; producer: NCHS",
+      "value": "NHANES August 2021–August 2023 (file suffix _L; store CYCLE_YEAR = 2021)"
+    },
+    {
+      "item": "Records",
+      "source": "computed from data; producer: NCHS DEMO_L documentation",
+      "value": "11,933 interviewed, of whom 8,860 were examined; NCHS's DEMO_L counts match"
+    },
+    {
+      "item": "Universe",
+      "source": "producer: NCHS",
+      "value": "US civilian noninstitutionalized population, all ages"
+    },
+    {
+      "item": "Sample design",
+      "source": "producer: NCHS overview brief",
+      "value": "Multi-year, stratified, clustered four-stage sample with 30 PSUs (counties). No oversampling by race, Hispanic origin, or income this cycle; everyone aged 0–19 or 60 and older encountered in a sampled household was selected"
+    },
+    {
+      "item": "Canonical weight",
+      "source": "design.json",
+      "value": "WTMEC2YR for examination and laboratory variables and for any model mixing interview and exam variables; WTINT2YR for interview-only analyses. Not WTMECPRP, which belongs to the 2017–March 2020 file"
+    },
+    {
+      "item": "Alternate weights",
+      "source": "design.json; producer: NCHS overview brief",
+      "value": "Dietary WTDRD1 and WTDR2D; fasting subsample WTSAF2YR; NCHS added a phlebotomy weight in this release to address possible nonresponse bias"
+    },
+    {
+      "item": "Variance method",
+      "source": "design.json",
+      "value": "Taylor linearization (variance_method: taylor). NHANES public releases use Taylor-series linearization with the masked SDMVSTRA/SDMVPSU design variables. No replicate weights are provided."
+    },
+    {
+      "item": "Strata and PSUs",
+      "source": "computed from data; design.json",
+      "value": "SDMVSTRA (codes 173–187) and SDMVPSU: 15 masked pseudo-strata and 30 pseudo-PSUs, two per stratum"
+    },
+    {
+      "item": "Design df",
+      "source": "computed from data; producer: NHANES tutorial",
+      "value": "15 (PSUs − strata)"
+    },
+    {
+      "item": "Lonely-PSU rule",
+      "source": "design.json; verified in this build",
+      "value": "SDMVPSU takes values 1-3 nested within each stratum (usually 2 PSUs/stratum). Use survey-package option `singleton='adjust'` (svy) or `options(survey.lonely.psu='adjust')` (R survey) if a domain subset leaves a stratum with one PSU. In svy 0.28 the rule is named \"center\": s.singleton.handle(\"center\"), which matched R's \"adjust\" exactly on BRFSS 2024 in this build."
+    },
+    {
+      "item": "Zero-weight rows",
+      "source": "design.json",
+      "value": "Participants interviewed but not MEC-examined have WTMEC2YR/WTMECPRP = 0 or NA; kept in the file, excluded automatically by weight>0 filters. Do not drop them upstream."
+    },
+    {
+      "item": "Pooling rule",
+      "source": "design.json",
+      "value": "When pooling k two-year cycles, divide each cycle's 2-year weight by k (NCHS guidance). The 2019 pre-pandemic file spans ~3.2 years and its PRP weights are already scaled to that period; combining it with 2-year cycles requires cycle-appropriate multipliers - consult the NCHS analytic notes before pooling it with individual 2-year cycles. The only NCHS-provided 4-year weights (WTMEC4YR/WTINT4YR) are valid ONLY for 1999-2000 + 2001-2002."
+    },
+    {
+      "item": "Double count",
+      "source": "design.json",
+      "value": "CYCLE_YEAR==2017 (2017-2018, n=9254) and CYCLE_YEAR==2019 (2017-March 2020 pre-pandemic, n=15560) cover OVERLAPPING field periods - the pre-pandemic file re-includes the 2017-2018 participants under new SEQNs (zero SEQN overlap, invisible to joins). NEVER analyze both together. For 2017-onward coverage use CYCLE_YEAR==2019; for the isolated 2017-2018 cycle use CYCLE_YEAR==2017."
+    },
+    {
+      "item": "Series breaks",
+      "source": "DATA_GUIDE.md; producer: NCHS overview brief",
+      "value": "Blood pressure is oscillometric (BPXO) from 2017 and reads lower than the auscultatory BPX used through 2015–2016; a 1.5-year gap separates this cycle from the 2017–March 2020 file; sample design and screener changed"
+    },
+    {
+      "item": "Response",
+      "source": "producer: NCHS overview brief",
+      "value": "Interview response 34.6% and examination response 25.7%, down from 51.0% and 46.9% in 2017–March 2020; NCHS's nonresponse-bias assessment found no major bias not addressed by weighting"
+    },
+    {
+      "item": "Geography",
+      "source": "design.json notes",
+      "value": "National only; the masked variance units are not geography"
+    },
+    {
+      "item": "Last verified",
+      "source": "design.json; this build",
+      "value": "design.json generated 2026-07-11; DEMO_L documentation, overview brief, and tutorial read 2026-09-10"
+    }
+  ],
+  "source": "NCHS DEMO_L documentation (https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2021/DataFiles/DEMO_L.htm); NCHS NHANES 2021-2023 overview brief (https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/overviewbrief.aspx?Cycle=2021-2023); NHANES tutorial: variance estimation (https://wwwn.cdc.gov/nchs/nhanes/tutorials/varianceestimation.aspx)",
+  "subtitle": "Masked variance units, Taylor linearization",
+  "title": "NHANES August 2021–August 2023: declared",
+  "type": "table"
+}

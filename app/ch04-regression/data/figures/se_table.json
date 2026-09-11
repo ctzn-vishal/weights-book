@@ -1,0 +1,61 @@
+{
+  "alt": "Table of standard errors for the adjusted work-from-home coefficient under five variance estimators. Most agree closely; clustering by state is several times larger because it answers a different question.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "method",
+      "label": "Variance estimator"
+    },
+    {
+      "align": "right",
+      "key": "ols",
+      "label": "OLS"
+    },
+    {
+      "align": "right",
+      "key": "wls",
+      "label": "WLS"
+    },
+    {
+      "align": "left",
+      "key": "repeats",
+      "label": "What it imagines repeating"
+    }
+  ],
+  "note": "Headline specification (WFH, age, age², sex, education). The OLS entry in the replicate row applies each replicate's perturbation (REPWTP_r ÷ PERWT) to equal case weights, an approximation because the replicates also re-run the weighting adjustments.",
+  "rows": [
+    {
+      "method": "Classical (iid)",
+      "ols": "0.0018",
+      "repeats": "independent draws of workers with a common error variance",
+      "wls": "0.0018"
+    },
+    {
+      "method": "Heteroskedasticity-robust (HC1)",
+      "ols": "0.0019",
+      "repeats": "independent draws of workers",
+      "wls": "0.0024"
+    },
+    {
+      "method": "Clustered by household (CR1)",
+      "ols": "0.0019",
+      "repeats": "independent draws of households",
+      "wls": "0.0024"
+    },
+    {
+      "method": "ACS replicate weights (SDR, 80)",
+      "ols": "0.0019",
+      "repeats": "the ACS address sample and its weighting, as the Census Bureau encodes them",
+      "wls": "0.0023"
+    },
+    {
+      "method": "Clustered by state (CR1, 51 clusters)",
+      "ols": "0.0096",
+      "repeats": "independent draws of states, which the ACS does not do",
+      "wls": "0.0088"
+    }
+  ],
+  "source": "IPUMS USA, ACS 2024 1-year (SAMPLE 202401), analysis/usa/acs/part_2020_2024.parquet; replicate weights REPWTP1–80 from analysis/usa/acs_repwt/part_2020_2024.parquet",
+  "title": "Same coefficient, five standard errors",
+  "type": "table"
+}

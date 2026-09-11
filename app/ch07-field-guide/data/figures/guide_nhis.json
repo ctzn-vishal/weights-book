@@ -1,0 +1,112 @@
+{
+  "alt": "Table declaring the NHIS 2024 release: universe, weights, strata and PSU counts, rule-of-thumb degrees of freedom, the lonely-PSU rule, pooling, series breaks, and known traps.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "item",
+      "label": "Item"
+    },
+    {
+      "align": "left",
+      "key": "value",
+      "label": "Declaration"
+    },
+    {
+      "align": "left",
+      "key": "source",
+      "label": "Provenance"
+    }
+  ],
+  "note": "Provenance: design.json = machine-readable manifest field; design.json notes = the manifest's free text; producer = documentation read 2026-09-10; computed = counted from the store by build.py; book guidance = editorial, not a producer rule.",
+  "rows": [
+    {
+      "item": "Pinned release",
+      "source": "producer: NCHS 2024 survey description",
+      "value": "NHIS 2024 (IPUMS NHIS, YEAR = 2024), fielded under the 2016–2025 sample design"
+    },
+    {
+      "item": "Records",
+      "source": "computed from data",
+      "value": "32,629 sample adults and 8,360 sample children"
+    },
+    {
+      "item": "Universe",
+      "source": "producer: NCHS",
+      "value": "Civilian noninstitutionalized population of the United States"
+    },
+    {
+      "item": "Canonical weight",
+      "source": "design.json",
+      "value": "SAMPWEIGHT; sample-adult/child module weight (module items incl. SMOKESTATUS2, K6); PERWEIGHT for all-person items"
+    },
+    {
+      "item": "Full-population weight rule",
+      "source": "design.json",
+      "value": "PERWEIGHT for 1997-2018 (all-person core items); PERWEIGHT is not released for 2019+ where the public file contains only sample adults + sample children whose SAMPWEIGHT sums to the full civilian noninstitutionalized population — full-population series use PERWEIGHT pre-2019 and SAMPWEIGHT 2019+"
+    },
+    {
+      "item": "Weight construction",
+      "source": "producer: NCHS 2024 survey description",
+      "value": "The final annual weight includes design, ratio, nonresponse, and calibration adjustments; calibration controls are age by sex, age by race and ethnicity, education, housing tenure, and region by MSA status"
+    },
+    {
+      "item": "Variance method",
+      "source": "design.json; producer: NCHS",
+      "value": "Taylor linearization (variance_tier: taylor), PSUs treated as sampled with replacement"
+    },
+    {
+      "item": "Strata and PSUs",
+      "source": "computed from data",
+      "value": "STRATA and PSU (NCHS names PSTRAT and PPSU): 52 strata and 662 PSUs, but only 108 distinct PSU codes, reused across strata"
+    },
+    {
+      "item": "Composite key",
+      "source": "design.json",
+      "value": "PSU ids repeat across strata: ALWAYS treat (STRATA, PSU) as the clustering key — using PSU alone silently miscomputes variance."
+    },
+    {
+      "item": "Design df",
+      "source": "computed from data; producer: NCHS",
+      "value": "610 by the rule PSUs − strata. NCHS notes that the rule is not directly applicable to the NHIS design; a normal approximation may be adequate when a variable is spread across most clusters"
+    },
+    {
+      "item": "Lonely-PSU rule",
+      "source": "design.json; computed from data",
+      "value": "center (deviations from grand mean, equivalent to R survey option survey.lonely.psu='adjust'); decision recorded per playbook §6 — annual full-file designs have ≥2 PSUs per stratum, singletons can arise only in small domains. Every stratum of the full 2024 file has at least 5 PSUs"
+    },
+    {
+      "item": "Zero-weight rows",
+      "source": "design.json",
+      "value": "persons outside the sample-adult/child modules carry SAMPWEIGHT=0"
+    },
+    {
+      "item": "Pooling rule",
+      "source": "design.json; producer: NCHS; computed from data",
+      "value": "Multi-year pooled estimates conventionally divide the weight by the number of years pooled (producer guidance; verify against NHIS documentation for the specific pooled span). NCHS's 2024 guidance: divide the weight by the number of years pooled and keep PSTRAT and PPSU as they are; 635 of the 662 (STRATA, PSU) pairs of 2024 also appear in 2023"
+    },
+    {
+      "item": "Series breaks",
+      "source": "design.json; producer: NCHS",
+      "value": "2019: 2019 questionnaire redesign. NHIS content, universes, and weighting redesigned in 2019; NCHS advises caution comparing 2019-forward estimates with earlier years (see nhis_era derived flag). The 2024 sample adds a 25 percent increase in nonmetropolitan households"
+    },
+    {
+      "item": "Geography",
+      "source": "design.json",
+      "value": "nation: licensed; region: licensed"
+    },
+    {
+      "item": "Trap: PSU codes",
+      "source": "verified in this build (real data)",
+      "value": "svy nests PSU codes within the declared strata; R's svydesign stops without nest = TRUE; code that groups or clusters on PSU alone merges unrelated PSUs"
+    },
+    {
+      "item": "Last verified",
+      "source": "design.json; this build",
+      "value": "Extended design.json block added 2026-07-11; NCHS and IPUMS documents re-read 2026-09-10"
+    }
+  ],
+  "source": "NCHS 2024 NHIS survey description (https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Dataset_Documentation/NHIS/2024/srvydesc-508.pdf); IPUMS NHIS variance note (https://nhis.ipums.org/nhis/userNotes_variance.shtml)",
+  "subtitle": "IPUMS NHIS sample adult and sample child records, Taylor linearization",
+  "title": "NHIS 2024: declared",
+  "type": "table"
+}

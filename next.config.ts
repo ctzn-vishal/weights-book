@@ -1,19 +1,20 @@
 import type { NextConfig } from 'next';
 import createMDX from '@next/mdx';
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
+// One macro file shared with scripts/check-mdx.mjs, so the checker and the site
+// render math identically. Encodes the notation contract (docs/CONTRACT.md).
+// Next evaluates the compiled config relative to the working directory, so run
+// `next` from the repo root (the npm scripts and Vercel both do).
+import katexMacros from './lib/katex-macros.json';
 
 // Served at vishalsingh.org/weights through a rewrite in the d3m-book project,
 // and at <deployment>/weights directly. basePath is set from the first commit
 // because it changes every URL the app emits.
 const BASE_PATH = '/weights';
 
-// One macro file shared with scripts/check-mdx.mjs, so the checker and the site
-// render math identically. Encodes the notation contract (docs/CONTRACT.md).
-const katexMacros = JSON.parse(readFileSync(join(process.cwd(), 'lib', 'katex-macros.json'), 'utf8'));
-
 const nextConfig: NextConfig = {
   basePath: BASE_PATH,
+  // Next 16's dev server otherwise writes AGENTS.md / CLAUDE.md into the repo root.
+  agentRules: false,
   // Lets two agents build side by side without clobbering one .next directory.
   ...(process.env.NEXT_DIST_DIR ? { distDir: process.env.NEXT_DIST_DIR } : {}),
   pageExtensions: ['ts', 'tsx', 'md', 'mdx'],

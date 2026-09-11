@@ -1,0 +1,19 @@
+{
+  "alt": "Dot plot of six fixture estimates of minutes worked per day, grouped by unit of analysis, with 95% intervals and a reference line at an external benchmark.",
+  "format": "min1",
+  "note": "A row without an interval is drawn as a bare dot: not reported, not infinitely precise.",
+  "reference": { "label": "External benchmark", "value": 213.6 },
+  "rows": [
+    { "ci_high": 219.5, "ci_low": 208.1, "estimate": 213.8, "group": "Person-days", "label": "All person-days, weighted", "n": 8548, "role": "weighted" },
+    { "ci_high": 234.2, "ci_low": 224.6, "estimate": 229.4, "group": "Person-days", "label": "All person-days, unweighted", "n": 8548, "role": "unweighted" },
+    { "ci_high": 278.1, "ci_low": 264.3, "estimate": 271.2, "group": "Person-days", "label": "Weekdays only, weighted", "n": 4271, "role": "weighted" },
+    { "ci_high": 340.0, "ci_low": 325.0, "estimate": 332.5, "group": "People", "label": "Employed people, weighted", "n": 5120, "role": "weighted" },
+    { "ci_high": 348.6, "ci_low": 335.2, "estimate": 341.9, "group": "People", "label": "Employed people, unweighted", "n": 5120, "role": "unweighted" },
+    { "estimate": 452.7, "group": "People", "label": "Workers on days they worked", "n": 3990, "role": "highlight" }
+  ],
+  "source": "Kitchen-sink fixture; not ATUS estimates.",
+  "subtitle": "Mean minutes per day, with 95% intervals where one was computed",
+  "title": "Six answers to how much people work (fixture)",
+  "type": "dot",
+  "x_label": "Minutes per day"
+}

@@ -1,0 +1,37 @@
+{
+  "alt": "Dot plot: across 2,000 simulated stratified samples the weighted estimate centers on the population truth, while the unweighted mean centers well above it; bars show the middle 95% of estimates.",
+  "format": "pct1",
+  "note": "Rural adults (a fifth of the population) are sampled at four times the urban rate.",
+  "reference": {
+    "label": "population truth",
+    "value": 0.14134
+  },
+  "rows": [
+    {
+      "estimate": 0.14134,
+      "label": "Population truth",
+      "role": "truth"
+    },
+    {
+      "ci_high": 0.1652,
+      "ci_low": 0.118,
+      "estimate": 0.141382,
+      "label": "Weighted mean (design weights)",
+      "n": 1000,
+      "role": "weighted"
+    },
+    {
+      "ci_high": 0.226,
+      "ci_low": 0.177,
+      "estimate": 0.200881,
+      "label": "Unweighted mean",
+      "n": 1000,
+      "role": "unweighted"
+    }
+  ],
+  "source": "Synthetic population defined in ch00-start-here/build.py (seed 20260910); no survey data",
+  "subtitle": "Dot: average estimate across repetitions; bar: middle 95% of estimates",
+  "title": "Two estimators under the same design, 2,000 repeated samples",
+  "type": "dot",
+  "x_label": "Share lacking a regular source of care"
+}

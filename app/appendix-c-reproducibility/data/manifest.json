@@ -1,0 +1,22 @@
+{
+  "code": "build.py",
+  "generated_at": "2026-09-11T00:38:15Z",
+  "inputs": [
+    {
+      "note": "benchmark re-run on the analysis (clean) store",
+      "path": "ipums/logs/validation_benchmarks_clean.md",
+      "rows": 9
+    }
+  ],
+  "key": "appC",
+  "slug": "appendix-c-reproducibility",
+  "status": "draft",
+  "validation": [
+    {
+      "acceptance": "Exact-required set: ALL MATCH",
+      "check": "benchmark log parsed",
+      "pass": true,
+      "series": 9
+    }
+  ]
+}

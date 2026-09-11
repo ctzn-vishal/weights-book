@@ -1,0 +1,290 @@
+{
+  "alt": "Table of 24 comparisons of hypertension cascade estimates between 2017–March 2020 and August 2021–August 2023 by stage and group, with naive and full-design p-values.",
+  "columns": [
+    {
+      "key": "stage",
+      "label": "Stage"
+    },
+    {
+      "key": "group",
+      "label": "Group"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "pre",
+      "label": "2017–Mar 2020"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "post",
+      "label": "Aug 2021–Aug 2023"
+    },
+    {
+      "align": "right",
+      "format": "num1",
+      "key": "change",
+      "label": "Change (pp)"
+    },
+    {
+      "align": "right",
+      "format": "num3",
+      "key": "p_naive",
+      "label": "p, naive"
+    },
+    {
+      "align": "right",
+      "format": "num3",
+      "key": "p_design",
+      "label": "p, full design"
+    }
+  ],
+  "highlight_key": "highlight",
+  "note": "Highlighted rows: p < 0.05 under at least one method. No adjustment for multiple comparisons.",
+  "rows": [
+    {
+      "change": -0.427593,
+      "group": "All adults",
+      "highlight": false,
+      "p_design": 0.798748,
+      "p_naive": 0.615347,
+      "post": 0.476644,
+      "pre": 0.48092,
+      "stage": "Prevalence"
+    },
+    {
+      "change": 0.300924,
+      "group": "Men",
+      "highlight": false,
+      "p_design": 0.884986,
+      "p_naive": 0.807766,
+      "post": 0.508409,
+      "pre": 0.5054,
+      "stage": "Prevalence"
+    },
+    {
+      "change": -1.12887,
+      "group": "Women",
+      "highlight": false,
+      "p_design": 0.581786,
+      "p_naive": 0.335145,
+      "post": 0.445796,
+      "pre": 0.457084,
+      "stage": "Prevalence"
+    },
+    {
+      "change": 0.0366418,
+      "group": "Ages 18–39",
+      "highlight": false,
+      "p_design": 0.986307,
+      "p_naive": 0.977814,
+      "post": 0.234337,
+      "pre": 0.23397,
+      "stage": "Prevalence"
+    },
+    {
+      "change": 0.0151001,
+      "group": "Ages 40–59",
+      "highlight": false,
+      "p_design": 0.994691,
+      "p_naive": 0.992333,
+      "post": 0.524616,
+      "pre": 0.524465,
+      "stage": "Prevalence"
+    },
+    {
+      "change": -2.53203,
+      "group": "Ages 60+",
+      "highlight": true,
+      "p_design": 0.170081,
+      "p_naive": 0.0348967,
+      "post": 0.71568,
+      "pre": 0.741001,
+      "stage": "Prevalence"
+    },
+    {
+      "change": -1.0137,
+      "group": "All adults",
+      "highlight": false,
+      "p_design": 0.585048,
+      "p_naive": 0.374635,
+      "post": 0.591724,
+      "pre": 0.601861,
+      "stage": "Awareness"
+    },
+    {
+      "change": -3.01286,
+      "group": "Men",
+      "highlight": false,
+      "p_design": 0.262472,
+      "p_naive": 0.0640253,
+      "post": 0.551671,
+      "pre": 0.5818,
+      "stage": "Awareness"
+    },
+    {
+      "change": 1.26038,
+      "group": "Women",
+      "highlight": false,
+      "p_design": 0.55705,
+      "p_naive": 0.429631,
+      "post": 0.63605,
+      "pre": 0.623446,
+      "stage": "Awareness"
+    },
+    {
+      "change": -8.43811,
+      "group": "Ages 18–39",
+      "highlight": true,
+      "p_design": 0.044075,
+      "p_naive": 0.00421823,
+      "post": 0.271852,
+      "pre": 0.356233,
+      "stage": "Awareness"
+    },
+    {
+      "change": 1.38484,
+      "group": "Ages 40–59",
+      "highlight": false,
+      "p_design": 0.697547,
+      "p_naive": 0.510377,
+      "post": 0.567027,
+      "pre": 0.553179,
+      "stage": "Awareness"
+    },
+    {
+      "change": -0.206441,
+      "group": "Ages 60+",
+      "highlight": false,
+      "p_design": 0.919648,
+      "p_naive": 0.879994,
+      "post": 0.736937,
+      "pre": 0.739002,
+      "stage": "Awareness"
+    },
+    {
+      "change": 0.915133,
+      "group": "All adults",
+      "highlight": false,
+      "p_design": 0.61318,
+      "p_naive": 0.431611,
+      "post": 0.511938,
+      "pre": 0.502787,
+      "stage": "Treatment"
+    },
+    {
+      "change": 0.3986,
+      "group": "Men",
+      "highlight": false,
+      "p_design": 0.877995,
+      "p_naive": 0.807681,
+      "post": 0.467475,
+      "pre": 0.463489,
+      "stage": "Treatment"
+    },
+    {
+      "change": 1.60469,
+      "group": "Women",
+      "highlight": false,
+      "p_design": 0.459586,
+      "p_naive": 0.328983,
+      "post": 0.56115,
+      "pre": 0.545103,
+      "stage": "Treatment"
+    },
+    {
+      "change": -2.6373,
+      "group": "Ages 18–39",
+      "highlight": false,
+      "p_design": 0.348687,
+      "p_naive": 0.25003,
+      "post": 0.139311,
+      "pre": 0.165684,
+      "stage": "Treatment"
+    },
+    {
+      "change": 3.80093,
+      "group": "Ages 40–59",
+      "highlight": false,
+      "p_design": 0.24936,
+      "p_naive": 0.0718992,
+      "post": 0.471292,
+      "pre": 0.433283,
+      "stage": "Treatment"
+    },
+    {
+      "change": -0.279022,
+      "group": "Ages 60+",
+      "highlight": false,
+      "p_design": 0.893901,
+      "p_naive": 0.845938,
+      "post": 0.690519,
+      "pre": 0.693309,
+      "stage": "Treatment"
+    },
+    {
+      "change": -1.45903,
+      "group": "All adults",
+      "highlight": false,
+      "p_design": 0.244052,
+      "p_naive": 0.125827,
+      "post": 0.207393,
+      "pre": 0.221983,
+      "stage": "Control"
+    },
+    {
+      "change": -3.00538,
+      "group": "Men",
+      "highlight": true,
+      "p_design": 0.0812368,
+      "p_naive": 0.0222184,
+      "post": 0.189097,
+      "pre": 0.219151,
+      "stage": "Control"
+    },
+    {
+      "change": 0.262375,
+      "group": "Women",
+      "highlight": false,
+      "p_design": 0.88914,
+      "p_naive": 0.849569,
+      "post": 0.227656,
+      "pre": 0.225032,
+      "stage": "Control"
+    },
+    {
+      "change": -1.03933,
+      "group": "Ages 18–39",
+      "highlight": false,
+      "p_design": 0.483792,
+      "p_naive": 0.45393,
+      "post": 0.0449913,
+      "pre": 0.0553846,
+      "stage": "Control"
+    },
+    {
+      "change": -0.748063,
+      "group": "Ages 40–59",
+      "highlight": false,
+      "p_design": 0.746015,
+      "p_naive": 0.648589,
+      "post": 0.180832,
+      "pre": 0.188312,
+      "stage": "Control"
+    },
+    {
+      "change": -2.35141,
+      "group": "Ages 60+",
+      "highlight": false,
+      "p_design": 0.329432,
+      "p_naive": 0.0995241,
+      "post": 0.29211,
+      "pre": 0.315624,
+      "stage": "Control"
+    }
+  ],
+  "source": "NHANES; chapter calculations",
+  "title": "All 24 period comparisons",
+  "type": "table"
+}

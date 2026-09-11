@@ -1,0 +1,40 @@
+{
+  "key": "ch5",
+  "ledgers": {
+    "six_way": {
+      "assumptions": "7 small cells merged within occupation (n ≥ 100, 30+ in each arm); common age–sex profile across cells; descriptive, not causal; TRANWORK construct caveat applies.",
+      "estimand": "Descriptive averages of occupation-by-education cell contrasts in log hourly wage (WFH minus commuters, net of a common age–sex profile): population-weighted (PATE-analogue), WFH-weighted (ATT-analogue), commuter-weighted (ATU-analogue), and the survey-weighted projection coefficient.",
+      "estimator": "Weighted cell moments from PERWT; contrasts are within-cell differences in mean log wage minus the fitted age–sex profile; the projection is WLS with cell fixed effects.",
+      "explicit_weights": "PERWT for every weighted quantity; equal case weights for the OLS comparison.",
+      "facts": [
+        "ch5.cellfe_wls",
+        "ch5.pate",
+        "ch5.att",
+        "ch5.atu",
+        "ch5.cellfe_ols"
+      ],
+      "implicit_weights": "Projection: N_c p_c(1 − p_c). PATE-analogue: N_c. ATT-analogue: N_c p_c. ATU-analogue: N_c(1 − p_c).",
+      "randomness": "The ACS sample and response process; no treatment assignment.",
+      "target_population": "Wage and salary workers aged 25–64 in the 2024 ACS who usually worked 30+ hours a week for 40+ weeks in the past 12 months, had positive wage income, and were at work in the reference week.",
+      "title": "Whose wage gap? Averaging the same cell contrasts in different ways",
+      "variance_estimator": "SDR, 80 replicates; every contrast, cell weight, and average is recomputed per replicate; df = 79."
+    },
+    "sloczynski": {
+      "assumptions": "The decomposition is an in-sample identity; reading its components as ATT and ATU requires unconfoundedness and linearity in p(X), which this descriptive analysis does not claim.",
+      "estimand": "The cell-fixed-effect projection coefficient, re-expressed as ω₁·ATT + (1 − ω₁)·ATU, where ATT and ATU are average partial linear effects on WFH workers and commuters.",
+      "estimator": "Linear propensity score p(X) from WLS of WFH on cells and age–sex terms; within-group projections of log wage on p(X); weights from group shares and within-group variances of p(X).",
+      "explicit_weights": "PERWT.",
+      "facts": [
+        "ch5.sl_w1_wls",
+        "ch5.sl_att",
+        "ch5.sl_atu",
+        "ch5.sl_ape"
+      ],
+      "implicit_weights": "ω₁ = (1 − ρ)V₀ / [ρV₁ + (1 − ρ)V₀] on the ATT; the smaller group gets the larger weight.",
+      "randomness": "The ACS sample and response process.",
+      "target_population": "Wage and salary workers aged 25–64 in the 2024 ACS who usually worked 30+ hours a week for 40+ weeks in the past 12 months, had positive wage income, and were at work in the reference week.",
+      "title": "Smaller groups get larger weights (Słoczyński decomposition)",
+      "variance_estimator": "SDR, 80 replicates, full recomputation; df = 79."
+    }
+  }
+}

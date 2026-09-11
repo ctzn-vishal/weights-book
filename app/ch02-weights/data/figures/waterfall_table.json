@@ -1,0 +1,116 @@
+{
+  "alt": "Table of the six weighting stages with the variable, what each step multiplies in, whether it can be rebuilt, the FMD estimate, the weight CV, the Kish effective sample, and the sum of weights.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "stage",
+      "label": "Stage"
+    },
+    {
+      "align": "left",
+      "key": "var",
+      "label": "Variable"
+    },
+    {
+      "align": "left",
+      "key": "step",
+      "label": "What it adds"
+    },
+    {
+      "align": "left",
+      "key": "status",
+      "label": "Rebuildable?"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "fmd",
+      "label": "FMD"
+    },
+    {
+      "align": "right",
+      "format": "num2",
+      "key": "cv",
+      "label": "CV(w)"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "nkish",
+      "label": "n Kish"
+    },
+    {
+      "align": "right",
+      "format": "num1",
+      "key": "total",
+      "label": "Sum of weights (millions)"
+    }
+  ],
+  "highlight_key": "fmd",
+  "note": "n = 442,292. _STRWT = NRECSTR/NRECSEL; _RAWRAKE = min(NUMADULT,5)/min(phones,3) on the landline frame and 1 on the cell frame; _DUALCOR is lambda for landline-frame dual users and 1 - lambda for cell-frame dual users.",
+  "rows": [
+    {
+      "cv": 0.0,
+      "fmd": 0.13893536,
+      "nkish": 442292.0,
+      "stage": "Unweighted",
+      "status": "No weights",
+      "step": "Each respondent counts once",
+      "total": 0.442292,
+      "var": "none"
+    },
+    {
+      "cv": 1.45343,
+      "fmd": 0.14658125,
+      "nkish": 142104.04,
+      "stage": "Stratum weight",
+      "status": "Rebuilt from public variables",
+      "step": "Inverse sampling fraction of telephone numbers in the stratum",
+      "total": 16.7529,
+      "var": "_STRWT"
+    },
+    {
+      "cv": 1.47721,
+      "fmd": 0.14363251,
+      "nkish": 138991.29,
+      "stage": "× adults ÷ phones",
+      "status": "Rebuilt from public variables",
+      "step": "Times adults in household (max 5) over landline numbers (max 3)",
+      "total": 17.7522,
+      "var": "_WT2RAKE"
+    },
+    {
+      "cv": 1.52035,
+      "fmd": 0.15018936,
+      "nkish": 133563.74,
+      "stage": "× dual-frame factor",
+      "status": "Rebuilt from public variables",
+      "step": "Dual users split between the two frames",
+      "total": 15.5174,
+      "var": "_WT2RAKE × _DUALCOR"
+    },
+    {
+      "cv": 1.56029,
+      "fmd": 0.14481706,
+      "nkish": 128779.47,
+      "stage": "Raking input",
+      "status": "Documented by CDC, not rebuildable",
+      "step": "Truncated within region; on the population scale",
+      "total": 254.82,
+      "var": "_LLCPWT2"
+    },
+    {
+      "cv": 2.03203,
+      "fmd": 0.15560378,
+      "nkish": 86231.09,
+      "stage": "Final weight",
+      "status": "Documented by CDC, not rebuildable",
+      "step": "Raked to 8 or more state margins",
+      "total": 255.876,
+      "var": "_LLCPWT"
+    }
+  ],
+  "source": "CDC BRFSS 2024 public file; respondents with a valid MENTHLTH answer in the 49 states and DC",
+  "title": "The BRFSS 2024 weighting chain",
+  "type": "table"
+}

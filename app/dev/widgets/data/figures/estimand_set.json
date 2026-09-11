@@ -1,0 +1,51 @@
+{
+  "alt": "Four fixture estimates of the housing-cost-burdened share, one per unit and weight, for testing the EstimandSwitcher widget.",
+  "format": "pct1",
+  "options": [
+    {
+      "display": "46.3%",
+      "estimate": 0.463,
+      "id": "records",
+      "label": "Unweighted records",
+      "n": 412345,
+      "note": "The share of sampled records: a property of the file, not of any population.",
+      "unit": "Renter housing record",
+      "weight": "none"
+    },
+    {
+      "display": "49.7%",
+      "estimate": 0.497,
+      "id": "households",
+      "label": "Renter households",
+      "n": 412345,
+      "note": "Each renter household counts once, weighted to the household population.",
+      "unit": "Household",
+      "weight": "WGTP"
+    },
+    {
+      "display": "47.2%",
+      "estimate": 0.472,
+      "id": "people",
+      "label": "People",
+      "n": 1034567,
+      "note": "Larger households count once per member.",
+      "unit": "Person in a renter household",
+      "weight": "PWGTP"
+    },
+    {
+      "display": "52.1%",
+      "estimate": 0.521,
+      "id": "children",
+      "label": "Children",
+      "n": 256789,
+      "note": null,
+      "unit": "Child under 18 in a renter household",
+      "weight": "PWGTP"
+    }
+  ],
+  "question": "What share is housing-cost burdened?",
+  "source": "Synthetic fixture in app/dev/widgets/data; not ACS data.",
+  "subtitle": "Fake values for widget development, not ACS estimates.",
+  "title": "One burden indicator, four estimands (fixture)",
+  "type": "estimand-set"
+}

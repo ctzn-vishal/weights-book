@@ -1,0 +1,100 @@
+{
+  "alt": "Dot plot of the weighted-minus-unweighted coefficient gap after dropping single states, occupation groups, and education levels; every value stays within about a hundredth of a log point of the full-sample gap.",
+  "format": "num3",
+  "note": "Headline specification. Rows are the five states and five occupation groups whose removal changes the gap most, plus all four education levels.",
+  "reference": {
+    "label": "full sample",
+    "value": -0.0046252035
+  },
+  "rows": [
+    {
+      "estimate": -0.0058641903,
+      "group": "State",
+      "label": "Drop California",
+      "role": "muted"
+    },
+    {
+      "estimate": -0.0036793859,
+      "group": "State",
+      "label": "Drop Georgia",
+      "role": "muted"
+    },
+    {
+      "estimate": -0.0051782998,
+      "group": "State",
+      "label": "Drop Texas",
+      "role": "muted"
+    },
+    {
+      "estimate": -0.00407303,
+      "group": "State",
+      "label": "Drop North Carolina",
+      "role": "muted"
+    },
+    {
+      "estimate": -0.0051144668,
+      "group": "State",
+      "label": "Drop Minnesota",
+      "role": "muted"
+    },
+    {
+      "estimate": -0.002090381,
+      "group": "Occupation group",
+      "label": "Drop Education & library",
+      "role": "muted"
+    },
+    {
+      "estimate": -0.0029679949,
+      "group": "Occupation group",
+      "label": "Drop Office & admin support",
+      "role": "muted"
+    },
+    {
+      "estimate": -0.0059837606,
+      "group": "Occupation group",
+      "label": "Drop Healthcare practitioners",
+      "role": "muted"
+    },
+    {
+      "estimate": -0.0053617322,
+      "group": "Occupation group",
+      "label": "Drop Architecture & engineering",
+      "role": "muted"
+    },
+    {
+      "estimate": -0.0052874463,
+      "group": "Occupation group",
+      "label": "Drop Management",
+      "role": "muted"
+    },
+    {
+      "estimate": -0.010208896,
+      "group": "Education",
+      "label": "Drop BA+",
+      "role": "highlight"
+    },
+    {
+      "estimate": -0.0019816933,
+      "group": "Education",
+      "label": "Drop Some college",
+      "role": "muted"
+    },
+    {
+      "estimate": -0.0044678288,
+      "group": "Education",
+      "label": "Drop Less than HS",
+      "role": "muted"
+    },
+    {
+      "estimate": -0.0044710706,
+      "group": "Education",
+      "label": "Drop HS",
+      "role": "muted"
+    }
+  ],
+  "source": "IPUMS USA, ACS 2024 1-year (SAMPLE 202401), analysis/usa/acs/part_2020_2024.parquet; replicate weights REPWTP1–80 from analysis/usa/acs_repwt/part_2020_2024.parquet",
+  "subtitle": "WLS minus OLS adjusted coefficient after dropping one group at a time (largest movers shown)",
+  "title": "No single state, occupation, or education group explains the small WLS–OLS gap",
+  "type": "dot",
+  "x_label": "WLS − OLS coefficient (log points)"
+}

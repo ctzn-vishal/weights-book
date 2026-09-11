@@ -1,0 +1,70 @@
+{
+  "alt": "Dot plot comparing regression coefficients with population-, WFH-, and commuter-weighted averages of the same cell contrasts; the survey-weighted regression sits near the WFH-weighted average, above the population average.",
+  "format": "num3",
+  "note": "Weighted rows: 80-replicate SDR, t with 79 df. OLS intervals use household-clustered (CR1) standard errors and the normal critical value. The projection equals the average of the cell contrasts with weights N_c p_c(1 − p_c).",
+  "reference": {
+    "label": "no difference",
+    "value": 0
+  },
+  "rows": [
+    {
+      "ci_high": 0.12519732,
+      "ci_low": 0.11786263,
+      "estimate": 0.12152997,
+      "group": "Regression coefficients",
+      "label": "Unweighted regression, cell fixed effects",
+      "n": 984475,
+      "role": "unweighted"
+    },
+    {
+      "ci_high": 0.12288632,
+      "ci_low": 0.11401337,
+      "estimate": 0.11844985,
+      "group": "Regression coefficients",
+      "label": "Survey-weighted projection, cell fixed effects",
+      "n": 984475,
+      "role": "weighted"
+    },
+    {
+      "ci_high": 0.20781757,
+      "ci_low": 0.19877331,
+      "estimate": 0.20329544,
+      "group": "Regression coefficients",
+      "label": "Chapter 4 headline (education only, weighted)",
+      "n": 984475,
+      "role": "muted"
+    },
+    {
+      "ci_high": 0.094521292,
+      "ci_low": 0.081524701,
+      "estimate": 0.088022997,
+      "group": "Averages of the same cell contrasts",
+      "label": "Population-weighted (PATE-analogue)",
+      "n": 984475,
+      "role": "highlight"
+    },
+    {
+      "ci_high": 0.12408415,
+      "ci_low": 0.11534995,
+      "estimate": 0.11971705,
+      "group": "Averages of the same cell contrasts",
+      "label": "WFH-weighted (ATT-analogue)",
+      "n": 984475,
+      "role": "treated"
+    },
+    {
+      "ci_high": 0.090041494,
+      "ci_low": 0.075974373,
+      "estimate": 0.083007933,
+      "group": "Averages of the same cell contrasts",
+      "label": "Commuter-weighted (ATU-analogue)",
+      "n": 984475,
+      "role": "control"
+    }
+  ],
+  "source": "IPUMS USA, ACS 2024 1-year (SAMPLE 202401), analysis/usa/acs/part_2020_2024.parquet; replicate weights REPWTP1–80 from analysis/usa/acs_repwt/part_2020_2024.parquet",
+  "subtitle": "WFH − commuter difference in log hourly wage, 85 occupation-by-education cells, 2024 ACS",
+  "title": "One set of cell contrasts, several defensible averages",
+  "type": "dot",
+  "x_label": "Log points"
+}

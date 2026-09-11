@@ -1,0 +1,286 @@
+{
+  "analytic_sample": {
+    "comparison": [
+      "AL",
+      "FL",
+      "GA",
+      "ID",
+      "KS",
+      "MS",
+      "MO",
+      "NE",
+      "NC",
+      "OK",
+      "SC",
+      "SD",
+      "TN",
+      "TX",
+      "WY"
+    ],
+    "households_design": 964784,
+    "max_cell_cv": 0.3819,
+    "min_cell_n": 381,
+    "records_2011_2019_all_states": 2578630,
+    "records_design": 1484005,
+    "states_design": 30,
+    "treated": [
+      "AZ",
+      "AR",
+      "CO",
+      "HI",
+      "IL",
+      "IA",
+      "KY",
+      "MD",
+      "NV",
+      "NM",
+      "ND",
+      "OH",
+      "OR",
+      "RI",
+      "WV"
+    ]
+  },
+  "code": "build.py",
+  "generated_at": "2026-09-11T01:40:00+00:00",
+  "inputs": [
+    {
+      "note": "columns YEAR, SAMPLE, SERIAL, PERNUM, CLUSTER, STRATA, STATEFIP, GQ, AGE, POVERTY, PERWT, HCOVANY, uninsured",
+      "path": "analysis/usa/acs/part_2005_2009.parquet",
+      "rows": null
+    },
+    {
+      "note": "columns YEAR, SAMPLE, SERIAL, PERNUM, CLUSTER, STRATA, STATEFIP, GQ, AGE, POVERTY, PERWT, HCOVANY, uninsured",
+      "path": "analysis/usa/acs/part_2010_2014.parquet",
+      "rows": null
+    },
+    {
+      "note": "columns YEAR, SAMPLE, SERIAL, PERNUM, CLUSTER, STRATA, STATEFIP, GQ, AGE, POVERTY, PERWT, HCOVANY, uninsured",
+      "path": "analysis/usa/acs/part_2015_2019.parquet",
+      "rows": null
+    },
+    {
+      "note": "REPWTP1-80 joined on SAMPLE, SERIAL, PERNUM",
+      "path": "analysis/usa/acs_repwt/part_2010_2014.parquet",
+      "rows": null
+    },
+    {
+      "note": "REPWTP1-80 joined on SAMPLE, SERIAL, PERNUM",
+      "path": "analysis/usa/acs_repwt/part_2015_2019.parquet",
+      "rows": null
+    },
+    {
+      "note": "verified expansion dates with per-state source URLs",
+      "path": "book/chapters/ch06-clustering/_data/expansion_dates.csv",
+      "rows": 51
+    }
+  ],
+  "key": "ch6",
+  "settings": {
+    "age": [
+      19,
+      64
+    ],
+    "crv_df": "t with G - 1",
+    "policy_year": 2014,
+    "poverty_max": 138,
+    "pyfixest": "0.60.0",
+    "reference_year": 2013,
+    "ri": {
+      "R": 9999,
+      "permute": "which design states are treated; count and timing fixed",
+      "seed": 20260911
+    },
+    "sdr": {
+      "center": "full-sample estimate",
+      "df": 79,
+      "n_reps": 80,
+      "scale": "4/80"
+    },
+    "wcb": {
+      "B": 9999,
+      "seed": 20260910,
+      "type": "WCR-C, CRV1-studentized, symmetric",
+      "weights": "rademacher"
+    },
+    "window": [
+      2011,
+      2019
+    ]
+  },
+  "slug": "ch06-clustering",
+  "status": "draft",
+  "validation": [
+    {
+      "check": "audition reproduction: person records 2011-2019, ages 19-64, POVERTY 1-138",
+      "pass": true,
+      "python": 2578630,
+      "reference": 2578630,
+      "reference_source": "PLAN_v4 section 3.6 audition (raw store)"
+    },
+    {
+      "check": "audition reproduction: state units",
+      "pass": true,
+      "python": 51,
+      "reference": 51
+    },
+    {
+      "check": "two-stage identity: person-level WLS coefficient equals state-year-cell WLS coefficient",
+      "pass": true,
+      "python_cells": -7.965221,
+      "python_person": -7.965221,
+      "unit": "points"
+    },
+    {
+      "check": "CRV1 by state: pyfixest person-level vs hand-coded cell-level sandwich (same small-sample factor)",
+      "hand": 1.321029,
+      "pass": true,
+      "pyfixest": 1.321029,
+      "unit": "points"
+    },
+    {
+      "check": "CV3: hand jackknife (MNW 2023 definition) vs pyfixest 0.60 CRV3 on the cell regression",
+      "explained_by": "pyfixest sums squared leave-one-out deviations without (G-1)/G and then applies G/(G-1)*(N-1)/(N-K)",
+      "hand_mnw": 1.461577,
+      "implied_pyfixest": 1.537922,
+      "pass": true,
+      "pyfixest": 1.537922,
+      "pyfixest_over_hand": 1.052235,
+      "unit": "points"
+    },
+    {
+      "B": 9999,
+      "check": "WCR bootstrap p-value at a moderate null (beta0 = beta + 1.5 CRV1 SE): own numpy vs wildboottest 0.3.2",
+      "note": "different random draws; Monte Carlo SE of each p about 0.004",
+      "own": 0.1633,
+      "pass": true,
+      "wildboottest": 0.1633
+    },
+    {
+      "check": "event study: person-level pyfixest vs cell-level coefficients and CRV1 SEs",
+      "max_abs_coef_diff_points": 0.0,
+      "max_rel_se_diff": 2e-06,
+      "pass": true
+    },
+    {
+      "check": "design records (R count vs Python)",
+      "diff": 0,
+      "note": "",
+      "pass": true,
+      "python": 1484005,
+      "r": 1484005,
+      "relative": false,
+      "tolerance": 0.5
+    },
+    {
+      "check": "coefficient (points): fixest vs pyfixest",
+      "diff": 4.47641923528863e-13,
+      "note": "",
+      "pass": true,
+      "python": -7.96522077045281,
+      "r": -7.96522077045326,
+      "relative": false,
+      "tolerance": 1e-06
+    },
+    {
+      "check": "HC1 SE (points): fixest vs pyfixest",
+      "diff": 2.24487095579207e-13,
+      "note": "",
+      "pass": true,
+      "python": 0.218047864861696,
+      "r": 0.218047864861745,
+      "relative": true,
+      "tolerance": 0.0001
+    },
+    {
+      "check": "CRV1 SE by state (points): fixest vs pyfixest",
+      "diff": 3.37507799486048e-14,
+      "note": "",
+      "pass": true,
+      "python": 1.32102948405176,
+      "r": 1.32102948405181,
+      "relative": true,
+      "tolerance": 0.0001
+    },
+    {
+      "check": "CRV1 SE by ACS household cluster (points): fixest vs pyfixest",
+      "diff": 1.64313007644523e-13,
+      "note": "",
+      "pass": true,
+      "python": 0.259024621519205,
+      "r": 0.259024621519247,
+      "relative": true,
+      "tolerance": 0.0001
+    },
+    {
+      "check": "two-stage identity in R: cell WLS coefficient equals person WLS coefficient (points)",
+      "diff": 4.47641923528863e-13,
+      "note": "",
+      "pass": true,
+      "python": -7.96522077045326,
+      "r": -7.96522077045281,
+      "relative": false,
+      "tolerance": 1e-08
+    },
+    {
+      "check": "CV3 jackknife SE by state (points)",
+      "diff": 4.90718576884319e-14,
+      "note": "",
+      "pass": true,
+      "python": 1.46157655564116,
+      "r": 1.46157655564112,
+      "relative": false,
+      "tolerance": 1e-06
+    },
+    {
+      "check": "stage-one share, state 56, 2019 (survey::svrepdesign SDR)",
+      "diff": 0,
+      "note": "",
+      "pass": true,
+      "python": 0.26069928750059,
+      "r": 0.26069928750059,
+      "relative": false,
+      "tolerance": 1e-10
+    },
+    {
+      "check": "stage-one SDR SE, state 56, 2019 (scale 4/80, mse centring)",
+      "diff": 0,
+      "note": "n = 403",
+      "pass": true,
+      "python": 0.0315443811887355,
+      "r": 0.0315443811887355,
+      "relative": true,
+      "tolerance": 1e-08
+    },
+    {
+      "check": "stage-one share, state 48, 2019 (survey::svrepdesign SDR)",
+      "diff": 0,
+      "note": "",
+      "pass": true,
+      "python": 0.468410551826305,
+      "r": 0.468410551826305,
+      "relative": false,
+      "tolerance": 1e-10
+    },
+    {
+      "check": "stage-one SDR SE, state 48, 2019 (scale 4/80, mse centring)",
+      "diff": 0,
+      "note": "n = 21975",
+      "pass": true,
+      "python": 0.00473839836398655,
+      "r": 0.00473839836398655,
+      "relative": true,
+      "tolerance": 1e-08
+    },
+    {
+      "check": "SDR SE of the coefficient, states fixed (points)",
+      "diff": 2.01783034725622e-14,
+      "note": "replicate aggregates from build.py; regression re-derived in fixest",
+      "pass": true,
+      "python": 0.19494828285021,
+      "r": 0.19494828285019,
+      "relative": false,
+      "tolerance": 1e-06
+    }
+  ]
+}

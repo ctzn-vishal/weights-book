@@ -1,0 +1,57 @@
+{
+  "code": "build.py",
+  "generated_at": "2026-09-11T00:37:59Z",
+  "inputs": [],
+  "key": "ch0",
+  "note": "No survey data: a seeded synthetic population (seed 20260910). The PopulationSampler widget uses the canonical population in lib/synthpop.ts, not this one.",
+  "slug": "ch00-start-here",
+  "status": "draft",
+  "validation": [
+    {
+      "abs_diff": 0.0,
+      "check": "dual-path point estimate: numpy Hajek mean vs svy declared design",
+      "numpy": 0.122,
+      "pass": true,
+      "svy": 0.122
+    },
+    {
+      "check": "dual-path SE: stratified formula vs svy Taylor",
+      "numpy": 0.010440602106,
+      "pass": true,
+      "rel_diff": 1.329e-15,
+      "svy": 0.010440602106
+    },
+    {
+      "check": "svy design df equals n - H",
+      "expected": 998,
+      "pass": true,
+      "svy_df": 998
+    },
+    {
+      "check": "Monte Carlo: weighted mean centers on the truth",
+      "mc_mean": 0.141382,
+      "pass": true,
+      "truth": 0.14134,
+      "z": 0.157
+    },
+    {
+      "bias": 0.059541,
+      "check": "Monte Carlo: unweighted mean is biased under the oversample",
+      "mc_mean": 0.200881,
+      "pass": true,
+      "truth": 0.14134
+    },
+    {
+      "check": "formula SE calibrated to repeated-sampling SD",
+      "mc_sd": 0.011961,
+      "mean_formula_se": 0.011548,
+      "pass": true,
+      "ratio": 0.9655
+    },
+    {
+      "check": "nominal 95% interval coverage",
+      "coverage": 0.947,
+      "pass": true
+    }
+  ]
+}

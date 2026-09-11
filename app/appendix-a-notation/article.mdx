@@ -1,0 +1,109 @@
+One notation runs through the booklet, and it is stricter than software. Statistical packages call almost any column of positive numbers a weight; this book gives each kind of weight its own symbol and never reuses one for another.
+
+## The notation contract
+
+| Symbol | Name | What it is | Where it does its work |
+|---|---|---|---|
+| $$\pi_i$$ | inclusion probability | the probability that unit $$i$$ is selected under the design | Chapters 0 and 2 |
+| $$d_i = 1/\pi_i$$ | base or design weight | undoes unequal selection probabilities | Chapter 2 |
+| $$g_i$$ | adjustment factor | nonresponse and calibration adjustment: raking, poststratification, trimming | Chapter 2 |
+| $$w_i = d_i g_i$$ | final survey weight | the weight shipped on the file | Chapters 2 and 3 |
+| $$a_i$$ | precision weight | inversely proportional to a row's variance, as for rows that are group means | Chapters 2 and 4 |
+| $$f_i$$ | frequency weight | the number of identical observations a row stands for | Chapter 2 |
+| $$w_i^{(r)}$$ | replicate weight | the weight of unit $$i$$ in replicate $$r = 1, \dots, R$$ | Lab 3 |
+| $$s_a$$ | standardization weight | the share of age group $$a$$ in a fixed standard population | Chapter 3 |
+| $$\omega_i$$ | implicit weight | the weight a regression places on unit $$i$$'s conditional effect | Chapters 4 and 5 |
+
+The symbol $$w$$ is never overloaded merely because software calls everything a weight. A frequency weight changes the number of observations; a precision weight changes the variance attributed to each observation; a survey weight changes the population a sum represents. The three can give the same point estimate and three different standard errors.
+
+Supporting notation:
+
+| Symbol | Meaning |
+|---|---|
+| $$U$$, $$N$$; $$s$$, $$n$$ | the finite population and its size; the sample and its size |
+| $$h = 1, \dots, H$$ | strata |
+| $$j = 1, \dots, n_h$$ | primary sampling units (PSUs) sampled in stratum $$h$$ |
+| $$G$$ | clusters in a cluster-robust variance |
+| $$\rho$$ | intraclass correlation |
+| $$\bar m$$ | average cluster size |
+| $$\DEFF(\hat\theta)$$ | design effect of the estimator $$\hat\theta$$: its design-based variance over its variance under simple random sampling of the same size |
+| $$\nKish$$, $$\ndesign$$, $$\nDDC$$ | the three scalar effective sample sizes of the Chapter 0 box |
+| $$D_i$$, $$X_i$$ | a binary treatment and covariates |
+| $$p_x$$, $$\tau_x$$ | the treated share in covariate cell $$x$$; the treated-minus-untreated contrast in that cell |
+| $$\PATE$$, $$\ATT$$, $$\ATU$$ | the population average treatment effect; the average effect among the treated; among the untreated |
+
+## Estimands and populations
+
+Three objects are kept apart throughout. The **estimand** is the population quantity an analysis targets, defined without reference to any data. The **estimator** is the rule that maps a sample to a number. The **estimate** is the number the rule returns on the sample in hand. A weighted and an unweighted mean of the same file are two estimators; whether they target the same estimand depends on the design.
+
+Five populations are named because each gap between them is a place where an analysis can drift:
+
+- The **target population** is the one the result is meant to describe.
+- The **frame population** is the list, area sample, or telephone-number bank the survey draws from.
+- The **sampled population** is the part of the frame with a positive probability of selection.
+- The **respondent population** is those who would respond if selected.
+- The **analytic population** is who remains after the analyst's restrictions and missing-data rules.
+
+Coverage honesty follows from the list: when a release omits a state, the target population is the participating jurisdictions, and the result is labeled that way ([Chapter 2](/ch02-weights), [Chapter 7](/ch07-field-guide)).
+
+## What software calls a weight
+
+| Software syntax | Symbol in this book | What the software assumes |
+|---|---|---|
+| Stata `[pweight=]` | $$w_i$$ | sampling weights; implies a robust (linearized) variance |
+| Stata `[aweight=]` | $$a_i$$ | analytic weights inversely proportional to a row's variance; rescaled to sum to the number of rows |
+| Stata `[fweight=]` | $$f_i$$ | integer frequency weights; the sample size becomes their sum |
+| Stata `[iweight=]` | none | importance weights with no fixed statistical meaning; IPUMS uses them for CPS replicate designs because some replicate weights are negative |
+| R `survey::svydesign(weights =)` | $$w_i$$ | sampling weights inside a declared design |
+| R `lm(weights =)` | $$a_i$$ | precision weights: weighted least squares with error variance proportional to one over the weight |
+| Python `svy.Design(wgt =)` | $$w_i$$ | sampling weights inside a declared design |
+| Python `pyfixest.feols(weights =)` | $$a_i$$ by default | analytic weights (`weights_type="aweights"`), or frequency weights with `"fweights"`; paired with a robust or cluster-robust variance, the coefficients equal the survey-weighted ones |
+| Python `statsmodels` `WLS(weights =)` | $$a_i$$ | precision weights |
+
+The table's lesson is narrow. A weighted regression coefficient is the same number whichever of $$w_i$$, $$a_i$$, or $$f_i$$ the software thinks it was given; the standard error is not. Which variance is right depends on what the weight means and on how the data were drawn, which is the subject of [Chapter 3](/ch03-design) and [Chapter 6](/ch06-clustering).
+
+## The master crosswalk
+
+Each row names one object in three dialects. The last column states the condition under which the translation holds; where a condition is missing, the translation is an analogy, not an identity.
+
+| Survey statistics | Econometrics | Causal inference | Condition or caveat |
+|---|---|---|---|
+| finite-population quantity (total, mean, ratio, census regression coefficient) | population parameter; probability limit of an estimator | estimand (PATE, ATT, CATE) | name the population and the unit before the estimator |
+| inclusion probability $$\pi_i$$ | sampling rate; selection probability | propensity score $$e(x)$$ | the causal analogy holds for inverse weighting, not for design-based variance |
+| design weight $$d_i = 1/\pi_i$$ | probability weight (`pweight`) | inverse-propensity weight $$1/e(x)$$ | $$\pi_i$$ is known by design; $$e(x)$$ is estimated from a model |
+| nonresponse and calibration adjustment $$g_i$$ (raking, poststratification) | reweighting to known margins; inverse probability weighting for missing data <Cite id="wooldridge2007" /> | balancing weights | calibrated weights are no longer inverse probabilities; their validity rests on a response or outcome model |
+| Horvitz–Thompson estimator of a total | inverse-probability-weighted sum | inverse-probability-weighted (Horvitz–Thompson) estimator of mean potential outcomes | design-unbiased for a finite-population total when every $$\pi_i \gt 0$$ and is known <Cite id="horvitz1952" /> |
+| Hájek (ratio) estimator of a mean | weighted mean; WLS on a constant | normalized inverse-probability weighting | approximately unbiased and consistent, not exactly unbiased |
+| stratum | none standard (sampling stratification) | block in a blocked design | strata reduce variance when they predict the outcome |
+| primary sampling unit (PSU) | cluster | cluster of jointly assigned units | clustering is a property of the sampling or assignment design, not of correlated errors alone <Cite id="abadie2023" /> |
+| intra-PSU correlation | intraclass correlation; the Moulton problem | intraclass correlation of outcomes | the Moulton problem also needs a regressor that is correlated within clusters |
+| Taylor linearization over PSU totals within strata, with replacement | cluster-robust sandwich (CRV1) | design-based variance for cluster-randomized designs | identical for a weighted mean with one stratum; with informative strata CRV1 omits the stratification gain ([Appendix B](/appendix-b-derivations#taylor-linearization-for-a-ratio-mean-and-when-it-coincides-with-crv1)) |
+| design effect $$\DEFF(\hat\theta)$$ | ratio of the correct variance to an iid variance | none standard | specific to an estimator and an outcome |
+| clustering component of a design effect for a mean, $$1 + (\bar m - 1)\rho_y$$ | Moulton factor for a regression coefficient, $$1 + (\bar m - 1)\rho_x\rho_u$$ with equal cluster sizes | none standard | Moulton is a special-case regression analogue of the clustering component of a design effect, not the design effect itself <Cite id="moulton1990" /> |
+| design degrees of freedom: PSUs minus strata (Taylor); replicates minus one (ACS and CPS replicates) | $$G - 1$$ in few-cluster inference | number of randomization units | a common rule, not a law; NCHS notes it is not directly applicable to the NHIS design |
+| replicate weights (BRR, Fay, jackknife, successive difference, bootstrap) | resampling variance estimators | randomization inference is a different repetition | replicate weights are pre-packaged repeated sampling; the five methods are distinct procedures, and none is "a bootstrap" in general <Cite id="fay1995" /> |
+| declare the design before analyzing | cluster at the level of sampling or assignment | analyze as randomized | identify every mechanism that induces common uncertainty; the "coarser level" rule holds for nested hierarchies <Cite id="abadie2023,cameron2015" /> |
+| domain (subpopulation) estimation on the full design | subgroup estimate with full-sample clustering; interaction with a group indicator | conditional average effect for a subgroup | deleting rows gives the same point estimate and can change the variance when strata lose PSUs |
+| frequency weight $$f_i$$ | `fweight` | none standard | changes the number of observations |
+| precision weight $$a_i$$ | `aweight`; WLS for heteroskedasticity or group means | inverse-variance weights in meta-analysis | the precision motive for weighting <Cite id="solon2015,dickens1990" /> |
+| implicit weights $$\omega_i$$ | variance weighting of OLS under heterogeneity <Cite id="angrist1998" /> | implied regression weights <Cite id="aronow2016,chattopadhyay2023" /> | nonnegative with saturated controls; can be negative with linear controls |
+| standardization weights $$s_a$$ (direct age standardization) | reweighting to a reference distribution | standardization to a target covariate distribution | redefines the comparison population rather than repairing representation |
+| design-based inference: $$y$$ fixed, the sample random | sampling-based inference: draws from a population | design-based inference: assignment random | which repetition is intended decides which variance is right <Cite id="abadie2020" /> |
+| finite population correction | sampled-cluster fraction | finite-sample (Neyman) variance | when most clusters are observed, conventional cluster-robust SEs can be conservative |
+| Kish effective sample size $$\nKish$$ | effective sample size of a weighted estimator | effective sample size of balancing weights | prices weight dispersion only, under stated conditions <Cite id="kish1965" /> |
+
+## Corrections to the seed crosswalk
+
+The booklet began from an article that compared survey statistics and econometrics in a seven-row table. The table was right about the direction of the analogy and wrong in several of its equivalences. The corrections are binding everywhere in the booklet.
+
+| The seed said | The crosswalk says | Why |
+|---|---|---|
+| Weights get the point estimate right; the design gets the uncertainty right | The weights help define the estimator; the sampling design and the weight construction determine repeated-sampling variance | final weights are estimated, and replication that repeats the weighting captures that |
+| The weighted estimator is design-unbiased, however convoluted the sampling | Correct inclusion weights give design-unbiased or consistent estimators for specified finite-population quantities | the Horvitz–Thompson total is unbiased; the Hájek mean is consistent; calibrated weights are not inverse probabilities |
+| Design effect = Moulton factor $$1 + (\bar m - 1)\rho$$ | Moulton is a special-case regression analogue of the clustering component of a design effect | a design effect also reflects strata and weighting, and the Moulton factor involves the regressor's clustering |
+| Replicate weights are the survey world's pre-packaged cluster bootstrap | Replicate weights are pre-packaged repeated sampling; BRR, Fay, jackknife, SDR, and bootstrap are distinct | the ACS and CPS use successive difference replication, not a bootstrap |
+| Taylor linearization is CRV1 with strata as an extra refinement; weights plus clustering on the PSU get you most of the way | The two coincide exactly for a weighted mean in one stratum; with informative strata CRV1 omits the stratification gain and is conservative | stated with its conditions in [Appendix B](/appendix-b-derivations) |
+| df = PSUs minus strata | A common rule for Taylor linearization; replicate designs use the producer's value | ACS replicates carry <Fact id="ch7.acs_df" /> degrees of freedom whatever the number of strata |
+| "Cluster at the level of treatment variation" | Identify every sampling or assignment mechanism that induces common uncertainty; the coarsest relevant level governs within a nested hierarchy | the full statement is in [Chapter 6](/ch06-clustering) |
+
+The seed also described NHANES as roughly thirty strata of two PSUs each, with about fifteen degrees of freedom. For the August 2021–August 2023 cycle the public file has <Fact id="ch7.nhanes_strata" /> pseudo-strata and <Fact id="ch7.nhanes_psus" /> pseudo-PSUs, so the design degrees of freedom are <Fact id="ch7.nhanes_df" />.

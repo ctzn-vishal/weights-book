@@ -1,0 +1,135 @@
+{
+  "alt": "Table of reported turnout by election, 2008 to 2024, under the Census convention, a recode that drops 'not in universe', respondents only (weighted), and respondents only (unweighted), next to the Census Bureau's published rate and the share who did not answer. The Census convention reproduces every published rate; the recode departs from it only in 2022 and 2024.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "election",
+      "label": "Election"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "published",
+      "label": "Census published"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "census",
+      "label": "Everyone the weight counts"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "recode",
+      "label": "Drop 'not in universe'"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "respondents",
+      "label": "Respondents only"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "unweighted",
+      "label": "Respondents, unweighted"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "nonresponse",
+      "label": "Did not answer"
+    }
+  ],
+  "format": "pct1",
+  "note": "Weights-only extract: point estimates only. Published rates: Census Bureau. From 2022 supplement nonrespondents are coded 'Not in universe' but keep a positive weight.",
+  "rows": [
+    {
+      "census": 0.636397,
+      "election": "2008",
+      "nonresponse": 0.137724,
+      "published": 0.636,
+      "recode": 0.636397,
+      "respondents": 0.738043,
+      "unweighted": 0.743489
+    },
+    {
+      "census": 0.455347,
+      "election": "2010",
+      "nonresponse": 0.159903,
+      "published": 0.455,
+      "recode": 0.455347,
+      "respondents": 0.542016,
+      "unweighted": 0.561295
+    },
+    {
+      "census": 0.618131,
+      "election": "2012",
+      "nonresponse": 0.12833,
+      "published": 0.618,
+      "recode": 0.618131,
+      "respondents": 0.709134,
+      "unweighted": 0.719597
+    },
+    {
+      "census": 0.419437,
+      "election": "2014",
+      "nonresponse": 0.157579,
+      "published": 0.419,
+      "recode": 0.419437,
+      "respondents": 0.497895,
+      "unweighted": 0.518715
+    },
+    {
+      "census": 0.613841,
+      "election": "2016",
+      "nonresponse": 0.145775,
+      "published": 0.614,
+      "recode": 0.613841,
+      "respondents": 0.718594,
+      "unweighted": 0.724678
+    },
+    {
+      "census": 0.534369,
+      "election": "2018",
+      "nonresponse": 0.176734,
+      "published": 0.534,
+      "recode": 0.534369,
+      "respondents": 0.649085,
+      "unweighted": 0.653706
+    },
+    {
+      "census": 0.667671,
+      "election": "2020",
+      "nonresponse": 0.15719,
+      "published": 0.668,
+      "recode": 0.667671,
+      "respondents": 0.792196,
+      "unweighted": 0.796288
+    },
+    {
+      "census": 0.522023,
+      "election": "2022",
+      "nonresponse": 0.165078,
+      "published": 0.522,
+      "recode": 0.595136,
+      "respondents": 0.625236,
+      "unweighted": 0.636908
+    },
+    {
+      "census": 0.653463,
+      "election": "2024",
+      "nonresponse": 0.141234,
+      "published": 0.653,
+      "recode": 0.733774,
+      "respondents": 0.760933,
+      "unweighted": 0.766891
+    }
+  ],
+  "source": "IPUMS CPS November Voting and Registration Supplements, 2008-2024 (analysis/cps/cps_voter.parquet; raw VOTED codes from parquet/cps/cps_voter.parquet)",
+  "subtitle": "Citizens 18 and older, CPS November supplements",
+  "title": "What was turnout? Five answers per election",
+  "type": "table"
+}

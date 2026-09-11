@@ -1,0 +1,76 @@
+{
+  "alt": "Table comparing the work-from-home coefficient in logs and in dollars per hour, unweighted and weighted, raw and adjusted; the implied percentage differences agree within a few points.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "spec",
+      "label": "Specification"
+    },
+    {
+      "align": "left",
+      "key": "est",
+      "label": "Estimator"
+    },
+    {
+      "align": "right",
+      "format": "num3",
+      "key": "log",
+      "label": "Log points"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "log_pct",
+      "label": "exp(b) − 1"
+    },
+    {
+      "align": "right",
+      "key": "lev",
+      "label": "Dollars per hour"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "lev_pct",
+      "label": "Dollars ÷ commuter mean"
+    }
+  ],
+  "note": "Commuter means are weighted for WLS rows and unweighted for OLS rows. Levels use hourly wage in dollars.",
+  "rows": [
+    {
+      "est": "Unweighted (OLS)",
+      "lev": "$14.92",
+      "lev_pct": 0.39997718,
+      "log": 0.34929167,
+      "log_pct": 0.41806273,
+      "spec": "Raw difference"
+    },
+    {
+      "est": "Weighted (WLS)",
+      "lev": "$14.38",
+      "lev_pct": 0.39851721,
+      "log": 0.34543665,
+      "log_pct": 0.4126066,
+      "spec": "Raw difference"
+    },
+    {
+      "est": "Unweighted (OLS)",
+      "lev": "$9.04",
+      "lev_pct": 0.24219013,
+      "log": 0.20792064,
+      "log_pct": 0.23111546,
+      "spec": "+ age, sex, education"
+    },
+    {
+      "est": "Weighted (WLS)",
+      "lev": "$8.62",
+      "lev_pct": 0.23885066,
+      "log": 0.20329544,
+      "log_pct": 0.22543445,
+      "spec": "+ age, sex, education"
+    }
+  ],
+  "source": "IPUMS USA, ACS 2024 1-year (SAMPLE 202401), analysis/usa/acs/part_2020_2024.parquet; replicate weights REPWTP1–80 from analysis/usa/acs_repwt/part_2020_2024.parquet",
+  "title": "Logs and levels tell the same story here",
+  "type": "table"
+}

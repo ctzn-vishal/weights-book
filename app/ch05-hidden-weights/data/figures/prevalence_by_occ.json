@@ -1,0 +1,177 @@
+{
+  "alt": "Horizontal bar chart of work-from-home shares across 23 occupation groups, from about 3 percent in food preparation & serving to about 39 percent in computer & math.",
+  "domain": [
+    0,
+    0.5
+  ],
+  "format": "pct1",
+  "note": "Intervals: 80-replicate SDR, t with 79 df. Occupation groups are 2018 SOC major groups built from OCC code ranges.",
+  "rows": [
+    {
+      "ci_high": 0.39750184,
+      "ci_low": 0.38563678,
+      "label": "Computer & math",
+      "role": "weighted",
+      "value": 0.39156931
+    },
+    {
+      "ci_high": 0.30063182,
+      "ci_low": 0.2928821,
+      "label": "Business & financial",
+      "role": "weighted",
+      "value": 0.29675696
+    },
+    {
+      "ci_high": 0.25951262,
+      "ci_low": 0.24223205,
+      "label": "Arts, design, media & sports",
+      "role": "weighted",
+      "value": 0.25087233
+    },
+    {
+      "ci_high": 0.21807991,
+      "ci_low": 0.19995596,
+      "label": "Legal",
+      "role": "weighted",
+      "value": 0.20901793
+    },
+    {
+      "ci_high": 0.19840288,
+      "ci_low": 0.1926139,
+      "label": "Management",
+      "role": "weighted",
+      "value": 0.19550839
+    },
+    {
+      "ci_high": 0.16554679,
+      "ci_low": 0.15954044,
+      "label": "Office & admin support",
+      "role": "weighted",
+      "value": 0.16254362
+    },
+    {
+      "ci_high": 0.15734731,
+      "ci_low": 0.15007162,
+      "label": "Sales",
+      "role": "weighted",
+      "value": 0.15370946
+    },
+    {
+      "ci_high": 0.1564396,
+      "ci_low": 0.14641908,
+      "label": "Architecture & engineering",
+      "role": "weighted",
+      "value": 0.15142934
+    },
+    {
+      "ci_high": 0.1571297,
+      "ci_low": 0.14270313,
+      "label": "Life, physical & social science",
+      "role": "weighted",
+      "value": 0.14991641
+    },
+    {
+      "ci_high": 0.12496803,
+      "ci_low": 0.11348826,
+      "label": "Community & social service",
+      "role": "weighted",
+      "value": 0.11922814
+    },
+    {
+      "ci_high": 0.09336241,
+      "ci_low": 0.084331525,
+      "label": "Healthcare support",
+      "role": "weighted",
+      "value": 0.088846967
+    },
+    {
+      "ci_high": 0.079582158,
+      "ci_low": 0.074200908,
+      "label": "Healthcare practitioners",
+      "role": "weighted",
+      "value": 0.076891533
+    },
+    {
+      "ci_high": 0.072215725,
+      "ci_low": 0.060934728,
+      "label": "Personal care & service",
+      "role": "weighted",
+      "value": 0.066575226
+    },
+    {
+      "ci_high": 0.062836749,
+      "ci_low": 0.058532106,
+      "label": "Education & library",
+      "role": "weighted",
+      "value": 0.060684427
+    },
+    {
+      "ci_high": 0.068720408,
+      "ci_low": 0.045655505,
+      "label": "Military specific",
+      "role": "weighted",
+      "value": 0.057187957
+    },
+    {
+      "ci_high": 0.0531126,
+      "ci_low": 0.045874169,
+      "label": "Protective service",
+      "role": "weighted",
+      "value": 0.049493384
+    },
+    {
+      "ci_high": 0.048688405,
+      "ci_low": 0.032779259,
+      "label": "Farming, fishing & forestry",
+      "role": "weighted",
+      "value": 0.040733832
+    },
+    {
+      "ci_high": 0.039307108,
+      "ci_low": 0.03532242,
+      "label": "Production",
+      "role": "weighted",
+      "value": 0.037314764
+    },
+    {
+      "ci_high": 0.040018675,
+      "ci_low": 0.034021657,
+      "label": "Installation & repair",
+      "role": "weighted",
+      "value": 0.037020166
+    },
+    {
+      "ci_high": 0.037522419,
+      "ci_low": 0.033320653,
+      "label": "Transportation & moving",
+      "role": "weighted",
+      "value": 0.035421536
+    },
+    {
+      "ci_high": 0.038503645,
+      "ci_low": 0.03172032,
+      "label": "Building & grounds",
+      "role": "weighted",
+      "value": 0.035111983
+    },
+    {
+      "ci_high": 0.037598792,
+      "ci_low": 0.032433934,
+      "label": "Construction & extraction",
+      "role": "weighted",
+      "value": 0.035016363
+    },
+    {
+      "ci_high": 0.033447567,
+      "ci_low": 0.028598785,
+      "label": "Food preparation & serving",
+      "role": "weighted",
+      "value": 0.031023176
+    }
+  ],
+  "source": "IPUMS USA, ACS 2024 1-year (SAMPLE 202401), analysis/usa/acs/part_2020_2024.parquet; replicate weights REPWTP1–80 from analysis/usa/acs_repwt/part_2020_2024.parquet",
+  "subtitle": "Share of full-time wage and salary workers aged 25–64 whose main way to work is working at home, 2024",
+  "title": "Working from home is concentrated in a few occupation groups",
+  "type": "bar",
+  "x_label": "Share working from home (PERWT-weighted)"
+}

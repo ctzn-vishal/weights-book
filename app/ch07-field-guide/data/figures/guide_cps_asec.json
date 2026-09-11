@@ -1,0 +1,117 @@
+{
+  "alt": "Table declaring the CPS ASEC 2025 release: universe, weights, 160 replicate weights with 159 degrees of freedom, pooling, series breaks, known traps, and the date each item was verified.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "item",
+      "label": "Item"
+    },
+    {
+      "align": "left",
+      "key": "value",
+      "label": "Declaration"
+    },
+    {
+      "align": "left",
+      "key": "source",
+      "label": "Provenance"
+    }
+  ],
+  "note": "Provenance: design.json = machine-readable manifest field; design.json notes = the manifest's free text; producer = documentation read 2026-09-10; computed = counted from the store by build.py; book guidance = editorial, not a producer rule.",
+  "rows": [
+    {
+      "item": "Pinned release",
+      "source": "producer: IPUMS CPS",
+      "value": "CPS ASEC 2025, IPUMS CPS (YEAR = 2025); income and last-year coverage items refer to calendar year 2024"
+    },
+    {
+      "item": "Records",
+      "source": "computed from data",
+      "value": "142,125 person records with a positive ASECWT"
+    },
+    {
+      "item": "Universe",
+      "source": "producer: Census ASEC documentation",
+      "value": "Noninstitutionalized persons in the 50 states and DC who are civilian adults (15 and older) or live with one; Armed Forces members living with their families are included, those in barracks are not"
+    },
+    {
+      "item": "Sample note",
+      "source": "producer: Census ASEC documentation",
+      "value": "Includes the CHIP expansion sample (about 10,000 extra eligible housing units, part of the CPS since July 2001) to improve state estimates of children's coverage"
+    },
+    {
+      "item": "Canonical weight",
+      "source": "design.json",
+      "value": "ASECWT; person weight; household-level tabs use ASECWTH on PERNUM=1"
+    },
+    {
+      "item": "Alternate weights",
+      "source": "design.json",
+      "value": "ASECWTH (household)"
+    },
+    {
+      "item": "Variance method",
+      "source": "design.json",
+      "value": "Replicate: successive difference replication method (for cases in self-representing strata) and the modified half-sample technique (for cases in non-self-representing strata)"
+    },
+    {
+      "item": "Replicate weights",
+      "source": "design.json",
+      "value": "REPWTP1–REPWTP160 (person) and REPWT1–REPWT160 (household), in the companion file cps/cps_asec_repwt joined on YEAR, SERIAL, PERNUM"
+    },
+    {
+      "item": "Variance formula",
+      "source": "design.json",
+      "value": "(4/160) × Σ_r (θ_r − θ̂)², deviations taken from the full-sample estimate"
+    },
+    {
+      "item": "Design df",
+      "source": "design.json",
+      "value": "159 (160 replicates - 1, per IPUMS CPS repwt FAQ); replicate weights cover 2005+ only"
+    },
+    {
+      "item": "Strata and PSUs",
+      "source": "producer: IPUMS CPS repwt FAQ",
+      "value": "None declared with the replicates"
+    },
+    {
+      "item": "Lonely-PSU rule",
+      "source": "book guidance",
+      "value": "Not applicable: no PSUs are declared"
+    },
+    {
+      "item": "Pooling rule",
+      "source": "book guidance",
+      "value": "Not recorded. To pool k ASEC years, divide ASECWT and every replicate weight by k before estimating totals (means and shares are unchanged)"
+    },
+    {
+      "item": "Series breaks",
+      "source": "design.json notes; producer: BLS",
+      "value": "2014 income redesign and 2019 processing change are series breaks. Variable availability differs by decade part (see availability matrix). A 2020-Census-based CPS sample began phasing in with April 2025 and completes in July 2026 (BLS expects a negligible effect on estimates)"
+    },
+    {
+      "item": "Negative replicate values",
+      "source": "design.json; computed from data; producer: IPUMS CPS repwt FAQ",
+      "value": "legitimate; for variance estimation only (use iweight-style handling); 132 negative replicate values among the 2025 person records. Stata declares iweights for this reason"
+    },
+    {
+      "item": "Trap: svy default call",
+      "source": "verified in this build (real data)",
+      "value": "Verified on the 2025 file: the default call reports a Taylor SE with df = 141,910 (n − 1); the replicate call reports df = 159"
+    },
+    {
+      "item": "Trap: survey year",
+      "source": "producer: IPUMS CPS",
+      "value": "YEAR is the survey year; income, poverty, and last-year coverage describe the previous calendar year"
+    },
+    {
+      "item": "Last verified",
+      "source": "design.json; this build",
+      "value": "Replicate block verified 2026-07-11 against https://cps.ipums.org/cps/repwt.shtml; FAQ re-read 2026-09-10"
+    }
+  ],
+  "source": "IPUMS CPS repwt FAQ (https://cps.ipums.org/cps/repwt.shtml); Census ASEC documentation (https://www.census.gov/programs-surveys/sahie/technical-documentation/model-input-data/cpsasec.html); BLS CPS sample redesign (https://www.bls.gov/cps/methods/sample_redesign_2025.htm)",
+  "subtitle": "IPUMS CPS ASEC person file with the 160-replicate companion file",
+  "title": "CPS ASEC 2025: declared",
+  "type": "table"
+}

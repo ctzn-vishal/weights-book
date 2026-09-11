@@ -1,0 +1,98 @@
+{
+  "alt": "Table listing, for each year 2014 to 2024, how many of the 50 states and DC released BRFSS data, which did not, and which territories did.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "year",
+      "label": "Year"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "released",
+      "label": "States + DC released (of 51)"
+    },
+    {
+      "align": "left",
+      "key": "missing",
+      "label": "Not in the public file"
+    },
+    {
+      "align": "left",
+      "key": "territories",
+      "label": "Territories"
+    }
+  ],
+  "note": "Read from the files themselves (distinct _STATE by survey year). CDC's 2024 Overview: Tennessee was unable to collect enough data to meet the minimum requirements for the public file.",
+  "rows": [
+    {
+      "missing": "none",
+      "released": 51,
+      "territories": "Guam, Puerto Rico",
+      "year": "2014"
+    },
+    {
+      "missing": "none",
+      "released": 51,
+      "territories": "Guam, Puerto Rico",
+      "year": "2015"
+    },
+    {
+      "missing": "none",
+      "released": 51,
+      "territories": "Guam, Puerto Rico, US Virgin Islands",
+      "year": "2016"
+    },
+    {
+      "missing": "none",
+      "released": 51,
+      "territories": "Guam, Puerto Rico",
+      "year": "2017"
+    },
+    {
+      "missing": "none",
+      "released": 51,
+      "territories": "Guam, Puerto Rico",
+      "year": "2018"
+    },
+    {
+      "missing": "New Jersey",
+      "released": 50,
+      "territories": "Guam, Puerto Rico",
+      "year": "2019"
+    },
+    {
+      "missing": "none",
+      "released": 51,
+      "territories": "Guam, Puerto Rico",
+      "year": "2020"
+    },
+    {
+      "missing": "Florida",
+      "released": 50,
+      "territories": "Guam, Puerto Rico, US Virgin Islands",
+      "year": "2021"
+    },
+    {
+      "missing": "none",
+      "released": 51,
+      "territories": "Guam, Puerto Rico, US Virgin Islands",
+      "year": "2022"
+    },
+    {
+      "missing": "Kentucky, Pennsylvania",
+      "released": 49,
+      "territories": "Guam, Puerto Rico, US Virgin Islands",
+      "year": "2023"
+    },
+    {
+      "missing": "Tennessee",
+      "released": 50,
+      "territories": "Guam, Puerto Rico, US Virgin Islands",
+      "year": "2024"
+    }
+  ],
+  "source": "CDC BRFSS 2014-2024 public files (harmonized: BRFSS_2026/cleaned/brfss_multi_rec.parquet)",
+  "title": "Which jurisdictions are in the BRFSS public file",
+  "type": "table"
+}

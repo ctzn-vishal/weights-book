@@ -1,0 +1,135 @@
+import { PopulationSampler } from '@/components/widgets/PopulationSampler'
+
+"Should I use the weights?" is the first question most applied researchers ask of a survey file, and the one most often answered by reflex. The question is incomplete. Inside it sit three separate decisions: which population quantity the analysis is after, how each observation is allowed to enter the estimator, and which hypothetical repetition the reported uncertainty describes. Software asks about none of them. It asks for a weight variable and accepts almost any column of positive numbers.
+
+This booklet takes the three decisions one at a time, on real surveys, in one vocabulary. A single question carries across every chapter:
+
+<Callout kind="definition" title="The question to ask of any estimate">
+
+**What is this number a weighted average of, and who chose the weights?**
+
+</Callout>
+
+Nearly every estimate an applied researcher reports is a weighted average of something: of respondents' answers, of cell means, of conditional effects. Sometimes a survey statistician chose the weights, knowing the selection probabilities. Sometimes the analyst chose them on purpose. And sometimes the estimator chose them, and nobody noticed.
+
+## Target, Contribution, Uncertainty
+
+The framework has three parts, and each chapter lives mostly in one of them. **Target** asks who and what the estimate is about. **Contribution** asks how each unit, cell, or conditional effect enters the estimator. **Uncertainty** asks which repetition would make the estimate vary. The parts are logically separate: the same target can be estimated with different contributions, and the same estimator can carry different uncertainty statements depending on how the data arose.
+
+### Target: who and what the estimate is about
+
+Three objects are easy to run together. The *estimand* is the population quantity you want, stated without reference to any data: the share of US adults who currently smoke, in 2024. The *estimator* is the rule that turns a sample into a number: a weighted proportion over respondents. The *estimate* is what the rule returns on the sample in hand. Arguments about "the right answer" are often arguments about estimands in disguise <Cite id="lundberg2021" />.
+
+Five populations deserve names, because every gap between them is a place where an analysis drifts: the *target population* the result is meant to describe; the *frame* the survey actually draws from; the *sampled population*, the part of the frame with a positive chance of selection; the *respondent population*, those who would answer if selected; and the *analytic population*, who remains after the analyst's own restrictions. [Chapter 1](/ch01-estimands#five-populations) follows all five through one estimate.
+
+The unit matters as much as the population. The American Time Use Survey samples weekend days at a higher rate than weekdays, and its weight returns weekends to two days in seven. The weights sum to person-*days*, so a weighted mean of minutes worked is an average over days, not over people. [Chapter 1](/ch01-estimands) shows how many defensible answers one file gives to "how much do Americans work?" once the unit, the days, and the universe are allowed to vary, and why they are different estimands rather than competing estimates.
+
+### Contribution: how each unit enters the estimator
+
+A survey weight is not one thing, and the booklet's notation keeps its parts apart. The *design weight* $$d_i = 1/\pi_i$$ undoes unequal selection probabilities $$\pi_i$$. A *nonresponse and calibration adjustment* $$g_i$$ moves the weights so that respondents match known population totals. The final weight shipped on the file is $$w_i = d_i g_i$$. BRFSS 2024 builds its weight in exactly this order: a design weight from the telephone stratum, the number of adults, and the number of phones; a correction for people reachable on both a landline and a cell phone; truncation of extreme design weights; then raking to demographic margins, state by state <Cite id="brfss2024" />. After raking, the weight is no longer an inverse selection probability <Cite id="gelman2007" />.
+
+Two other weights share the name. A *frequency weight* $$f_i$$ says a row stands for $$f_i$$ identical observations. A *precision weight* $$a_i$$ says a row is more or less noisy than the others, as when each row is a group mean. The three can produce the same point estimate and three different standard errors, which is the first reason the word "weight" in a software call explains nothing by itself ([Chapter 2](/ch02-weights)).
+
+Two further kinds of weight appear without being supplied. A regression places *implicit weights* $$\omega_i$$ on units or cells. With a binary treatment and a full set of dummies for covariate cells, ordinary least squares averages the cell-specific contrasts with weights proportional to the cell's share of the data times $$p_x(1-p_x)$$, where $$p_x$$ is the cell's treated share <Cite id="angrist1998" />. Cells in which nearly everyone, or nearly no one, is treated barely count. Equal case weights do not imply equal weighting of heterogeneous conditional effects <Cite id="aronow2016,sloczynski2022" />. Finally, *standardization weights* $$s_a$$ redefine the comparison population: an age-standardized prevalence reweights age groups to a fixed standard population so that populations with different age structures can be compared ([Chapter 3](/ch03-design)).
+
+### Uncertainty: which repetition makes the estimate vary
+
+A standard error is a statement about a hypothetical repetition, and the analysis has to say which one. Four are common.
+
+*Sampling*: redraw the sample under the same design. NHANES draws counties, and its public file supports only <Fact id="ch7.nhanes_df" /> design degrees of freedom for the August 2021–August 2023 cycle; BRFSS treats every respondent as a separate sampling unit, which leaves it <Fact id="ch7.brfss_df" /> design degrees of freedom in 2024. Both are called complex surveys, and their uncertainty comes from opposite places ([Chapter 3](/ch03-design#two-complex-surveys-opposite-uncertainty)). *Assignment*: rerun the process that decided who was treated. When a policy varies across states, the number of independent assignments is the number of states, however many records there are ([Chapter 6](/ch06-clustering); <Cite id="abadie2023" />). *Response*: repeat the process that decided who answered. Because nonresponse and calibration adjustments are estimated from the sample, the weights themselves vary from sample to sample. *Model*: treat the finite population as one draw from a superpopulation. When every unit is observed, sampling uncertainty disappears, but assignment and model uncertainty can remain <Cite id="abadie2020" />.
+
+The slogan that "weights get the point estimate and the design gets the uncertainty" survives only with a correction. The weights help define the estimator. The sampling design and the procedure that built the weights together determine how that estimator varies over repeated samples. Replicate weights that rerun the weighting in every replicate are one way producers package that fact for users.
+
+## The Analysis Ledger
+
+Every headline result in the booklet comes with an Analysis Ledger: eight fields that answer the three questions in writing. *Target population* and *estimand* state the Target. *Estimator*, *explicit weights*, and *implicit weights* state the Contribution. *Source of randomness* and *variance estimator* state the Uncertainty. *Assumptions* state what must hold for the interpretation to stand. The Ledger is generated from the same artifact as the number it describes, so the two cannot drift apart.
+
+A small example shows the mechanics. This chapter's build script creates a synthetic population of <Fact id="ch0.toy_pop_n" /> adults, a fifth of them rural, in which the share lacking a regular source of care is <Fact id="ch0.toy_truth" />. A stratified design then samples <Fact id="ch0.toy_sample_n" /> adults, half rural and half urban, so each rural adult is four times as likely to be selected as each urban adult.
+
+<Callout kind="predict" title="Predict first">
+
+Rural adults in this population are more likely to lack a regular source of care. They are a fifth of the population and half of the sample. Before reading on, predict whether the unweighted sample share lands above or below the population value, and whether weighting each respondent by the inverse of their selection probability should close the gap in every sample or only on average.
+
+</Callout>
+
+In one simulated sample, the unweighted share is <Fact id="ch0.toy_unweighted" />. Weighting each rural respondent by 40 and each urban respondent by 160, the inverses of their selection probabilities, gives <Fact id="ch0.toy_weighted" ci />, with a design-based standard error of <Fact id="ch0.toy_weighted_se" /> percentage points. The weighted estimate misses the truth in this particular sample, and its interval still covers it. The unweighted estimate misses for a different reason: it describes a population that is half rural.
+
+Repetition separates the two failures. Across <Fact id="ch0.toy_reps" /> repetitions of the same design, the unweighted share averages <Fact id="ch0.toy_unweighted_avg" />, well above the truth; the weighted share averages <Fact id="ch0.toy_weighted_avg" /> (Figure 0.1). The weighted share's spread across repetitions, <Fact id="ch0.toy_weighted_sd" /> percentage points, is the quantity a design-based standard error estimates, and nominal 95 percent intervals built from the one-sample formula cover the truth in <Fact id="ch0.toy_coverage" /> of repetitions.
+
+<Figure n="0.1" caption="Under the same design, the unweighted mean centers well above the population value while the weighted mean centers on it.">
+  <Chart id="ch0.toy_sampling" />
+</Figure>
+
+<Ledger id="ch0.toy_care" />
+
+Read the Ledger's assumptions field closely: known selection probabilities, complete response, accurate measurement. Real surveys relax all three. That is why their weights are more than $$1/\pi_i$$, and why their variance estimators are more than a textbook formula.
+
+## Three moves on one synthetic population
+
+The interactive below uses a different population, the booklet's canonical synthetic one, which the weight builder in [Chapter 2](/ch02-weights) also uses: adults nested in neighborhoods, with an age and education structure, one group (called G) that is more often uninsured and concentrated in some neighborhoods, outcomes that vary from neighborhood to neighborhood, and a work-from-home effect on wages that differs across age-by-degree cells. Because the whole population is known, the widget can place the truth next to every estimator. Make all three predictions before opening it.
+
+### Stage 1: who enters the sample
+
+<Callout kind="predict" title="Predict first: representation">
+
+The first stage makes members of group G more likely to be sampled, by a factor you choose, while the sample size stays fixed. Members of G are uninsured more often than everyone else. As the factor rises, predict what happens to the unweighted uninsured rate and to the weighted rate, in one sample and on average over repeated samples, measured against the population value.
+
+</Callout>
+
+### Stage 2: how the sample is drawn
+
+<Callout kind="predict" title="Predict first: uncertainty">
+
+The second stage keeps the sample size and every person's selection probability fixed, and compares simple random samples of people with two-stage cluster samples: first a set of neighborhoods, then the same number of residents in each, from many neighborhoods with a few residents apiece to a few neighborhoods with many. Predict what happens to the center of the sampling distribution, to its width, to the naive standard error that treats people as independent draws, and to a standard error clustered on neighborhoods.
+
+</Callout>
+
+### Stage 3: what a regression averages
+
+<Callout kind="predict" title="Predict first: the regression target">
+
+The third stage regresses log wages on working from home, with dummies for the six age-by-degree cells. Two sliders set how much the effect of working from home differs across cells and how unequal the treated shares are. Predict whether the regression's target lands closer to the population average treatment effect or to the average effect among the treated, and which cells receive the most implicit weight.
+
+</Callout>
+
+<PopulationSampler />
+
+### What the three stages show
+
+In the first stage only the unweighted rate moves with the oversampling factor, because only it describes the sample's composition: it overstates the uninsured rate more as G is overrepresented. The weighted rate, in which each person counts $$1/\pi_i$$ times, stays centered on the population value across repeated samples, though any single sample can miss. The repair costs precision, which [Chapter 2](/ch02-weights) measures with Kish's approximation. In the second stage the center of the distribution stays put while its width grows as fewer neighborhoods supply more residents each, and the naive standard error does not notice. A standard error clustered on neighborhoods tracks the actual spread on average; it runs slightly high when half the neighborhoods are sampled, because it ignores the finite-population correction, and with only a handful of neighborhoods it rests on a handful of cluster totals. In the third stage the regression's target is a weighted average of cell effects, with weights proportional to each cell's share times $$p(1-p)$$ for its treated share $$p$$. Set either slider to zero and the target coincides with the population average effect: equal treated shares make the weights proportional to population shares, and equal effects make every average the same. Otherwise the target sits wherever the weights put it, and cells where treatment is split most evenly count for more than their share of the population.
+
+<Callout kind="box" title="Four effective samples that are not the same thing">
+
+"Effective sample size" names at least four different objects. They answer different questions, and none converts into another.
+
+1. **The Kish effective sample size**, $$\nKish = n/(1+\CV(w)^2) = (\sum_i w_i)^2/\sum_i w_i^2$$. It prices the variance cost of unequal weights for a mean, under restrictive conditions: an outcome unrelated to the weights, no clustering, and weights treated as fixed. It says nothing about bias. [Chapter 2](/ch02-weights) computes it for real survey weights.
+2. **The design effective sample size**, $$\ndesign(\hat\theta) = n/\DEFF(\hat\theta)$$, where the design effect $$\DEFF(\hat\theta)$$ is the design-based variance of one estimator divided by its variance under simple random sampling of the same size. It prices everything the design does to that estimator, and nothing else. Because it depends on the estimator and the outcome, a survey has no single effective sample size. [Chapter 3](/ch03-design) reports several from one dataset.
+3. **The regression-effective sample**: the sample reweighted by the implicit weights $$\omega_i$$ a regression places on each unit's conditional effect; with a binary treatment and correctly specified controls, $$\omega_i = (D_i - \E[D_i \mid X_i])^2$$. It is a composition, not a count: it says whose effects the coefficient summarizes. With linear controls and a treatment probability that is not linear in them, some implicit weights can be negative. [Chapter 5](/ch05-hidden-weights) draws it for real data.
+4. **Meng's data-defect effective sample size**, $$\nDDC$$: the size of a simple random sample with the same mean squared error as a large sample whose inclusion is correlated with the outcome. It prices bias as well as variance and can be tiny for an enormous sample. It belongs to a planned essay, *When weighting is not enough* <Cite id="meng2018" />.
+
+The first two are variance ratios, the third is a distribution over units, and the fourth is an equivalence in mean squared error. [Appendix B](/appendix-b-derivations#four-effective-samples) derives each with its conditions.
+
+</Callout>
+
+## One object, three dialects
+
+The same objects travel under different names in different fields. This is a short version of the crosswalk in [Appendix A](/appendix-a-notation).
+
+| The object | Survey statistics | Econometrics | Causal inference |
+|---|---|---|---|
+| The quantity sought | a finite-population parameter: total, mean, ratio | a population parameter, often a linear-projection coefficient | an estimand: PATE, ATT, CATE |
+| How a unit enters | sampling weight, adjusted and calibrated | probability or analytic weight | inverse-propensity or balancing weight; implicit regression weight |
+| Units that move together | primary sampling units within strata | clusters | units assigned together |
+| The repetition | redrawing the sample under the design | redrawing from the data-generating process | rerunning the assignment |
+| The variance | Taylor linearization or replicate weights | sandwich and cluster-robust estimators | randomization-based variance |
+
+## Reader routes
+
+- **Describing a population** (a prevalence, a rate, a mean, a gap between groups): [Chapter 1](/ch01-estimands) on estimands, [Chapter 2](/ch02-weights) on where weights come from, [Chapter 3](/ch03-design) on design-based uncertainty, and [Lab 3](/ch03-lab-replicates) on replicate weights.
+- **Estimating a regression coefficient or an effect**: [Chapter 4](/ch04-regression) on explicit weighting, [Chapter 5](/ch05-hidden-weights) on implicit weights under heterogeneous effects, and [Chapter 6](/ch06-clustering) on clustering as a question about sampling and assignment design.
+- **Declaring a specific survey**: [Chapter 7](/ch07-field-guide), with release guides for six surveys and declarations in Python, R, and Stata.
+- **Checking a symbol, a derivation, or a data source**: [Appendix A](/appendix-a-notation) for notation and the crosswalk, [Appendix B](/appendix-b-derivations) for derivations with their conditions, and [Appendix C](/appendix-c-reproducibility) for data, code, and validation.
+
+## Before Chapter 1
+
+Each chapter that follows opens with a question that has at least two defensible-looking answers, and each isolates one thing that changes the answer: the target, the representation weights, the design, the explicit weighting of a regression, the implicit weights inside it, or the number of independent units. Chapter 1 begins with the question that has to be settled first: what the number is supposed to describe.

@@ -1,0 +1,80 @@
+{
+  "alt": "Table comparing standard errors for delayed care among uninsured adults in poor health: the declared-design SE versus three delete-rows-first SEs under certainty, adjust and average lonely-PSU rules, for the proportion and for the weighted count.",
+  "columns": [
+    {
+      "key": "approach",
+      "label": "Approach"
+    },
+    {
+      "key": "lone",
+      "label": "A single-PSU stratum"
+    },
+    {
+      "align": "right",
+      "format": "num2",
+      "key": "se",
+      "label": "SE, proportion (pp)"
+    },
+    {
+      "align": "right",
+      "format": "ratio2",
+      "key": "ratio",
+      "label": "Ratio"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "se_tot",
+      "label": "SE, weighted count"
+    },
+    {
+      "align": "right",
+      "format": "ratio2",
+      "key": "ratio_tot",
+      "label": "Ratio"
+    }
+  ],
+  "highlight_key": "highlight",
+  "note": "Domain: uninsured sample adults in poor self-rated health with a valid delayed-care response (n = 43). After deleting rows, 22 of 30 surviving strata have one PSU. R's default rule (fail) and svy's default both refuse to compute.",
+  "rows": [
+    {
+      "approach": "Declare the design, then estimate the domain",
+      "highlight": true,
+      "lone": "not applicable: all 662 PSUs kept",
+      "ratio": 1.0,
+      "ratio_tot": 1.0,
+      "se": 9.4580822,
+      "se_tot": 60491.484
+    },
+    {
+      "approach": "Delete rows first; certainty or remove",
+      "highlight": false,
+      "lone": "contributes zero",
+      "ratio": 0.87325783,
+      "ratio_tot": 0.55835161,
+      "se": 8.2593444,
+      "se_tot": 33775.518
+    },
+    {
+      "approach": "Delete rows first; adjust",
+      "highlight": false,
+      "lone": "deviation from the grand mean",
+      "ratio": 1.1058615,
+      "ratio_tot": 0.76994941,
+      "se": 10.459329,
+      "se_tot": 46575.383
+    },
+    {
+      "approach": "Delete rows first; average",
+      "highlight": false,
+      "lone": "average of the other strata",
+      "ratio": 1.6910565,
+      "ratio_tot": 1.0812432,
+      "se": 15.994152,
+      "se_tot": 65406.009
+    }
+  ],
+  "source": "IPUMS NHIS 2023 sample adults; chapter calculations; checked against svy 0.28 and R survey 4.5",
+  "title": "One sparse domain, four answers",
+  "type": "table"
+}

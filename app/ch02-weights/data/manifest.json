@@ -1,0 +1,168 @@
+{
+  "code": "build.py",
+  "generated_at": "2026-09-11T00:20:29+00:00",
+  "inputs": [
+    {
+      "note": "extract_brfss.R from BRFSS_2026/raw/2024.rds (sha256 cdbb515692f0fb67...); 52 columns",
+      "path": "ipums/book/chapters/ch02-weights/_data/brfss2024_weights.parquet",
+      "rows": 457670
+    },
+    {
+      "note": "coverage by survey-file year 2014-2024; Tennessee 2022 weight",
+      "path": "BRFSS/BRFSS_2026/cleaned/brfss_multi_rec.parquet",
+      "rows": null
+    },
+    {
+      "note": "CDC weighted percentage for _MENT14D (benchmark)",
+      "path": "BRFSS/BRFSS_2026/raw/codebooks/codebook24_llcp-v2-508_extracted/USCODE24_LLCP_082125.HTML",
+      "rows": null
+    },
+    {
+      "note": "YEAR = 2023",
+      "path": "ipums/analysis/atus/atus_respondent.parquet",
+      "rows": 8548
+    },
+    {
+      "note": "YEAR = 2024, ASECWT > 0",
+      "path": "ipums/analysis/cps/cps_asec/part_2020_2025.parquet",
+      "rows": 144265
+    },
+    {
+      "note": "YEAR = 2023 (December), PERNUM = 1, FSSUPPWTH > 0",
+      "path": "ipums/analysis/cps/cps_foodsec.parquet",
+      "rows": 30863
+    },
+    {
+      "note": "YEAR = 2020, VOSUPPWT > 0",
+      "path": "ipums/analysis/cps/cps_voter.parquet",
+      "rows": 111665
+    }
+  ],
+  "key": "ch2",
+  "settings": {
+    "confidence": 0.95,
+    "deff": "with-replacement SRS reference ('wr')",
+    "lonely_psu": "svy 'center' (R 'adjust'); sensitivity 'remove' SE = 0.00122216",
+    "missing_outcome": "MENTHLTH 77/99/blank excluded as a domain",
+    "target": "49 states + DC (Tennessee absent from the 2024 file; territories excluded)"
+  },
+  "slug": "ch02-weights",
+  "status": "draft",
+  "validation": [
+    {
+      "check": "brfss_rows",
+      "detail": "457,670 records in LLCP2024",
+      "result": "pass"
+    },
+    {
+      "check": "brfss_coverage_2024",
+      "detail": "2024 public file: every state + DC except Tennessee (47); territories 66, 72, 78",
+      "result": "pass"
+    },
+    {
+      "check": "brfss_target_jurisdictions",
+      "detail": "50 jurisdictions (49 states + DC), 450,353 respondents",
+      "result": "pass"
+    },
+    {
+      "check": "frame_screeners",
+      "detail": "QSTVER<20 records answered the landline screener (81,372); QSTVER>=20 the cell screener (368,981)",
+      "result": "pass"
+    },
+    {
+      "check": "fmd_matches_ment14d",
+      "detail": "FMD (MENTHLTH>=14; 88=0; 77/99/blank missing) equals CDC's _MENT14D=3 on every record",
+      "result": "pass"
+    },
+    {
+      "check": "rawrake_rebuilt",
+      "detail": "_RAWRAKE = 1 for all 368,981 cell-frame records; = min(NUMADULT,5)/min(phones,3) for all 80,533 landline records with a phone count; unknown phone counts (839) are imputed as one phone",
+      "result": "pass"
+    },
+    {
+      "check": "wt2rake_identity",
+      "detail": "_WT2RAKE = _STRWT x _RAWRAKE on all but 12 records (all Illinois cell-frame; their _WT2RAKE equals the _STRWT of a different Illinois stratum)",
+      "result": "pass"
+    },
+    {
+      "check": "dualcor_compositing_pair",
+      "detail": "_DUALCOR is one value per state and frame for dual users, and the landline and cell values sum to 1 in every state (max |sum-1| = 3.4e-11): a compositing pair lambda, 1-lambda",
+      "result": "pass"
+    },
+    {
+      "check": "llcpwt2_population_scale",
+      "detail": "state totals of _LLCPWT2 are 0.971-1.017 x those of _LLCPWT: the raking input is already on the population scale, a step the Overview does not describe",
+      "result": "pass"
+    },
+    {
+      "check": "harmonized_matches_raw",
+      "detail": "brfss_multi_rec.parquet iyear=2024: 457,670 rows, weight sum equal to the raw file; its iyear is the survey-file year (the raw IYEAR puts 19,553 of these interviews in 2025)",
+      "result": "pass"
+    },
+    {
+      "check": "svy_point_vs_numpy",
+      "detail": "svy Taylor point 0.1556037768 = numpy weighted mean 0.1556037768",
+      "result": "pass"
+    },
+    {
+      "check": "svy_se_vs_numpy",
+      "detail": "svy SE 0.0012224015 vs independent numpy Taylor SE 0.0012224139 (relative gap 1.0e-05); svy detects 109 singleton strata in the declared design, numpy finds 110 among respondents with a valid answer",
+      "result": "pass"
+    },
+    {
+      "check": "r_survey_final",
+      "detail": "R 4.6.1, survey 4.5: estimate 0.15560378, SE 0.00122240 (na.rm domain, 'adjust'), DEFF 5.0300, df 447,976; svy: SE 0.00122240, DEFF 5.0300, df 439,915. R with lonely.psu='fail' stopped: Stratum (22049) has only one PSU at stage 1",
+      "result": "pass"
+    },
+    {
+      "check": "codebook_ment14d",
+      "detail": "weighted share with _MENT14D=3 over all 457,670 records = 15.225% vs codebook 15.23%",
+      "result": "pass"
+    },
+    {
+      "check": "state_mean_extremes",
+      "detail": "smallest mean weight: Vermont; largest: California (prose names them)",
+      "result": "pass"
+    },
+    {
+      "check": "illustrative_raking_reconstruction",
+      "detail": "_LLCPWT2 raked (IPF, 38 sweeps) to _LLCPWT's state totals on 8 margins (sex x age group; race/ethnicity (imputed); education; marital status; tenure; sex x race/ethnicity; age group x race/ethnicity; phone ownership): FMD 15.514% vs final 15.560%; median |w_rec/w_final - 1| = 0.109; corr(log w) = 0.988. Region and county margins and CDC's own categories are not on the public file.",
+      "result": "info"
+    },
+    {
+      "check": "r_survey_p95",
+      "detail": "R: 0.15494284 (SE 0.00109353); svy: 0.15494284 (SE 0.00109353) under the within-state 95th-percentile cap",
+      "result": "pass"
+    },
+    {
+      "check": "trim_p95_direction",
+      "detail": "the 95th-percentile cap lowers FMD by 0.066 pp (prose says 'falls')",
+      "result": "pass"
+    },
+    {
+      "check": "coverage_gaps",
+      "detail": "missing jurisdictions: 2024 TN; 2023 KY, PA; 2022 none; 2021 FL; 2019 NJ (from the file itself)",
+      "result": "pass"
+    },
+    {
+      "check": "atus_rows",
+      "detail": "8,548 ATUS 2023 respondents, all with positive WT06 and BLS_WORK",
+      "result": "pass"
+    },
+    {
+      "check": "atus_benchmark",
+      "detail": "weighted work minutes 213.8 vs BLS ATUS 2023 published 3.56 h = 213.6 min (external benchmark)",
+      "result": "pass"
+    },
+    {
+      "check": "foodsec_month",
+      "detail": "CPS Food Security 2023 rows are all MONTH = [(12,)]",
+      "result": "pass"
+    },
+    {
+      "check": "kish_brfss_is_lowest",
+      "detail": "BRFSS has the lowest n_Kish/n of the five",
+      "result": "pass"
+    }
+  ]
+}

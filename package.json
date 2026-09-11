@@ -4,11 +4,13 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "registry": "node scripts/gen-registry.mjs",
+    "verify": "node --import tsx scripts/verify-book.mjs",
+    "dev": "npm run registry && next dev",
+    "build": "npm run registry && npm run verify && next build && node scripts/check-built-html.mjs",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "npm run registry && tsc --noEmit",
     "check-mdx": "node scripts/check-mdx.mjs"
   },
   "dependencies": {

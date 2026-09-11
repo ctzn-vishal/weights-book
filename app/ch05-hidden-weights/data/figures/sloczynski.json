@@ -1,0 +1,70 @@
+{
+  "alt": "Table of Sloczynski's decomposition for the unweighted and survey-weighted cell regressions: 14% of workers work from home, yet the contrast for home workers receives 83% of the regression's weight.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "est",
+      "label": "Regression"
+    },
+    {
+      "align": "right",
+      "format": "num3",
+      "key": "coef",
+      "label": "Coefficient"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "rho",
+      "label": "Share WFH (ρ)"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "w1",
+      "label": "Weight on ATT (ω₁)"
+    },
+    {
+      "align": "right",
+      "format": "num3",
+      "key": "att",
+      "label": "ATT (APLE)"
+    },
+    {
+      "align": "right",
+      "format": "num3",
+      "key": "atu",
+      "label": "ATU (APLE)"
+    },
+    {
+      "align": "right",
+      "format": "num3",
+      "key": "ape",
+      "label": "APE"
+    }
+  ],
+  "note": "Cell-fixed-effect model. p(X) is the linear projection of WFH on the cells and the age–sex terms; ATT and ATU are Sloczynski's average partial linear effects, equal to the causal ATT and ATU only under unconfoundedness and linearity in p(X). Coefficient = ω₁·ATT + (1 − ω₁)·ATU exactly.",
+  "rows": [
+    {
+      "ape": 0.13458055,
+      "att": 0.11828815,
+      "atu": 0.13723999,
+      "coef": 0.12152997,
+      "est": "Unweighted (OLS)",
+      "rho": 0.14032657,
+      "w1": 0.82894408
+    },
+    {
+      "ape": 0.13104846,
+      "att": 0.11539575,
+      "atu": 0.13352524,
+      "coef": 0.11844985,
+      "est": "Survey-weighted (WLS)",
+      "rho": 0.13661629,
+      "w1": 0.83153986
+    }
+  ],
+  "source": "IPUMS USA, ACS 2024 1-year (SAMPLE 202401), analysis/usa/acs/part_2020_2024.parquet; replicate weights REPWTP1–80 from analysis/usa/acs_repwt/part_2020_2024.parquet",
+  "title": "Smaller groups get larger weights",
+  "type": "table"
+}

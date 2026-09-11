@@ -1,0 +1,18 @@
+{
+  "code": "build.py",
+  "generated_at": "2026-09-11T00:08:05Z",
+  "inputs": [
+    {
+      "note": "section 2.2 notation contract; section 7 binding corrections",
+      "path": "book/docs/PROPOSAL_weighting_booklet_v3_FINAL.md"
+    },
+    {
+      "note": "seed article; its section 5 survey-econometrics table is corrected here",
+      "path": "NHANES/reports/cluster_std_error/survey_weights_vs_design_intuition.md"
+    }
+  ],
+  "key": "appA",
+  "slug": "appendix-a-notation",
+  "status": "draft",
+  "validation": []
+}

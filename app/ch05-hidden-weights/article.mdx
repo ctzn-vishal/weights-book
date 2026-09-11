@@ -1,0 +1,165 @@
+import { HiddenEffectWeights } from '@/components/widgets/HiddenEffectWeights'
+
+{/* Chapter 5 (ch5). First draft, 2026-09-10. Artifacts are built by ../ch04-regression/build.py; see NOTES.md. */}
+
+[Chapter 4](/ch04-regression) ended with a reassuring result. The survey-weighted regression of log hourly wage on working from home, age, sex, and education gave <Fact id="ch4.adj_wls" />, and its unweighted twin gave almost the same number. The weights are applied correctly, the sample represents the population, and the two estimators agree. It is tempting to read the coefficient as the average home–commute wage contrast in the population.
+
+Split the same workers more finely, into <Fact id="ch5.n_cells" /> cells defined by occupation group and education, and compute the home–commute contrast in log hourly wage inside each cell. Now there are two defensible-looking summaries. Average the cell contrasts using each cell's share of the population and the answer is <Fact id="ch5.pate" ci />. Run the survey-weighted regression with a fixed effect for every cell, which compares home workers and commuters only within cells, and the answer is <Fact id="ch5.cellfe_wls" ci />, about <Fact id="ch5.proj_pate_ratio" /> times as large. Both sit well below Chapter 4's coefficient because both compare workers within occupation groups. Both use the ACS person weight. Both "represent the population." They are different weighted averages of the same contrasts, and the regression, not the survey, chose its weights.
+
+## Who works from home
+
+Working from home (WFH) is concentrated in particular jobs. Across the <Fact id="ch5.n_og" /> major occupation groups of the 2018 Standard Occupational Classification, the share ranges from <Fact id="ch5.prev_occ_lo" /> in <Fact id="ch5.prev_occ_lo_label" /> to <Fact id="ch5.prev_occ_hi" /> in <Fact id="ch5.prev_occ_hi_label" /> (Figure 5.1), and, as Chapter 4 showed, it rises steeply with education.
+
+<Figure n="5.1" caption="Working from home is concentrated in a few occupation groups.">
+  <Chart id="ch5.prevalence_by_occ" />
+</Figure>
+
+The contrasts vary too. Within education groups, the home–commute gap is <Fact id="ch5.educ_tau_ba" /> log points for college graduates and <Fact id="ch5.educ_tau_lths" /> for workers without a diploma. When both the chance of working from home and the wage contrast differ across groups, any single coefficient is a weighted average of group contrasts, and the question is who chose the weights.
+
+## Cells and their contrasts
+
+The cells cross the <Fact id="ch5.n_og" /> occupation groups with four education levels, <Fact id="ch5.n_base_cells" /> cells in all. A contrast needs both home workers and commuters, so within each occupation group a thin education cell is merged into its neighbor until every cell has at least 100 records and at least 30 workers on each side. In all, <Fact id="ch5.n_merges" /> thin cells, all of them "less than high school" cells in occupations where few workers lack a diploma, were merged into the high school cell, leaving <Fact id="ch5.n_cells" /> cells. No record is dropped. The model is Chapter 4's with the education dummies refined into cells:
+
+$$
+y_i = \beta D_i + \alpha_{c(i)} + z_i'\gamma + \varepsilon_i ,
+$$
+
+where $$y_i$$ is log hourly wage, $$c(i)$$ is person $$i$$'s cell, and $$z_i$$ holds age, age squared, and a female indicator. The cell contrast $$\hat\tau_c$$ is the survey-weighted difference in mean log wage between home workers and commuters in cell $$c$$, after subtracting the fitted age–sex profile $$z_i'\hat\gamma$$. The contrasts run from <Fact id="ch5.tau_min" /> to <Fact id="ch5.tau_max" />, and the share working from home from <Fact id="ch5.p_cell_min" /> to <Fact id="ch5.p_cell_max" />.
+
+## Which cells the regression listens to
+
+<Callout kind="predict" title="Predict first">
+
+The survey-weighted regression with cell fixed effects is an exact weighted average of the <Fact id="ch5.n_cells" /> cell contrasts. Before reading on: do the largest cells get the most weight? What happens to a large cell in which almost nobody works from home?
+
+</Callout>
+
+With a full set of cell fixed effects, the regression coefficient equals
+
+$$
+\hat\beta = \frac{\sum_c \omega_c\, \hat\tau_c}{\sum_c \omega_c}, \qquad \omega_c = N_c\, p_c (1 - p_c),
+$$
+
+where $$N_c$$ is the cell's weighted population and $$p_c$$ its weighted share working from home <Cite id="angrist1998" />. A cell's weight is its size times the variance of the work-from-home indicator inside it. <Cite id="aronow2016" narrative /> write the same weights at the level of individuals, $$\omega_i = (D_i - \hat E[D_i \mid X_i])^2$$. With cell effects alone, the predicted probability within a cell is $$p_c$$, so the individual weights, each multiplied by its survey weight $$w_i$$, add up to $$N_c p_c(1-p_c)$$. A cell where almost everyone commutes has $$p_c(1-p_c)$$ near zero, however large it is. The identity holds exactly in this sample: the build recomputes the coefficient from the cell contrasts and weights and matches the regression to machine precision. [Appendix B](/appendix-b-derivations#variance-weighting-in-ols-with-a-binary-treatment) gives the derivation.
+
+The implicit weights are never negative in this form, and survey weights enter them only through $$N_c$$ and $$p_c$$. Survey weighting makes those two quantities estimates for the population rather than for the sample. It does not decide that the factor $$p_c(1-p_c)$$ belongs in the average; the regression does.
+
+<Figure n="5.2" caption="Regression weight goes to cells where many work from home; large cells where few do barely count.">
+  <Chart id="ch5.cell_table" />
+</Figure>
+
+Figure 5.2 lists the cells with the most weight beside the largest cells. The <Fact id="ch5.top_cell" /> cell, where <Fact id="ch5.top_cell_p" /> work from home, holds <Fact id="ch5.top_cell_pop" /> of workers and <Fact id="ch5.top_cell_reg" /> of the weight. The largest cell in which almost nobody works from home, <Fact id="ch5.lowp_big_cell" /> (<Fact id="ch5.lowp_big_p" /> work from home), holds <Fact id="ch5.lowp_big_pop" /> of workers and <Fact id="ch5.lowp_big_reg" /> of the weight. The weights matter because the contrasts differ. College-educated healthcare practitioners are <Fact id="ch5.hp_ba_pop" /> of workers, with <Fact id="ch5.hp_ba_p" /> working from home and a contrast of <Fact id="ch5.hp_ba_tau" />; they get <Fact id="ch5.hp_ba_reg" /> of the weight. College-educated sales workers are a smaller group, <Fact id="ch5.sales_ba_pop" /> of workers, but <Fact id="ch5.sales_ba_p" /> of them work from home and their contrast is <Fact id="ch5.sales_ba_tau" />; they get <Fact id="ch5.sales_ba_reg" />.
+
+## One set of contrasts, several averages
+
+Figure 5.3 sets the two cell regressions beside three averages of the same <Fact id="ch5.n_cells" /> contrasts: weighted by each cell's population (the PATE-analogue), by its number of home workers (the ATT-analogue), and by its number of commuters (the ATU-analogue). Chapter 4's coefficient appears as a muted reference. The three averages are descriptive analogues of the causal estimands, borrowed for their weighting schemes; nothing here identifies a causal effect.
+
+<Figure n="5.3" caption="The survey-weighted regression lands next to the average for home workers, not the average for the population.">
+  <Chart id="ch5.six_way" />
+</Figure>
+
+The population-weighted average is <Fact id="ch5.pate" />. Weighting instead by home workers gives <Fact id="ch5.att" />, and by commuters <Fact id="ch5.atu" />. The home-worker average exceeds the commuter average by <Fact id="ch5.att_minus_atu" ci /> log points: the contrast tends to be larger in cells where working from home is common. The survey-weighted regression, <Fact id="ch5.cellfe_wls" />, sits beside the home-worker average and <Fact id="ch5.proj_minus_pate" ci /> above the population average. The unweighted regression gives <Fact id="ch5.cellfe_ols" />.
+
+<Ledger id="ch5.six_way" />
+
+The unweighted regression gives every record the same case weight, but it does not give every cell's contrast the same weight, or a weight in proportion to its sample size: its implicit weights are $$n_c \hat p_c(1-\hat p_c)$$. Across cells they are almost identical to the survey-weighted regression's (correlation <Fact id="ch5.reg_share_corr" />). Equal case weights do not imply equal weighting of heterogeneous conditional effects.
+
+## The regression-effective sample
+
+A survey-weighted regression can represent the population correctly in the design sense, with every cell at its estimated population size, while placing highly unequal implicit weight on heterogeneous conditional contrasts. The implicit weights form the third of [Chapter 2](/ch02-weights#weights-that-are-not-inverse-probabilities)'s four effective samples: a composition, not a count. Figure 5.4 sums them within occupation groups and sets each group's share of the weight against its share of workers.
+
+<Figure n="5.4" caption="Occupations where home work is common gain regression weight; large occupations where it is rare lose most of theirs.">
+  <Chart id="ch5.effective_sample" />
+</Figure>
+
+In aggregate, the ten cells with the most weight hold <Fact id="ch5.top10_reg" /> of it but only <Fact id="ch5.top10_pop" /> of workers. The <Fact id="ch5.lowp_n_cells" /> cells where fewer than one worker in twenty works from home hold <Fact id="ch5.lowp_pop" /> of workers and <Fact id="ch5.lowp_reg" /> of the weight; cells where a quarter or more work from home hold <Fact id="ch5.hip_pop" /> of workers and <Fact id="ch5.hip_reg" /> of the weight. Measured as an effective number of equally weighted cells (the inverse of the sum of squared shares), the population's <Fact id="ch5.eff_cells_pop" /> shrink to <Fact id="ch5.eff_cells_reg" /> in the regression, and a worker in the most balanced cell counts <Fact id="ch5.per_worker_ratio" /> times as much as a worker in the least balanced one.
+
+The implicit weights and the three averages can be reproduced from the cell data behind the interactive below:
+
+```python
+import numpy as np
+
+share, p, tau = cells["pop_share"], cells["treat_share"], cells["effect"]
+omega = share * p * (1 - p)                     # Angrist (1998) implicit weights
+
+projection = np.sum(omega * tau) / np.sum(omega)    # = survey-weighted coefficient
+pate = np.sum(share * tau) / np.sum(share)           # population-weighted
+att = np.sum(share * p * tau) / np.sum(share * p)    # home-worker-weighted
+atu = np.sum(share * (1 - p) * tau) / np.sum(share * (1 - p))
+```
+
+## When the weights turn negative
+
+With a full set of cell fixed effects the weights are non-negative. With linear covariates they need not be. <Cite id="chattopadhyay2023" narrative /> show that an OLS coefficient on a binary treatment is a difference between a weighted mean of treated outcomes and a weighted mean of control outcomes, with the weight on person $$i$$ proportional to $$D_i - \hat\ell_i$$ (times $$w_i$$ in a survey-weighted regression), where $$\hat\ell_i$$ is the fitted value from a linear probability model of the treatment on the regression's controls. A commuter whose fitted probability is below zero enters the comparison with the wrong sign, as if counted among the home workers.
+
+In Chapter 4's headline specification this does not happen: fitted probabilities of working from home run from <Fact id="ch5.lpm_min_head" /> to <Fact id="ch5.lpm_max_head" />, so every implied weight is positive. Add fixed effects for detailed occupation, industry, and state, as on the last rung of Chapter 4's ladder, and the additive linear probability model gives fitted values from <Fact id="ch5.lpm_min_occind" /> to <Fact id="ch5.lpm_max_occind" />. Then <Fact id="ch5.neg_commuters" /> of commuters, weighted by `PERWT`, carry negative weight (Figure 5.5). Their weights are small, together <Fact id="ch5.neg_mass" /> of the total absolute weight, but they are concentrated where home work is rare: in <Fact id="ch5.neg_top_occ" />, <Fact id="ch5.neg_top_occ_share" /> of commuters are counted with the wrong sign.<SideNote>Strictly, even the cell model's linear age and sex terms push a few fitted probabilities just below zero (the lowest is <Fact id="ch5.m5_lpm_min" />, affecting <Fact id="ch5.m5_neg_share" /> of commuters). The cell-level weights above are exact and remain non-negative.</SideNote>
+
+<Figure n="5.5" caption="Under additive fixed effects some commuters get negative implied weight, most often in occupations where home work is rare.">
+  <Chart id="ch5.signed_weights" />
+</Figure>
+
+## Smaller groups get larger weights
+
+<Callout kind="predict" title="Predict first">
+
+Only <Fact id="ch5.sl_rho_wls" /> of workers work from home. A population average gives the contrast for home workers that share of the weight and the contrast for commuters the rest. How much weight do you expect the regression to give each?
+
+</Callout>
+
+<Cite id="sloczynski2022" narrative /> shows that an OLS coefficient on a binary treatment with additive controls can be written as follows; with weighted moments, the same holds for a survey-weighted regression:
+
+$$
+\hat\beta = \omega_1\, \ATT + \omega_0\, \ATU, \qquad \omega_1 = \frac{(1-\rho)\, V_0}{\rho\, V_1 + (1-\rho)\, V_0}, \quad \omega_0 = 1 - \omega_1 ,
+$$
+
+where $$\omega_1$$ is the implicit weight on the treated group's term (Słoczyński writes $$w_1$$, the symbol the table and ledger keep), $$\rho$$ is the share treated, and $$V_d$$ is the variance of the linear propensity score (the fitted values of a linear probability model of the treatment on the controls) among people with treatment status $$d$$. If the propensity score were equally variable in both groups, $$\omega_1 = 1-\rho$$: OLS would give the treated group's effect the weight that belongs to the untreated group, and vice versa. The smaller group gets the larger weight.
+
+<Figure n="5.6" caption="Home workers are a small minority, yet the home-worker term gets most of the regression's weight.">
+  <Chart id="ch5.sloczynski" />
+</Figure>
+
+In the survey-weighted cell regression (Figure 5.6), <Fact id="ch5.sl_rho_wls" /> of workers work from home and the weight on the home-worker term is <Fact id="ch5.sl_w1_wls" />. The unweighted regression, in which <Fact id="ch5.sl_rho_ols" /> of records are home workers, gives <Fact id="ch5.sl_w1_ols" />, and Chapter 4's model with education only gives <Fact id="ch5.sl4_w1" />. That is the same pattern as Figure 5.3, where the regression sat next to the home-worker average.
+
+Słoczyński's $$\ATT$$ and $$\ATU$$ are not the cell-based analogues of Figure 5.3. They are average partial linear effects: within each group, log wage is projected on the propensity score by a straight line, and each term compares one group's mean with the other group's line evaluated at the first group's mean score. Here they are <Fact id="ch5.sl_att" /> for home workers and <Fact id="ch5.sl_atu" /> for commuters, implying an average partial effect of <Fact id="ch5.sl_ape" />, against cell-based analogues of <Fact id="ch5.att" /> and <Fact id="ch5.atu" />; the two pairs disagree even on which group's contrast is larger. They would coincide only if, within each group, mean log wage were a straight-line function of the propensity score. Across occupation-by-education cells it is not, and the commuter term is the most exposed: it evaluates the home workers' line, fitted mostly in cells where home work is common, at the low scores typical of commuters. Read as causal quantities, the two terms would also require unconfoundedness. The weights rest on neither assumption: they depend only on the share working from home and on how much the propensity score varies within each group. Applied to the cell-based analogues, they give <Fact id="ch5.sl_hybrid" />, close to the fitted coefficient. Read Figure 5.6 for its weights, not for its ATT and ATU columns. The decomposition itself is exact, and the build checks the implementation against the numerical example in Słoczyński's paper and against simulations with known answers.
+
+<Ledger id="ch5.sloczynski" />
+
+## The variance-weighting machine
+
+<Callout kind="predict" title="Predict first">
+
+In the panel below, make group 1 small but with a treated share near one half, and group 0 large with few treated. Before moving the effect sliders: will the regression land near the population average or near group 1's effect?
+
+</Callout>
+
+The top of the panel is the two-group version of the argument: a regression of the outcome on the treatment and a group dummy. Set group 1's share of the population, each group's treated share, and each group's effect. The panel computes the population-weighted average (PATE), the treated- and untreated-weighted averages (ATT and ATU), and the probability limit of the regression coefficient, a variance-weighted average in which each group's weight is its population share times $$p_g(1-p_g)$$; bars set each group's population share beside its implicit weight. The two knife-edge buttons show the only ways the regression lands on the PATE: equal effects, or equal treatment variance in the two groups. A simulated sample from the same settings gives a fitted coefficient near the probability limit, not the PATE; draw another to watch it vary. The lower half loads the <Fact id="ch5.n_cells" /> real cells: population shares (rescaled to sum to one), WFH shares, contrasts with bands of $$\pm 1.96$$ replicate standard errors, and implicit weights. Its four averages are recomputed from those columns, and the regression-weighted one matches the fitted survey-weighted coefficient plotted beside it. Sort by the ratio of implicit weight to population share to see which cells the regression over- and under-counts.
+
+<HiddenEffectWeights cellsId="ch5.cells" />
+
+## What the survey weights did and did not do
+
+The opening's two numbers are both averages of the same <Fact id="ch5.n_cells" /> contrasts. The survey-weighted regression, <Fact id="ch5.cellfe_wls" />, weights each cell by $$N_c p_c(1-p_c)$$; the population-weighted average, <Fact id="ch5.pate" />, weights it by $$N_c$$. `PERWT` did its job in both: every cell's population and share working from home are estimated for the population, and the weighted and unweighted regressions agree, as in Chapter 4. What the weights cannot do is choose the average. With heterogeneous contrasts, a regression with additive controls reports a variance-weighted average that leans on overlap cells, here the college-educated managers, business and computer workers, and office staff among whom home work is common enough to compare. The population's average contrast is a different and smaller number, and survey weights will not turn a regression coefficient into it <Cite id="solon2015" />.
+
+Four habits follow for anyone reporting a regression like this one. First, name the target: the population projection, a population-weighted average of conditional contrasts, or an average for the treated. Second, if the population average is the target, estimate it directly: compute the contrast in each cell, or fit a model in which the treatment interacts with the cells, and aggregate with population shares. Third, report the regression-effective sample next to the coefficient: the implicit weights by group, set against population shares, as in Figure 5.4 and in the table inside the interactive. Fourth, report Słoczyński's $$\omega_1$$ beside the treated share; when they sit far apart and the treated and untreated contrasts differ, the coefficient answers mostly a question about the smaller group. None of this changes the variance recipe: every aggregate in this chapter, including the population-weighted average, gets its standard error by rerunning the whole calculation on each of the 80 replicate weights.
+
+<Closing>
+<Learned>
+
+Among full-time wage and salary workers in 2024, the home–commute wage contrast is larger in occupations and education groups where working from home is common. The population-weighted average contrast across occupation-by-education cells is <Fact id="ch5.pate" /> log points; the survey-weighted regression with the same cells reports <Fact id="ch5.cellfe_wls" />, close to the average among home workers.
+
+</Learned>
+<Changed>
+
+Nothing about the sample or the survey weights changed. What changed is the weighting of cell contrasts: population shares versus the regression's $$N_c p_c(1-p_c)$$, which gives <Fact id="ch5.top10_reg" /> of the weight to ten cells holding <Fact id="ch5.top10_pop" /> of workers and, in Słoczyński's decomposition, puts <Fact id="ch5.sl_w1_wls" /> of the weight on the home-worker term although home workers are <Fact id="ch5.sl_rho_wls" /> of workers.
+
+</Changed>
+<NotEstablished>
+
+- **A causal effect of working from home.** Who works from home, and in which jobs, is selected in ways the cells and the age–sex profile do not remove; the ATT- and ATU-analogues borrow only the weighting schemes of the causal estimands.
+- **An average that does not depend on the cells.** The cells impose a common age–sex profile, <Fact id="ch5.n_merges" /> thin cells were merged, and a different partition, such as occupation by age, would give different contrasts and different weights.
+- **Precise contrasts in small cells.** Small cells have imprecise contrasts, and the population-weighted average counts them at full population weight.
+- **A telework contrast.** Chapter 4's construct caveat applies: `TRANWORK` records the usual means of getting to work, not any telework.
+- **Słoczyński's ATT and ATU.** Here they are linear-projection summaries that disagree with the cell-based analogues, not estimates of the causal quantities.
+
+</NotEstablished>
+</Closing>

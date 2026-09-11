@@ -1,0 +1,18 @@
+{
+  "alt": "Slope chart of six fixture outcomes, each estimated without and with survey weights; most shift by a few percentage points and one crosses another.",
+  "format": "pct1",
+  "left_label": "Unweighted",
+  "right_label": "Weighted",
+  "rows": [
+    { "label": "Hypertension", "left": 0.512, "right": 0.476, "role": "highlight" },
+    { "label": "Aware of it", "left": 0.391, "right": 0.366 },
+    { "label": "Obesity", "left": 0.412, "right": 0.405 },
+    { "label": "Treated", "left": 0.332, "right": 0.309 },
+    { "label": "Controlled", "left": 0.201, "right": 0.214 },
+    { "label": "Current smoker", "left": 0.118, "right": 0.131 }
+  ],
+  "source": "Kitchen-sink fixture.",
+  "subtitle": "Share of adults",
+  "title": "Unweighted and weighted estimates (fixture)",
+  "type": "slope"
+}

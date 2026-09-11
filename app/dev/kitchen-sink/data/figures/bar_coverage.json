@@ -1,0 +1,15 @@
+{
+  "alt": "Horizontal bar chart of fixture changes in health coverage for expansion and non-expansion states, their difference, and a placebo period near zero, each with a 95% interval.",
+  "format": "num1",
+  "rows": [
+    { "ci_high": 7.7, "ci_low": 5.9, "label": "Expansion states", "role": "treated", "value": 6.8 },
+    { "ci_high": 4.0, "ci_low": 2.2, "label": "Non-expansion states", "role": "control", "value": 3.1 },
+    { "ci_high": 5.0, "ci_low": 2.4, "label": "Difference", "role": "highlight", "value": 3.7 },
+    { "ci_high": 0.5, "ci_low": -1.3, "label": "Placebo period, 2008–2012", "role": "muted", "value": -0.4 }
+  ],
+  "source": "Kitchen-sink fixture; not ACS estimates.",
+  "subtitle": "Percentage points, 2013 to 2019",
+  "title": "Change in coverage by state group (fixture)",
+  "type": "bar",
+  "x_label": "Change, percentage points"
+}

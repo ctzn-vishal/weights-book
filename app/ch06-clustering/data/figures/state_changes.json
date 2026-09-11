@@ -1,0 +1,286 @@
+{
+  "alt": "Dot plot of each design state's change in the uninsured share with narrow survey intervals; expansion states fall by widely varying amounts, comparison states by smaller and more similar amounts.",
+  "format": "num1",
+  "note": "Replicate r is used across all pooled years; the years are independent samples, so cross-year replicate terms average to zero.",
+  "reference": {
+    "label": "No change",
+    "value": 0
+  },
+  "rows": [
+    {
+      "ci_high": -24.9572,
+      "ci_low": -27.2386,
+      "estimate": -26.0979,
+      "group": "January 2014 expansion cohort",
+      "label": "Kentucky",
+      "n": 45512,
+      "role": "treated"
+    },
+    {
+      "ci_high": -24.0635,
+      "ci_low": -27.1775,
+      "estimate": -25.6205,
+      "group": "January 2014 expansion cohort",
+      "label": "West Virginia",
+      "n": 20036,
+      "role": "treated"
+    },
+    {
+      "ci_high": -21.2457,
+      "ci_low": -25.3946,
+      "estimate": -23.3201,
+      "group": "January 2014 expansion cohort",
+      "label": "Nevada",
+      "n": 24149,
+      "role": "treated"
+    },
+    {
+      "ci_high": -21.2388,
+      "ci_low": -25.0441,
+      "estimate": -23.1414,
+      "group": "January 2014 expansion cohort",
+      "label": "New Mexico",
+      "n": 23929,
+      "role": "treated"
+    },
+    {
+      "ci_high": -21.5036,
+      "ci_low": -24.7215,
+      "estimate": -23.1126,
+      "group": "January 2014 expansion cohort",
+      "label": "Arkansas",
+      "n": 32393,
+      "role": "treated"
+    },
+    {
+      "ci_high": -20.3577,
+      "ci_low": -23.1596,
+      "estimate": -21.7586,
+      "group": "January 2014 expansion cohort",
+      "label": "Oregon",
+      "n": 33965,
+      "role": "treated"
+    },
+    {
+      "ci_high": -17.2626,
+      "ci_low": -20.2247,
+      "estimate": -18.7437,
+      "group": "January 2014 expansion cohort",
+      "label": "Colorado",
+      "n": 36534,
+      "role": "treated"
+    },
+    {
+      "ci_high": -15.7685,
+      "ci_low": -21.0388,
+      "estimate": -18.4037,
+      "group": "January 2014 expansion cohort",
+      "label": "Rhode Island",
+      "n": 6932,
+      "role": "treated"
+    },
+    {
+      "ci_high": -16.3961,
+      "ci_low": -18.2818,
+      "estimate": -17.3389,
+      "group": "January 2014 expansion cohort",
+      "label": "Illinois",
+      "n": 94452,
+      "role": "treated"
+    },
+    {
+      "ci_high": -16.0304,
+      "ci_low": -17.5668,
+      "estimate": -16.7986,
+      "group": "January 2014 expansion cohort",
+      "label": "Ohio",
+      "n": 97474,
+      "role": "treated"
+    },
+    {
+      "ci_high": -13.8271,
+      "ci_low": -16.0358,
+      "estimate": -14.9314,
+      "group": "January 2014 expansion cohort",
+      "label": "Arizona",
+      "n": 65643,
+      "role": "treated"
+    },
+    {
+      "ci_high": -12.3904,
+      "ci_low": -15.9945,
+      "estimate": -14.1924,
+      "group": "January 2014 expansion cohort",
+      "label": "Iowa",
+      "n": 19651,
+      "role": "treated"
+    },
+    {
+      "ci_high": -10.3299,
+      "ci_low": -12.9457,
+      "estimate": -11.6378,
+      "group": "January 2014 expansion cohort",
+      "label": "Maryland",
+      "n": 30856,
+      "role": "treated"
+    },
+    {
+      "ci_high": -6.39,
+      "ci_low": -11.4522,
+      "estimate": -8.9211,
+      "group": "January 2014 expansion cohort",
+      "label": "Hawaii",
+      "n": 8027,
+      "role": "treated"
+    },
+    {
+      "ci_high": -2.3902,
+      "ci_low": -10.9462,
+      "estimate": -6.6682,
+      "group": "January 2014 expansion cohort",
+      "label": "North Dakota",
+      "n": 4282,
+      "role": "treated"
+    },
+    {
+      "ci_high": -13.1881,
+      "ci_low": -14.6848,
+      "estimate": -13.9365,
+      "group": "Not expanded by 2019",
+      "label": "Florida",
+      "n": 171063,
+      "role": "control"
+    },
+    {
+      "ci_high": -10.6266,
+      "ci_low": -12.1179,
+      "estimate": -11.3722,
+      "group": "Not expanded by 2019",
+      "label": "North Carolina",
+      "n": 92075,
+      "role": "control"
+    },
+    {
+      "ci_high": -9.0461,
+      "ci_low": -13.5188,
+      "estimate": -11.2825,
+      "group": "Not expanded by 2019",
+      "label": "Kansas",
+      "n": 20866,
+      "role": "control"
+    },
+    {
+      "ci_high": -8.7794,
+      "ci_low": -13.3442,
+      "estimate": -11.0618,
+      "group": "Not expanded by 2019",
+      "label": "Idaho",
+      "n": 14120,
+      "role": "control"
+    },
+    {
+      "ci_high": -9.906,
+      "ci_low": -12.1371,
+      "estimate": -11.0216,
+      "group": "Not expanded by 2019",
+      "label": "South Carolina",
+      "n": 46572,
+      "role": "control"
+    },
+    {
+      "ci_high": -9.5768,
+      "ci_low": -11.2459,
+      "estimate": -10.4114,
+      "group": "Not expanded by 2019",
+      "label": "Georgia",
+      "n": 96609,
+      "role": "control"
+    },
+    {
+      "ci_high": -9.1519,
+      "ci_low": -11.3595,
+      "estimate": -10.2557,
+      "group": "Not expanded by 2019",
+      "label": "Tennessee",
+      "n": 64299,
+      "role": "control"
+    },
+    {
+      "ci_high": -8.8872,
+      "ci_low": -9.9763,
+      "estimate": -9.4317,
+      "group": "Not expanded by 2019",
+      "label": "Texas",
+      "n": 235004,
+      "role": "control"
+    },
+    {
+      "ci_high": -8.1312,
+      "ci_low": -10.2539,
+      "estimate": -9.1925,
+      "group": "Not expanded by 2019",
+      "label": "Missouri",
+      "n": 53042,
+      "role": "control"
+    },
+    {
+      "ci_high": -7.5414,
+      "ci_low": -10.0068,
+      "estimate": -8.7741,
+      "group": "Not expanded by 2019",
+      "label": "Alabama",
+      "n": 49924,
+      "role": "control"
+    },
+    {
+      "ci_high": -7.1144,
+      "ci_low": -10.1937,
+      "estimate": -8.6541,
+      "group": "Not expanded by 2019",
+      "label": "Mississippi",
+      "n": 36331,
+      "role": "control"
+    },
+    {
+      "ci_high": -6.9354,
+      "ci_low": -10.229,
+      "estimate": -8.5822,
+      "group": "Not expanded by 2019",
+      "label": "Oklahoma",
+      "n": 38079,
+      "role": "control"
+    },
+    {
+      "ci_high": -3.6113,
+      "ci_low": -11.9777,
+      "estimate": -7.7945,
+      "group": "Not expanded by 2019",
+      "label": "Wyoming",
+      "n": 3952,
+      "role": "control"
+    },
+    {
+      "ci_high": -4.7444,
+      "ci_low": -10.1922,
+      "estimate": -7.4683,
+      "group": "Not expanded by 2019",
+      "label": "Nebraska",
+      "n": 12120,
+      "role": "control"
+    },
+    {
+      "ci_high": -2.6351,
+      "ci_low": -9.8429,
+      "estimate": -6.239,
+      "group": "Not expanded by 2019",
+      "label": "South Dakota",
+      "n": 6114,
+      "role": "control"
+    }
+  ],
+  "source": "IPUMS USA, ACS 1-year samples 2011–2019 (analysis/usa/acs/part_2010_2014.parquet, part_2015_2019.parquet); expansion dates in _data/expansion_dates.csv (KFF; medicaid.gov); replicate weights REPWTP1–80 (analysis/usa/acs_repwt)",
+  "subtitle": "Change in the uninsured share from 2011–2013 to 2014–2019; 95% SDR replicate intervals",
+  "title": "Each state's change, with its survey interval",
+  "type": "dot",
+  "x_label": "Change in uninsured share (percentage points)"
+}

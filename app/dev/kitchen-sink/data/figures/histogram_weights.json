@@ -1,0 +1,28 @@
+{
+  "alt": "Histogram of fixture final survey weights, skewed to the right, with markers at the mean weight and at a trimming cap.",
+  "bins": [
+    { "count": 312, "x0": 0, "x1": 0.5 },
+    { "count": 1204, "x0": 0.5, "x1": 1 },
+    { "count": 1876, "x0": 1, "x1": 1.5 },
+    { "count": 1620, "x0": 1.5, "x1": 2 },
+    { "count": 1105, "x0": 2, "x1": 2.5 },
+    { "count": 702, "x0": 2.5, "x1": 3 },
+    { "count": 411, "x0": 3, "x1": 3.5 },
+    { "count": 233, "x0": 3.5, "x1": 4 },
+    { "count": 130, "x0": 4, "x1": 4.5 },
+    { "count": 71, "x0": 4.5, "x1": 5 },
+    { "count": 38, "x0": 5, "x1": 5.5 },
+    { "count": 17, "x0": 5.5, "x1": 6 }
+  ],
+  "format": "num1",
+  "markers": [
+    { "label": "Mean weight", "x": 1.94 },
+    { "label": "Trimming cap", "x": 5.5 }
+  ],
+  "source": "Kitchen-sink fixture.",
+  "subtitle": "Respondents by final weight, in thousands of adults represented",
+  "title": "Final weights among respondents (fixture)",
+  "type": "histogram",
+  "x_label": "Final weight (thousands of adults)",
+  "y_label": "Respondents"
+}

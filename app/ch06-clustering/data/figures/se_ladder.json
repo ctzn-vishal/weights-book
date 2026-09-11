@@ -1,0 +1,79 @@
+{
+  "alt": "Eight 95% intervals around the same coefficient: the person, household, replicate and state-year intervals are narrow, while the four state-level intervals are several times wider and similar to one another.",
+  "format": "num1",
+  "reference": {
+    "label": "No change",
+    "value": 0
+  },
+  "rows": [
+    {
+      "ci_high": -7.5379,
+      "ci_low": -8.3926,
+      "estimate": -7.9652,
+      "group": "Neither: no mechanism",
+      "label": "HC1: person records independent",
+      "role": "naive"
+    },
+    {
+      "ci_high": -7.4575,
+      "ci_low": -8.4729,
+      "estimate": -7.9652,
+      "group": "Sampling design",
+      "label": "CRV1: ACS household clusters",
+      "role": "design"
+    },
+    {
+      "ci_high": -7.5772,
+      "ci_low": -8.3533,
+      "estimate": -7.9652,
+      "group": "Sampling design",
+      "label": "SDR: 80 ACS replicate weights",
+      "role": "design"
+    },
+    {
+      "ci_high": -6.7161,
+      "ci_low": -9.2143,
+      "estimate": -7.9652,
+      "group": "Neither: a level with no mechanism",
+      "label": "CRV1: state-year cells",
+      "role": "naive"
+    },
+    {
+      "ci_high": -5.2634,
+      "ci_low": -10.667,
+      "estimate": -7.9652,
+      "group": "Assignment design",
+      "label": "CRV1: states",
+      "role": "highlight"
+    },
+    {
+      "ci_high": -4.976,
+      "ci_low": -10.9545,
+      "estimate": -7.9652,
+      "group": "Assignment design",
+      "label": "CRV3 jackknife: states",
+      "role": "highlight"
+    },
+    {
+      "ci_high": -5.2126,
+      "ci_low": -11.1814,
+      "estimate": -7.9652,
+      "group": "Assignment design",
+      "label": "Wild cluster bootstrap: states",
+      "role": "highlight"
+    },
+    {
+      "ci_high": -5.4452,
+      "ci_low": -10.8052,
+      "estimate": -7.9652,
+      "group": "Sensitivity (assignment as if random)",
+      "label": "Randomization inference over assignment",
+      "role": "muted"
+    }
+  ],
+  "source": "IPUMS USA, ACS 1-year samples 2011–2019 (analysis/usa/acs/part_2010_2014.parquet, part_2015_2019.parquet); expansion dates in _data/expansion_dates.csv (KFF; medicaid.gov); replicate weights REPWTP1–80 (analysis/usa/acs_repwt)",
+  "subtitle": "95% intervals for the expansion coefficient under each variance rule",
+  "title": "One coefficient, eight intervals",
+  "type": "dot",
+  "x_label": "Coefficient on expansion × post (percentage points)"
+}

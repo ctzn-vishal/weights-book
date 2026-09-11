@@ -1,0 +1,62 @@
+{
+  "alt": "Line chart of fixture uninsured rates from 2011 to 2023 for expansion and non-expansion states with 95% bands; both lines break at a 2019 survey redesign, and a rule marks 2014.",
+  "annotations": [
+    { "label": "Expansion begins", "x": 2014 },
+    { "label": "Survey redesign", "x": 2019 }
+  ],
+  "format": "pct1",
+  "series": [
+    {
+      "name": "Expansion states",
+      "role": "treated",
+      "segments": [
+        [
+          { "hi": 0.206, "lo": 0.196, "x": 2011, "y": 0.201 },
+          { "hi": 0.202, "lo": 0.192, "x": 2012, "y": 0.197 },
+          { "hi": 0.197, "lo": 0.187, "x": 2013, "y": 0.192 },
+          { "hi": 0.163, "lo": 0.153, "x": 2014, "y": 0.158 },
+          { "hi": 0.136, "lo": 0.126, "x": 2015, "y": 0.131 },
+          { "hi": 0.123, "lo": 0.113, "x": 2016, "y": 0.118 },
+          { "hi": 0.12, "lo": 0.11, "x": 2017, "y": 0.115 },
+          { "hi": 0.122, "lo": 0.112, "x": 2018, "y": 0.117 }
+        ],
+        [
+          { "hi": 0.114, "lo": 0.104, "x": 2019, "y": 0.109 },
+          { "hi": 0.109, "lo": 0.099, "x": 2020, "y": 0.104 },
+          { "hi": 0.106, "lo": 0.096, "x": 2021, "y": 0.101 },
+          { "hi": 0.099, "lo": 0.089, "x": 2022, "y": 0.094 },
+          { "hi": 0.097, "lo": 0.087, "x": 2023, "y": 0.092 }
+        ]
+      ]
+    },
+    {
+      "name": "Non-expansion states",
+      "role": "control",
+      "segments": [
+        [
+          { "hi": 0.237, "lo": 0.225, "x": 2011, "y": 0.231 },
+          { "hi": 0.234, "lo": 0.222, "x": 2012, "y": 0.228 },
+          { "hi": 0.232, "lo": 0.22, "x": 2013, "y": 0.226 },
+          { "hi": 0.211, "lo": 0.199, "x": 2014, "y": 0.205 },
+          { "hi": 0.19, "lo": 0.178, "x": 2015, "y": 0.184 },
+          { "hi": 0.183, "lo": 0.171, "x": 2016, "y": 0.177 },
+          { "hi": 0.185, "lo": 0.173, "x": 2017, "y": 0.179 },
+          { "hi": 0.189, "lo": 0.177, "x": 2018, "y": 0.183 }
+        ],
+        [
+          { "hi": 0.182, "lo": 0.17, "x": 2019, "y": 0.176 },
+          { "hi": 0.176, "lo": 0.164, "x": 2020, "y": 0.17 },
+          { "hi": 0.172, "lo": 0.16, "x": 2021, "y": 0.166 },
+          { "hi": 0.164, "lo": 0.152, "x": 2022, "y": 0.158 },
+          { "hi": 0.16, "lo": 0.148, "x": 2023, "y": 0.154 }
+        ]
+      ]
+    }
+  ],
+  "source": "Kitchen-sink fixture; not ACS estimates.",
+  "subtitle": "Adults 19–64; two series with 95% bands, each broken at the 2019 redesign",
+  "title": "Uninsured rate by state group (fixture)",
+  "type": "line",
+  "x_label": "Survey year",
+  "y_label": "Share uninsured"
+}

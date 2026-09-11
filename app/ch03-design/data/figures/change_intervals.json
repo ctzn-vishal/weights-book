@@ -1,0 +1,128 @@
+{
+  "alt": "Dot plot of period changes in hypertension prevalence, awareness, treatment and control, overall and for the three subgroups that naive intervals flag, each shown with a narrow naive interval and a wider full-design interval; only the full-design intervals for the overall stages and two of the three subgroups cross zero.",
+  "format": "num1",
+  "note": "Overall stages plus the three subgroup comparisons (of 24) that naive intervals flag. Design intervals use t with Satterthwaite df from 15 and 25.",
+  "reference": {
+    "label": "No change",
+    "value": 0
+  },
+  "rows": [
+    {
+      "ci_high": 1.24035,
+      "ci_low": -2.09553,
+      "estimate": -0.427593,
+      "group": "Naive iid interval",
+      "label": "Prevalence",
+      "role": "naive"
+    },
+    {
+      "ci_high": 2.9396,
+      "ci_low": -3.79479,
+      "estimate": -0.427593,
+      "group": "Full-design interval",
+      "label": "Prevalence",
+      "role": "design"
+    },
+    {
+      "ci_high": -0.17955,
+      "ci_low": -4.88451,
+      "estimate": -2.53203,
+      "group": "Naive iid interval",
+      "label": "Prevalence, ages 60+",
+      "role": "naive"
+    },
+    {
+      "ci_high": 1.13405,
+      "ci_low": -6.19811,
+      "estimate": -2.53203,
+      "group": "Full-design interval",
+      "label": "Prevalence, ages 60+",
+      "role": "design"
+    },
+    {
+      "ci_high": 1.22414,
+      "ci_low": -3.25154,
+      "estimate": -1.0137,
+      "group": "Naive iid interval",
+      "label": "Awareness",
+      "role": "naive"
+    },
+    {
+      "ci_high": 2.71105,
+      "ci_low": -4.73844,
+      "estimate": -1.0137,
+      "group": "Full-design interval",
+      "label": "Awareness",
+      "role": "design"
+    },
+    {
+      "ci_high": -2.65821,
+      "ci_low": -14.218,
+      "estimate": -8.43811,
+      "group": "Naive iid interval",
+      "label": "Awareness, ages 18–39",
+      "role": "naive"
+    },
+    {
+      "ci_high": -0.235503,
+      "ci_low": -16.6407,
+      "estimate": -8.43811,
+      "group": "Full-design interval",
+      "label": "Awareness, ages 18–39",
+      "role": "design"
+    },
+    {
+      "ci_high": 3.19584,
+      "ci_low": -1.36557,
+      "estimate": 0.915133,
+      "group": "Naive iid interval",
+      "label": "Treatment",
+      "role": "naive"
+    },
+    {
+      "ci_high": 4.54617,
+      "ci_low": -2.7159,
+      "estimate": 0.915133,
+      "group": "Full-design interval",
+      "label": "Treatment",
+      "role": "design"
+    },
+    {
+      "ci_high": 0.409081,
+      "ci_low": -3.32713,
+      "estimate": -1.45903,
+      "group": "Naive iid interval",
+      "label": "Control",
+      "role": "naive"
+    },
+    {
+      "ci_high": 1.04162,
+      "ci_low": -3.95967,
+      "estimate": -1.45903,
+      "group": "Full-design interval",
+      "label": "Control",
+      "role": "design"
+    },
+    {
+      "ci_high": -0.429327,
+      "ci_low": -5.58143,
+      "estimate": -3.00538,
+      "group": "Naive iid interval",
+      "label": "Control, men",
+      "role": "naive"
+    },
+    {
+      "ci_high": 0.391195,
+      "ci_low": -6.40195,
+      "estimate": -3.00538,
+      "group": "Full-design interval",
+      "label": "Control, men",
+      "role": "design"
+    }
+  ],
+  "source": "NHANES 2017–March 2020 and August 2021–August 2023; chapter calculations",
+  "subtitle": "Aug 2021–Aug 2023 minus 2017–March 2020, percentage points, 95% intervals",
+  "title": "Did the cascade change after the pandemic?",
+  "type": "dot",
+  "x_label": "Change (percentage points)"
+}

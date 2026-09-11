@@ -1,0 +1,167 @@
+{
+  "code": "build.py",
+  "generated_at": "2026-09-11T00:19:10+00:00",
+  "inputs": [
+    {
+      "note": "SAMPLE 202401 (ACS 2024 1-year); SERIAL, PERNUM, STATEFIP, SEX, AGE, GQ, EMPSTATD, PERWT, uninsured",
+      "path": "analysis/usa/acs/part_2020_2024.parquet",
+      "rows": 3422888
+    },
+    {
+      "note": "REPWTP1-REPWTP80 for SAMPLE 202401, joined 1:1 on SAMPLE+SERIAL+PERNUM",
+      "path": "analysis/usa/acs_repwt/part_2020_2024.parquet",
+      "rows": 3422888
+    },
+    {
+      "note": "published PUMS estimates and SEs used as an external benchmark",
+      "path": "https://www2.census.gov/programs-surveys/acs/tech_docs/pums/estimates/pums_estimates_24.csv",
+      "rows": 116
+    }
+  ],
+  "key": "ch3lab",
+  "method": {
+    "adjacent_pairs_with_overlapping_90pct_intervals": 48,
+    "ci_facts": "95%, t(79) = 1.9905",
+    "df": 79,
+    "estimator": "weighted share (Hajek)",
+    "kish_deff_weighting": {
+      "max": 2.59,
+      "median": 1.839,
+      "min": 1.61
+    },
+    "moe": "1.645 x SE (ACS 90%)",
+    "national": {
+      "estimate": 0.112686,
+      "n": 1871404,
+      "se_iid": 0.000231148,
+      "se_sdr": 0.000593022,
+      "se_weights_only": 0.000335085
+    },
+    "pair_counts": {
+      "naive": 1174,
+      "pairs": 1275,
+      "sdr": 1102,
+      "sdr_bonferroni": 848,
+      "sdr_indep": 1097,
+      "sdr_t79": 1097
+    },
+    "pairs_verdict_changed_by_independence_formula": 11,
+    "sdr_over_weights_only": {
+      "max": 1.258,
+      "median": 1.083,
+      "min": 0.8368
+    },
+    "se_diff_rep_over_indep": {
+      "max": 1.129,
+      "median": 0.9858,
+      "min": 0.7809
+    },
+    "tests": "pairwise, 90% per comparison, SE of the difference from the replicates",
+    "universe": "civilian noninstitutionalized adults aged 19-64 in the 50 states and DC, 2024 (IPUMS approximation: excludes institutional group quarters and the Armed Forces)",
+    "variance": "SDR, Var = (4/80) sum_r (theta_r - theta)^2"
+  },
+  "slug": "ch03-lab-replicates",
+  "status": "draft",
+  "validation": [
+    {
+      "call": "svrepdesign(weights=~PERWT, repweights=REPWTP1-80, type='successive-difference', combined.weights=TRUE, mse=TRUE); svyby(~uninsured, ~STATEFIP, svymean, covmat=TRUE)",
+      "check": "hand-coded SDR vs R survey",
+      "degf": 79,
+      "max_abs_diff_all": 3.05e-16,
+      "max_abs_diff_estimate": 3.05e-16,
+      "max_abs_diff_n": 0,
+      "max_abs_diff_pair_estimate": 6.94e-18,
+      "max_abs_diff_pair_se": 3.04e-18,
+      "max_abs_diff_se": 2.6e-18,
+      "max_abs_diff_se_type_other": 2.6e-18,
+      "mse": true,
+      "oracle": "R 4.6.1, survey 4.5, arrow 25.0.1",
+      "pairs": [
+        "TX-GA",
+        "AZ-TN",
+        "IN-IL"
+      ],
+      "pass": true,
+      "rows": 461307,
+      "rscales": 1,
+      "scale": 0.05,
+      "states": [
+        "AZ",
+        "GA",
+        "IL",
+        "IN",
+        "MA",
+        "TN",
+        "TX",
+        "WY"
+      ],
+      "tolerance": 1e-09
+    },
+    {
+      "abs_diff": 2.17e-19,
+      "check": "hand-coded SDR vs svy 0.28 replication path (third implementation)",
+      "hand_se": 0.001676739443,
+      "n": 161135,
+      "pass": true,
+      "state": "TX",
+      "svy_replication": {
+        "df": 79,
+        "method": "SDR",
+        "se": 0.001676739443
+      }
+    },
+    {
+      "check": "svy default call with replicate weights declared (CONTRACT pitfall reproduced)",
+      "default_over_replication_se": 0.8554,
+      "df_is_n_minus_1": true,
+      "equals_weights_only_linearized_se": true,
+      "note": "The default ignores the 80 replicates; the SE is a with-replacement linearization treating each person as a PSU.",
+      "relative_diff_vs_weights_only_formula": 2.4e-14,
+      "state": "TX",
+      "svy_default": {
+        "df": 161134,
+        "method": "Taylor",
+        "se": 0.001434295754
+      }
+    },
+    {
+      "check": "Census PUMS verification estimates, 2024 (external benchmark)",
+      "discrepancies": [],
+      "estimates_exact": 116,
+      "geographies": [
+        "US",
+        "TX",
+        "WY",
+        "VT",
+        "DC",
+        "CA",
+        "MA"
+      ],
+      "max_se_abs_diff": 0.494,
+      "note": "IPUMS PERWT = PWGTP and REPWTP1-80 = PWGTP1-80 in the 2024 PUMS; RELSHIPP 37/38 mapped to IPUMS GQ 3/4. Benchmark values transcribed from the published CSV (TX, WY, US read twice). PUMS SEs are for the PUMS subsample, not the full-sample ACS MOEs on data.census.gov.",
+      "pass": true,
+      "rows": 116,
+      "rows_with_nonzero_published_se": 101,
+      "se_within_integer_rounding": 116,
+      "source": "https://www2.census.gov/programs-surveys/acs/tech_docs/pums/estimates/pums_estimates_24.csv"
+    },
+    {
+      "check": "1:1 replicate join and universe",
+      "excluded_armed_forces_19_64": 13125,
+      "excluded_institutional_gq_19_64": 45225,
+      "join": "1:1 on SAMPLE+SERIAL+PERNUM (every 2024 person matched once)",
+      "matched": 3422888,
+      "max_cv": 0.1052,
+      "min_state_n": 3250,
+      "null_uninsured": 0,
+      "pass": true,
+      "persons_2024": 3422888,
+      "repwt_distinct_keys": 3422888,
+      "repwt_rows_2024": 3422888,
+      "rows_with_any_negative_replicate_weight": 544,
+      "seconds_read_join": 5.2,
+      "suppressed": 0,
+      "universe_n": 1871404
+    }
+  ]
+}

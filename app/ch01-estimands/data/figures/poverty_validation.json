@@ -1,0 +1,373 @@
+{
+  "alt": "Table comparing this chapter's official and SPM poverty rates for all people, children, and people 65 and older, 2019 to 2024, with 95% replicate intervals, against the Census Bureau's published rates, and whether they agree to one decimal.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "measure",
+      "label": "Measure"
+    },
+    {
+      "align": "left",
+      "key": "group",
+      "label": "Group"
+    },
+    {
+      "align": "left",
+      "key": "year",
+      "label": "Income year"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "ours",
+      "label": "This chapter"
+    },
+    {
+      "align": "right",
+      "key": "ci",
+      "label": "95% interval"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "published",
+      "label": "Census published"
+    },
+    {
+      "align": "left",
+      "key": "match",
+      "label": "Agrees"
+    }
+  ],
+  "note": "'Agrees' means equal after rounding to one decimal. Published values marked blank were not verified in this pass.",
+  "rows": [
+    {
+      "ci": "10.2%–10.8%",
+      "group": "All people",
+      "match": "yes",
+      "measure": "Official",
+      "ours": 0.104694,
+      "published": 0.105,
+      "year": "2019"
+    },
+    {
+      "ci": "11.1%–11.8%",
+      "group": "All people",
+      "match": "yes",
+      "measure": "Official",
+      "ours": 0.114626,
+      "published": 0.115,
+      "year": "2020"
+    },
+    {
+      "ci": "11.2%–11.9%",
+      "group": "All people",
+      "match": "yes",
+      "measure": "Official",
+      "ours": 0.115588,
+      "published": 0.116,
+      "year": "2021"
+    },
+    {
+      "ci": "11.1%–11.9%",
+      "group": "All people",
+      "match": "yes",
+      "measure": "Official",
+      "ours": 0.114891,
+      "published": 0.115,
+      "year": "2022"
+    },
+    {
+      "ci": "10.8%–11.4%",
+      "group": "All people",
+      "match": "yes",
+      "measure": "Official",
+      "ours": 0.11087,
+      "published": 0.111,
+      "year": "2023"
+    },
+    {
+      "ci": "10.3%–10.9%",
+      "group": "All people",
+      "match": "yes",
+      "measure": "Official",
+      "ours": 0.106383,
+      "published": 0.106,
+      "year": "2024"
+    },
+    {
+      "ci": "13.8%–15.0%",
+      "group": "Children under 18",
+      "match": "yes",
+      "measure": "Official",
+      "ours": 0.143787,
+      "published": 0.144,
+      "year": "2019"
+    },
+    {
+      "ci": "15.3%–16.7%",
+      "group": "Children under 18",
+      "match": "yes",
+      "measure": "Official",
+      "ours": 0.160303,
+      "published": 0.16,
+      "year": "2020"
+    },
+    {
+      "ci": "14.6%–16.0%",
+      "group": "Children under 18",
+      "match": "yes",
+      "measure": "Official",
+      "ours": 0.152854,
+      "published": 0.153,
+      "year": "2021"
+    },
+    {
+      "ci": "14.3%–15.7%",
+      "group": "Children under 18",
+      "match": "yes",
+      "measure": "Official",
+      "ours": 0.149888,
+      "published": 0.15,
+      "year": "2022"
+    },
+    {
+      "ci": "14.5%–16.0%",
+      "group": "Children under 18",
+      "match": "yes",
+      "measure": "Official",
+      "ours": 0.152565,
+      "published": 0.153,
+      "year": "2023"
+    },
+    {
+      "ci": "13.6%–15.0%",
+      "group": "Children under 18",
+      "match": "yes",
+      "measure": "Official",
+      "ours": 0.142667,
+      "published": 0.143,
+      "year": "2024"
+    },
+    {
+      "ci": "8.4%–9.3%",
+      "group": "People 65 and older",
+      "match": "yes",
+      "measure": "Official",
+      "ours": 0.088689,
+      "published": 0.089,
+      "year": "2019"
+    },
+    {
+      "ci": "8.4%–9.5%",
+      "group": "People 65 and older",
+      "match": "yes",
+      "measure": "Official",
+      "ours": 0.089391,
+      "published": 0.089,
+      "year": "2020"
+    },
+    {
+      "ci": "9.8%–10.8%",
+      "group": "People 65 and older",
+      "match": "yes",
+      "measure": "Official",
+      "ours": 0.103293,
+      "published": 0.103,
+      "year": "2021"
+    },
+    {
+      "ci": "9.7%–10.7%",
+      "group": "People 65 and older",
+      "match": "yes",
+      "measure": "Official",
+      "ours": 0.101883,
+      "published": 0.102,
+      "year": "2022"
+    },
+    {
+      "ci": "9.2%–10.2%",
+      "group": "People 65 and older",
+      "match": "yes",
+      "measure": "Official",
+      "ours": 0.097364,
+      "published": 0.097,
+      "year": "2023"
+    },
+    {
+      "ci": "9.5%–10.4%",
+      "group": "People 65 and older",
+      "match": "yes",
+      "measure": "Official",
+      "ours": 0.099332,
+      "published": 0.099,
+      "year": "2024"
+    },
+    {
+      "ci": "11.4%–12.1%",
+      "group": "All people",
+      "match": "yes",
+      "measure": "SPM",
+      "ours": 0.117167,
+      "published": 0.117,
+      "year": "2019"
+    },
+    {
+      "ci": "8.9%–9.4%",
+      "group": "All people",
+      "match": "yes",
+      "measure": "SPM",
+      "ours": 0.091501,
+      "published": 0.092,
+      "year": "2020"
+    },
+    {
+      "ci": "7.5%–8.0%",
+      "group": "All people",
+      "match": "yes",
+      "measure": "SPM",
+      "ours": 0.077694,
+      "published": 0.078,
+      "year": "2021"
+    },
+    {
+      "ci": "12.0%–12.7%",
+      "group": "All people",
+      "match": "yes",
+      "measure": "SPM",
+      "ours": 0.123884,
+      "published": 0.124,
+      "year": "2022"
+    },
+    {
+      "ci": "12.6%–13.3%",
+      "group": "All people",
+      "match": "yes",
+      "measure": "SPM",
+      "ours": 0.129308,
+      "published": 0.129,
+      "year": "2023"
+    },
+    {
+      "ci": "12.6%–13.3%",
+      "group": "All people",
+      "match": "yes",
+      "measure": "SPM",
+      "ours": 0.129269,
+      "published": 0.129,
+      "year": "2024"
+    },
+    {
+      "ci": "11.8%–13.0%",
+      "group": "Children under 18",
+      "match": "no",
+      "measure": "SPM",
+      "ours": 0.124028,
+      "published": 0.125,
+      "year": "2019"
+    },
+    {
+      "ci": "9.1%–10.2%",
+      "group": "Children under 18",
+      "match": "yes",
+      "measure": "SPM",
+      "ours": 0.096739,
+      "published": 0.097,
+      "year": "2020"
+    },
+    {
+      "ci": "4.8%–5.6%",
+      "group": "Children under 18",
+      "match": "yes",
+      "measure": "SPM",
+      "ours": 0.051774,
+      "published": 0.052,
+      "year": "2021"
+    },
+    {
+      "ci": "11.8%–13.0%",
+      "group": "Children under 18",
+      "match": "yes",
+      "measure": "SPM",
+      "ours": 0.123984,
+      "published": 0.124,
+      "year": "2022"
+    },
+    {
+      "ci": "13.1%–14.5%",
+      "group": "Children under 18",
+      "match": "no",
+      "measure": "SPM",
+      "ours": 0.137779,
+      "published": 0.137,
+      "year": "2023"
+    },
+    {
+      "ci": "12.7%–14.0%",
+      "group": "Children under 18",
+      "match": "no",
+      "measure": "SPM",
+      "ours": 0.133452,
+      "published": 0.134,
+      "year": "2024"
+    },
+    {
+      "ci": "12.1%–13.3%",
+      "group": "People 65 and older",
+      "match": "no",
+      "measure": "SPM",
+      "ours": 0.127229,
+      "published": 0.128,
+      "year": "2019"
+    },
+    {
+      "ci": "8.9%–10.0%",
+      "group": "People 65 and older",
+      "match": "yes",
+      "measure": "SPM",
+      "ours": 0.094561,
+      "published": 0.095,
+      "year": "2020"
+    },
+    {
+      "ci": "10.1%–11.2%",
+      "group": "People 65 and older",
+      "match": "yes",
+      "measure": "SPM",
+      "ours": 0.106525,
+      "published": 0.107,
+      "year": "2021"
+    },
+    {
+      "ci": "13.6%–14.8%",
+      "group": "People 65 and older",
+      "match": "no",
+      "measure": "SPM",
+      "ours": 0.141687,
+      "published": 0.141,
+      "year": "2022"
+    },
+    {
+      "ci": "13.5%–14.7%",
+      "group": "People 65 and older",
+      "match": "no",
+      "measure": "SPM",
+      "ours": 0.140739,
+      "published": 0.142,
+      "year": "2023"
+    },
+    {
+      "ci": "14.3%–15.6%",
+      "group": "People 65 and older",
+      "match": "yes",
+      "measure": "SPM",
+      "ours": 0.14953,
+      "published": 0.15,
+      "year": "2024"
+    }
+  ],
+  "source": "This chapter's build; published rates from Census Bureau, Poverty in the United States: 2021 (P60-277), 2022 (P60-280), and 2024 (P60-287), Tables A-1, A-3, B-2, and B-3",
+  "subtitle": "CPS ASEC 2020-2025 (income years 2019-2024)",
+  "title": "Replication check against Census published poverty rates",
+  "type": "table"
+}

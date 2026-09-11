@@ -1,0 +1,98 @@
+{
+  "alt": "Table of FMD prevalence, standard error, weight CV, Kish effective sample, and three weighted margins under the final weight, caps at each state's 99th and 95th percentiles, and a capped-then-re-raked weight.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "label",
+      "label": "Weight"
+    },
+    {
+      "align": "right",
+      "format": "pct2",
+      "key": "fmd",
+      "label": "FMD"
+    },
+    {
+      "align": "right",
+      "format": "num3",
+      "key": "se_pp",
+      "label": "SE (pp)"
+    },
+    {
+      "align": "right",
+      "format": "num2",
+      "key": "cv",
+      "label": "CV(w)"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "nkish",
+      "label": "n Kish"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "age1824",
+      "label": "Aged 18–24"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "cellonly",
+      "label": "Cell only"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "lths",
+      "label": "Less than high school"
+    }
+  ],
+  "note": "Caps are within-state percentiles of _LLCPWT; trimmed weight is redistributed within the state so state totals are unchanged. Re-raking targets the final weight's own state margins (sex x age, race/ethnicity, education, marital status, tenure, sex x race, age x race, phone status). Taylor SEs treat weights as fixed.",
+  "rows": [
+    {
+      "age1824": 0.12189519,
+      "cellonly": 0.71858171,
+      "cv": 2.03203,
+      "fmd": 0.15560378,
+      "label": "No cap (published final weight)",
+      "lths": 0.11020298,
+      "nkish": 86231.09,
+      "se_pp": 0.12224
+    },
+    {
+      "age1824": 0.11926055,
+      "cellonly": 0.72303287,
+      "cv": 1.9059,
+      "fmd": 0.15579453,
+      "label": "Cap at each state's 99th percentile",
+      "lths": 0.10705349,
+      "nkish": 95476.53,
+      "se_pp": 0.117649
+    },
+    {
+      "age1824": 0.11312174,
+      "cellonly": 0.72937571,
+      "cv": 1.72447,
+      "fmd": 0.15494284,
+      "label": "Cap at each state's 95th percentile",
+      "lths": 0.1006728,
+      "nkish": 111302.4,
+      "se_pp": 0.109353
+    },
+    {
+      "age1824": 0.12189519,
+      "cellonly": 0.71858171,
+      "cv": 1.84956,
+      "fmd": 0.1560929,
+      "label": "95th-percentile cap, then re-raked",
+      "lths": 0.11020298,
+      "nkish": 100046.31,
+      "se_pp": 0.115367
+    }
+  ],
+  "source": "CDC BRFSS 2024 public file; 49 states and DC",
+  "title": "Trimming buys little precision and moves the margins",
+  "type": "table"
+}

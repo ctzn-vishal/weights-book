@@ -1,0 +1,126 @@
+{
+  "alt": "Table: as a random domain of NHIS 2023 sample adults shrinks from 100% to 0.2% of the sample, PSUs with members fall from 662 to about 56, single-PSU strata rise from 0 to about 19, and the median ratio of the delete-rows-first SE to the correct SE falls from 1.00 to about 0.81.",
+  "columns": [
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "kept",
+      "label": "Share of adults kept"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "n",
+      "label": "n"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "psus",
+      "label": "PSUs with members"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "single",
+      "label": "Single-PSU strata"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "df",
+      "label": "df after deletion"
+    },
+    {
+      "align": "right",
+      "format": "num3",
+      "key": "ratio_med",
+      "label": "SE ratio, median"
+    },
+    {
+      "align": "right",
+      "format": "num3",
+      "key": "ratio_p10",
+      "label": "10th pct"
+    },
+    {
+      "align": "right",
+      "format": "pct0",
+      "key": "share_short",
+      "label": "Draws >10% too small"
+    }
+  ],
+  "highlight_key": "highlight",
+  "note": "Each row below 100% summarizes 200 seeded random domains of fixed size (seed 20260910). SE ratio = SE after deleting non-domain rows (single-PSU strata as certainty units) / SE from the declared design. Medians shown.",
+  "rows": [
+    {
+      "df": 610.0,
+      "highlight": false,
+      "kept": 1.0,
+      "n": 29471,
+      "psus": 662.0,
+      "ratio_med": 1.0,
+      "ratio_p10": 1.0,
+      "share_short": 0.0,
+      "single": 0.0
+    },
+    {
+      "df": 585.0,
+      "highlight": false,
+      "kept": 0.1,
+      "n": 2947,
+      "psus": 637.0,
+      "ratio_med": 0.999815,
+      "ratio_p10": 0.99889,
+      "share_short": 0.0,
+      "single": 0.0
+    },
+    {
+      "df": 328.0,
+      "highlight": false,
+      "kept": 0.02,
+      "n": 589,
+      "psus": 380.0,
+      "ratio_med": 0.99821,
+      "ratio_p10": 0.985509,
+      "share_short": 0.0,
+      "single": 0.0
+    },
+    {
+      "df": 183.0,
+      "highlight": false,
+      "kept": 0.01,
+      "n": 295,
+      "psus": 234.0,
+      "ratio_med": 0.994417,
+      "ratio_p10": 0.96746,
+      "share_short": 0.0,
+      "single": 3.0
+    },
+    {
+      "df": 83.0,
+      "highlight": false,
+      "kept": 0.005,
+      "n": 147,
+      "psus": 131.0,
+      "ratio_med": 0.964826,
+      "ratio_p10": 0.904119,
+      "share_short": 0.09,
+      "single": 10.0
+    },
+    {
+      "df": 22.0,
+      "highlight": true,
+      "kept": 0.002,
+      "n": 59,
+      "psus": 56.0,
+      "ratio_med": 0.806344,
+      "ratio_p10": 0.641193,
+      "share_short": 0.8,
+      "single": 19.0
+    }
+  ],
+  "source": "IPUMS NHIS 2023 sample adults; outcome: ever told hypertension; chapter calculations",
+  "title": "Thinning one domain: the understatement grows as strata collapse",
+  "type": "table"
+}

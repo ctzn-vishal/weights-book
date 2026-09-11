@@ -1,0 +1,78 @@
+{
+  "alt": "Table comparing weekday and weekend ATUS 2023 diaries: respondents, share of the sample, assignment probability, design weight, weighted share of person-days, and unweighted work minutes.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "day",
+      "label": "Diary day"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "n",
+      "label": "Respondents"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "sh_sample",
+      "label": "Share of sample"
+    },
+    {
+      "align": "right",
+      "format": "pct0",
+      "key": "pi",
+      "label": "Assignment probability, each day"
+    },
+    {
+      "align": "right",
+      "format": "num0",
+      "key": "d",
+      "label": "d = 1/π"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "sh_d",
+      "label": "Share of days under d"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "sh_wt06",
+      "label": "Share of days under WT06"
+    },
+    {
+      "align": "right",
+      "format": "min1",
+      "key": "work",
+      "label": "Work minutes (unweighted)"
+    }
+  ],
+  "note": "n = 8,548. Weights-only: standard errors from these weights would understate uncertainty.",
+  "rows": [
+    {
+      "d": 10,
+      "day": "Weekday (Mon–Fri)",
+      "n": 4366,
+      "pi": 0.1,
+      "sh_d": 0.72299132,
+      "sh_sample": 0.51076275,
+      "sh_wt06": 0.71231502,
+      "work": 250.89143
+    },
+    {
+      "d": 4,
+      "day": "Weekend (Sat–Sun)",
+      "n": 4182,
+      "pi": 0.25,
+      "sh_d": 0.27700868,
+      "sh_sample": 0.48923725,
+      "sh_wt06": 0.28768498,
+      "work": 55.609517
+    }
+  ],
+  "source": "IPUMS ATUS 2023; allocation from the BLS ATUS User's Guide, section 3.5",
+  "title": "Weekend diaries are half the sample and two-sevenths of the days",
+  "type": "table"
+}

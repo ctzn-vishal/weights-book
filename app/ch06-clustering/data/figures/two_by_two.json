@@ -1,0 +1,53 @@
+{
+  "alt": "Two-by-two table of uninsured shares before (2011–2013) and after (2014–2019) for the expansion cohort and the comparison states, with each group's change and the difference in differences.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "group",
+      "label": "Group"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "pre",
+      "label": "2011–2013"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "post",
+      "label": "2014–2019"
+    },
+    {
+      "align": "right",
+      "format": "num1",
+      "key": "change",
+      "label": "Change (points)"
+    }
+  ],
+  "note": "Pooled means weight each state by its population in each period; the regression with state fixed effects compares each state with itself, so its coefficient differs slightly.",
+  "rows": [
+    {
+      "change": -18.5865,
+      "group": "January 2014 expansion cohort (15 states)",
+      "post": 0.193258,
+      "pre": 0.379123
+    },
+    {
+      "change": -10.5619,
+      "group": "Not expanded by 2019 (15 states)",
+      "post": 0.372351,
+      "pre": 0.477969
+    },
+    {
+      "change": -8.0247,
+      "group": "Difference in differences",
+      "post": null,
+      "pre": null
+    }
+  ],
+  "source": "IPUMS USA, ACS 1-year samples 2011–2019 (analysis/usa/acs/part_2010_2014.parquet, part_2015_2019.parquet); expansion dates in _data/expansion_dates.csv (KFF; medicaid.gov)",
+  "subtitle": "PERWT-pooled uninsured shares by group and period",
+  "title": "The 2×2 comparison",
+  "type": "table"
+}

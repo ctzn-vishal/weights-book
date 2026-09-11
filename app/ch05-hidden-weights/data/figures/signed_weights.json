@@ -1,0 +1,112 @@
+{
+  "alt": "Horizontal bar chart of the share of commuters with negative implied regression weight by occupation group, highest in low-WFH groups: production, transportation & moving, installation & repair.",
+  "format": "pct1",
+  "note": "Implied weight of observation i is PERWT_i(D_i − ℓ_i), where ℓ is the fitted value of a linear probability model for WFH with the regression's controls; a commuter with ℓ < 0 enters the comparison with the wrong sign. Groups under 0.5% not shown. In Chapter 4's headline model every fitted value lies between 0 and 1, so no weight is negative.",
+  "rows": [
+    {
+      "label": "Production",
+      "role": "highlight",
+      "value": 0.21030856
+    },
+    {
+      "label": "Transportation & moving",
+      "role": "highlight",
+      "value": 0.20197191
+    },
+    {
+      "label": "Installation & repair",
+      "role": "highlight",
+      "value": 0.19350303
+    },
+    {
+      "label": "Food preparation & serving",
+      "role": "highlight",
+      "value": 0.1930392
+    },
+    {
+      "label": "Building & grounds",
+      "role": "highlight",
+      "value": 0.19303446
+    },
+    {
+      "label": "Protective service",
+      "role": "highlight",
+      "value": 0.18339563
+    },
+    {
+      "label": "Military specific",
+      "role": "highlight",
+      "value": 0.13730314
+    },
+    {
+      "label": "Construction & extraction",
+      "role": "highlight",
+      "value": 0.1169306
+    },
+    {
+      "label": "Healthcare support",
+      "role": "highlight",
+      "value": 0.10849152
+    },
+    {
+      "label": "Farming, fishing & forestry",
+      "role": "highlight",
+      "value": 0.096541179
+    },
+    {
+      "label": "Healthcare practitioners",
+      "role": "highlight",
+      "value": 0.084441469
+    },
+    {
+      "label": "Education & library",
+      "role": "highlight",
+      "value": 0.073248699
+    },
+    {
+      "label": "Personal care & service",
+      "role": "highlight",
+      "value": 0.06546199
+    },
+    {
+      "label": "Office & admin support",
+      "role": "highlight",
+      "value": 0.044786206
+    },
+    {
+      "label": "Sales",
+      "role": "highlight",
+      "value": 0.043487741
+    },
+    {
+      "label": "Life, physical & social science",
+      "role": "highlight",
+      "value": 0.037129088
+    },
+    {
+      "label": "Arts, design, media & sports",
+      "role": "highlight",
+      "value": 0.029737718
+    },
+    {
+      "label": "Architecture & engineering",
+      "role": "highlight",
+      "value": 0.019310946
+    },
+    {
+      "label": "Community & social service",
+      "role": "highlight",
+      "value": 0.018977048
+    },
+    {
+      "label": "Management",
+      "role": "highlight",
+      "value": 0.0095386534
+    }
+  ],
+  "source": "IPUMS USA, ACS 2024 1-year (SAMPLE 202401), analysis/usa/acs/part_2020_2024.parquet; replicate weights REPWTP1–80 from analysis/usa/acs_repwt/part_2020_2024.parquet",
+  "subtitle": "Share of each occupation group's commuters whose implied weight is negative, occupation + industry + state model",
+  "title": "Where the linear specification assigns negative weight",
+  "type": "bar",
+  "x_label": "Share of commuters (PERWT-weighted) with negative implied weight"
+}

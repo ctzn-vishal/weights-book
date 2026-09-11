@@ -170,8 +170,13 @@ unweighted n below 100 (floor 30, with the reason stated); flag CV above 0.30.
   - Replicate weights: the default call **silently ignores declared replicate
     weights and returns a Taylor SE with df = n − 1**. Always pass
     `method="replication", variance_center="estimate"` and assert the returned
-    df is 79 or 159, not n − 1. `scale=` and `df=` on `SdrWgts` are ignored.
-  - `where=` takes `svy.col(...)` expressions, not strings.
+    df is 79 or 159, not n − 1. (`scale=` and `df=` on `SdrWgts` take effect once
+    `method="replication"` is passed; the default call ignores the whole replicate
+    declaration. The error's direction is not fixed: it has both overstated and
+    understated the replicate SE.)
+  - `where=` takes `svy.col(...)` expressions, not strings. A `where=` condition on an
+    8- or 16-bit integer column (IPUMS flags such as `ASTATFLG`) raises `ComputeError`;
+    cast to `Int64` first.
   - Nulls in an outcome raise unless `drop_nulls=True`; decide and record it.
   - Singleton PSUs raise `SingletonError`. Choose a rule deliberately and report
     PSUs retained and lonely strata next to every domain SE.

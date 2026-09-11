@@ -1,0 +1,107 @@
+{
+  "alt": "Table of five hypertension estimates for August 2021–August 2023 with their naive, weights-only and full-design standard errors, design effects between about 1.7 and 3.1, and 15 design degrees of freedom.",
+  "columns": [
+    {
+      "key": "estimand",
+      "label": "Estimate"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "est",
+      "label": "Value"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "n",
+      "label": "n"
+    },
+    {
+      "align": "right",
+      "format": "num2",
+      "key": "se_naive",
+      "label": "SE, naive (pp)"
+    },
+    {
+      "align": "right",
+      "format": "num2",
+      "key": "se_w",
+      "label": "SE, weights only (pp)"
+    },
+    {
+      "align": "right",
+      "format": "num2",
+      "key": "se_d",
+      "label": "SE, full design (pp)"
+    },
+    {
+      "align": "right",
+      "format": "ratio2",
+      "key": "deff",
+      "label": "DEFF"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "df",
+      "label": "Design df"
+    }
+  ],
+  "note": "Naive: √(p(1−p)/(n−1)), ignoring weights and design. Weights only: every respondent its own PSU, no strata (the HC1 sandwich for a weighted mean). Full design: Taylor linearization with SDMVSTRA and SDMVPSU. DEFF = (full-design SE / naive SE)².",
+  "rows": [
+    {
+      "deff": 2.71789,
+      "df": 15,
+      "est": 0.476644,
+      "estimand": "Hypertension, crude",
+      "n": 6084,
+      "se_d": 1.05573,
+      "se_naive": 0.640379,
+      "se_w": 0.786668
+    },
+    {
+      "deff": 3.06781,
+      "df": 15,
+      "est": 0.44514,
+      "estimand": "Hypertension, age-adjusted",
+      "n": 6084,
+      "se_d": 1.12437,
+      "se_naive": 0.641939,
+      "se_w": 0.765844
+    },
+    {
+      "deff": 2.1159,
+      "df": 15,
+      "est": 0.591724,
+      "estimand": "Awareness",
+      "n": 3240,
+      "se_d": 1.25626,
+      "se_naive": 0.863637,
+      "se_w": 1.08885
+    },
+    {
+      "deff": 1.79956,
+      "df": 15,
+      "est": 0.511938,
+      "estimand": "Treatment",
+      "n": 3238,
+      "se_d": 1.17858,
+      "se_naive": 0.878567,
+      "se_w": 1.08827
+    },
+    {
+      "deff": 1.70381,
+      "df": 15,
+      "est": 0.207393,
+      "estimand": "Control",
+      "n": 3242,
+      "se_d": 0.929602,
+      "se_naive": 0.712175,
+      "se_w": 0.821574
+    }
+  ],
+  "source": "NHANES August 2021–August 2023; chapter calculations",
+  "title": "One estimate, three standard errors",
+  "type": "table"
+}

@@ -1,0 +1,23 @@
+{
+  "key": "ch0",
+  "ledgers": {
+    "toy_care": {
+      "assumptions": "Inclusion probabilities are known and positive; every sampled adult responds; the outcome is measured without error. Relax any of these and the weights stop being 1/pi_i.",
+      "estimand": "The population proportion lacking a regular source of care, a finite-population quantity that can be computed exactly here because the whole population is known.",
+      "estimator": "Hajek weighted mean over the 1,000 sampled adults: sum of w_i y_i divided by sum of w_i.",
+      "explicit_weights": "Design weights d_i = 1/pi_i: 40 for rural adults (sampled 1 in 40) and 160 for urban adults (1 in 160). No nonresponse or calibration adjustment (g_i = 1), so w_i = d_i.",
+      "facts": [
+        "ch0.toy_truth",
+        "ch0.toy_weighted",
+        "ch0.toy_unweighted",
+        "ch0.toy_weighted_sd",
+        "ch0.toy_coverage"
+      ],
+      "implicit_weights": "None beyond the explicit weights: for a mean, each unit enters in proportion to w_i. Unweighted, rural adults would carry half the influence while making up a fifth of the population.",
+      "randomness": "Sampling only: which adults the stratified design selects. The population values are fixed.",
+      "target_population": "The 100,000 adults of the chapter's synthetic population: a finite population fixed once by the build script's seed, a fifth of them rural.",
+      "title": "A worked Ledger: share of a synthetic population lacking a regular source of care",
+      "variance_estimator": "Stratified with-replacement (Taylor) variance with n - H = 998 df, checked against the spread of the weighted mean over 2,000 simulated repetitions of the same design."
+    }
+  }
+}

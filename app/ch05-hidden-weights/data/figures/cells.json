@@ -1,0 +1,695 @@
+{
+  "alt": "Interactive view of 85 occupation-by-education cells showing each cell's population share, work-from-home share, and WFH–commuter wage contrast, with the regression's implicit weights compared to population shares.",
+  "cells": [
+    {
+      "effect": 0.21928354,
+      "effect_se": 0.061898208,
+      "label": "Management · less than HS",
+      "n": 2952,
+      "pop_share": 0.003248382,
+      "treat_share": 0.078583321
+    },
+    {
+      "effect": 0.16362415,
+      "effect_se": 0.022365794,
+      "label": "Management · HS",
+      "n": 16311,
+      "pop_share": 0.016782953,
+      "treat_share": 0.089178871
+    },
+    {
+      "effect": 0.23616078,
+      "effect_se": 0.01052236,
+      "label": "Management · some college",
+      "n": 31206,
+      "pop_share": 0.03147435,
+      "treat_share": 0.1399103
+    },
+    {
+      "effect": 0.18383424,
+      "effect_se": 0.0068865319,
+      "label": "Management · BA+",
+      "n": 89147,
+      "pop_share": 0.08560545,
+      "treat_share": 0.24123275
+    },
+    {
+      "effect": 0.064360898,
+      "effect_se": 0.080866152,
+      "label": "Business & financial · less than HS",
+      "n": 701,
+      "pop_share": 0.00083264281,
+      "treat_share": 0.13672467
+    },
+    {
+      "effect": 0.17051555,
+      "effect_se": 0.018270536,
+      "label": "Business & financial · HS",
+      "n": 6287,
+      "pop_share": 0.0064718567,
+      "treat_share": 0.18788403
+    },
+    {
+      "effect": 0.11042073,
+      "effect_se": 0.012943117,
+      "label": "Business & financial · some college",
+      "n": 14653,
+      "pop_share": 0.014790258,
+      "treat_share": 0.26832307
+    },
+    {
+      "effect": 0.092352882,
+      "effect_se": 0.0052391858,
+      "label": "Business & financial · BA+",
+      "n": 53082,
+      "pop_share": 0.052031271,
+      "treat_share": 0.3209425
+    },
+    {
+      "effect": 0.072198675,
+      "effect_se": 0.098563067,
+      "label": "Computer & math · less than HS",
+      "n": 397,
+      "pop_share": 0.00044191659,
+      "treat_share": 0.19884485
+    },
+    {
+      "effect": 0.13310339,
+      "effect_se": 0.030462418,
+      "label": "Computer & math · HS",
+      "n": 2565,
+      "pop_share": 0.0026430168,
+      "treat_share": 0.28268892
+    },
+    {
+      "effect": 0.17451357,
+      "effect_se": 0.013512072,
+      "label": "Computer & math · some college",
+      "n": 10581,
+      "pop_share": 0.010518941,
+      "treat_share": 0.35877381
+    },
+    {
+      "effect": 0.044519506,
+      "effect_se": 0.0062552372,
+      "label": "Computer & math · BA+",
+      "n": 38680,
+      "pop_share": 0.038701414,
+      "treat_share": 0.4101194
+    },
+    {
+      "effect": 0.18722431,
+      "effect_se": 0.05101729,
+      "label": "Architecture & engineering · HS or less",
+      "n": 2496,
+      "pop_share": 0.0025278836,
+      "treat_share": 0.086000841
+    },
+    {
+      "effect": 0.1991068,
+      "effect_se": 0.026733235,
+      "label": "Architecture & engineering · some college",
+      "n": 5646,
+      "pop_share": 0.0054402689,
+      "treat_share": 0.12347847
+    },
+    {
+      "effect": 0.10534913,
+      "effect_se": 0.011020543,
+      "label": "Architecture & engineering · BA+",
+      "n": 22229,
+      "pop_share": 0.021592769,
+      "treat_share": 0.1661313
+    },
+    {
+      "effect": 0.18280291,
+      "effect_se": 0.095521046,
+      "label": "Life, physical & social science · HS or less",
+      "n": 793,
+      "pop_share": 0.00080095128,
+      "treat_share": 0.080793243
+    },
+    {
+      "effect": 0.10606801,
+      "effect_se": 0.056797706,
+      "label": "Life, physical & social science · some college",
+      "n": 1263,
+      "pop_share": 0.001235353,
+      "treat_share": 0.095049733
+    },
+    {
+      "effect": 0.17634816,
+      "effect_se": 0.01520848,
+      "label": "Life, physical & social science · BA+",
+      "n": 12610,
+      "pop_share": 0.011818465,
+      "treat_share": 0.16033604
+    },
+    {
+      "effect": 0.063901312,
+      "effect_se": 0.053338033,
+      "label": "Community & social service · HS or less",
+      "n": 1523,
+      "pop_share": 0.0015532931,
+      "treat_share": 0.10026084
+    },
+    {
+      "effect": 0.11607833,
+      "effect_se": 0.038918784,
+      "label": "Community & social service · some college",
+      "n": 2697,
+      "pop_share": 0.0027539087,
+      "treat_share": 0.10231638
+    },
+    {
+      "effect": 0.03141001,
+      "effect_se": 0.017665712,
+      "label": "Community & social service · BA+",
+      "n": 16333,
+      "pop_share": 0.015901122,
+      "treat_share": 0.1240099
+    },
+    {
+      "effect": 0.1638149,
+      "effect_se": 0.070608269,
+      "label": "Legal · HS or less",
+      "n": 698,
+      "pop_share": 0.00070526942,
+      "treat_share": 0.15140793
+    },
+    {
+      "effect": 0.074910942,
+      "effect_se": 0.033273778,
+      "label": "Legal · some college",
+      "n": 1778,
+      "pop_share": 0.0017993958,
+      "treat_share": 0.16318287
+    },
+    {
+      "effect": 0.062373456,
+      "effect_se": 0.020025104,
+      "label": "Legal · BA+",
+      "n": 10491,
+      "pop_share": 0.0098260353,
+      "treat_share": 0.22154648
+    },
+    {
+      "effect": 0.082069856,
+      "effect_se": 0.13287792,
+      "label": "Education & library · less than HS",
+      "n": 646,
+      "pop_share": 0.00067078827,
+      "treat_share": 0.043072353
+    },
+    {
+      "effect": 0.29974097,
+      "effect_se": 0.060195733,
+      "label": "Education & library · HS",
+      "n": 3681,
+      "pop_share": 0.0038211448,
+      "treat_share": 0.048364348
+    },
+    {
+      "effect": 0.22925411,
+      "effect_se": 0.033500833,
+      "label": "Education & library · some college",
+      "n": 7383,
+      "pop_share": 0.0073831021,
+      "treat_share": 0.050425903
+    },
+    {
+      "effect": 0.075149384,
+      "effect_se": 0.011246551,
+      "label": "Education & library · BA+",
+      "n": 56654,
+      "pop_share": 0.052219304,
+      "treat_share": 0.063262602
+    },
+    {
+      "effect": 0.19907111,
+      "effect_se": 0.11773999,
+      "label": "Arts, design, media & sports · HS or less",
+      "n": 1337,
+      "pop_share": 0.001432201,
+      "treat_share": 0.11196428
+    },
+    {
+      "effect": 0.18576907,
+      "effect_se": 0.036461901,
+      "label": "Arts, design, media & sports · some college",
+      "n": 3148,
+      "pop_share": 0.0031198985,
+      "treat_share": 0.19752805
+    },
+    {
+      "effect": 0.1697217,
+      "effect_se": 0.014985388,
+      "label": "Arts, design, media & sports · BA+",
+      "n": 11676,
+      "pop_share": 0.011363872,
+      "treat_share": 0.28302449
+    },
+    {
+      "effect": 0.30952562,
+      "effect_se": 0.24396546,
+      "label": "Healthcare practitioners · less than HS",
+      "n": 534,
+      "pop_share": 0.00060514695,
+      "treat_share": 0.058767267
+    },
+    {
+      "effect": 0.0073265138,
+      "effect_se": 0.042850706,
+      "label": "Healthcare practitioners · HS",
+      "n": 3712,
+      "pop_share": 0.0039034289,
+      "treat_share": 0.074506668
+    },
+    {
+      "effect": -0.0034832132,
+      "effect_se": 0.015341458,
+      "label": "Healthcare practitioners · some college",
+      "n": 20710,
+      "pop_share": 0.020370131,
+      "treat_share": 0.076838981
+    },
+    {
+      "effect": -0.011050837,
+      "effect_se": 0.012062359,
+      "label": "Healthcare practitioners · BA+",
+      "n": 49231,
+      "pop_share": 0.047916211,
+      "treat_share": 0.07733705
+    },
+    {
+      "effect": -0.098053788,
+      "effect_se": 0.041814928,
+      "label": "Healthcare support · less than HS",
+      "n": 2064,
+      "pop_share": 0.0023741796,
+      "treat_share": 0.13192549
+    },
+    {
+      "effect": -0.13945137,
+      "effect_se": 0.028665176,
+      "label": "Healthcare support · HS",
+      "n": 7682,
+      "pop_share": 0.0087668645,
+      "treat_share": 0.077267335
+    },
+    {
+      "effect": -0.14769176,
+      "effect_se": 0.026850258,
+      "label": "Healthcare support · some college",
+      "n": 11328,
+      "pop_share": 0.012536221,
+      "treat_share": 0.077626922
+    },
+    {
+      "effect": -0.079300691,
+      "effect_se": 0.040750404,
+      "label": "Healthcare support · BA+",
+      "n": 4387,
+      "pop_share": 0.0047007271,
+      "treat_share": 0.11860787
+    },
+    {
+      "effect": 0.10157968,
+      "effect_se": 0.051187399,
+      "label": "Protective service · HS or less",
+      "n": 5543,
+      "pop_share": 0.0059515463,
+      "treat_share": 0.03737172
+    },
+    {
+      "effect": 0.039477785,
+      "effect_se": 0.042755413,
+      "label": "Protective service · some college",
+      "n": 10006,
+      "pop_share": 0.01044346,
+      "treat_share": 0.039377784
+    },
+    {
+      "effect": 0.13153777,
+      "effect_se": 0.037035728,
+      "label": "Protective service · BA+",
+      "n": 7984,
+      "pop_share": 0.0079884768,
+      "treat_share": 0.071748506
+    },
+    {
+      "effect": 0.0024494942,
+      "effect_se": 0.067433663,
+      "label": "Food preparation & serving · less than HS",
+      "n": 4641,
+      "pop_share": 0.0058594226,
+      "treat_share": 0.024191537
+    },
+    {
+      "effect": 0.005553257,
+      "effect_se": 0.042549738,
+      "label": "Food preparation & serving · HS",
+      "n": 10211,
+      "pop_share": 0.011901252,
+      "treat_share": 0.02814833
+    },
+    {
+      "effect": 0.059724169,
+      "effect_se": 0.046749003,
+      "label": "Food preparation & serving · some college",
+      "n": 8019,
+      "pop_share": 0.0090567281,
+      "treat_share": 0.03258994
+    },
+    {
+      "effect": 0.074625009,
+      "effect_se": 0.053190001,
+      "label": "Food preparation & serving · BA+",
+      "n": 3410,
+      "pop_share": 0.0039656259,
+      "treat_share": 0.046166803
+    },
+    {
+      "effect": 0.0034244203,
+      "effect_se": 0.059097779,
+      "label": "Building & grounds · less than HS",
+      "n": 5051,
+      "pop_share": 0.0064658695,
+      "treat_share": 0.027184919
+    },
+    {
+      "effect": 0.042093549,
+      "effect_se": 0.056937186,
+      "label": "Building & grounds · HS",
+      "n": 9940,
+      "pop_share": 0.01096322,
+      "treat_share": 0.032799215
+    },
+    {
+      "effect": 0.032511552,
+      "effect_se": 0.050800771,
+      "label": "Building & grounds · some college",
+      "n": 5382,
+      "pop_share": 0.005704248,
+      "treat_share": 0.039567448
+    },
+    {
+      "effect": -0.093916893,
+      "effect_se": 0.090487127,
+      "label": "Building & grounds · BA+",
+      "n": 1899,
+      "pop_share": 0.0020933585,
+      "treat_share": 0.059568219
+    },
+    {
+      "effect": -0.10834452,
+      "effect_se": 0.11063878,
+      "label": "Personal care & service · less than HS",
+      "n": 967,
+      "pop_share": 0.0010645318,
+      "treat_share": 0.053756061
+    },
+    {
+      "effect": 0.041217229,
+      "effect_se": 0.06795549,
+      "label": "Personal care & service · HS",
+      "n": 3478,
+      "pop_share": 0.0040441431,
+      "treat_share": 0.05668722
+    },
+    {
+      "effect": -0.010311315,
+      "effect_se": 0.051833524,
+      "label": "Personal care & service · some college",
+      "n": 3787,
+      "pop_share": 0.0042165488,
+      "treat_share": 0.067484124
+    },
+    {
+      "effect": -0.14380845,
+      "effect_se": 0.082471619,
+      "label": "Personal care & service · BA+",
+      "n": 2541,
+      "pop_share": 0.0026563766,
+      "treat_share": 0.085323513
+    },
+    {
+      "effect": 0.18487519,
+      "effect_se": 0.069777879,
+      "label": "Sales · less than HS",
+      "n": 3493,
+      "pop_share": 0.0039040267,
+      "treat_share": 0.055515993
+    },
+    {
+      "effect": 0.20755168,
+      "effect_se": 0.026637968,
+      "label": "Sales · HS",
+      "n": 17601,
+      "pop_share": 0.018518577,
+      "treat_share": 0.067197659
+    },
+    {
+      "effect": 0.30218351,
+      "effect_se": 0.016718315,
+      "label": "Sales · some college",
+      "n": 22030,
+      "pop_share": 0.022830902,
+      "treat_share": 0.12374354
+    },
+    {
+      "effect": 0.32728905,
+      "effect_se": 0.012921627,
+      "label": "Sales · BA+",
+      "n": 26324,
+      "pop_share": 0.026682666,
+      "treat_share": 0.25375848
+    },
+    {
+      "effect": 0.1103555,
+      "effect_se": 0.039070335,
+      "label": "Office & admin support · less than HS",
+      "n": 3313,
+      "pop_share": 0.0036540336,
+      "treat_share": 0.08788321
+    },
+    {
+      "effect": 0.083217349,
+      "effect_se": 0.011415045,
+      "label": "Office & admin support · HS",
+      "n": 27289,
+      "pop_share": 0.027336869,
+      "treat_share": 0.12604189
+    },
+    {
+      "effect": 0.069938262,
+      "effect_se": 0.0086520097,
+      "label": "Office & admin support · some college",
+      "n": 43926,
+      "pop_share": 0.043942273,
+      "treat_share": 0.15808627
+    },
+    {
+      "effect": 0.1706321,
+      "effect_se": 0.011005253,
+      "label": "Office & admin support · BA+",
+      "n": 31511,
+      "pop_share": 0.031141076,
+      "treat_share": 0.20963642
+    },
+    {
+      "effect": 0.044282365,
+      "effect_se": 0.090162787,
+      "label": "Farming, fishing & forestry · less than HS",
+      "n": 1768,
+      "pop_share": 0.0019915091,
+      "treat_share": 0.027533863
+    },
+    {
+      "effect": -0.038928379,
+      "effect_se": 0.12036798,
+      "label": "Farming, fishing & forestry · HS",
+      "n": 1537,
+      "pop_share": 0.0013690267,
+      "treat_share": 0.034113513
+    },
+    {
+      "effect": -0.27952071,
+      "effect_se": 0.15771746,
+      "label": "Farming, fishing & forestry · some college",
+      "n": 859,
+      "pop_share": 0.00067955563,
+      "treat_share": 0.048492718
+    },
+    {
+      "effect": 0.15346915,
+      "effect_se": 0.16746736,
+      "label": "Farming, fishing & forestry · BA+",
+      "n": 520,
+      "pop_share": 0.00043628992,
+      "treat_share": 0.10967574
+    },
+    {
+      "effect": -0.012460424,
+      "effect_se": 0.039761731,
+      "label": "Construction & extraction · less than HS",
+      "n": 7543,
+      "pop_share": 0.010214456,
+      "treat_share": 0.027065213
+    },
+    {
+      "effect": 0.05892186,
+      "effect_se": 0.031672858,
+      "label": "Construction & extraction · HS",
+      "n": 16916,
+      "pop_share": 0.018386649,
+      "treat_share": 0.034881045
+    },
+    {
+      "effect": -0.10006668,
+      "effect_se": 0.044474317,
+      "label": "Construction & extraction · some college",
+      "n": 11381,
+      "pop_share": 0.011676261,
+      "treat_share": 0.035835368
+    },
+    {
+      "effect": 0.13299368,
+      "effect_se": 0.079158474,
+      "label": "Construction & extraction · BA+",
+      "n": 2850,
+      "pop_share": 0.0030950861,
+      "treat_share": 0.058971042
+    },
+    {
+      "effect": -0.058998525,
+      "effect_se": 0.075007179,
+      "label": "Installation & repair · less than HS",
+      "n": 2888,
+      "pop_share": 0.0032149731,
+      "treat_share": 0.028412562
+    },
+    {
+      "effect": -0.043304178,
+      "effect_se": 0.042195875,
+      "label": "Installation & repair · HS",
+      "n": 13478,
+      "pop_share": 0.013424334,
+      "treat_share": 0.031642568
+    },
+    {
+      "effect": 0.043047386,
+      "effect_se": 0.02736592,
+      "label": "Installation & repair · some college",
+      "n": 13614,
+      "pop_share": 0.013242297,
+      "treat_share": 0.036144561
+    },
+    {
+      "effect": 0.10829394,
+      "effect_se": 0.046880278,
+      "label": "Installation & repair · BA+",
+      "n": 2960,
+      "pop_share": 0.0029878188,
+      "treat_share": 0.074324603
+    },
+    {
+      "effect": 0.004287245,
+      "effect_se": 0.04441108,
+      "label": "Production · less than HS",
+      "n": 7044,
+      "pop_share": 0.0081716709,
+      "treat_share": 0.028338868
+    },
+    {
+      "effect": 0.041289121,
+      "effect_se": 0.033308016,
+      "label": "Production · HS",
+      "n": 24272,
+      "pop_share": 0.024511901,
+      "treat_share": 0.02804595
+    },
+    {
+      "effect": 0.023770289,
+      "effect_se": 0.029620399,
+      "label": "Production · some college",
+      "n": 17359,
+      "pop_share": 0.017546595,
+      "treat_share": 0.035282914
+    },
+    {
+      "effect": 0.26595774,
+      "effect_se": 0.034802126,
+      "label": "Production · BA+",
+      "n": 6245,
+      "pop_share": 0.006421378,
+      "treat_share": 0.08967056
+    },
+    {
+      "effect": -0.069783961,
+      "effect_se": 0.048104287,
+      "label": "Transportation & moving · less than HS",
+      "n": 8241,
+      "pop_share": 0.0096101628,
+      "treat_share": 0.028297118
+    },
+    {
+      "effect": -0.021602623,
+      "effect_se": 0.028976492,
+      "label": "Transportation & moving · HS",
+      "n": 28064,
+      "pop_share": 0.030654441,
+      "treat_share": 0.028757854
+    },
+    {
+      "effect": -0.019694741,
+      "effect_se": 0.037161925,
+      "label": "Transportation & moving · some college",
+      "n": 18219,
+      "pop_share": 0.019621736,
+      "treat_share": 0.037076761
+    },
+    {
+      "effect": 0.099139123,
+      "effect_se": 0.040015811,
+      "label": "Transportation & moving · BA+",
+      "n": 7495,
+      "pop_share": 0.0080414984,
+      "treat_share": 0.065299038
+    },
+    {
+      "effect": 0.08724037,
+      "effect_se": 0.099321369,
+      "label": "Military specific · HS or less",
+      "n": 528,
+      "pop_share": 0.00054547388,
+      "treat_share": 0.078016282
+    },
+    {
+      "effect": -0.32051697,
+      "effect_se": 0.10130137,
+      "label": "Military specific · some college",
+      "n": 1392,
+      "pop_share": 0.0014735898,
+      "treat_share": 0.055530157
+    },
+    {
+      "effect": -0.042777496,
+      "effect_se": 0.080844248,
+      "label": "Military specific · BA+",
+      "n": 1664,
+      "pop_share": 0.0016176819,
+      "treat_share": 0.051674888
+    }
+  ],
+  "effect_format": "num3",
+  "note": "pop_share and treat_share are PERWT-weighted; effect is the within-cell WFH − commuter difference in mean log hourly wage net of a common age–sex profile, so the implicit-weight average Σ pop_share·p(1−p)·effect / Σ pop_share·p(1−p) reproduces wls_coef exactly. effect_se from 80 SDR replicates. ols_coef is the unweighted regression with the same cells.",
+  "ols_coef": 0.12152997,
+  "outcome_label": "log hourly wage",
+  "source": "IPUMS USA, ACS 2024 1-year (SAMPLE 202401), analysis/usa/acs/part_2020_2024.parquet; replicate weights REPWTP1–80 from analysis/usa/acs_repwt/part_2020_2024.parquet",
+  "subtitle": "Log hourly wage, people who work from home versus commuters, cell by cell.",
+  "title": "Occupation-by-education cells: who works from home, and the wage contrast in each",
+  "treatment_label": "works from home",
+  "type": "cells",
+  "wls_coef": 0.11844985
+}

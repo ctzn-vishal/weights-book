@@ -1,0 +1,136 @@
+{
+  "alt": "Table of eight variance rules for the same expansion coefficient, listing what each treats as independent, the number of clusters, the standard error, its ratio to HC1, and the 95% interval.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "rung",
+      "label": "Variance rule"
+    },
+    {
+      "align": "left",
+      "key": "independent",
+      "label": "Independent units"
+    },
+    {
+      "align": "left",
+      "key": "mechanism",
+      "label": "Mechanism it represents"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "clusters",
+      "label": "Clusters"
+    },
+    {
+      "align": "right",
+      "format": "num2",
+      "key": "se",
+      "label": "SE (points)"
+    },
+    {
+      "align": "right",
+      "format": "ratio2",
+      "key": "ratio",
+      "label": "SE / HC1"
+    },
+    {
+      "align": "right",
+      "key": "interval",
+      "label": "95% interval (points)"
+    },
+    {
+      "align": "right",
+      "key": "df",
+      "label": "df"
+    }
+  ],
+  "highlight_key": "rung",
+  "note": "Coefficient −8.0 points in every row. Bootstrap B = 9999; randomization inference R = 9999; both seeded.",
+  "rows": [
+    {
+      "clusters": null,
+      "df": "large",
+      "independent": "Every record",
+      "interval": "−8.4 to −7.5",
+      "mechanism": "Neither: no mechanism",
+      "ratio": 1.0,
+      "rung": "HC1: person records independent",
+      "se": 0.218
+    },
+    {
+      "clusters": 964784,
+      "df": "964,783",
+      "independent": "Households",
+      "interval": "−8.5 to −7.5",
+      "mechanism": "Sampling design",
+      "ratio": 1.1879,
+      "rung": "CRV1: ACS household clusters",
+      "se": 0.259
+    },
+    {
+      "clusters": null,
+      "df": "79",
+      "independent": "Households, within ACS strata",
+      "interval": "−8.4 to −7.6",
+      "mechanism": "Sampling design",
+      "ratio": 0.8941,
+      "rung": "SDR: 80 ACS replicate weights",
+      "se": 0.1949
+    },
+    {
+      "clusters": 270,
+      "df": "269",
+      "independent": "State-years",
+      "interval": "−9.2 to −6.7",
+      "mechanism": "Neither: a level with no mechanism",
+      "ratio": 2.9097,
+      "rung": "CRV1: state-year cells",
+      "se": 0.6345
+    },
+    {
+      "clusters": 30,
+      "df": "29",
+      "independent": "States",
+      "interval": "−10.7 to −5.3",
+      "mechanism": "Assignment design",
+      "ratio": 6.0584,
+      "rung": "CRV1: states",
+      "se": 1.321
+    },
+    {
+      "clusters": 30,
+      "df": "29",
+      "independent": "States",
+      "interval": "−11.0 to −5.0",
+      "mechanism": "Assignment design",
+      "ratio": 6.703,
+      "rung": "CRV3 jackknife: states",
+      "se": 1.4616
+    },
+    {
+      "clusters": 30,
+      "df": "bootstrap",
+      "independent": "States",
+      "interval": "−11.2 to −5.2",
+      "mechanism": "Assignment design",
+      "ratio": null,
+      "rung": "Wild cluster bootstrap: states",
+      "se": null
+    },
+    {
+      "clusters": 30,
+      "df": "permutation",
+      "independent": "Assignments of states",
+      "interval": "−10.8 to −5.4",
+      "mechanism": "Sensitivity",
+      "ratio": null,
+      "rung": "Randomization inference",
+      "se": null
+    }
+  ],
+  "source": "IPUMS USA, ACS 1-year samples 2011–2019 (analysis/usa/acs/part_2010_2014.parquet, part_2015_2019.parquet); expansion dates in _data/expansion_dates.csv (KFF; medicaid.gov); replicate weights REPWTP1–80 (analysis/usa/acs_repwt)",
+  "subtitle": "Same coefficient in every row; the columns say what each rule treats as an independent draw",
+  "title": "The standard-error ladder",
+  "type": "table"
+}

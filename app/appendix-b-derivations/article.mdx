@@ -1,0 +1,252 @@
+This appendix collects the derivations the chapters lean on. Each is scoped: it states the conditions under which the result holds and says what happens when a condition fails. None is new; the point is to have the conditions written next to the algebra. Every stated identity or approximation was also checked numerically on synthetic data built to satisfy its conditions; Figure B.1 at the end summarizes the checks.
+
+## Horvitz–Thompson and Hájek
+
+A finite population $$U$$ of $$N$$ units carries fixed values $$y_i$$. A probability design selects a sample $$s$$; unit $$i$$ is included with probability $$\pi_i = \Pr(i \in s)$$, and units $$i$$ and $$j$$ together with probability $$\pi_{ij}$$. Write $$I_i = \mathbf{1}\{i \in s\}$$ and $$d_i = 1/\pi_i$$.
+
+The Horvitz–Thompson estimator of the total $$T = \sum_{i \in U} y_i$$ is design-unbiased <Cite id="horvitz1952" />. The Hájek estimator of the mean is a ratio of two such estimators; it is consistent and approximately unbiased, and it is what software computes when asked for a weighted mean.
+
+<Details summary="Derivation">
+
+$$
+\hat T_{\text{HT}} = \sum_{i \in s} d_i\, y_i = \sum_{i \in U} I_i \frac{y_i}{\pi_i},
+\qquad
+\E_p\!\left[\hat T_{\text{HT}}\right] = \sum_{i \in U} \frac{y_i}{\pi_i}\,\E_p[I_i] = \sum_{i \in U} y_i = T .
+$$
+
+The expectation $$\E_p$$ is over repeated samples from the design with the $$y_i$$ held fixed. Its variance is
+
+$$
+\Var_p\!\left(\hat T_{\text{HT}}\right) = \sum_{i \in U}\sum_{j \in U} \left(\pi_{ij} - \pi_i \pi_j\right) \frac{y_i}{\pi_i}\frac{y_j}{\pi_j}, \qquad \pi_{ii} = \pi_i ,
+$$
+
+which can be estimated without bias when every $$\pi_{ij} \gt 0$$.
+
+The Hájek mean divides by the estimated population size:
+
+$$
+\hat{\bar Y}_{\text{H}} = \frac{\sum_{i \in s} d_i y_i}{\sum_{i \in s} d_i} = \frac{\hat T_{y}}{\hat N},
+\qquad
+\hat{\bar Y}_{\text{H}} - \bar Y = \frac{\hat T_y - \bar Y \hat N}{\hat N} \approx \frac{1}{N}\sum_{i \in s} d_i\,(y_i - \bar Y).
+$$
+
+The right-hand side is a Horvitz–Thompson estimator of the total of the residuals $$y_i - \bar Y$$, divided by $$N$$. So the Hájek mean is unbiased to first order, with a bias of order $$1/n$$, and its variance is approximately the Horvitz–Thompson variance of the residuals. When $$y_i$$ is roughly constant but $$\hat N$$ varies from sample to sample, as under Poisson sampling, that variance is far smaller than the variance of $$\hat T_{\text{HT}}/N$$.
+
+</Details>
+
+Conditions. The design must give every unit of the target population a positive, known $$\pi_i$$, and the weights must be $$1/\pi_i$$. Units with $$\pi_i = 0$$ are outside what any weighting can recover: that is coverage, not estimation. Responses must be complete and measured without error. Once the weights are $$w_i = d_i g_i$$ with nonresponse and calibration adjustments, the estimator is a calibration estimator: design-consistent under conditions on the control totals, approximately unbiased only if the response model holds, and its variance should reflect the calibration, either by linearizing with the calibration residuals or with replicate weights that repeat the weighting. The general statement, binding in the booklet, is that correct inclusion weights give design-unbiased or consistent estimators for *specified finite-population quantities*; which one depends on the estimand and the estimator.
+
+## Taylor linearization for a ratio mean, and when it coincides with CRV1
+
+Take a stratified design with strata $$h = 1, \dots, H$$, with $$n_h \ge 2$$ primary sampling units in stratum $$h$$ treated as sampled with replacement, and weights $$w_{hij}$$ for unit $$i$$ of PSU $$j$$ in stratum $$h$$. The ratio $$R = Y/X$$ is estimated by $$\hat R = \hat Y/\hat X$$, with $$\hat Y = \sum w_{hij} y_{hij}$$ and $$\hat X = \sum w_{hij} x_{hij}$$. A weighted mean is the case $$x \equiv 1$$.
+
+<Details summary="Derivation: the linearized variance">
+
+A first-order expansion around $$(Y, X)$$ gives
+
+$$
+\hat R - R \approx \frac{1}{X}\left(\hat Y - R\hat X\right) = \frac{1}{X}\sum_{h,i,j} w_{hij}\left(y_{hij} - R\,x_{hij}\right).
+$$
+
+Define the linearized values $$u_{hij} = (y_{hij} - \hat R\,x_{hij})/\hat X$$, their weighted PSU totals $$z_{hj} = \sum_i w_{hij} u_{hij}$$, and stratum means $$\bar z_h = n_h^{-1}\sum_j z_{hj}$$. The with-replacement variance estimator is
+
+$$
+\hat V_{\text{TL}}(\hat R) = \sum_{h=1}^{H} \frac{n_h}{n_h - 1}\sum_{j=1}^{n_h}\left(z_{hj} - \bar z_h\right)^2 ,
+$$
+
+with the common design degrees of freedom $$\sum_h n_h - H$$ <Cite id="binder1983,wolter2007" />.
+
+</Details>
+
+Now compare the cluster-robust variance of a weighted least squares regression of $$y$$ on a constant, with the PSUs as clusters ($$G = \sum_h n_h$$), strata ignored, and residuals $$e_i = y_i - \hat\beta$$:
+
+$$
+\hat\beta = \hat R, \qquad
+\hat V_{\text{CRV1}} = \frac{G}{G-1}\cdot\frac{N_{\text{obs}} - 1}{N_{\text{obs}} - K}\cdot
+\frac{\sum_{g=1}^{G}\left(\sum_{i \in g} w_i e_i\right)^2}{\left(\sum_i w_i\right)^2}.
+$$
+
+<Details summary="Derivation: when the two coincide">
+
+With $$x \equiv 1$$, $$\hat X = \sum_i w_i$$, so $$\sum_{i \in g} w_i e_i / \sum_i w_i = z_g$$, the PSU total of the linearized values. The normal equations give $$\sum_g z_g = 0$$ exactly.
+
+*One stratum.* With $$H = 1$$, $$\bar z = 0$$ and $$K = 1$$, so
+
+$$
+\hat V_{\text{TL}} = \frac{G}{G-1}\sum_{g} z_g^2 = \hat V_{\text{CRV1}} .
+$$
+
+*Several strata.* Decompose the uncentered sum by strata:
+
+$$
+\sum_{h,j} z_{hj}^2 = \sum_{h,j}\left(z_{hj} - \bar z_h\right)^2 + \sum_h n_h\,\bar z_h^2 ,
+\qquad
+\hat V_{\text{CRV1}} = \frac{G}{G-1}\left[\sum_{h,j}\left(z_{hj} - \bar z_h\right)^2 + \sum_h n_h\,\bar z_h^2\right].
+$$
+
+Taylor linearization keeps only the within-stratum part, with the factors $$n_h/(n_h - 1)$$. The term $$\sum_h n_h \bar z_h^2$$ is between-stratum variation that the stratified design removed by construction. CRV1 keeps it, so it omits the stratification gain and is conservative when strata predict the outcome. When the stratum means of the linearized totals are near zero, the two estimators differ only through the factors $$G/(G-1)$$ and $$n_h/(n_h - 1)$$. With two PSUs per stratum the latter equals two; it is not a small correction, and it compensates, in expectation, for centering each stratum on a two-PSU mean.
+
+*Regression coefficients.* The same structure holds with $$u_i = (X'WX)^{-1}x_i w_i e_i$$ in place of the scalar linearized value. With one stratum, CRV1 equals Taylor linearization times $$(N_{\text{obs}} - 1)/(N_{\text{obs}} - K)$$.
+
+</Details>
+
+Conditions for the two to coincide: one stratum, or strata that do not predict the outcome; the same clusters, with PSUs nested in strata and identified by the stratum-PSU pair; the with-replacement approximation in both, with no finite population correction; the same weights; and either an intercept-only model or acceptance of the $$(N_{\text{obs}} - 1)/(N_{\text{obs}} - K)$$ factor. Intervals also need matching degrees of freedom: PSUs minus strata for Taylor linearization, commonly $$G - 1$$ for CRV1. On real data the difference is visible. For adult cigarette smoking in NHIS 2024, CRV1 on the stratum-PSU key reproduces Taylor linearization with the strata ignored, and it is <Fact id="ch7.nhis_crv1_ratio" /> the Taylor standard error that uses the strata; clustering on the PSU code alone, which merges PSUs from different strata, gives <Fact id="ch7.nhis_label_ratio" /> ([Chapter 7](/ch07-field-guide#nhis-2024)).
+
+## The Moulton factor as a special case
+
+<Callout kind="predict" title="Predict first">
+
+Groups of 20 people share a common shock that accounts for a tenth of the outcome's variance, and the regressor of interest takes one value per group. By how much does the conventional OLS standard error understate the true one?
+
+</Callout>
+
+Moulton's factor answers that question for a regression coefficient <Cite id="moulton1990" />. The survey design effect answers a related question for an estimator under a sampling design. They coincide in one special case.
+
+<Details summary="Derivation">
+
+Let $$y_{gi} = \beta_0 + \beta_1 x_{gi} + u_{gi}$$ with $$G$$ clusters of equal size $$m$$ and $$u_{gi} = \alpha_g + \varepsilon_{gi}$$, where the $$\alpha_g$$ and $$\varepsilon_{gi}$$ are independent with variances $$\sigma_\alpha^2$$ and $$\sigma_\varepsilon^2$$, $$\sigma^2 = \sigma_\alpha^2 + \sigma_\varepsilon^2$$, and $$\rho_u = \sigma_\alpha^2/\sigma^2$$.
+
+When $$x$$ is constant within clusters, $$x_{gi} = x_g$$,
+
+$$
+\hat\beta_1 - \beta_1 = \frac{\sum_g (x_g - \bar x)\,\bar u_g}{\sum_g (x_g - \bar x)^2},
+\qquad
+\Var(\bar u_g) = \sigma_\alpha^2 + \frac{\sigma_\varepsilon^2}{m} = \frac{\sigma^2}{m}\left[1 + (m-1)\rho_u\right],
+$$
+
+so
+
+$$
+\frac{\Var(\hat\beta_1 \mid x)}{\sigma^2 \big/ \left(m\sum_g (x_g - \bar x)^2\right)} = 1 + (m-1)\rho_u .
+$$
+
+The denominator is the conventional OLS variance. With unequal cluster sizes and a regressor that varies within clusters, the standard approximation is
+
+$$
+\frac{\Var(\hat\beta_1)}{\Var_{\text{OLS}}(\hat\beta_1)} \approx 1 + \left[\frac{\Var(m_g)}{\bar m} + \bar m - 1\right]\rho_x\,\rho_u ,
+$$
+
+where $$\rho_x$$ is the within-cluster correlation of the regressor.
+
+Now take single-stage cluster sampling: $$G$$ clusters of size $$m$$ drawn with equal probability and with replacement, equal weights, and the sample mean of $$y$$. Its variance relative to a simple random sample of the same size is $$1 + (m-1)\rho_y$$, with $$\rho_y$$ the intraclass correlation of $$y$$ <Cite id="kish1965" />. The sample mean is the OLS coefficient on a constant, a regressor that is constant within clusters, so Moulton's ratio with $$\rho_x = 1$$ reproduces this clustering component.
+
+</Details>
+
+For the prediction above, the variance ratio is $$1 + 19(0.1) = 2.9$$, so the conventional standard error is too small by a factor of about $$\sqrt{2.9} \approx 1.7$$.
+
+Conditions and scope. The factor needs equicorrelated errors with a common $$\rho_u$$ (a random-effects structure), homoskedasticity, independent clusters, a fixed regressor, and known cluster sizes. It concerns an unweighted regression coefficient and a model-based repetition, while the design effect concerns an estimator under a sampling design. A full design effect also reflects stratification, which usually lowers variance, and unequal weighting, which Kish's $$1 + \CV(w)^2$$ approximates under conditions of its own. The product $$(1 + \CV(w)^2)\left(1 + (\bar m - 1)\rho\right)$$ is a model-based approximation to the whole, with its own assumptions <Cite id="gabler1999" />. The accurate sentence is therefore the binding one: Moulton's factor is a special-case regression analogue of the clustering component of a design effect, not the design effect itself.
+
+## Variance weighting in OLS with a binary treatment
+
+With a binary treatment $$D$$ and a discrete covariate $$X$$ whose cells are $$x$$, the saturated regression $$Y_i = \sum_x \alpha_x \mathbf{1}\{X_i = x\} + \beta D_i + e_i$$ gives a coefficient that is a variance-weighted average of within-cell contrasts <Cite id="angrist1998" />:
+
+$$
+\beta_{\text{OLS}} = \frac{\sum_x \Pr(X{=}x)\; p_x (1 - p_x)\; \tau_x}{\sum_x \Pr(X{=}x)\; p_x (1 - p_x)},
+\qquad p_x = \Pr(D{=}1 \mid X{=}x),
+\quad \tau_x = \E[Y \mid D{=}1, X{=}x] - \E[Y \mid D{=}0, X{=}x].
+$$
+
+<Details summary="Derivation">
+
+By the Frisch–Waugh–Lovell theorem, $$\beta$$ is the coefficient from regressing $$Y$$ on $$\tilde D = D - \E[D \mid X]$$, the residual of $$D$$ on the cell dummies. Because the dummies are saturated, $$\E[D \mid X{=}x] = p_x$$ exactly, so
+
+$$
+\E[\tilde D^2 \mid X{=}x] = p_x(1-p_x),
+\qquad
+\E[\tilde D\,Y \mid X{=}x] = p_x (1-p_x)\left(\E[Y \mid D{=}1, x] - \E[Y \mid D{=}0, x]\right) = p_x(1-p_x)\,\tau_x ,
+$$
+
+and $$\beta = \E[\tilde D Y]/\E[\tilde D^2]$$ averages these over the cells. In a sample the identity is exact, with cell counts, treated shares, and differences of cell means in place of the population quantities.
+
+</Details>
+
+The weights favor cells in which treatment is split evenly; cells in which nearly everyone or nearly no one is treated contribute almost nothing, whatever their size. The targets one might have wanted weight cells differently: a population average effect weights by $$\Pr(X{=}x)$$, the effect on the treated by $$\Pr(X{=}x \mid D{=}1)$$. The three coincide only when $$\tau_x$$ is constant or $$p_x(1 - p_x)$$ is the same in every cell.
+
+Survey weights change the distribution the average is taken over, not its form. Weighted least squares with inclusion weights replaces the sample's cell shares and treated shares with their population counterparts, so the survey-weighted coefficient estimates the population version of the variance-weighted average: the population linear projection coefficient of this saturated model, which in general is not the population average effect. Solon, Haider, and Wooldridge put the point in estimand terms: under unmodeled heterogeneity, weighting delivers the population projection rather than the population average of the heterogeneous effects, and the constructive response is to model the heterogeneity and then summarize it over the population of interest <Cite id="solon2015" />. A gap between the weighted and unweighted coefficients is then a diagnostic, of heterogeneity interacting with the design, of misspecification, or of endogenous sampling, rather than a verdict on which is right <Cite id="dumouchel1983" />.
+
+Conditions. The result requires a binary treatment and a saturated set of controls for a discrete covariate; it is exact in sample and holds in the population under the usual large-sample conditions. Reading $$\tau_x$$ as a causal effect requires conditional ignorability; without it the $$\tau_x$$ are descriptive within-cell contrasts, which is how Chapters 4 and 5 use them.
+
+With controls entered linearly rather than saturated, Aronow and Samii show that if $$\E[D \mid X]$$ is linear in $$X$$, the coefficient converges to $$\E[\omega_i \tau_i]/\E[\omega_i]$$ with $$\omega_i = (D_i - \E[D_i \mid X_i])^2$$, whose conditional mean is $$p(X_i)(1 - p(X_i))$$ <Cite id="aronow2016" />. That is the regression-effective sample of [Chapter 5](/ch05-hidden-weights). Słoczyński shows the complementary result that, with linear controls, the coefficient is approximately a convex combination of the effects on the treated and the untreated in which the weight on the effect on the treated is roughly the untreated share: the smaller group gets the larger weight <Cite id="sloczynski2022" />.
+
+<Callout kind="predict" title="Predict first">
+
+Every cell's treatment effect is positive: one, one, and five. Can the OLS coefficient on the treatment be negative?
+
+</Callout>
+
+It can, once the control is linear and the treatment probability is not. Let $$L(X)$$ denote the linear projection of $$D$$ on $$(1, X)$$. If treatment is ignorable given $$X$$ and $$\E[Y(0) \mid X]$$ is linear in $$X$$, then
+
+$$
+\beta_{\text{OLS}} = \frac{\E\left[p(X)\,\{1 - L(X)\}\,\tau(X)\right]}{\E\left[p(X)\,\{1 - L(X)\}\right]},
+$$
+
+and the implicit weight $$p(x)\{1 - L(x)\}$$ is negative wherever $$L(x) \gt 1$$. Take $$X \in \{0, 1, 2\}$$ with equal probabilities and $$p(x) = (0.05, 0.90, 0.95)$$. The projection is $$L(x) = 0.183 + 0.45x$$, so $$L(2) = 1.083$$, and the normalized weights are $$(0.140,\ 1.131,\ -0.271)$$. With cell effects $$\tau(x) = (1, 1, 5)$$,
+
+$$
+\beta_{\text{OLS}} = 0.140(1) + 1.131(1) - 0.271(5) \approx -0.086 .
+$$
+
+Every effect is positive and the coefficient is negative. Saturating the control restores the nonnegative weights $$p_x(1 - p_x)$$. With linear controls, the implied weights on individual units can also be negative, the regression extrapolating beyond the data, which is why they are worth computing <Cite id="chattopadhyay2023" />. The binding statement follows: equal case weights do not imply equal weighting of heterogeneous conditional effects.
+
+## Four effective samples
+
+<Details summary="The Kish effective sample size">
+
+Hold the weights fixed and let the $$y_i$$ be independent with common variance $$\sigma^2$$, unrelated to the weights. Then
+
+$$
+\Var\!\left(\frac{\sum_i w_i y_i}{\sum_i w_i}\right) = \sigma^2 \frac{\sum_i w_i^2}{\left(\sum_i w_i\right)^2} = \frac{\sigma^2}{\nKish},
+\qquad
+\nKish = \frac{\left(\sum_i w_i\right)^2}{\sum_i w_i^2} = \frac{n}{1 + \CV(w)^2},
+$$
+
+where $$\CV(w)^2 = n^{-1}\sum_i (w_i - \bar w)^2 / \bar w^2$$ uses the divisor $$n$$. The second equality follows from $$\sum_i w_i^2 = n(\sigma_w^2 + \bar w^2)$$ and $$(\sum_i w_i)^2 = n^2 \bar w^2$$.
+
+</Details>
+
+Conditions: an outcome unrelated to the weights, no clustering, and weights treated as fixed. When the weights are correlated with the outcome, as with selection proportional to a size that predicts the outcome, weighting can reduce variance and Kish's formula misleads. It never says anything about bias <Cite id="kish1965" />.
+
+<Details summary="The design effective sample size">
+
+The design effect of an estimator is
+
+$$
+\DEFF(\hat\theta) = \frac{\Var_{\text{design}}(\hat\theta)}{\Var_{\text{SRS}}(\hat\theta)},
+\qquad \ndesign(\hat\theta) = \frac{n}{\DEFF(\hat\theta)},
+$$
+
+where the denominator is the variance under simple random sampling of the same size, with or without replacement; the choice should be stated. The numerator carries clustering, stratification, and weighting at once, and it depends on the outcome through its intraclass correlation and its relation to the strata and weights. A survey therefore has one design effect per estimator and outcome, not one per file.
+
+</Details>
+
+<Details summary="The regression-effective sample">
+
+Under the conditions of the Aronow–Samii result above, the coefficient is $$\sum_i \hat\omega_i \tau_i / \sum_i \hat\omega_i$$ with $$\hat\omega_i$$ the squared residual from regressing $$D$$ on $$X$$. The regression-effective sample is the analytic sample reweighted by $$\hat\omega_i$$. It is summarized by comparing $$\hat\omega$$-weighted covariate means with population means, not by a count. A Kish-type scalar $$(\sum_i \hat\omega_i)^2/\sum_i \hat\omega_i^2$$ measures how concentrated the implicit weights are, not how precise the coefficient is, and with a misspecified treatment model the weights on cells can be signed.
+
+</Details>
+
+<Details summary="Meng's data-defect effective sample size">
+
+Let $$R_i$$ indicate that unit $$i$$ of the finite population is recorded, $$n = \sum_i R_i$$, and $$f = n/N$$. With population moments computed with divisor $$N$$,
+
+$$
+\bar y_s - \bar Y = \frac{1}{n}\sum_{i \in U} R_i\,(y_i - \bar Y) = \frac{N}{n}\Cov_U(R, y) = \rho_{R,Y}\,\sqrt{\frac{1-f}{f}}\;\sigma_Y ,
+$$
+
+an algebraic identity that holds for every recording pattern <Cite id="meng2018" />. Averaging its square over the recording mechanism gives a mean squared error of $$\E_R[\rho_{R,Y}^2]\,\sigma_Y^2 (1-f)/f$$. A simple random sample of size $$n'$$ has variance close to $$\sigma_Y^2/n'$$ when $$n'$$ is small relative to $$N$$, so the sample of equal mean squared error has size
+
+$$
+\nDDC \approx \frac{f}{1-f}\cdot\frac{1}{\E_R\!\left[\rho_{R,Y}^2\right]} .
+$$
+
+With $$N = 3.3 \times 10^8$$, a recorded fraction $$f = 0.01$$, and a correlation of $$0.005$$ between recording and the outcome, $$\nDDC \approx 404$$.
+
+</Details>
+
+Conditions: the estimand is a finite-population mean; the identity is exact, but the correlation $$\rho_{R,Y}$$ is unknown and must be bounded with outside information; weighted estimators have an analogous identity with the recording indicator replaced by a weighted one. The Kish effective sample size prices weight dispersion and the design effective sample size prices the whole design, both under the assumption that the design is a probability design; the data-defect effective sample size prices what happens when it is not.
+
+## Numerical checks
+
+<Figure n="B.1" caption="Every stated identity holds to machine precision and every stated approximation holds within Monte Carlo error; where a condition is dropped, the result moves in the stated direction.">
+  <Chart id="appB.derivation_checks" />
+</Figure>

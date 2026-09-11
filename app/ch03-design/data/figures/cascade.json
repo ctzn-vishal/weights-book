@@ -1,0 +1,88 @@
+{
+  "alt": "Dot plot of hypertension prevalence (about 48 percent of adults) and, among adults with hypertension, awareness (about 59 percent), treatment (about 51 percent) and control (about 21 percent), each estimated in this chapter and matching the published NCHS values within 0.1 percentage point.",
+  "domain": [
+    0,
+    0.8
+  ],
+  "format": "pct1",
+  "note": "Chapter intervals: estimate ± t(15)·SE. NCHS publishes Korn–Graubard intervals, so endpoints can differ in the last digit.",
+  "rows": [
+    {
+      "ci_high": 0.499146,
+      "ci_low": 0.454142,
+      "estimate": 0.476644,
+      "group": "This chapter (Taylor, df 15)",
+      "label": "Prevalence (all adults)",
+      "n": 6084,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.499,
+      "ci_low": 0.454,
+      "estimate": 0.477,
+      "group": "NCHS Data Brief 511 (published)",
+      "label": "Prevalence (all adults)",
+      "n": 6084,
+      "role": "benchmark"
+    },
+    {
+      "ci_high": 0.6185,
+      "ci_low": 0.564947,
+      "estimate": 0.591724,
+      "group": "This chapter (Taylor, df 15)",
+      "label": "Awareness (with hypertension)",
+      "n": 3240,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.619,
+      "ci_low": 0.564,
+      "estimate": 0.592,
+      "group": "NCHS Data Brief 511 (published)",
+      "label": "Awareness (with hypertension)",
+      "n": 3240,
+      "role": "benchmark"
+    },
+    {
+      "ci_high": 0.537059,
+      "ci_low": 0.486817,
+      "estimate": 0.511938,
+      "group": "This chapter (Taylor, df 15)",
+      "label": "Treatment (with hypertension)",
+      "n": 3238,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.537,
+      "ci_low": 0.486,
+      "estimate": 0.512,
+      "group": "NCHS Data Brief 511 (published)",
+      "label": "Treatment (with hypertension)",
+      "n": 3238,
+      "role": "benchmark"
+    },
+    {
+      "ci_high": 0.227207,
+      "ci_low": 0.187579,
+      "estimate": 0.207393,
+      "group": "This chapter (Taylor, df 15)",
+      "label": "Control (with hypertension)",
+      "n": 3242,
+      "role": "design"
+    },
+    {
+      "ci_high": 0.228,
+      "ci_low": 0.188,
+      "estimate": 0.207,
+      "group": "NCHS Data Brief 511 (published)",
+      "label": "Control (with hypertension)",
+      "n": 3242,
+      "role": "benchmark"
+    }
+  ],
+  "source": "NHANES August 2021–August 2023; NCHS Data Brief 511; chapter calculations",
+  "subtitle": "Adults 18+; awareness, treatment and control are shares of adults with hypertension; 95% intervals",
+  "title": "The hypertension cascade, August 2021–August 2023",
+  "type": "dot",
+  "x_label": "Percent"
+}

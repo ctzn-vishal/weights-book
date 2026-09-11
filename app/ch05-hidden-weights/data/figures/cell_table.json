@@ -1,0 +1,160 @@
+{
+  "alt": "Table of the cells with the largest implicit weight and the largest population shares, with their WFH shares and contrasts; large low-WFH cells such as production and transportation carry little regression weight.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "cell",
+      "label": "Cell"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "n",
+      "label": "Records"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "pop",
+      "label": "Share of workers"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "p",
+      "label": "WFH share"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "reg",
+      "label": "Regression weight"
+    },
+    {
+      "align": "right",
+      "format": "num3",
+      "key": "tau",
+      "label": "Contrast (log points)"
+    },
+    {
+      "align": "right",
+      "key": "se",
+      "label": "SE"
+    }
+  ],
+  "highlight_key": "reg",
+  "note": "The eight cells with the most implicit weight, the six largest cells, and the three largest cells where fewer than 5% work from home. SE: 80-replicate SDR.",
+  "rows": [
+    {
+      "cell": "Management · BA+",
+      "n": 89147,
+      "p": 0.24123275,
+      "pop": 0.08560545,
+      "reg": 0.14685338,
+      "se": "0.007",
+      "tau": 0.18383424
+    },
+    {
+      "cell": "Business & financial · BA+",
+      "n": 53082,
+      "p": 0.3209425,
+      "pop": 0.052031271,
+      "reg": 0.10627617,
+      "se": "0.005",
+      "tau": 0.092352882
+    },
+    {
+      "cell": "Computer & math · BA+",
+      "n": 38680,
+      "p": 0.4101194,
+      "pop": 0.038701414,
+      "reg": 0.087748347,
+      "se": "0.006",
+      "tau": 0.044519506
+    },
+    {
+      "cell": "Office & admin support · some college",
+      "n": 43926,
+      "p": 0.15808627,
+      "pop": 0.043942273,
+      "reg": 0.054812794,
+      "se": "0.009",
+      "tau": 0.069938262
+    },
+    {
+      "cell": "Office & admin support · BA+",
+      "n": 31511,
+      "p": 0.20963642,
+      "pop": 0.031141076,
+      "reg": 0.048357624,
+      "se": "0.011",
+      "tau": 0.1706321
+    },
+    {
+      "cell": "Sales · BA+",
+      "n": 26324,
+      "p": 0.25375848,
+      "pop": 0.026682666,
+      "reg": 0.047355113,
+      "se": "0.013",
+      "tau": 0.32728905
+    },
+    {
+      "cell": "Management · some college",
+      "n": 31206,
+      "p": 0.1399103,
+      "pop": 0.03147435,
+      "reg": 0.035496693,
+      "se": "0.011",
+      "tau": 0.23616078
+    },
+    {
+      "cell": "Healthcare practitioners · BA+",
+      "n": 49231,
+      "p": 0.07733705,
+      "pop": 0.047916211,
+      "reg": 0.032044303,
+      "se": "0.012",
+      "tau": -0.011050837
+    },
+    {
+      "cell": "Education & library · BA+",
+      "n": 56654,
+      "p": 0.063262602,
+      "pop": 0.052219304,
+      "reg": 0.029002383,
+      "se": "0.011",
+      "tau": 0.075149384
+    },
+    {
+      "cell": "Transportation & moving · HS",
+      "n": 28064,
+      "p": 0.028757854,
+      "pop": 0.030654441,
+      "reg": 0.0080244464,
+      "se": "0.029",
+      "tau": -0.021602623
+    },
+    {
+      "cell": "Transportation & moving · some college",
+      "n": 18219,
+      "p": 0.037076761,
+      "pop": 0.019621736,
+      "reg": 0.0065655116,
+      "se": "0.037",
+      "tau": -0.019694741
+    },
+    {
+      "cell": "Production · HS",
+      "n": 24272,
+      "p": 0.02804595,
+      "pop": 0.024511901,
+      "reg": 0.0062622523,
+      "se": "0.033",
+      "tau": 0.041289121
+    }
+  ],
+  "source": "IPUMS USA, ACS 2024 1-year (SAMPLE 202401), analysis/usa/acs/part_2020_2024.parquet; replicate weights REPWTP1–80 from analysis/usa/acs_repwt/part_2020_2024.parquet",
+  "title": "Cells that dominate the regression, and large cells that barely count",
+  "type": "table"
+}

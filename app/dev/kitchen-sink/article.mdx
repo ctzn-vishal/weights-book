@@ -1,0 +1,152 @@
+{/* Kitchen sink: every global component, every chart type, math, and markdown, against fixture data (manifest key "dev"). Not in the TOC. */}
+
+This page exercises the book's components against fixture data. Nothing on it is a survey estimate. A fact prints exactly as exported, <Fact id="dev.work_minutes" /> minutes per day, and hovering or focusing the number shows where it came from. With its interval: <Fact id="dev.hyp_share" ci /> of adults. Without the popover: <Fact id="dev.median_income" plain />. A single dollar sign is currency, never math: a coffee costs $3.50 and a household earns $74,580.
+
+<KeyNumber id="dev.hyp_share" label="Fixture: share of adults with hypertension, with its design-based interval" />
+
+## Prose, links, and notes
+
+A paragraph with a margin note.<SideNote>On wide screens this note sits in the right margin beside its line. On narrow screens it appears inline, like this.</SideNote> The reading column holds about seventy characters to a line, and the margin carries asides that the argument does not depend on.
+
+<SideNote>A note on its own line, between two paragraphs.</SideNote>
+
+Internal links go through the router and gain the base path: [Chapter 3](/ch03-design), [a section of it](/ch03-design#domains), and [the cover](/). External links stay plain: [IPUMS](https://www.ipums.org). Citations are author and year and link to the DOI: <Cite id="solon2015" />, narrative <Cite id="solon2015" narrative />, and several at once <Cite id="kish1965, horvitz1952, abadie2023" />.
+
+### Lists and quotes
+
+- An unordered item with **bold** and *italic* text.
+- A second item with `inline code` and inline math $$w_i = d_i\,g_i$$.
+  - A nested item.
+
+1. An ordered list.
+2. Its second item.
+
+> What is this number a weighted average of, and who chose the weights?
+
+## Math
+
+The Kish effective sample size is $$\nKish = n/(1+\CV(w)^2)$$, and the design effect compares two variances of the same estimator:
+
+$$
+\hat\theta = \frac{\sum_{i \in s} w_i\, y_i}{\sum_{i \in s} w_i}, \qquad \DEFF(\hat\theta) = \frac{\Var_{\text{design}}(\hat\theta)}{\Var_{\text{SRS}}(\hat\theta)}
+$$
+
+In the fixture, the design effect is <Fact id="dev.deff" /> and the Kish size is <Fact id="dev.n_kish" />.
+
+## Callouts
+
+<Callout kind="predict" title="Predict first">
+
+Before reading on: will the weighted estimate be higher or lower than the unweighted one, and by roughly how much?
+
+</Callout>
+
+<Callout kind="note">A one-line note without a title.</Callout>
+
+<Callout kind="warning" title="Weights-only variance">
+
+A standard error computed from the weights alone ignores strata and clusters, so it understates the uncertainty.
+
+</Callout>
+
+<Callout kind="box" title="Classic replication: Solon, Haider, and Wooldridge">
+
+A framed box for provenance and classic replications, with its own paragraphs and a citation <Cite id="solon2015" />.
+
+The box can hold more than one paragraph.
+
+</Callout>
+
+<Callout kind="definition" title="Estimand">
+
+The population quantity an analysis targets, fixed before any data are seen.
+
+</Callout>
+
+<Callout kind="draft">An author's note that should not survive the draft.</Callout>
+
+<Details summary="Derivation (collapsed by default)">
+
+Linearization replaces the ratio estimator with its first-order Taylor expansion around the population value:
+
+$$
+\hat\theta - \theta \approx \frac{1}{\hat N}\sum_{i\in s} w_i\,(y_i - \theta)
+$$
+
+</Details>
+
+## Figures
+
+<Figure n="K.1" caption="The fixture answers differ more by unit of analysis than by weighting; the row without an interval is a bare dot.">
+<Chart id="dev.dot_estimands" />
+</Figure>
+
+<Figure n="K.2" caption="Coverage rose in both state groups, and the placebo change is close to zero.">
+<Chart id="dev.bar_coverage" />
+</Figure>
+
+<Figure n="K.3" width="wide" caption="Both series break at the redesign, so no line is drawn across it.">
+<Chart id="dev.line_uninsured" />
+</Figure>
+
+<Figure n="K.4" caption="Weighting moves most outcomes by a few points and reorders two of them.">
+<Chart id="dev.slope_weighting" />
+</Figure>
+
+<Figure n="K.5" width="wide" caption="Numeric tables are figures, formatted by column, with one row highlighted.">
+<Chart id="dev.table_designs" />
+</Figure>
+
+<Figure n="K.6" width="full" caption="Most weights sit near the mean, and a long right tail reaches the trimming cap.">
+<Chart id="dev.histogram_weights" />
+</Figure>
+
+A chart can also stand outside a numbered frame, where it prints its own note and source. Figures are cross-referenced by anchor: [Figure K.3](#fig-K-3).
+
+<Chart id="dev.bar_coverage" />
+
+## The Analysis Ledger
+
+<Ledger id="dev.work" />
+
+## Tables, code, and images
+
+| Unit | Weight | What one unit represents |
+|---|---|---|
+| Household | HHWT | Households in the population |
+| Person | PERWT | Persons in the population |
+
+```python
+import polars as pl
+
+w = pl.col("PERWT")
+estimate = (pl.col("y") * w).sum() / w.sum()
+```
+
+```r
+svymean(~y, design, na.rm = TRUE)
+```
+
+An image from `public/`, with the base path added:
+
+![A small grey column chart used to test image paths](/dev/sample-figure.svg)
+
+## Closing
+
+<Closing>
+<Learned>
+
+The fixture question has several defensible answers, one for each estimand.
+
+</Learned>
+<Changed>
+
+The weights changed the represented population; the design changed the interval.
+
+</Changed>
+<NotEstablished>
+
+Nothing on this page is a survey estimate, and no causal claim is made.
+
+</NotEstablished>
+</Closing>

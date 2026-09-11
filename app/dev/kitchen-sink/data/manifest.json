@@ -1,0 +1,13 @@
+{
+  "key": "dev",
+  "slug": "dev/kitchen-sink",
+  "status": "draft",
+  "inputs": [
+    {
+      "path": "(fixture)",
+      "note": "Hand-written fixtures for the component kitchen sink. None of these numbers is a survey estimate."
+    }
+  ],
+  "code": "(none: fixtures)",
+  "validation": []
+}

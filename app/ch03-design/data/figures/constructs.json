@@ -1,0 +1,61 @@
+{
+  "alt": "Dot plot: three self-reported diagnosis estimates from BRFSS, NHIS and NHANES cluster between about 31 and 34 percent, while NHANES measured hypertension is about 32 percent at the 140/90 threshold and about 48 percent at 130/80.",
+  "domain": [
+    0.2,
+    0.55
+  ],
+  "format": "pct1",
+  "note": "BRFSS 2023 covers 48 states and DC (Kentucky and Pennsylvania did not meet data standards). Calendar periods differ slightly.",
+  "rows": [
+    {
+      "ci_high": 0.346655,
+      "ci_low": 0.340427,
+      "estimate": 0.343541,
+      "group": "Self-reported diagnosis",
+      "label": "BRFSS 2023: told high blood pressure",
+      "n": 423197,
+      "role": "cat1"
+    },
+    {
+      "ci_high": 0.32939,
+      "ci_low": 0.315704,
+      "estimate": 0.322547,
+      "group": "Self-reported diagnosis",
+      "label": "NHIS 2023: told hypertension",
+      "n": 29471,
+      "role": "cat1"
+    },
+    {
+      "ci_high": 0.328658,
+      "ci_low": 0.286441,
+      "estimate": 0.307549,
+      "group": "Self-reported diagnosis",
+      "label": "NHANES 2021–23: told high blood pressure",
+      "n": 6080,
+      "role": "cat1"
+    },
+    {
+      "ci_high": 0.349162,
+      "ci_low": 0.298981,
+      "estimate": 0.324072,
+      "group": "Measured",
+      "label": "NHANES 2021–23: measured ≥140/90 or medication",
+      "n": 6084,
+      "role": "cat2"
+    },
+    {
+      "ci_high": 0.499146,
+      "ci_low": 0.454142,
+      "estimate": 0.476644,
+      "group": "Measured",
+      "label": "NHANES 2021–23: measured ≥130/80 or medication",
+      "n": 6084,
+      "role": "cat2"
+    }
+  ],
+  "source": "CDC BRFSS 2023; IPUMS NHIS 2023; NHANES August 2021–August 2023; chapter calculations",
+  "subtitle": "Adults 18+, share with high blood pressure, 95% full-design intervals",
+  "title": "Three surveys, two constructs",
+  "type": "dot",
+  "x_label": "Percent of adults"
+}

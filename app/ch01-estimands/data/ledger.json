@@ -1,0 +1,157 @@
+{
+  "key": "ch1",
+  "ledgers": {
+    "atus_work": {
+      "assumptions": "The designated diary day represents that person's days of its type; WT06's calibration population matches the target; BLS_WORK classifies activities as BLS does.",
+      "estimand": "Mean minutes per person-day of working and work-related activities (BLS major category; includes work-related travel), all 2023 person-days, U.S. civilian noninstitutional population aged 15 and older",
+      "estimator": "Weighted mean sum(w_i y_i) / sum(w_i) over all 2023 diaries, w = WT06",
+      "explicit_weights": "WT06, the ATUS final weight. Each diary counts for the number of person-days it represents: the 2023 weights sum to 99.0 billion person-days, about 365 for each of 271.3 million people. BLS constructs it so that weekday and weekend diaries add up to the weekday and weekend person-days in each quarter, for the population and selected subgroups.",
+      "facts": [
+        "ch1.atus_work_weighted",
+        "ch1.atus_work_weighted_hours",
+        "ch1.atus_weight_sum"
+      ],
+      "implicit_weights": "None beyond WT06.",
+      "randomness": "Sampling (ATUS draws households from those completing the CPS, one person aged 15+ per household, and assigns the diary day) and response.",
+      "target_population": "All 2023 person-days of the U.S. civilian noninstitutional population aged 15 and older",
+      "title": "How much do Americans work? All person-days (ATUS 2023)",
+      "variance_estimator": "Not computed. The store carries no ATUS replicate weights (BLS publishes them as RWT06), so an SE from WT06 alone would understate the uncertainty. Tier: weights_only_understated."
+    },
+    "atus_work_anywork": {
+      "assumptions": "The population is defined by the outcome, so this is a conditional mean (an intensive margin), not a population average.",
+      "estimand": "Mean minutes of working and work-related activities (BLS major category; includes work-related travel) on 2023 person-days that included any such activity, U.S. civilian noninstitutional population aged 15 and older",
+      "estimator": "Weighted mean over diaries with BLS_WORK above zero, w = WT06",
+      "explicit_weights": "WT06, the ATUS final weight. Each diary counts for the number of person-days it represents: the 2023 weights sum to 99.0 billion person-days, about 365 for each of 271.3 million people. BLS constructs it so that weekday and weekend diaries add up to the weekday and weekend person-days in each quarter, for the population and selected subgroups.",
+      "facts": [
+        "ch1.atus_work_anywork",
+        "ch1.atus_share_days_worked"
+      ],
+      "implicit_weights": "Relative to the all-days mean, days without work get zero weight.",
+      "randomness": "Sampling (ATUS draws households from those completing the CPS, one person aged 15+ per household, and assigns the diary day) and response.",
+      "target_population": "2023 person-days with some work, U.S. civilian noninstitutional population aged 15 and older",
+      "title": "Days with any work (ATUS 2023)",
+      "variance_estimator": "Not computed. The store carries no ATUS replicate weights (BLS publishes them as RWT06), so an SE from WT06 alone would understate the uncertainty. Tier: weights_only_understated."
+    },
+    "atus_work_employed": {
+      "assumptions": "Employment status measured at the ATUS interview describes the diary day.",
+      "estimand": "Mean minutes per person-day of working and work-related activities (BLS major category; includes work-related travel), 2023 person-days of people employed at their ATUS interview, U.S. civilian noninstitutional population aged 15 and older",
+      "estimator": "Weighted mean over diaries with emp3 = Employed, w = WT06",
+      "explicit_weights": "WT06, the ATUS final weight. Each diary counts for the number of person-days it represents: the 2023 weights sum to 99.0 billion person-days, about 365 for each of 271.3 million people. BLS constructs it so that weekday and weekend diaries add up to the weekday and weekend person-days in each quarter, for the population and selected subgroups.",
+      "facts": [
+        "ch1.atus_work_employed"
+      ],
+      "implicit_weights": "Relative to the all-days mean, person-days of people not employed get zero weight.",
+      "randomness": "Sampling (ATUS draws households from those completing the CPS, one person aged 15+ per household, and assigns the diary day) and response.",
+      "target_population": "2023 person-days of employed members of the U.S. civilian noninstitutional population aged 15 and older",
+      "title": "Employed people, all days (ATUS 2023)",
+      "variance_estimator": "Not computed. The store carries no ATUS replicate weights (BLS publishes them as RWT06), so an SE from WT06 alone would understate the uncertainty. Tier: weights_only_understated."
+    },
+    "atus_work_employed_worked": {
+      "assumptions": "As above. BLS's headline 'hours worked on days worked' counts time working at jobs only, a narrower activity, so it is yet another estimand.",
+      "estimand": "Mean minutes of working and work-related activities (BLS major category; includes work-related travel) on 2023 person-days on which employed people did any such activity, U.S. civilian noninstitutional population aged 15 and older",
+      "estimator": "Weighted mean over diaries with emp3 = Employed and BLS_WORK above zero, w = WT06",
+      "explicit_weights": "WT06, the ATUS final weight. Each diary counts for the number of person-days it represents: the 2023 weights sum to 99.0 billion person-days, about 365 for each of 271.3 million people. BLS constructs it so that weekday and weekend diaries add up to the weekday and weekend person-days in each quarter, for the population and selected subgroups.",
+      "facts": [
+        "ch1.atus_work_employed_worked",
+        "ch1.atus_work_employed_worked_hours"
+      ],
+      "implicit_weights": "Relative to the all-days mean, zero weight on days of the non-employed and on non-work days.",
+      "randomness": "Sampling (ATUS draws households from those completing the CPS, one person aged 15+ per household, and assigns the diary day) and response.",
+      "target_population": "2023 work days of employed members of the U.S. civilian noninstitutional population aged 15 and older",
+      "title": "Employed people, on days they worked (ATUS 2023)",
+      "variance_estimator": "Not computed. The store carries no ATUS replicate weights (BLS publishes them as RWT06), so an SE from WT06 alone would understate the uncertainty. Tier: weights_only_understated."
+    },
+    "atus_work_unweighted": {
+      "assumptions": "Only if the sample were a simple random sample of person-days would this target the population mean. ATUS is not one.",
+      "estimand": "Mean minutes per person-day of working and work-related activities (BLS major category; includes work-related travel), all 2023 person-days, U.S. civilian noninstitutional population aged 15 and older",
+      "estimator": "Unweighted mean of BLS_WORK over all 8,548 diaries",
+      "explicit_weights": "None: every diary counts once. Weekend diaries are 48.9% of the sample but 28.8% of the weighted person-days, so they get far more than their share.",
+      "facts": [
+        "ch1.atus_work_unweighted",
+        "ch1.atus_weekend_share_sample"
+      ],
+      "implicit_weights": "Equal weights per diary, which over-represents weekend days and groups that respond more often.",
+      "randomness": "Sampling (ATUS draws households from those completing the CPS, one person aged 15+ per household, and assigns the diary day) and response.",
+      "target_population": "All 2023 person-days of the U.S. civilian noninstitutional population aged 15 and older (the same target as the weighted row)",
+      "title": "All person-days, unweighted (ATUS 2023)",
+      "variance_estimator": "Not computed. The store carries no ATUS replicate weights (BLS publishes them as RWT06), so an SE from WT06 alone would understate the uncertainty. Tier: weights_only_understated."
+    },
+    "atus_work_weekday": {
+      "assumptions": "As for all person-days. Holidays that fall on a weekday are included; BLS's own weekday tables exclude them.",
+      "estimand": "Mean minutes per person-day of working and work-related activities (BLS major category; includes work-related travel), Monday–Friday person-days in 2023, U.S. civilian noninstitutional population aged 15 and older",
+      "estimator": "Weighted mean over diaries with DAY in 2–6, w = WT06",
+      "explicit_weights": "WT06, the ATUS final weight. Each diary counts for the number of person-days it represents: the 2023 weights sum to 99.0 billion person-days, about 365 for each of 271.3 million people. BLS constructs it so that weekday and weekend diaries add up to the weekday and weekend person-days in each quarter, for the population and selected subgroups.",
+      "facts": [
+        "ch1.atus_work_weekday"
+      ],
+      "implicit_weights": "Relative to the all-days mean, weekend days get zero weight.",
+      "randomness": "Sampling (ATUS draws households from those completing the CPS, one person aged 15+ per household, and assigns the diary day) and response.",
+      "target_population": "Monday–Friday person-days in 2023 of the U.S. civilian noninstitutional population aged 15 and older",
+      "title": "Weekdays only (ATUS 2023)",
+      "variance_estimator": "Not computed. The store carries no ATUS replicate weights (BLS publishes them as RWT06), so an SE from WT06 alone would understate the uncertainty. Tier: weights_only_understated."
+    },
+    "foodsec_children": {
+      "assumptions": "A household's classification applies to every child in it. USDA's child-referenced measure, whether the children themselves were food insecure, is a different estimand.",
+      "estimand": "Share of children living in households classified food insecure over the previous 12 months",
+      "estimator": "sum(w_i y_h(i)) / sum(w_i) over children in households with a status, w = FSSUPPWT; y_h(i) is the status of child i's household",
+      "explicit_weights": "FSSUPPWT, the supplement person weight: each child counts for the children he or she represents.",
+      "facts": [
+        "ch1.fs_children_rate",
+        "ch1.fs_persons_rate",
+        "ch1.fs_hh_rate"
+      ],
+      "implicit_weights": "Relative to the household rate, each household enters in proportion to the number of children in it; households without children drop out.",
+      "randomness": "Sampling of housing units, household response to the CPS, and response to the supplement.",
+      "target_population": "Children under 18 in the U.S. civilian noninstitutional population, December 2023",
+      "title": "Children in food-insecure households, 2023 (CPS December Food Security Supplement)",
+      "variance_estimator": "Not computed: the extract carries no replicate weights or design variables (weights-only tier)."
+    },
+    "foodsec_households": {
+      "assumptions": "The 18-item scale classifies households as USDA does; households with a missing status are ignorable.",
+      "estimand": "Share of households food insecure (low or very low food security over the previous 12 months, USDA definition)",
+      "estimator": "sum(w_h y_h) / sum(w_h) over householder records (PERNUM = 1) with a status, w = FSSUPPWTH",
+      "explicit_weights": "FSSUPPWTH, the supplement household weight: each household counts for the households it represents.",
+      "facts": [
+        "ch1.fs_hh_rate",
+        "ch1.fs_hh_unweighted"
+      ],
+      "implicit_weights": "None beyond w; every household counts once regardless of its size.",
+      "randomness": "Sampling of housing units, household response to the CPS, and response to the supplement.",
+      "target_population": "U.S. households in the civilian noninstitutional population, December 2023",
+      "title": "Food insecurity among households, 2023 (CPS December Food Security Supplement)",
+      "variance_estimator": "Not computed: the extract carries no replicate weights or design variables (weights-only tier)."
+    },
+    "poverty_child_2021": {
+      "assumptions": "IPUMS POVERTY reproduces the official measure (an open pipeline decision); SPMPOV weighted by ASECWT reproduces Census SPM rates (the SPM weight is not in the store); reported income and benefits are accurate enough for both measures.",
+      "estimand": "Two estimands: the share of children in families whose pre-tax money income is below the official threshold, and the share in SPM units whose resources after taxes, transfers, and necessary expenses are below the SPM threshold",
+      "estimator": "sum(w_i y_i) / sum(w_i) over children in each measure's universe, w = ASECWT",
+      "explicit_weights": "ASECWT, the ASEC person weight.",
+      "facts": [
+        "ch1.pov_off_child_2021",
+        "ch1.pov_spm_child_2021",
+        "ch1.pov_gap_child_2021"
+      ],
+      "implicit_weights": "None beyond w. The universes differ slightly: the official measure excludes unrelated children under 15 (296 records in 2022); the SPM includes them.",
+      "randomness": "Sampling of housing units, household response, and ASEC supplement response.",
+      "target_population": "Children under 18 in the civilian noninstitutional population (ASEC universe), calendar year 2021",
+      "title": "Child poverty in 2021 under two definitions (CPS ASEC 2022)",
+      "variance_estimator": "Successive difference replication with the 160 person replicate weights: Var = (4/160) sum_r (theta_r - theta)^2, df = 159, centred on the full-sample estimate. svy 0.28 with method='replication' and variance_center='estimate', checked against a hand computation and R survey 4.5."
+    },
+    "turnout_2020": {
+      "assumptions": "Supplement nonrespondents did not vote; respondents report their own voting accurately. Both are assumptions, not data.",
+      "estimand": "Share of that population who voted in the November 2020 election, as reported in the CPS",
+      "estimator": "Census convention: sum(w_i v_i) / sum(w_i) over every citizen adult with a positive supplement weight, where v_i = 1 for a reported vote and 0 otherwise, so supplement nonrespondents count as nonvoters. w = VOSUPPWT.",
+      "explicit_weights": "VOSUPPWT, identical on every record to WTFINL, the basic CPS final weight: base weight, household noninterview adjustment, and calibration to population controls. It carries no adjustment for supplement nonresponse.",
+      "facts": [
+        "ch1.turnout_census_2020",
+        "ch1.turnout_resp_2020",
+        "ch1.turnout_nonresp_2020"
+      ],
+      "implicit_weights": "None beyond w. The convention imputes 'did not vote' to the 15.7% (weighted) who did not answer; the respondents-only alternative instead gives them zero weight, which assumes they vote like respondents.",
+      "randomness": "Sampling of housing units, household response to the CPS, and person response to the supplement.",
+      "target_population": "U.S. citizens 18 and older in the civilian noninstitutional population, not in the armed forces, November 2020",
+      "title": "What was turnout? (CPS November 2020)",
+      "variance_estimator": "Not computed: the extract carries no replicate weights or design variables (weights-only tier); an SE from VOSUPPWT alone would understate."
+    }
+  }
+}
