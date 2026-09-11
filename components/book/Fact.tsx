@@ -8,7 +8,7 @@ const VARIANCE_LABELS: [RegExp, (m: RegExpExecArray) => string][] = [
   [/^taylor$/, () => 'Taylor linearization (design-based)'],
   [/^replicate_sdr\((\d+)\)$/, (m) => `Successive-difference replication, ${m[1]} replicate weights`],
   [/^replicate_brr$/, () => 'Balanced repeated replication'],
-  [/^weights_only_understated$/, () => 'Weights only: design not declared, so the standard error is understated'],
+  [/^weights_only_understated$/, () => 'Weights only: computed without the survey design, so not a design-based standard error'],
   [/^cluster_robust\((.+)\)$/, (m) => `Cluster-robust, clustered by ${m[1]}`],
   [/^wild_cluster_bootstrap\((.+)\)$/, (m) => `Wild cluster bootstrap, clustered by ${m[1]}`],
   [/^none$/, () => 'None reported'],

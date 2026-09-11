@@ -41,8 +41,10 @@ Five populations are named because each gap between them is a place where an ana
 - The **target population** is the one the result is meant to describe.
 - The **frame population** is the list, area sample, or telephone-number bank the survey draws from.
 - The **sampled population** is the part of the frame with a positive probability of selection.
-- The **respondent population** is those who would respond if selected.
+- The **respondent population** is those in the sampled population who would respond if selected.
 - The **analytic population** is who remains after the analyst's restrictions and missing-data rules.
+
+The **sample**, the units actually selected, and the **respondents**, the selected units that answered, are realizations of the sampled and respondent populations, not populations of their own. [Chapter 1](/ch01-estimands#five-populations) follows all five populations through one estimate.
 
 Coverage honesty follows from the list: when a release omits a state, the target population is the participating jurisdictions, and the result is labeled that way ([Chapter 2](/ch02-weights), [Chapter 7](/ch07-field-guide)).
 
@@ -92,9 +94,11 @@ Each row names one object in three dialects. The last column states the conditio
 | finite population correction | sampled-cluster fraction | finite-sample (Neyman) variance | when most clusters are observed, conventional cluster-robust SEs can be conservative |
 | Kish effective sample size $$\nKish$$ | effective sample size of a weighted estimator | effective sample size of balancing weights | prices weight dispersion only, under stated conditions <Cite id="kish1965" /> |
 
-## Corrections to the seed crosswalk
+## A note on the seed crosswalk
 
-The booklet began from an article that compared survey statistics and econometrics in a seven-row table. The table was right about the direction of the analogy and wrong in several of its equivalences. The corrections are binding everywhere in the booklet.
+The booklet began from an article that compared survey statistics and econometrics in a seven-row table. Readers do not need that article to use this appendix. Its table was right about the direction of the analogy and wrong in several of its equivalences, and the corrections are binding everywhere in the booklet.
+
+<Details summary="The seven corrections, and one about NHANES">
 
 | The seed said | The crosswalk says | Why |
 |---|---|---|
@@ -107,3 +111,5 @@ The booklet began from an article that compared survey statistics and econometri
 | "Cluster at the level of treatment variation" | Identify every sampling or assignment mechanism that induces common uncertainty; the coarsest relevant level governs within a nested hierarchy | the full statement is in [Chapter 6](/ch06-clustering) |
 
 The seed also described NHANES as roughly thirty strata of two PSUs each, with about fifteen degrees of freedom. For the August 2021–August 2023 cycle the public file has <Fact id="ch7.nhanes_strata" /> pseudo-strata and <Fact id="ch7.nhanes_psus" /> pseudo-PSUs, so the design degrees of freedom are <Fact id="ch7.nhanes_df" />.
+
+</Details>

@@ -1,4 +1,9 @@
-Every number in the booklet comes from a script that can be rerun, and every script reads data that a reader can obtain.
+Every number in the booklet comes from a script the author reruns, and every script reads public-use data that a reader can obtain. Those are two different promises, and a reader deciding whether to reproduce a result needs four kept apart.
+
+- **Public inputs are available.** Every headline result uses public-use files, from the producers or through IPUMS extracts, which require a free account and agreement to IPUMS terms.
+- **Analysis code is available.** Each chapter's `build.py`, and its `verify.R` where one exists, is published in the `analysis/` folder of the site's repository.
+- **The full preparation pipeline is not yet available.** The scripts that define the IPUMS extracts, download them, and clean them into the author's store, including derived outcome variables such as `uninsured` and `current_smoker`, live with the store, not in the repository.
+- **Independent execution from a fresh setup is not yet possible.** The build scripts read the store's file paths and derived variables. A reader would need the same extracts, variable definitions, joins, and intermediate checks, and the booklet does not yet document all of them. Until it does, the tiers below describe the data, not a rebuild on a fresh machine.
 
 ## Data sources and pinned releases
 
@@ -13,22 +18,22 @@ Each chapter's `artifacts/manifest.json` lists the files it read, with row count
 - **State Medicaid-expansion dates** for Chapter 6: effective coverage dates for the 50 states and DC from KFF's tracker <Cite id="kff2026" />, checked state by state against federal and state documents, with a source recorded for every state.
 - **Synthetic data.** Chapter 0's example, the interactives, and the numerical checks of [Appendix B](/appendix-b-derivations) use seeded synthetic populations; no survey data enter them.
 
-## Reproducibility tiers
+## Data access tiers
 
-Each result carries one of three promises.
+Each result's inputs fall in one of three tiers. The tiers describe access to the data, not whether the analysis runs from the repository on a fresh machine.
 
-- **Tier 1, publicly reproducible.** The inputs are public-use files that anyone can obtain, either from the producers (Census Bureau, Bureau of Labor Statistics, National Center for Health Statistics, CDC) or through IPUMS extracts, which require a free account and agreement to IPUMS terms. Every headline result in the first edition is Tier 1.
-- **Tier 2, reproducible after registration.** Data whose producer requires an application or a data-use agreement beyond a free account. The classic PSID replication box of Chapter 1 would be the only first-edition use; this draft does not yet reproduce it.
-- **Tier 3, reproducible only from released aggregates.** None in the first edition.
+- **Tier 1, public inputs.** The inputs are public-use files that anyone can obtain, either from the producers (Census Bureau, Bureau of Labor Statistics, National Center for Health Statistics, CDC) or through IPUMS extracts, which require a free account and agreement to IPUMS terms. Every headline result in the first edition is Tier 1.
+- **Tier 2, inputs after registration.** Data whose producer requires an application or a data-use agreement beyond a free account. The PSID provenance box of Chapter 1 would be the only first-edition use; this draft does not yet reproduce it.
+- **Tier 3, released aggregates only.** None in the first edition.
 
-The Box store and its build scripts make the booklet reproducible for the author; the tiers are the promise to the reader.
+The author's store and build scripts make the booklet reproducible for the author. For a reader, the four promises at the top of this appendix say what is and is not yet possible.
 
 ## Validation layers
 
 A number reaches the page only after passing the layers that apply to it.
 
 1. **Two implementations.** Design-based estimates and standard errors are computed through `svy`'s declared design and again with an independent hand-coded formula, and each chapter's manifest records the agreement.
-2. **R `survey` sentinel checks.** Two or three headline design-based results per chapter are recomputed in R's `survey` package, the field's reference implementation, and the comparison is recorded in the chapter's manifest. Chapter 7's `verify.R` also sources every R declaration in the field guide against the store and confirms two documented failure modes: R stops on NHIS 2024 without `nest = TRUE`, and on the full BRFSS 2024 file without a lonely-PSU rule.
+2. **R `survey` sentinel checks.** Two or three headline design-based results per chapter are recomputed in R's `survey` package, the field's reference implementation, and the comparison is recorded in the chapter's manifest. Chapter 7's `verify.R` also sources the field guide's R declarations for NHIS, NHANES, BRFSS, ATUS, and CPS ASEC against the store, and confirms two documented failure modes: R stops on NHIS 2024 without `nest = TRUE`, and on the full BRFSS 2024 file without a lonely-PSU rule. The ACS declarations were checked only on a synthetic frame with the same column names, and the Stata declarations were not executed ([Chapter 7](/ch07-field-guide#how-to-read-a-guide)).
 3. **Published benchmarks.** Each chapter compares its headline numbers with published figures and records the comparison in its manifest: ATUS work time with BLS, turnout with the Census Bureau, food insecurity with USDA, poverty rates with the Census Bureau, BRFSS mental distress with CDC's codebook, the hypertension cascade with NCHS Data Brief 511, and ACS totals with the Census Bureau's PUMS verification estimates. The data pipeline also reproduces a set of published figures on its cleaned store (Figure C.1). All are external benchmarks, not truth: a published figure carries its own sampling and processing error.
 4. **Checks of mathematical claims.** Each interactive's claims and each derivation in [Appendix B](/appendix-b-derivations) are checked on seeded synthetic data.
 5. **Determinism.** Rebuilding a chapter from the same inputs produces byte-identical facts, ledgers, and figures; only the manifest's timestamp changes.
@@ -39,7 +44,9 @@ A number reaches the page only after passing the layers that apply to it.
 
 Two rows need a reading note. The TUS smoking series differs between raw and clean stores from 2018 on because the clean store uses a derived current-smoking variable that keeps the standard definition across a questionnaire change; and the NHIS row lists six published values against seven re-computed years, so the year alignment of the published list should be confirmed before the row is quoted.
 
-## How to rebuild
+## How the author rebuilds the booklet
+
+These steps run on the author's machine against the store; the four promises at the top of this appendix say which of them a reader can repeat today.
 
 1. **Data.** IPUMS extracts are defined in the pipeline's `definitions/` and downloaded and cleaned into the Box store's `analysis/` layer; NHANES is downloaded from NCHS and assembled by the NHANES scripts; BRFSS is downloaded from CDC as SAS transport files and harmonized by the BRFSS scripts. Microdata stay in the author's store.
 2. **Artifacts.** In each chapter folder, `python build.py` reads only the columns it needs, computes every number, and writes `artifacts/`: `facts.json`, `ledger.json`, `figures/*.json`, and `manifest.json` with inputs and validation results. Optional `verify.R` scripts run the R checks.
@@ -53,7 +60,13 @@ Figure C.2 lists the software versions the builds recorded.
   <Chart id="appC.tool_versions" />
 </Figure>
 
-## The auditions: what was kept, replaced, and learned
+## Terms of use
+
+IPUMS data are used under the IPUMS terms of use: they are cited as each collection requests, and IPUMS microdata are never redistributed. The site publishes aggregates only: estimates, standard errors, intervals, counts, and the design facts in the field guide, each exported as a small JSON artifact. The same rule applies to NHANES and BRFSS, which are cited as their producers request. Microdata never leave the author's store, and nothing on the site allows a record to be reconstructed.
+
+## Development history: the auditions
+
+This section records how the empirical spine changed during drafting. Reproducing a result does not require it.
 
 The proposal required each application to pass an audition before a chapter was written: the substantive question had to be worth answering on its own, and a central technical correction had to have a visible payoff. The auditions changed the empirical spine.
 
@@ -67,8 +80,4 @@ The proposal required each application to pass an audition before a chapter was 
 | 6 | Medicaid expansion and uninsurance | ACS person files, 2011–2019: the January 2014 expansion cohort against states not expanded by 2019 | Kept. The audition's split of states into expansion and comparison groups was approximate; Chapter 6 replaces it with a sourced panel of effective coverage dates and stated cohort rules. The minimum-wage and paid-leave backups were not needed. |
 | 7 | Four release guides | six guides: ACS, CPS ASEC, NHIS, ATUS, NHANES, BRFSS | All six are on disk; the machine-readable design fields exist for only a few datasets, so the guides mark each item's provenance. |
 
-One audition failed in the sense the proposal defined, and the failure is informative. In the ACS 2024 audition sample of full-time wage and salary workers, weighting barely moved the raw or the adjusted work-at-home wage contrast. The proposal's rule would have cut the application. The implementation plan recommends amending the rule so that an application also passes when a correction demonstrably does not change the answer and a reader would have assumed it would. That is Solon, Haider, and Wooldridge's own argument about when weighting matters <Cite id="solon2015" />, so [Chapter 4](/ch04-regression) reports the agreement and hands the interesting question, whose contrast the regression summarizes, to [Chapter 5](/ch05-hidden-weights). The classic replications, the 1968 PSID poverty rate and the Wolfers divorce-law regressions, remain boxes: provenance and validation, not headline applications.
-
-## Terms of use
-
-IPUMS data are used under the IPUMS terms of use: they are cited as each collection requests, and IPUMS microdata are never redistributed. The site publishes aggregates only: estimates, standard errors, intervals, counts, and the design facts in the field guide, each exported as a small JSON artifact. The same rule applies to NHANES and BRFSS, which are cited as their producers request. Microdata never leave the author's store, and nothing on the site allows a record to be reconstructed.
+One audition failed in the sense the proposal defined, and the failure is informative. In the ACS 2024 audition sample of full-time wage and salary workers, weighting barely moved the raw or the adjusted work-at-home wage contrast. The proposal's rule would have cut the application. The implementation plan recommends amending the rule so that an application also passes when a correction demonstrably does not change the answer and a reader would have assumed it would. That is Solon, Haider, and Wooldridge's own argument about when weighting matters <Cite id="solon2015" />, so [Chapter 4](/ch04-regression) reports the agreement and hands the interesting question, whose contrast the regression summarizes, to [Chapter 5](/ch05-hidden-weights). The two historical examples, the 1968 PSID poverty rate and the Wolfers divorce-law regressions, remain boxes: provenance, not headline applications, and neither is yet reproduced.

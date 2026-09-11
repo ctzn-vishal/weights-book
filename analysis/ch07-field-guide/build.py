@@ -413,7 +413,7 @@ d = pl.read_parquet(
 ).filter(pl.col("YEAR") == 2024)
 
 # No design variables in this extract: the SE treats diary days as a weighted
-# with-replacement sample and understates the design-based SE.
+# with-replacement sample; it is not a design-based SE.
 s = svy.Sample(d, design=svy.Design(wgt="WT06"))
 est = s.estimation.mean("BLS_WORK")
 
@@ -431,14 +431,14 @@ d <- read_parquet("ipums/analysis/atus/atus_respondent.parquet",
                   col_select = c("YEAR", "WT06", "BLS_WORK"))
 d <- d[d$YEAR == 2024, ]
 
-des <- svydesign(ids = ~1, weights = ~WT06, data = d)  # weights only: SE understated
+des <- svydesign(ids = ~1, weights = ~WT06, data = d)  # weights only: not a design-based SE
 # With RWT06_1-RWT06_160 in the extract:
 # des <- svrepdesign(data = d, weights = ~WT06, repweights = "^RWT06_[0-9]+$",
 #                    type = "successive-difference", mse = TRUE)
 svymean(~BLS_WORK, des)
 """
 
-SNIPPETS[("atus", "do")] = """* Weights only, as in the book's store: the SE understates design variance.
+SNIPPETS[("atus", "do")] = """* Weights only, as in the book's store: the SE is not design-based.
 svyset [pweight=wt06]
 * With rwt06_1-rwt06_160 in the extract:
 * svyset [pweight=wt06], sdrweight(rwt06_1-rwt06_160) vce(sdr) mse
@@ -978,7 +978,7 @@ guide("atus", "ATUS 2024: declared", "IPUMS ATUS respondent file; the book's ext
           row("Day sampling", "10 percent of the sample is assigned to each weekday and 25 percent to each weekend "
               "day; the weights return weekdays to about 5/7 of person-days", "producer: BLS ATUS user's guide"),
           row("Variance in the store", "Weights only: no strata, PSUs, or replicate weights in the extract (STRATA is "
-              "empty), so SEs understate design variance. " + m["notes"][0], "design.json notes; computed from data"),
+              "empty), so no design-based SE is possible. " + m["notes"][0], "design.json notes; computed from data"),
           row("Producer replicates", "160 replicate final weights (IPUMS RWT06_1–RWT06_160; BLS FINLWGT001–FINLWGT160); "
               "Var = (4/160) × Σ_r (Ŷ_r − Ŷ_0)², the 4 coming from replicate factors 1.7, 1.0, and 0.3",
               "producer: BLS ATUS user's guide; IPUMS ATUS"),
@@ -1108,7 +1108,7 @@ write_json(FIG / "surveys_at_a_glance.json", {
          "df": f"{nhis['df']} (rule of thumb)", "tier": "taylor"},
         {"survey": "ATUS 2024", "unit": "a person-day (one diary day)", "weight": "WT06",
          "method": "producer: 160 replicates; store: weights only", "units": "none in the store",
-         "df": "not available", "tier": "weights only (SEs understated)"},
+         "df": "not available", "tier": "weights only (no design-based SE)"},
         {"survey": "NHANES Aug 2021–Aug 2023", "unit": "a person (exam or interview)", "weight": "WTMEC2YR or WTINT2YR",
          "method": "Taylor linearization", "units": f"{nhanes['psus']} PSUs in {nhanes['strata']} strata",
          "df": f"{nhanes['df']}", "tier": "taylor"},

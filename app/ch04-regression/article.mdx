@@ -1,8 +1,10 @@
 {/* Chapter 4 (ch4). First draft, 2026-09-10. Numbers come from artifacts/ via build.py; see NOTES.md. */}
 
-Among full-time wage and salary workers aged 25 to 64 in the 2024 American Community Survey (ACS), people who work from home earn more per hour than people who commute. In the survey-weighted data the gap is <Fact id="ch4.raw_wls" /> log points, or about <Fact id="ch4.raw_wls_pct" /> higher hourly pay. Home workers are also far more likely to hold a degree, so a careful analyst adjusts for age, sex, and education. The gap falls to <Fact id="ch4.adj_wls" /> log points.
+Among full-time wage and salary workers aged 25 to 64 in the 2024 American Community Survey (ACS), people who usually worked from home in the survey's reference week earned more per hour than people who commuted: <Fact id="ch4.raw_wls" /> log points more in the survey-weighted data. Home workers are also far more likely to hold a degree, so adjust for age, sex, and education. The adjusted coefficient is <Fact id="ch4.adj_ols" /> log points without survey weights and <Fact id="ch4.adj_wls" /> with them. Add fixed effects for detailed occupation, industry, and state, and the weighted coefficient falls to <Fact id="ch4.occind_wls" />. Here the choice of comparison moves the answer far more than the choice of survey weights.
 
-Then comes the question every referee asks: did you use the weights? Run the adjusted regression once with the ACS person weight and once with every record counted equally, and the answers are <Fact id="ch4.adj_wls" /> and <Fact id="ch4.adj_ols" />. They differ by <Fact id="ch4.adj_gap_abs" /> log points. Two conclusions are tempting. The first is that weighting does not matter for this question. The second is that, because the two estimates agree, either one is the average home–commute wage contrast in the population. The first is close to right, for reasons <Cite id="solon2015" narrative /> set out. The second is wrong, and [Chapter 5](/ch05-hidden-weights) measures by how much in a finer version of the same model.
+Every number in this chapter describes who earns what; none says what working from home does to pay. The hourly wages are constructed from annual wage income, usual weekly hours, and a band of weeks worked, not reported directly.
+
+Then comes the question every referee asks: did you use the weights? The two adjusted coefficients differ by <Fact id="ch4.adj_gap_abs" /> log points. Two conclusions are tempting. The first is that weighting does not matter for this question. The second is that, because the two estimates agree, either one is the average home–commute wage contrast in the population. The first is close to right, for reasons <Cite id="solon2015" narrative /> set out. The second is wrong, and [Chapter 5](/ch05-hidden-weights) measures by how much in a finer version of the same model.
 
 ## The estimand comes first
 
@@ -18,7 +20,7 @@ $$
 y_i = \alpha + \beta D_i + X_i'\gamma + \varepsilon_i ,
 $$
 
-where $$y_i$$ is the log hourly wage of person $$i$$, $$D_i = 1$$ if the person works from home (WFH), and $$X_i$$ holds age, age squared, a female indicator, and four education levels. The coefficient $$\beta$$ is a well-defined population quantity whether or not the equation is a true model of wages: it is the coefficient on $$D_i$$ in the population's best linear predictor of $$y_i$$. It is not the causal effect of working from home. Workers and employers decide who works from home, and jobs that allow it differ from jobs that do not in ways the survey does not record. Every number in this chapter describes who earns what. None says what working from home does to pay.
+where $$y_i$$ is the log hourly wage of person $$i$$, $$D_i = 1$$ if the person works from home (WFH), and $$X_i$$ holds age, age squared, a female indicator, and four education levels. The coefficient $$\beta$$ is a well-defined population quantity whether or not the equation is a true model of wages: it is the coefficient on $$D_i$$ in the population's best linear predictor of $$y_i$$. That answers the prediction. The weighted regression estimates the population projection coefficient, which is not, in general, the population's average home–commute contrast. Nor is it the causal effect of working from home: workers and employers decide who works from home, and jobs that allow it differ from jobs that do not in ways the survey does not record.
 
 The sample is the <Fact id="ch4.n_sample" /> ACS person records of wage and salary workers aged 25 to 64 who usually worked at least 30 hours a week, worked at least 40 weeks in the past 12 months, had positive wage income, and were at work in the survey's reference week; <Fact id="ch4.n_wfh" /> of them worked from home. "Full-time" here means 30 or more usual hours, a looser line than the common 35. Weighted by the person weight `PERWT` ($$w_i$$ in this book's notation), they stand for about <Fact id="ch4.pop_millions" /> million people. Hourly wage is annual wage and salary income divided by usual weekly hours times the midpoint of the weeks-worked interval, because the ACS asks about weeks only in bands. Wage income is top-coded by state, and <Fact id="ch4.topcode_share" /> of records sit at their state's cap.
 
@@ -44,7 +46,9 @@ Figure 4.1 walks the coefficient down a ladder of specifications and estimates e
   <Chart id="ch4.ladder" />
 </Figure>
 
-The raw difference is <Fact id="ch4.raw_ols" /> unweighted and <Fact id="ch4.raw_wls" /> weighted. Adding age, sex, and education cuts it to <Fact id="ch4.adj_ols" /> and <Fact id="ch4.adj_wls" />, about <Fact id="ch4.adj_wls_pct" /> higher hourly pay. State fixed effects change almost nothing (<Fact id="ch4.state_ols" /> and <Fact id="ch4.state_wls" />). Adding fixed effects for <Fact id="ch4.n_occ_codes" /> detailed occupations and <Fact id="ch4.n_ind_codes" /> industries, with the state effects kept, removes <Fact id="ch4.occind_shrink" /> of the adjusted coefficient, leaving <Fact id="ch4.occind_ols" /> and <Fact id="ch4.occind_wls" />.
+The raw difference is <Fact id="ch4.raw_ols" /> unweighted and <Fact id="ch4.raw_wls" /> weighted. Adding age, sex, and education cuts it to <Fact id="ch4.adj_ols" /> and <Fact id="ch4.adj_wls" />. State fixed effects change almost nothing (<Fact id="ch4.state_ols" /> and <Fact id="ch4.state_wls" />). Adding fixed effects for <Fact id="ch4.n_occ_codes" /> detailed occupations and <Fact id="ch4.n_ind_codes" /> industries, with the state effects kept, removes <Fact id="ch4.occind_shrink" /> of the adjusted coefficient, leaving <Fact id="ch4.occind_ols" /> and <Fact id="ch4.occind_wls" />.
+
+A log-point gap converts to a proportional one as $$e^{\beta} - 1$$: about <Fact id="ch4.raw_wls_pct" /> for the raw weighted gap and <Fact id="ch4.adj_wls_pct" /> for the adjusted one. For the raw gap that is the ratio of the two groups' geometric mean hourly wages, which weights low and high earners differently from a ratio of average wages; the levels model below speaks to dollars.
 
 Occupation and industry are not innocent controls. They describe the job, and the job largely settles whether working from home is possible at all. The occupation-adjusted coefficient compares an accountant at home with an accountant in the office. It answers a narrower question, not a truer one, and it conditions on choices made together with the choice to work from home.
 
@@ -52,7 +56,7 @@ Occupation and industry are not innocent controls. They describe the job, and th
 
 ### Logs or levels
 
-In the lead example of Solon, Haider, and Wooldridge, the subject of the classic box below, weighted and unweighted estimates diverged in levels, so the adjusted rung is re-estimated with hourly wages in dollars (Figure 4.2). The gap is <Fact id="ch4.adj_lev_wls" /> an hour weighted and <Fact id="ch4.adj_lev_ols" /> unweighted, about <Fact id="ch4.adj_lev_wls_rel" /> of commuters' mean hourly wage of <Fact id="ch4.hw_comm" />, in line with the log estimate. The weighted–unweighted difference is larger in levels (<Fact id="ch4.lev_gap_rel" /> of the OLS coefficient) than in logs (<Fact id="ch4.log_gap_rel" />), because levels give the highest earners more leverage, but it stays small.
+In the lead example of Solon, Haider, and Wooldridge, the subject of the provenance box below, weighted and unweighted estimates diverged in levels, so the adjusted rung is re-estimated with hourly wages in dollars (Figure 4.2). The gap is <Fact id="ch4.adj_lev_wls" /> an hour weighted and <Fact id="ch4.adj_lev_ols" /> unweighted, about <Fact id="ch4.adj_lev_wls_rel" /> of commuters' mean hourly wage of <Fact id="ch4.hw_comm" />, in line with the log estimate. The weighted–unweighted difference is larger in levels (<Fact id="ch4.lev_gap_rel" /> of the OLS coefficient) than in logs (<Fact id="ch4.log_gap_rel" />), because levels give the highest earners more leverage, but it stays small.
 
 <Figure n="4.2" caption="Logs and levels imply similar proportional gaps, and weighting moves neither by much.">
   <Chart id="ch4.logs_levels" />
@@ -66,7 +70,23 @@ The precision motive has a sharp limit, identified by <Cite id="dickens1990" nar
 
 That leaves consistency. The ACS selects addresses at rates that vary by geography, and its weights adjust for nonresponse and calibrate to population totals by age, sex, race, and Hispanic origin. If, given working from home, age, sex, and education, the chance of being sampled and responding is unrelated to wages, sampling is exogenous; with a correctly specified model the sample projection and the population projection then coincide, and OLS and WLS agree. The ladder says they nearly do. Agreement has a second explanation: the model is misspecified, because the contrast varies across groups, but the groups the weights push up or down have similar contrasts. The third motive in Solon, Haider, and Wooldridge, recovering a population average effect when effects are heterogeneous, starts from that reading. They show that weighting alone does not deliver one, and [Chapter 5](/ch05-hidden-weights) measures what the regression reports instead.
 
-## The DuMouchel–Duncan test
+## What agreement tells you, and what it does not
+
+This chapter's result is a negative one: at every rung of the ladder, weighting barely moves the coefficient, and the controls move it far more. The agreement is still informative. It is what exogenous sampling predicts: if, given the regressors, the ACS's sampling rates, nonresponse adjustments, and calibration are unrelated to wages, the sample projection matches the population projection and either estimator reports it. Heterogeneous contrasts that the weights happen not to reshuffle would produce the same agreement. Either way, the choice of weights is not what moves this coefficient. That is worth checking before any weighted regression is published, and the check costs one extra line of code.
+
+Agreement does not show that either coefficient is the population's average contrast. Both are weighted averages of heterogeneous comparisons, and the regression chooses those weights whether or not the records are weighted. Among workers with at least a bachelor's degree, <Fact id="ch4.prev_ba" /> work from home; among workers without a high school diploma, <Fact id="ch4.prev_lths" />. A regression leans on groups where both home workers and commuters are plentiful, whatever their share of the population. `PERWT` fixes whom the sample represents. It does not fix how the regression weighs one group's contrast against another's, which is the question [Chapter 5](/ch05-hidden-weights) takes up with the same sample and a finer version of this model.
+
+### When weighting would matter more
+
+The agreement is a finding about this coefficient in this sample, not a rule. Three conditions make weighting matter more.
+
+- **Inclusion related to the outcome.** If the chance of being sampled or of responding depends on wages even after conditioning on the regressors, the unweighted fit is inconsistent for the population projection, and the weights do real work <Cite id="wooldridge1999" />.
+- **Composition that interacts with heterogeneous contrasts.** If the contrast differs across groups and the sample's mix of groups differs from the population's, the two estimators average the same contrasts with different weights, and the gap grows with both the heterogeneity and the difference in mix.
+- **Influential records.** A few records with very large weights or high leverage can move a weighted coefficient that the unweighted fit barely notices.
+
+The influence check below finds no single dominant group here, and the small gap fits the second condition in a mild form. Whether inclusion depends on wages cannot be checked from the sample alone.
+
+## Testing the difference: DuMouchel and Duncan
 
 <Callout kind="predict" title="Predict first">
 
@@ -80,11 +100,11 @@ $$
 y_i = X_i'b + (\tilde w_i X_i)'c + u_i, \qquad H_0 : c = 0 ,
 $$
 
-where $$\tilde w_i = w_i/\bar w$$ is `PERWT` divided by its mean and $$X_i$$ includes the intercept and $$D_i$$. Under the null, the weighted and unweighted estimators share a probability limit. Here the test rejects: F = <Fact id="ch4.dd_f" /> on <Fact id="ch4.dd_q" /> restrictions with household-clustered standard errors, p <Fact id="ch4.dd_p" />. The joint test covers every weight term, including those on age, sex, and education, whose coefficients this chapter does not interpret. The term that bears on the work-from-home coefficient is the weight's interaction with $$D_i$$, with t = <Fact id="ch4.dd_t_wd" />: workers who carry larger weights show smaller home–commute contrasts. The levels model rejects as well (F = <Fact id="ch4.dd_lev_f" />).
+where $$\tilde w_i = w_i/\bar w$$ is `PERWT` divided by its mean and $$X_i$$ includes the intercept and $$D_i$$. The null is the restriction under which the weighted and unweighted estimators share a probability limit. Here the test rejects: F = <Fact id="ch4.dd_f" /> on <Fact id="ch4.dd_q" /> restrictions with household-clustered standard errors, p <Fact id="ch4.dd_p" />. The joint test covers every weight term, including those on age, sex, and education, whose coefficients this chapter does not interpret. The term that bears on the work-from-home coefficient is the weight's interaction with $$D_i$$, with t = <Fact id="ch4.dd_t_wd" />: workers who carry larger weights show smaller home–commute contrasts. The levels model rejects as well (F = <Fact id="ch4.dd_lev_f" />).
 
-A rejection is a diagnostic, not a verdict <Cite id="bollen2016" />. With close to a million records the test has the power to detect departures far too small to matter: the two work-from-home coefficients differ by <Fact id="ch4.adj_gap_abs" /> log points, <Fact id="ch4.log_gap_rel" /> of the unweighted coefficient and about <Fact id="ch4.gap_rel_se" /> standard errors of the weighted one. The rejection says that the two estimators converge to different numbers. It does not say which number is wanted or why they differ, and at least four stories fit. The model may be *misspecified*: if the contrast varies across groups and the weights shift the mix of groups, the two estimators average the same heterogeneous contrasts differently. Sampling may be *endogenous*. A few heavily weighted records may have *leverage*. Or the estimators may target *different estimands*, the sample's projection and the population's, both legitimate.
+A rejection is a diagnostic, not a verdict <Cite id="bollen2016" />. With close to a million records the test has the power to detect departures far too small to matter: the two work-from-home coefficients differ by <Fact id="ch4.adj_gap_abs" /> log points, <Fact id="ch4.log_gap_rel" /> of the unweighted coefficient and about <Fact id="ch4.gap_rel_se" /> standard errors of the weighted one. The rejection is evidence against the restriction that would give the two estimators a common probability limit. It does not say which number is wanted or why they differ, and at least four stories fit. The model may be *misspecified*: if the contrast varies across groups and the weights shift the mix of groups, the two estimators average the same heterogeneous contrasts differently. Sampling may be *endogenous*. A few heavily weighted records may have *leverage*. Or the estimators may target *different estimands*, the sample's projection and the population's, both legitimate.
 
-## Which groups move the gap
+### Which groups move the gap
 
 In the divorce-law example below, one state mattered. If a single state, occupation, or education group accounted for the gap here, dropping it would close the gap. Figure 4.3 drops each in turn and re-estimates both regressions. The weighted coefficient is the smaller one, so the gap, WLS minus OLS, is negative. The largest single move is <Fact id="ch4.infl_max_change" /> log points, and it widens the gap: without <Fact id="ch4.infl_educ" /> workers, the gap becomes <Fact id="ch4.infl_educ_gap" />. The state that matters most is <Fact id="ch4.infl_state" />, whose removal gives <Fact id="ch4.infl_state_gap" />; the occupation group that matters most is <Fact id="ch4.infl_occ" /> (<Fact id="ch4.infl_occ_gap" />). The gap is spread thinly across many groups, which fits the heterogeneity reading better than a single sampling anomaly.
 
@@ -100,13 +120,13 @@ Figure 4.4 lists five standard errors for the same coefficient. Which do you exp
 
 </Callout>
 
-Agreement of point estimates says nothing about uncertainty. The weights help define the estimator; the sampling design and the way the weights were constructed determine its repeated-sampling variance.
+Agreement of point estimates says nothing about uncertainty. A standard error describes a repetition, and the five in Figure 4.4 describe different ones.
 
 <Figure n="4.4" caption="The robust, household-clustered, and replicate standard errors nearly coincide; the state-clustered one is several times larger because it imagines a repetition the ACS never performs.">
   <Chart id="ch4.se_table" />
 </Figure>
 
-In Figure 4.4 the classical WLS standard error (<Fact id="ch4.se_wls_iid" />) treats `PERWT` as a precision weight and is too small. The heteroskedasticity-robust (<Fact id="ch4.se_wls_hc1" />) and household-clustered (<Fact id="ch4.se_wls_crhh" />) standard errors are larger. The design-based answer uses the ACS's 80 replicate weights, built by successive difference replication (SDR): the survey's pre-packaged repeated sampling. Re-solve the weighted regression once with each replicate weight $$w_i^{(r)}$$ and combine the deviations as $$\Var(\hat\beta) = \tfrac{4}{80}\sum_{r=1}^{80}(\hat\beta_r - \hat\beta)^2$$ with 79 degrees of freedom:
+In Figure 4.4 the classical WLS standard error (<Fact id="ch4.se_wls_iid" />) treats `PERWT` as a precision weight and is too small. The heteroskedasticity-robust (<Fact id="ch4.se_wls_hc1" />) and household-clustered (<Fact id="ch4.se_wls_crhh" />) standard errors are larger. The design-based answer uses the ACS's 80 replicate weights, built by successive difference replication (SDR). Re-solve the weighted regression once with each replicate weight $$w_i^{(r)}$$ and combine the deviations as $$\Var(\hat\beta) = \tfrac{4}{80}\sum_{r=1}^{80}(\hat\beta_r - \hat\beta)^2$$ with 79 degrees of freedom:
 
 ```python
 import numpy as np
@@ -122,6 +142,8 @@ se = np.sqrt(4 / 80 * ((reps - beta) ** 2).sum(axis=0))   # t with 79 df
 
 The Census Bureau built each replicate weight by rerunning its weighting on perturbed base weights, so the SDR standard error reflects the sample design and the weight construction together. It is <Fact id="ch4.se_wls_sdr" />, <Fact id="ch4.se_ratio_sdr_hh" /> times the household-clustered value: the ACS samples addresses, so households (<Fact id="ch4.n_households" /> of them here) are its only clusters, and stratification and calibration trim a little off the variance. Applying the same replicate perturbations to equal case weights gives an approximate design-based standard error for OLS, and the WLS variance is <Fact id="ch4.design_var_ratio" /> times as large: under this design, as under the robust formulas, the unweighted estimator is the more precise one. Clustering by state (<Fact id="ch4.n_states" /> clusters, counting the District of Columbia) gives <Fact id="ch4.se_wls_crstate" />, <Fact id="ch4.se_ratio_state_sdr" /> times the replicate standard error. The arithmetic is right; the question is different. It imagines a repetition that redraws whole states, and neither the ACS sample nor anything in this descriptive target is drawn or assigned by state. [Chapter 6](/ch06-clustering#clustering-is-a-question-about-the-design) sets out when such a repetition is the relevant one.
 
+<Details summary="The Moulton factor when the regressor varies within clusters">
+
 [Chapter 3](/ch03-design#the-moulton-bridge) used the factor of <Cite id="moulton1990" narrative /> for a regressor that is constant within clusters. When the regressor varies within clusters and cluster sizes $$m$$ vary, the factor becomes
 
 $$
@@ -130,22 +152,30 @@ $$
 
 where $$\bar m$$ is the mean cluster size and $$\rho_x$$ and $$\rho_u$$ are the within-cluster correlations of the regressor and the error. It approximates how much clustering inflates the variance of an OLS coefficient relative to the classical formula. It is a special-case regression analogue of the clustering component of a design effect, not the design effect itself ([Appendix B](/appendix-b-derivations#the-moulton-factor-as-a-special-case)): it prices clustering only, not unequal weights or stratification, and it assumes that every pair of errors in a cluster is equally correlated. The observed inflation is the ratio of the cluster-robust to the classical variance of the unweighted coefficient. For households the factor predicts <Fact id="ch4.moulton_hh" /> against an observed <Fact id="ch4.moulton_hh_emp" />, close for a special case. For states it predicts <Fact id="ch4.moulton_state" /> against an observed <Fact id="ch4.moulton_state_emp" />. If the home–commute contrast differs from state to state, two home workers in the same state share more of their error than a home worker and a commuter do, so errors are not equally correlated and the factor understates the inflation. With clusters as large as states, the size term multiplies two small correlations by a very large number, so a modest departure from the assumption becomes a large miss.
 
-<Callout kind="box" title="Classic replication: the divorce-law regressions">
+</Details>
+
+<Callout kind="box" title="Provenance: the divorce-law regressions">
 
 The lead example in Solon, Haider, and Wooldridge is a panel of state divorce rates from 1956 to 1988, used by <Cite id="friedberg1998" narrative /> and by <Cite id="wolfers2006" narrative /> to estimate the effect of unilateral divorce laws and re-estimated by <Cite id="leesolon2011" narrative />. Friedberg and Wolfers weighted each state-year by population to correct heteroskedasticity. In the log specification of their Table 1, the robust standard errors for OLS over the first eight years after reform are about half those for WLS: weighting by population made the estimates less precise, which is Dickens's point. In levels, OLS and WLS differed sharply, and WLS without California moved toward OLS, which the authors read as a sign of heterogeneous effects rather than a verdict for either estimator. This box is provenance only: it reproduces none of those estimates, and the pattern has been checked against the working-paper version of the article, not the published tables.
 
 </Callout>
 
-## What agreement tells you, and what it does not
+<Callout kind="note" title="A new case">
 
-This chapter's result is a negative one: at every rung of the ladder, weighting barely moves the coefficient, and the controls move it far more. The agreement is still informative. It is what exogenous sampling predicts: if, given the regressors, the ACS's sampling rates, nonresponse adjustments, and calibration are unrelated to wages, the sample projection matches the population projection and either estimator reports it. Heterogeneous contrasts that the weights happen not to reshuffle would produce the same agreement. Either way, the choice of weights is not what moves this coefficient. That is worth checking before any weighted regression is published, and the check costs one extra line of code.
+A referee sees that your weighted and unweighted coefficients agree to the second decimal and concludes that the weights do not matter and that the coefficient is the population's average effect. Which parts of that conclusion does the agreement support, and what has it not tested?
 
-Agreement does not show that either coefficient is the population's average contrast. Both are weighted averages of heterogeneous comparisons, and the regression chooses those weights whether or not the records are weighted. Among workers with at least a bachelor's degree, <Fact id="ch4.prev_ba" /> work from home; among workers without a high school diploma, <Fact id="ch4.prev_lths" />. A regression leans on groups where both home workers and commuters are plentiful, whatever their share of the population. `PERWT` fixes whom the sample represents. It does not fix how the regression weighs one group's contrast against another's, which is the question [Chapter 5](/ch05-hidden-weights) takes up with the same sample and a finer version of this model.
+<Details summary="One answer">
+
+It supports only the first part, and only for this coefficient: the weights do not reshuffle the contrasts much here. It does not show that the model is correctly specified, that either coefficient is the population's average contrast (both are weighted averages of heterogeneous contrasts, with weights the regression chose), that inclusion is unrelated to the outcome in ways the weights do not capture, or anything causal. It is also silent about the standard error, which depends on the repetition the analysis claims to describe, not on whether two point estimates agree.
+
+</Details>
+
+</Callout>
 
 <Closing>
 <Learned>
 
-In 2024, full-time wage and salary workers who worked from home earned about <Fact id="ch4.adj_wls_pct" /> more per hour than commuters in a regression that holds age, sex, and education fixed, and about <Fact id="ch4.occind_wls_pct" /> more within the same detailed occupation, industry, and state. Most of the raw gap corresponds to differences in who works from home and in which jobs.
+In 2024, full-time wage and salary workers who usually worked from home earned <Fact id="ch4.adj_wls" /> log points more per hour than commuters of the same age, sex, and education, about <Fact id="ch4.adj_wls_pct" /> as a proportional difference in geometric-mean wages, and <Fact id="ch4.occind_wls" /> log points more, about <Fact id="ch4.occind_wls_pct" />, within the same detailed occupation, industry, and state. Most of the raw gap corresponds to differences in who works from home and in which jobs.
 
 </Learned>
 <Changed>

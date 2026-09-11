@@ -4,15 +4,17 @@ import { ClusterDesignWorksheet } from '@/components/widgets/ClusterDesignWorksh
 
 ## Millions of records, dozens of policy shocks
 
-On January 1, 2014, the Affordable Care Act's expansion of Medicaid to adults with incomes up to 138 percent of the federal poverty line took effect in <Fact id="ch6.states_jan2014" /> state units. Did uninsurance among low-income adults fall more where it took effect? The American Community Survey (ACS) looks built for the question <Cite id="ipums_usa" />. It asks about everyone in its sampled households, including whether each person has health coverage on the day of the interview. From 2011 through 2019 it holds <Fact id="ch6.records_full" /> records of adults ages 19 to 64 who live in households with family income at or below 138 percent of the poverty threshold, spread over <Fact id="ch6.units_full" /> state units: the 50 states and the District of Columbia.
+The Medicaid comparison in this chapter uses <Fact id="ch6.records_design" /> American Community Survey (ACS) person records from <Fact id="ch6.states_design" /> states: <Fact id="ch6.states_treated" /> in the January 2014 expansion cohort and <Fact id="ch6.states_comparison" /> comparison states that had not expanded by the end of 2019. A PERWT-weighted linear probability model of being uninsured, with state and year fixed effects and an indicator for cohort states from 2014 on, puts the change in the uninsured-rate gap at <Fact id="ch6.beta" /> percentage points. Treat every record as an independent draw, with a heteroskedasticity-robust (HC1) standard error, and the coefficient comes back as <Fact id="ch6.ci_hc1" ci />. Change one argument so that the standard error is clustered by state, and the same coefficient comes back as <Fact id="ch6.ci_state" ci />, with a standard error <Fact id="ch6.ratio_state_hc1" /> as large. More interviews help measure each state's outcome. They do not create more state policy decisions.
 
-The design in this chapter compares <Fact id="ch6.states_treated" /> states whose expansion took effect that January with <Fact id="ch6.states_comparison" /> states that had not expanded by the end of 2019. A PERWT-weighted linear probability model of being uninsured, with state and year fixed effects and an indicator for cohort states from 2014 on, returns a coefficient of <Fact id="ch6.ci_hc1" ci /> percentage points when the standard error is heteroskedasticity-robust (HC1). Change one argument, so that the standard error is clustered by state, and the same coefficient comes back as <Fact id="ch6.ci_state" ci />. Both versions are standard, and both run without complaint. The second standard error is <Fact id="ch6.ratio_state_hc1" /> the first.
+Expansion was not randomized. States chose, and the coefficient has a causal reading only under the comparison assumptions stated below; every interval in this chapter is conditional on those assumptions and on the rules that define the cohort.
 
 <KeyNumber id="ch6.records_design" label="person records in the design" />
 
 <KeyNumber id="ch6.states_design" label="states, each of which made one policy decision" />
 
 Which interval describes the uncertainty? "The wider one, to be safe" is not an answer; it would pick a wrong rung of the ladder later in this chapter as readily as a right one. The answer comes from the design: from what the number is meant to describe, and from what would change if the study were run again. Two things could change. The Census Bureau could draw a different sample of households, and states could make different Medicaid decisions.
+
+The policy took effect on January 1, 2014, when the Affordable Care Act's expansion of Medicaid to adults with incomes up to 138 percent of the federal poverty line began in <Fact id="ch6.states_jan2014" /> state units. The ACS looks built for asking whether uninsurance among low-income adults fell more where it took effect <Cite id="ipums_usa" />. It asks about everyone in its sampled households, including whether each person has health coverage on the day of the interview. From 2011 through 2019 it holds <Fact id="ch6.records_full" /> records of adults ages 19 to 64 who live in households with family income at or below 138 percent of the poverty threshold, spread over <Fact id="ch6.units_full" /> state units: the 50 states and the District of Columbia.
 
 <Figure n="6.1" caption="Uninsurance fell in both groups from 2014 and much further in the expansion cohort; the gap between the groups was stable before 2014 and wider after. Bands show survey sampling uncertainty only.">
 <Chart id="ch6.trends" />
@@ -22,7 +24,7 @@ The gap between the groups in Figure 6.1, cohort minus comparison, was <Fact id=
 
 ## One cohort, one comparison, one window
 
-Expansion did not arrive on one date. Michigan and New Hampshire expanded later in 2014; Pennsylvania, Indiana, and Alaska in 2015; Montana and Louisiana in 2016; Virginia and Maine in 2019; and more states after that. A single two-way fixed effects coefficient estimated across all of these dates averages many two-group comparisons, including some that use already-expanded states as controls for later ones, and when effects change over time some of those comparisons receive negative weight <Cite id="goodmanbacon2021" />. Estimators designed for staggered adoption avoid the problem <Cite id="callaway2021" />. This chapter avoids it by construction: one adoption date, and a comparison group that does not adopt within the window. With a single cohort and never-treated comparisons, the fixed effects regression reduces to one weighted 2×2 difference in differences: expansion states against never-expanded states, 2014–2019 against 2011–2013.
+Expansion did not arrive on one date. Michigan and New Hampshire expanded later in 2014; Pennsylvania, Indiana, and Alaska in 2015; Montana and Louisiana in 2016; Virginia and Maine in 2019; and more states after that. A single two-way fixed effects coefficient estimated across all of these dates averages many two-group comparisons, including some that use already-expanded states as controls for later ones, and when effects change over time some of those comparisons receive negative weight <Cite id="goodmanbacon2021" />. Estimators designed for staggered adoption avoid the problem <Cite id="callaway2021" />. This chapter avoids it by construction: one adoption date, and a comparison group that does not adopt within the window. Every comparison the regression makes is then between expansion states and never-expanded states, 2014–2019 against 2011–2013, and no already-expanded state serves as a control. That removes the staggered-adoption problem, but it does not make every calculation identical. The regression weights each state-year cell by its population, so it need not equal a pooled comparison of the two periods' means, although here the two agree to the displayed precision (Figure 6.3). Nor does a single cohort make the comparison causal; that rests on the assumptions below.
 
 The rules below sort the 51 units using effective coverage dates from KFF's tracker of state decisions, checked state by state against federal and state documents <Cite id="kff2026" />. Figure 6.2 shows the result.
 
@@ -35,6 +37,8 @@ The rules below sort the 51 units using effective coverage dates from KFF's trac
 <Figure n="6.2" caption="The cohort and comparison groups are what remains after every state with an earlier, partial, or later change is set aside for a stated reason.">
 <Chart id="ch6.design_groups" />
 </Figure>
+
+The rules shape the answer, not only its interval. Adding back the <Fact id="ch6.states_prior" /> January 2014 states with earlier coverage gives <Fact id="ch6.sens_prior_beta" />; dropping the <Fact id="ch6.states_strict_dropped" /> design states with county pilots, capped programs, or pre-2014 cuts gives <Fact id="ch6.sens_strict_beta" />. The stricter rule moves the coefficient by more than its state-clustered standard error of <Fact id="ch6.se_state" /> points, and adding back the earlier-coverage states moves it by most of one. Every interval in this chapter describes uncertainty given the design; none describes uncertainty about the design.
 
 <Callout kind="warning" title="What the design assumes">
 The comparison has a causal reading only if, without expansion, uninsurance in the cohort would have moved in parallel with the comparison states, if no state changed course in anticipation, and if one state's policy did not change coverage in another. This chapter takes those assumptions as given. Its subject is inference conditional on the design: given this comparison, how uncertain is the number, and why?
@@ -56,7 +60,7 @@ The 2011 and 2012 coefficients are <Fact id="ch6.lead_2011" /> and <Fact id="ch6
 
 The analysis has two stages, and they line up with the two things that could change.
 
-The first stage estimates the uninsured share in each state and year. The ACS selects addresses within geographic strata and interviews everyone at a selected address. The person weight, PERWT, turns each record into a count of people. The 80 replicate weights repeat the sampling and weighting in a structured way (successive difference replication, the survey world's pre-packaged repeated sampling), so the spread of an estimate across replicates, scaled by 4/80, estimates its sampling variance with 79 degrees of freedom <Cite id="fay1995,census_acs_dm" />. Because the replicates redo the weighting as well as the selection, they also carry the uncertainty that weight construction adds. For the <Fact id="ch6.cells_design" /> state-year cells in the design, the median replicate standard error is <Fact id="ch6.median_cell_se" /> percentage points.
+The first stage estimates the uninsured share in each state and year. The ACS selects addresses within geographic strata and interviews everyone at a selected address. The person weight, PERWT, turns each record into a count of people. The 80 replicate weights repeat the sampling and weighting in a structured way (successive difference replication), so the spread of an estimate across replicates, scaled by 4/80, estimates its sampling variance with 79 degrees of freedom <Cite id="fay1995,census_acs_dm" />. Because the replicates redo the weighting as well as the selection, they also carry the uncertainty that weight construction adds. For the <Fact id="ch6.cells_design" /> state-year cells in the design, the median replicate standard error is <Fact id="ch6.median_cell_se" /> percentage points.
 
 <Callout kind="predict" title="Predict first">
 The opening regression used <Fact id="ch6.records_design" /> records. How many distinct numbers does its coefficient depend on?
@@ -65,9 +69,11 @@ The opening regression used <Fact id="ch6.records_design" /> records. How many d
 The second stage is the policy comparison, and it needs only the first stage's output. Write $$\bar y_{st}$$ for the PERWT-weighted uninsured share in state $$s$$ and year $$t$$, and $$W_{st}$$ for the cell's total weight. The state effect $$\alpha_s$$, the year effect $$\lambda_t$$, and the treatment indicator $$D_{st}$$ are all constant within a cell, so the weighted sum of squared residuals splits in two:
 
 $$
+\begin{aligned}
 \sum_{s,t}\sum_{i\in(s,t)} w_i\bigl(y_i-\alpha_s-\lambda_t-\beta D_{st}\bigr)^2
-=\sum_{s,t}\sum_{i\in(s,t)} w_i\bigl(y_i-\bar y_{st}\bigr)^2
-+\sum_{s,t} W_{st}\bigl(\bar y_{st}-\alpha_s-\lambda_t-\beta D_{st}\bigr)^2 .
+&=\sum_{s,t}\sum_{i\in(s,t)} w_i\bigl(y_i-\bar y_{st}\bigr)^2 \\
+&\quad+\sum_{s,t} W_{st}\bigl(\bar y_{st}-\alpha_s-\lambda_t-\beta D_{st}\bigr)^2 .
+\end{aligned}
 $$
 
 The first term does not involve the parameters. Minimizing over the person records therefore gives exactly the coefficient from a regression of the <Fact id="ch6.cells_design" /> cell shares on the same regressors, weighted by $$W_{st}$$; the build script confirms that the two agree to machine precision. A record affects the coefficient only through its cell's weighted share.
@@ -107,7 +113,7 @@ $$
 
 where $$G$$ is the number of states, $$N$$ the number of records, and $$K$$ the number of parameters not absorbed within clusters. The numerator has one term per state however many records each state contributes, and inference uses a $$t$$ distribution with $$G-1$$ degrees of freedom. The records determine how precisely each term is measured; the states determine how many terms there are.
 
-The same coefficient therefore carries two ledgers, one for each target.
+The same coefficient therefore carries two ledgers, one for each target. Read them side by side: the estimator and both kinds of weight are the same, while the estimand, the source of randomness, the variance estimator, and the assumptions change.
 
 <Ledger id="ch6.descriptive_contrast" />
 
@@ -116,7 +122,7 @@ The same coefficient therefore carries two ledgers, one for each target.
 ## The standard-error ladder
 
 <Callout kind="predict" title="Predict first">
-Eight variance rules follow, all applied to the same coefficient. Before looking, sort them from narrowest to widest interval, and mark the ones that answer the policy question.
+Eight variance rules follow, all applied to the same coefficient. Before looking, predict one of them. Clustering by state-year allows for shocks shared within a state in a given year. Will its interval land nearer the record-level interval or the state-clustered one?
 </Callout>
 
 <Figure n="6.6" caption="Intervals that treat records, households, or state-years as independent are narrow; the four state-level intervals are several times wider and close to one another.">
@@ -125,11 +131,11 @@ Eight variance rules follow, all applied to the same coefficient. Before looking
 
 <Chart id="ch6.se_ladder_table" />
 
-**Records.** HC1 treats each record as an independent draw. The design's records come from <Fact id="ch6.households_design" /> households, about <Fact id="ch6.persons_per_household" /> per household, so this is close to the ACS sampling design and far from the assignment design. The interval runs <Fact id="ch6.halfwidth_hc1" /> percentage points on either side of the estimate.
+**Records.** HC1 treats each record as an independent draw, a repetition that no mechanism in this design produces. The design's records come from <Fact id="ch6.households_design" /> households, about <Fact id="ch6.persons_per_household" /> per household, so HC1 lands near the household-clustered and replicate values. That is a numerical approximation in this application, not a declaration of the ACS design, whose strata and weighting HC1 ignores. The interval runs <Fact id="ch6.halfwidth_hc1" /> percentage points on either side of the estimate.
 
 **Households and replicates.** Clustering on the ACS household cluster gives a standard error of <Fact id="ch6.se_household" /> percentage points and the replicate weights give <Fact id="ch6.se_sdr" />, against <Fact id="ch6.se_hc1" /> for HC1. All three describe survey sampling alone. The replicate value is the smallest, consistent with the stratification and calibration that the replicates reproduce and the other two rules ignore. For the descriptive ledger the replicate interval, <Fact id="ch6.ci_sdr" ci />, is the answer; the household-clustered interval, <Fact id="ch6.ci_household" ci />, is a close approximation.
 
-**State-years.** Clustering by state-year allows shocks shared within a state in a given year but treats a state's 2013 and its 2016 as unrelated. No mechanism works at that level: expansion was assigned to a state for all later years at once, and a state's labor and insurance markets carry over from one year to the next. <Cite id="bertrand2004" narrative /> showed how badly this kind of clustering can understate uncertainty in difference-in-differences. The standard error rises to <Fact id="ch6.ratio_stateyear_hc1" /> the HC1 value, and still falls well short of the state-level rules.
+**State-years.** Clustering by state-year allows shocks shared within a state in a given year but treats a state's 2013 and its 2016 as unrelated. No mechanism works at that level: expansion was assigned to a state for all later years at once, and a state's labor and insurance markets carry over from one year to the next. <Cite id="bertrand2004" narrative /> showed how badly this kind of clustering can understate uncertainty in difference-in-differences. The standard error rises to <Fact id="ch6.ratio_stateyear_hc1" /> the HC1 value, and still falls well short of the state-level rules. That answers the prediction: the state-year interval is wider than the record-level one but closer to it than to the state-clustered interval.
 
 **States.** Clustering by state follows the assignment: <Fact id="ch6.ci_state" ci />. The standard error, <Fact id="ch6.se_state" /> percentage points, is <Fact id="ch6.ratio_state_hc1" /> the HC1 value and <Fact id="ch6.ratio_state_sdr" /> the replicate value, and the interval runs <Fact id="ch6.halfwidth_state" /> points on either side.
 
@@ -173,11 +179,23 @@ The worksheet's answer is to cluster at the state, the level where treatment is 
 
 Two inputs carry the argument. Switch the assignment mechanism to the individual level and the recommendation becomes no clustering adjustment at all: when people are sampled within every state and treatment varies from person to person, correlated outcomes within states do not by themselves call for clustering <Cite id="abadie2023" />. Lower the number of clusters below 10 and it moves to randomization inference, which the ladder also reports. The two cutoffs, 50 and 10, are rules of thumb from the few-cluster literature <Cite id="mackinnon2023,cameron2015" />, not thresholds from Abadie, Athey, Imbens, and Wooldridge; read them as prompts to compare estimators, not as bright lines. The worksheet also states what it does not decide: whether the coefficient is causal. Parallel trends is an identification assumption, and no choice of standard error settles it.
 
-## Back to the puzzle
+## Two questions, two intervals
 
-The opening produced two intervals for one coefficient, and both are correct. They answer different questions. If the question is how much more uninsurance fell in these <Fact id="ch6.states_treated" /> states than in these <Fact id="ch6.states_comparison" />, with their policies taken as given, the only thing that would change in a repetition is the Census Bureau's sample, and the replicate interval is the honest one. If the question is what expansion did, a repetition would also redraw which states expanded, and the records in a state move together with that draw. For that question there are <Fact id="ch6.states_design" /> units of information, not <Fact id="ch6.records_design" />, and the state-clustered interval is the honest one. Neither interval is a cautious version of the other.
+The opening set a record-level interval beside a state-clustered one, but those are not the two answers. The descriptive question and the policy question each have their own. If the question is how much more uninsurance fell in these <Fact id="ch6.states_treated" /> states than in these <Fact id="ch6.states_comparison" />, with their policies taken as given, the only thing that would change in a repetition is the Census Bureau's sample. The replicate interval, <Fact id="ch6.ci_sdr" ci />, describes that repetition; the record-level interval from the opening lands close to it here as an approximation, not as a declaration of the design. If the question is what expansion did, a repetition would also redraw which states expanded, and the records in a state move together with that draw. For that question there are <Fact id="ch6.states_design" /> units of information, not <Fact id="ch6.records_design" />, and the state-clustered interval describes it, with the few-cluster checks beside it. Neither interval is a cautious version of the other.
 
 <SideNote>Weighting each state-year cell equally instead of by population targets the average state rather than the average low-income adult, and gives <Fact id="ch6.sens_equal_beta" />. That is a change of estimand, the subject of [Chapter 5](/ch05-hidden-weights), not a change of variance.</SideNote>
+
+<Callout kind="note" title="A new case">
+
+A study observes every state, not a sample of them, and a policy was adopted by some states and not others. With no sampling of states, is there any uncertainty left for a standard error to describe?
+
+<Details summary="One answer">
+
+Yes. The survey still samples households within each state, so each state's outcome is measured with sampling error, though here that error is small. The larger uncertainty is about assignment: which states adopted could have been otherwise, and the policy question treats that assignment as the repetition. Observing every state removes the sampling argument for clustering by state, not the assignment argument <Cite id="abadie2023" />. And uncertainty about the design itself, such as the cohort rules and the parallel-trends assumption, is in no standard error at all.
+
+</Details>
+
+</Callout>
 
 <Closing>
 
@@ -189,14 +207,14 @@ In the <Fact id="ch6.states_treated" /> states that expanded Medicaid on January
 
 <Changed>
 
-Not the coefficient. The method changed the number of independent units, from <Fact id="ch6.records_design" /> records to <Fact id="ch6.states_design" /> states, and made the standard error <Fact id="ch6.ratio_state_hc1" /> as large as the HC1 value. It also separated two targets that share one number: a descriptive contrast, whose uncertainty is survey sampling, and a policy effect, whose uncertainty includes the assignment of expansion across states.
+Not the coefficient. The method changed the number of independent units, from <Fact id="ch6.records_design" /> records to <Fact id="ch6.states_design" /> states, and made the policy standard error <Fact id="ch6.ratio_state_sdr" /> the replicate standard error that answers the descriptive question. It also separated two targets that share one number: a descriptive contrast, whose uncertainty is survey sampling, and a policy effect, whose uncertainty includes the assignment of expansion across states.
 
 </Changed>
 
 <NotEstablished>
 
 - **That expansion caused the difference.** Parallel trends, no anticipation, and no spillovers are assumed, not tested. Extending the pre-period back to 2008 gives a 2008 coefficient of <Fact id="ch6.lead_2008_ext" ci />; the 2011 start sets those recession years aside without explaining them. Idaho and Nebraska voted to expand in 2018 and began coverage in 2020, so anticipation in 2019 is possible in the comparison group.
-- **That the number describes Medicaid expansion in general.** It covers one cohort in one window. Adding back the <Fact id="ch6.states_prior" /> January 2014 states with earlier coverage gives <Fact id="ch6.sens_prior_beta" />; dropping the <Fact id="ch6.states_strict_dropped" /> design states with county pilots, capped programs, or pre-2014 cuts gives <Fact id="ch6.sens_strict_beta" />. The strict rule moves the coefficient by more than its state-clustered standard error, and adding back the earlier-coverage states moves it by most of one: the interval describes uncertainty given the design, not uncertainty about the design. Later adopters and years after 2019 are outside it.
+- **That the number describes Medicaid expansion in general.** It covers one cohort in one window, and a stricter cohort rule moves it by more than its state-clustered standard error: the interval describes uncertainty given the design, not uncertainty about the design. Later adopters and years after 2019 are outside it.
 - **That the population is fixed.** Eligibility here is defined by measured family income relative to the Census poverty threshold, a proxy for Medicaid's own test. Expansion could change income, work, or household composition, and people move between states.
 - **That states are independent of one another.** State clustering allows any correlation within a state and none between states. Shocks shared by neighboring states would make even the state-clustered interval too narrow.
 - **That assignment was random.** Randomization inference describes what random assignment would imply. States chose.

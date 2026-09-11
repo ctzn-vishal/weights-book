@@ -49,7 +49,7 @@
       "label": "Work minutes (unweighted)"
     }
   ],
-  "note": "n = 8,548. Weights-only: standard errors from these weights would understate uncertainty.",
+  "note": "n = 8,548. Weights-only extract: standard errors from these weights would not be design-based.",
   "rows": [
     {
       "d": 10,

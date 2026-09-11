@@ -1,20 +1,20 @@
 import { PopulationSampler } from '@/components/widgets/PopulationSampler'
 
-Nearly half of U.S. adults have hypertension. Measured the way the National Center for Health Statistics (NCHS) measures it, <Fact id="ch3.htn_prev" ci /> of adults had it in August 2021–August 2023. Among adults with hypertension, <Fact id="ch3.htn_aware" /> had been told so by a health professional, <Fact id="ch3.htn_treat" /> were taking medication for it, and <Fact id="ch3.htn_control" /> had blood pressure below 130/80. These four shares form the hypertension cascade: prevalence, awareness, treatment, control.
+Nearly half of U.S. adults have hypertension. Measured the way the National Center for Health Statistics (NCHS) measures it, as a blood pressure reading of 130/80 mm Hg or higher or current use of prescribed blood-pressure medication, <Fact id="ch3.htn_prev" ci /> of adults had it in August 2021–August 2023. Among adults with hypertension, <Fact id="ch3.htn_control" /> had it under control.
 
 <KeyNumber id="ch3.htn_control" label="of adults with hypertension had it under control, August 2021–August 2023" />
 
-Now ask whether the cascade moved after the pandemic, relative to the 2017–March 2020 sample. One analyst computes weighted shares with a group-by and attaches the textbook standard error. She finds that control among men with hypertension changed by <Fact id="ch3.chg_control_men" /> percentage points (p = <Fact id="ch3.chg_control_men_p_naive" />) and that prevalence among adults 60 and older changed by <Fact id="ch3.chg_prev_60" /> points (p = <Fact id="ch3.chg_prev_60_p_naive" />). A second analyst uses the same files and the same weights, and her point estimates agree to the last digit. She also declares how the sample was drawn, and neither change survives: p = <Fact id="ch3.chg_control_men_p_design" /> and <Fact id="ch3.chg_prev_60_p_design" />.
+Did control get worse after the pandemic? For men with hypertension, the estimated change from the 2017–March 2020 sample is <Fact id="ch3.chg_control_men" ci /> percentage points under the survey's declared design. A decline of several points remains compatible with the data, and so does a small increase.
 
-Both analyses run without an error message. They differ in one input: a statement about the repetition that makes an estimate vary.
+An analyst who computes weighted shares with a group-by and attaches the textbook standard error gets the same point estimate and a narrower interval, and reports a significant decline: p = <Fact id="ch3.chg_control_men_p_naive" />. Under the declared design, p = <Fact id="ch3.chg_control_men_p_design" />. The two analyses use the same files, the same weights, and the same estimate. They differ in one input: a statement about the repetition that makes an estimate vary. Men's control is also one of 24 period comparisons in this chapter, four stages of the cascade in six groups of adults, so a single small p-value among them would deserve suspicion even before the design is declared.
 
 ## The cascade, estimated the way NCHS estimates it
 
-The target population is U.S. civilian noninstitutionalized adults 18 and older, excluding pregnant women, in August 2021–August 2023. The definitions follow NCHS Data Brief 511 <Cite id="nchs_db511" /> exactly. Blood pressure is the average of up to three oscillometric readings taken in the mobile examination center (MEC). Hypertension means a systolic pressure of 130 mm Hg or more, a diastolic pressure of 80 or more, or a yes to "Are you now taking any medication prescribed by a doctor for your high blood pressure?" Awareness is a yes to having ever been told of hypertension by a doctor or other health professional. Treatment is the medication question. Control means systolic below 130 and diastolic below 80. Awareness, treatment, and control are shares of adults with hypertension, not of all adults.
+The target population is U.S. civilian noninstitutionalized adults 18 and older, excluding pregnant women, in August 2021–August 2023. The definitions follow NCHS Data Brief 511 <Cite id="nchs_db511" /> exactly. Blood pressure is the average of up to three oscillometric readings taken in the mobile examination center (MEC). Hypertension means a systolic pressure of 130 mm Hg or more, a diastolic pressure of 80 or more, or a yes to "Are you now taking any medication prescribed by a doctor for your high blood pressure?" Awareness is a yes to having ever been told of hypertension by a doctor or other health professional. Treatment is the medication question. Control means systolic below 130 and diastolic below 80. Awareness, treatment, and control are shares of adults with hypertension, not of all adults, and not of those at the previous stage. Among adults with hypertension, <Fact id="ch3.htn_aware" /> had been told so by a health professional, <Fact id="ch3.htn_treat" /> were taking medication for it, and <Fact id="ch3.htn_control" /> had blood pressure below 130/80. With prevalence, these form the hypertension cascade.
 
 The August 2021–August 2023 files hide two traps. The examination weight is `WTMEC2YR`; `WTMECPRP` belongs to the pre-pandemic file. And the medication item changed: `BPQ_L` replaced `BPQ040A` and `BPQ050A` with `BPQ150` and a new skip pattern, so only a yes counts as treated. Under that rule, <Fact id="ch3.htn_unknown_med" /> adults with normal readings and unknown medication status stay in the denominator as not hypertensive, and the analytic sample is <Fact id="ch3.htn_n" /> adults, <Fact id="ch3.htn_n_hyp" /> of them with hypertension, the brief's counts exactly.
 
-<Figure n="3.1" caption="Hypertension is common and rarely controlled, and the chapter's estimates match the published NCHS values within a tenth of a percentage point.">
+<Figure n="3.1" caption="Hypertension is common and rarely controlled. Prevalence is a share of all adults; awareness, treatment, and control are each shares of adults with hypertension. The estimates match NCHS's published values within a tenth of a percentage point.">
   <Chart id="ch3.cascade" />
 </Figure>
 
@@ -52,9 +52,9 @@ PSUs enter as the units of independent information. Strata enter only through th
 
 For prevalence, the three standard errors are <Fact id="ch3.se_prev_naive" />, <Fact id="ch3.se_prev_w" />, and <Fact id="ch3.se_prev_d" /> percentage points (Figure 3.2). The ratio of the design variance to the naive variance is the design effect, $$\DEFF$$ <Cite id="kish1965" />: here <Fact id="ch3.deff_prev" />. It factors exactly into two pieces. The weighting factor, the squared ratio of the weights-only to the naive standard error, is <Fact id="ch3.wfac_prev" />. The clustering-and-stratification factor, the squared ratio of the design to the weights-only standard error, is <Fact id="ch3.cfac_prev" />. For prevalence, the <Fact id="ch3.htn_n" /> examined adults carry about as much information as <Fact id="ch3.neff_prev" /> adults drawn at random.
 
-The slogan "weights get the point estimate, the design gets the uncertainty" needs a correction in each half. The weights help define the estimator, and they also shape its variance twice over: unequal weights inflate it, and the weights are themselves built from the sample, since nonresponse and calibration adjustments are estimates. The repeated-sampling variance therefore depends on the sampling design and on how the weights were constructed. Taylor linearization treats the final weights as fixed; replicate methods that repeat the weighting steps in every replicate capture the construction step too.
+The slogan "weights get the point estimate, the design gets the uncertainty" needs a correction in each half. The weights help define the estimator, and they also shape its variance twice over: unequal weights inflate it, and the weights are themselves built from the sample, since nonresponse and calibration adjustments are estimates. The repeated-sampling variance therefore depends on the sampling design and on how the weights were constructed. Taylor linearization applied to the final weights alone treats them as fixed. A calibration-aware linearization can carry the construction step, but it needs the auxiliary variables and control totals behind the adjustments; replicate methods that repeat the weighting steps in every replicate carry it without them.
 
-Degrees of freedom are the other half of the story. The public August 2021–August 2023 file has <Fact id="ch3.nhanes_psu" /> masked PSUs in <Fact id="ch3.nhanes_strata" /> strata, and the usual Taylor rule, PSUs minus strata, gives <Fact id="ch3.nhanes_df" /> degrees of freedom: the number of independent within-stratum comparisons behind the variance estimate. With so few, the 97.5th percentile of t is <Fact id="ch3.t_crit_df" /> rather than <Fact id="ch3.t_crit_z" />. Together with the larger standard error, the honest interval is <Fact id="ch3.ci_width_ratio" /> times as wide as the naive one.
+Degrees of freedom are the other half of the story. The public August 2021–August 2023 file has <Fact id="ch3.nhanes_psu" /> masked PSUs in <Fact id="ch3.nhanes_strata" /> strata, and the usual Taylor rule, PSUs minus strata, gives <Fact id="ch3.nhanes_df" /> degrees of freedom: the number of independent within-stratum comparisons behind the variance estimate. With so few, the 97.5th percentile of t is <Fact id="ch3.t_crit_df" /> rather than <Fact id="ch3.t_crit_z" />. Together with the larger standard error, the design-based interval is <Fact id="ch3.ci_width_ratio" /> times as wide as the naive one.
 
 ```python
 import polars as pl
@@ -84,6 +84,8 @@ The sampler below is the one from [Chapter 0](/ch00-start-here). Its second stag
 
 <PopulationSampler />
 
+The clustered estimates spread more than the simple random ones, and the gap grows as fewer neighborhoods supply more residents each, while the center of the distribution does not move. That is the pattern behind the NHANES standard errors above: the same point estimate, with more spread than a simple random sample of the same size would have.
+
 ### There is no single NHANES design effect
 
 A design effect belongs to an estimator, for an outcome, in a domain, under a design; it is not a constant of the survey. For August 2021–August 2023 it is <Fact id="ch3.deff_prev" /> for prevalence, <Fact id="ch3.deff_aware" /> for awareness, <Fact id="ch3.deff_treat" /> for treatment, <Fact id="ch3.deff_control" /> for control, and <Fact id="ch3.deff_prev_1839" /> for prevalence among adults 18–39 (Figure 3.3). The pre-pandemic file gives <Fact id="ch3.deff_prev_pre" /> for the same prevalence estimand. Most of that difference is weighting. The 2017–March 2020 sample oversampled by race, Hispanic origin, and income, and its weighting factor is <Fact id="ch3.wfac_prev_pre" />; the August 2021–August 2023 sample did not oversample. An effective sample size is always an effective sample size for something: $$\ndesign(\hat\theta) = n/\DEFF(\hat\theta)$$.
@@ -106,7 +108,7 @@ $$
 1 + (\bar m - 1)\rho .
 $$
 
-NHANES examines about <Fact id="ch3.moulton_mbar" /> analytic-sample adults per PSU, so an intraclass correlation of only <Fact id="ch3.moulton_rho" /> reproduces the clustering factor of <Fact id="ch3.cfac_prev" />. Read the formula as a bridge, not an identity. The Moulton factor is a special-case regression analogue of the clustering component of a design effect: it assumes equal cluster sizes, leaves out the stratification gain, and says nothing about the weighting factor. [Chapter 6](/ch06-clustering) takes up clustering in regression.
+NHANES examines about <Fact id="ch3.moulton_mbar" /> analytic-sample adults per PSU, so an intraclass correlation of only <Fact id="ch3.moulton_rho" /> reproduces the clustering factor of <Fact id="ch3.cfac_prev" />. The answer to the prediction is yes: with clusters that large, a correlation that small nearly doubles the variance. Read the formula as a bridge, not an identity. The Moulton factor is a special-case regression analogue of the clustering component of a design effect: it assumes equal cluster sizes, leaves out the stratification gain, and says nothing about the weighting factor. [Chapter 6](/ch06-clustering) takes up clustering in regression.
 
 ## Did the design change the conclusion?
 
@@ -114,7 +116,7 @@ The comparison needs two independent samples measured the same way. The pre-pand
 
 Nationally, nothing moved detectably. Awareness was <Fact id="ch3.pre_aware" /> before and <Fact id="ch3.htn_aware" /> after, treatment <Fact id="ch3.pre_treat" /> and <Fact id="ch3.htn_treat" />, control <Fact id="ch3.pre_control" /> and <Fact id="ch3.htn_control" />, a change of <Fact id="ch3.chg_control" ci /> percentage points. Naive and full-design tests agree that no stage changed (for control, p = <Fact id="ch3.chg_control_p_naive" /> and <Fact id="ch3.chg_control_p_design" />), which matches the NCHS finding for awareness, treatment, and control.
 
-The conclusions part company in subgroups. Across 24 pre-specified comparisons, four stages in all adults, men, women, and three age groups, naive intervals flag <Fact id="ch3.chg_sig_naive" />, weights-only intervals flag <Fact id="ch3.chg_sig_wonly" />, and full-design intervals flag <Fact id="ch3.chg_sig_design" /> (Figure 3.4; Figure 3.5 lists all 24). The design-based test adds the two periods' Taylor variances and uses a t reference with Satterthwaite degrees of freedom built from <Fact id="ch3.nhanes_df" /> and <Fact id="ch3.pre_df" />. The survivor is awareness among adults 18–39 with hypertension, a change of <Fact id="ch3.chg_aware_1839" ci /> percentage points (naive p = <Fact id="ch3.chg_aware_1839_p_naive" />, design p = <Fact id="ch3.chg_aware_1839_p_design" />). With 24 tests at the 5 percent level, about $$24 \times 0.05 = 1.2$$ rejections are expected when nothing changed, so the survivor deserves suspicion as well. The design did not overturn every naive claim. It overturned most of them and put an honest width on the rest.
+The conclusions part company in subgroups. Across the 24 pre-specified comparisons, four stages in all adults, men, women, and three age groups, naive intervals flag <Fact id="ch3.chg_sig_naive" />, weights-only intervals flag <Fact id="ch3.chg_sig_wonly" />, and full-design intervals flag <Fact id="ch3.chg_sig_design" /> (Figure 3.4; Figure 3.5 lists all 24). The design-based test adds the two periods' Taylor variances and uses a t reference with Satterthwaite degrees of freedom built from <Fact id="ch3.nhanes_df" /> and <Fact id="ch3.pre_df" />. Men's control, from the opening, is one of the naive flags. Prevalence among adults 60 and older is another: a change of <Fact id="ch3.chg_prev_60" ci /> percentage points, with a naive p of <Fact id="ch3.chg_prev_60_p_naive" /> and a design p of <Fact id="ch3.chg_prev_60_p_design" />. The one change whose design-based interval excludes zero is awareness among adults 18–39 with hypertension, <Fact id="ch3.chg_aware_1839" ci /> percentage points (naive p = <Fact id="ch3.chg_aware_1839_p_naive" />, design p = <Fact id="ch3.chg_aware_1839_p_design" />). With 24 tests at the 5 percent level, about $$24 \times 0.05 = 1.2$$ rejections are expected even if nothing changed, so this one is not established as a real change either. The design left every estimated change where it was. It widened the intervals, and two of the three naive flags no longer exclude zero.
 
 <Figure n="3.4" caption="Naive intervals exclude zero for three subgroup changes; full-design intervals exclude zero for one.">
   <Chart id="ch3.change_intervals" />
@@ -129,6 +131,8 @@ The conclusions part company in subgroups. Across 24 pre-specified comparisons, 
 </Details>
 
 <Ledger id="ch3.period_change" />
+
+That answers the opening question. The rest of the chapter takes four detours through the same data, each a lesson of its own: standardization as a third kind of weight, subgroups as domains of the full design, two complex surveys with opposite sources of uncertainty, and the limits of weighting when surveys measure different things.
 
 ## Age standardization: a third kind of weight
 
@@ -191,7 +195,7 @@ Two reporting rules follow. First, put the PSUs retained and the number of singl
 
 The contrast changes what the analyst should worry about. In BRFSS the t critical value is <Fact id="ch3.t_crit_z" /> and the degrees of freedom never bind, but unequal weights use up most of the sample's information. In NHANES the weights cost less, and a handful of PSUs determines both the variance and how precisely the variance itself is estimated. Even BRFSS needs a lonely-PSU rule: <Fact id="ch3.brfss_single" /> of its strata contain a single respondent, so R's default refuses to compute a national standard error, and this chapter uses *adjust*. BRFSS 2024 also omits Tennessee, so its target population is adults in the participating jurisdictions, not the nation.
 
-<Figure n="3.9" caption="NHANES uncertainty comes from few PSUs and BRFSS uncertainty from unequal weights; both surveys are called complex.">
+<Figure n="3.9" caption="NHANES uncertainty comes from few PSUs and BRFSS uncertainty from unequal weights; both surveys are called complex." width="wide">
   <Chart id="ch3.df_contrast" />
 </Figure>
 
@@ -209,15 +213,27 @@ NHANES shows the same lesson inside one survey. In 2017–2018, NCHS measured th
 
 NHANES releases masked strata and PSUs, so Taylor linearization is the producer's method. Other surveys ship replicate weights instead: the American Community Survey provides 80 alternative weight columns and the CPS ASEC provides 160. Replicate weights are the survey world's pre-packaged repeated sampling. Re-estimate once with each column, and the spread of the replicate estimates, scaled by a method-specific constant, approximates the sampling variance. Balanced repeated replication, Fay's method <Cite id="fay1995" />, the jackknife, successive difference replication, and the bootstrap are distinct procedures with different constants and degrees of freedom, and calling them all "a bootstrap" hides exactly the constants an analyst must get right. When the producer repeats the nonresponse and calibration steps inside each replicate, the replicate variance also captures the weight-construction variability that Taylor linearization with fixed final weights leaves out. [Lab 3](/ch03-lab-replicates) works through the American Community Survey case, including a `svy` default that silently ignores declared replicate weights.
 
+<Callout kind="note" title="A new case">
+
+Two groups' 95 percent intervals overlap. Does that settle whether the difference between the groups is statistically significant?
+
+<Details summary="One answer">
+
+No. For two independent estimates with equal standard errors, the standard error of their difference is $$\sqrt{2}$$ times one of them, not twice, so two intervals can overlap while the interval for the difference excludes zero. When the estimates share PSUs or respondents, their covariance changes the answer again. Estimate the difference itself and give it a standard error under the design, as the period comparison in this chapter does with two independent samples and as [Lab 3](/ch03-lab-replicates) does with replicate weights.
+
+</Details>
+
+</Callout>
+
 <Closing>
 <Learned>
 
-Hypertension is common and poorly controlled. In August 2021–August 2023, <Fact id="ch3.htn_prev" /> of adults met the 130/80-or-medication definition; of those, <Fact id="ch3.htn_aware" /> knew it, <Fact id="ch3.htn_treat" /> were treated, and <Fact id="ch3.htn_control" /> had it controlled. None of the four national shares changed detectably from 2017–March 2020, and most of the subgroup changes a naive analysis reports do not survive the design.
+Hypertension is common and poorly controlled. In August 2021–August 2023, <Fact id="ch3.htn_prev" /> of adults met the 130/80-or-medication definition; of those, <Fact id="ch3.htn_aware" /> knew it, <Fact id="ch3.htn_treat" /> were treated, and <Fact id="ch3.htn_control" /> had it controlled. None of the four national shares changed detectably from 2017–March 2020. Two of the three subgroup changes that naive intervals flag do not exclude zero under the declared design, and the third is one of 24 comparisons.
 
 </Learned>
 <Changed>
 
-The point estimates never changed. What changed was the width of every interval (for prevalence, <Fact id="ch3.ci_width_ratio" /> times the naive width, with <Fact id="ch3.nhanes_df" /> degrees of freedom), the number of subgroup comparisons that count as evidence (from <Fact id="ch3.chg_sig_naive" /> to <Fact id="ch3.chg_sig_design" />), the standard errors of sparse domains, and, through standardization weights, the population in which men and women are compared.
+The point estimates never changed. What changed was the width of every interval (for prevalence, <Fact id="ch3.ci_width_ratio" /> times the naive width, with <Fact id="ch3.nhanes_df" /> degrees of freedom), the number of subgroup changes whose intervals exclude zero (from <Fact id="ch3.chg_sig_naive" /> to <Fact id="ch3.chg_sig_design" />), the standard errors of sparse domains, and, through standardization weights, the population in which men and women are compared.
 
 </Changed>
 <NotEstablished>

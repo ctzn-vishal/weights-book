@@ -702,7 +702,7 @@ def main():
 
     # ---- ledger
     ledger = {"key": KEY, "ledgers": {"state_uninsured": {
-        "title": "Which state differences in the uninsured rate are real? (ACS 2024)",
+        "title": "Which state differences in the uninsured rate are distinguishable? (ACS 2024)",
         "target_population": ("Civilian noninstitutionalized adults aged 19 to 64 in each of the 50 states and DC in 2024. "
                               "IPUMS approximation: residents of institutional group quarters and members of the Armed Forces "
                               "are dropped; noninstitutional group quarters (college dorms, shelters) stay in."),

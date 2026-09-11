@@ -57,7 +57,7 @@
     {
       "item": "Variance in the store",
       "source": "design.json notes; computed from data",
-      "value": "Weights only: no strata, PSUs, or replicate weights in the extract (STRATA is empty), so SEs understate design variance. No replicate weights in store: weights-only variance understates SEs; BLS publishes replicate weights if needed later."
+      "value": "Weights only: no strata, PSUs, or replicate weights in the extract (STRATA is empty), so no design-based SE is possible. No replicate weights in store: weights-only variance understates SEs; BLS publishes replicate weights if needed later."
     },
     {
       "item": "Producer replicates",

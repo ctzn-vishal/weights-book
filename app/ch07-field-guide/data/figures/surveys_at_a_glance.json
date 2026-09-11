@@ -70,7 +70,7 @@
       "df": "not available",
       "method": "producer: 160 replicates; store: weights only",
       "survey": "ATUS 2024",
-      "tier": "weights only (SEs understated)",
+      "tier": "weights only (no design-based SE)",
       "unit": "a person-day (one diary day)",
       "units": "none in the store",
       "weight": "WT06"

@@ -1,6 +1,17 @@
 import { EstimandSwitcher } from '@/components/widgets/EstimandSwitcher'
 
-A survey file arrives as records and a column of weights. Before any question about weighting or standard errors comes a prior one: which population number is the analysis supposed to recover? This chapter holds the data, the weights, and the code fixed and moves only that target, meaning the population a number describes and the unit it counts. The answers move a great deal.
+Two weighted turnout calculations from the same 2020 Current Population Survey file give <Fact id="ch1.turnout_census_2020" /> and <Fact id="ch1.turnout_resp_2020" />. The first counts citizen adults who did not answer the voting question as nonvoters; the second leaves them out. Before inspecting the weight column, inspect the denominator.
+
+The chapter's four examples each yield more than one defensible-looking number, and the numbers disagree for different reasons. Some comparisons change the target: the population a number describes and the unit it counts. Some keep the target and change the estimator. Some change what is assumed about the people who gave no answer, and one changes the definition of the quantity itself. Not every plausible number is a different estimand.
+
+| Comparison | What changes | Kind of change |
+|---|---|---|
+| Turnout: Census convention or respondents only | Who stays in the denominator | An assumption about the people who did not answer |
+| Turnout among respondents, weighted or unweighted | How each respondent counts | The estimator |
+| Work time: all days, weekdays, employed people, days with work | Which days are averaged | The target |
+| Work time over all days, weighted or unweighted | How each diary counts | The estimator |
+| Food insecurity among households, people, or children | The unit counted | The target |
+| Poverty: official measure or Supplemental Poverty Measure | What counts as resources and needs | The definition of the quantity |
 
 ## What was turnout in 2020?
 
@@ -14,19 +25,19 @@ One of the three is the figure the Census Bureau publishes. Which one, and what 
 
 </Callout>
 
-The Census Bureau publishes the first. Weighting is not what separates it from the second. Dropping the weights moves the respondents-only answer by <Fact id="ch1.turnout_gap_weighting_2020" /> percentage points, while the first two answers are about <Fact id="ch1.turnout_gap_denominator_2020" /> points apart. The difference is the denominator. In 2020, <Fact id="ch1.turnout_nonresp_2020" /> of weighted citizen adults gave no answer to the voting question. The Census convention keeps them in the denominator and counts them as nonvoters. The respondents-only estimate drops them, which amounts to assuming they voted at the same rate as the people who answered. Both are assumptions about people the survey did not hear from. Official vote totals put 2020 turnout at about two-thirds of eligible citizens, much closer to the first answer <Cite id="mcdonald2020" />, though that external benchmark has a denominator problem of its own: someone has to estimate who was eligible.
+The Census Bureau publishes the first. Weighting is not what separates it from the second. Dropping the weights moves the respondents-only answer by <Fact id="ch1.turnout_gap_weighting_2020" /> percentage points, while the first two answers are about <Fact id="ch1.turnout_gap_denominator_2020" /> points apart. The difference is the denominator. In 2020, <Fact id="ch1.turnout_nonresp_2020" /> of weighted citizen adults gave no answer to the voting question. The Census convention keeps them in the denominator and counts them as nonvoters. The respondents-only estimate drops them, and it can be read two ways. Read literally, it is a descriptive rate for a narrower group, citizen adults who answered, which is rarely the population anyone set out to study. Read as turnout among all citizen adults, it assumes that the people who did not answer voted at the same rate as those who did. The Census convention assumes instead that they did not vote. Both are assumptions about people the survey did not hear from. Official vote totals put 2020 turnout at about two-thirds of eligible citizens, much closer to the first answer <Cite id="mcdonald2020" />, though that external benchmark has a denominator problem of its own: someone has to estimate who was eligible.
 
 ### Five populations
 
-The turnout disagreement is a disagreement about which population the estimate describes. Survey methodology separates five.
+The turnout disagreement is a disagreement about which population the estimate describes. Survey methodology separates five populations, and keeps each apart from what one survey happens to realize.
 
 | Population | What it is | In the 2020 turnout example |
 |---|---|---|
 | Target | The population the question is about | U.S. citizens 18 and older, November 2020 |
 | Frame | What the sample can be drawn from | The civilian population in housing units and other noninstitutional quarters; people in prisons, nursing homes, and on active military duty are outside it |
-| Sampled | The units actually selected | People in the households selected for the November CPS |
-| Respondent | Selected units that provided data | People in households that completed the basic CPS interview, and among them those who answered the voting question |
-| Analytic | The records an estimator uses, with their weights | Census convention: every citizen adult with a positive supplement weight. Respondents only: those who answered |
+| Sampled | The part of the frame with a positive chance of selection | Essentially the whole frame. The households actually selected for November 2020 are the sample, a realization rather than a population |
+| Respondent | Those in the sampled population who would respond if selected | People who would complete the basic CPS interview and answer the voting question. Those who did so in November 2020 are the observed respondents |
+| Analytic | Who remains after the analyst's restrictions and missing-data rules, with their weights | Census convention: every citizen adult with a positive supplement weight. Respondents only: those who answered |
 
 The frame is already narrower than the target, so the published rate describes citizen adults outside institutions and the military. The weights carry the sample back toward that population one step at a time. The CPS weight adjusts for households that did not complete the basic interview and calibrates the result to population totals. It does not adjust for people who skipped the voting questions: for every citizen adult it counts from 2008 to 2024, the supplement weight equals the basic monthly weight. What the nonrespondents contribute is left to a convention, and the two conventions choose differently. The analytic population is where that choice lives.
 
@@ -52,23 +63,23 @@ Until September 10, 2026, the store's `voted_census` dropped VOTED = "Not in uni
 
 ## How much do Americans work?
 
-The American Time Use Survey (ATUS) asks one person in each sampled household to account for every minute of a single designated day <Cite id="bls_atus" />. In 2023, <Fact id="ch1.atus_n" /> people did. Asked how much Americans work, the file gives at least six defensible answers.
+The American Time Use Survey (ATUS) asks one person in each sampled household to account for every minute of a single designated day <Cite id="bls_atus" />. In 2023, <Fact id="ch1.atus_n" /> people did. [Chapter 0](/ch00-start-here) set two of the file's answers to "how much do Americans work?" side by side; there are at least six defensible-looking ones. The outcome is the same in every one: minutes spent working and in work-related activities, including travel for work, as BLS classifies them.
 
 <Callout kind="predict" title="Predict first">
 
-Before opening the switcher, rank four averages of daily work time: across all days, across weekdays, across the days of employed people, and across days that included some work. Which two are closest?
+Before opening the switcher, make two directional guesses. Is the average over weekdays above or below the average over all days? And which raises the average more: restricting to employed people, or restricting to days that included some work?
 
 </Callout>
 
 <EstimandSwitcher id="ch1.atus_estimands" />
 
-<Figure n="1.2" caption="One file and one weight give six answers. After the first two rows, each row averages over a different population of days.">
+<Figure n="1.2" caption="One file gives six answers. The first two rows share a target and differ in the estimator; each later row averages over a different population of days.">
 
 <Chart id="ch1.atus_six_estimands" />
 
 </Figure>
 
-The answers run from <Fact id="ch1.atus_work_unweighted" /> to <Fact id="ch1.atus_work_employed_worked" /> minutes a day (Figure 1.2). The second row is the figure the Bureau of Labor Statistics publishes: <Fact id="ch1.atus_work_weighted" /> minutes, or <Fact id="ch1.atus_work_weighted_hours" /> hours, per day. The same file reproduces the two related figures BLS publishes: some work happens on <Fact id="ch1.atus_share_days_worked" /> of person-days, and on those days it averages <Fact id="ch1.atus_work_anywork" /> minutes, or <Fact id="ch1.atus_work_anywork_hours" /> hours <Cite id="bls_atus" />. Restricting to weekdays gives <Fact id="ch1.atus_work_weekday" /> minutes, and to employed people <Fact id="ch1.atus_work_employed" />. Employed people on the days they work average <Fact id="ch1.atus_work_employed_worked_hours" /> hours.
+The answers run from <Fact id="ch1.atus_work_unweighted" /> to <Fact id="ch1.atus_work_employed_worked" /> minutes a day (Figure 1.2). The second row is the figure the Bureau of Labor Statistics publishes: <Fact id="ch1.atus_work_weighted" /> minutes, or <Fact id="ch1.atus_work_weighted_hours" /> hours, per day. The same file reproduces the two related figures BLS publishes: some work happens on <Fact id="ch1.atus_share_days_worked" /> of person-days, and on those days it averages <Fact id="ch1.atus_work_anywork" /> minutes, or <Fact id="ch1.atus_work_anywork_hours" /> hours <Cite id="bls_atus" />. Restricting to weekdays gives <Fact id="ch1.atus_work_weekday" /> minutes, and to employed people <Fact id="ch1.atus_work_employed" />. Employed people on the days they work average <Fact id="ch1.atus_work_employed_worked_hours" /> hours. So the weekday average sits above the all-days average, because weekends pull the all-days mean down, and restricting to days with some work raises the average far more than restricting to employed people, whose days still include weekends and days off.
 
 Five are correct answers to five different questions. The sixth, the unweighted mean, is a wrong answer to the second question.
 
@@ -143,6 +154,8 @@ Changing the unit does register (Figure 1.3). Weighted by the person weight, <Fa
 
 USDA also publishes a child-specific measure, which asks whether the children themselves, and not only the household, were food insecure. By that definition <Fact id="ch1.usda_children_fi_children" /> of children lived in a household where at least one child was food insecure <Cite id="rabbitt2024" />. Unit, weight, and definition each move the answer. The supplement carries no design variables or replicate weights, so these are point estimates without intervals; the lesson here is about targets, not uncertainty.
 
+Set beside the ledger for the household rate, the ledger below changes the fields that concern the unit: the target population and the estimand now count children, the explicit weight is the person weight, and the implicit weights count each household once per child. The household classification, the source of randomness, and the missing variance estimate stay the same.
+
 <Ledger id="ch1.foodsec_children" />
 
 ## When the estimand is a definition
@@ -159,7 +172,9 @@ In 2021 the official measure put <Fact id="ch1.pov_off_child_2021" ci /> of chil
 
 For older Americans the ordering reverses: <Fact id="ch1.pov_off_65_2021" /> official against <Fact id="ch1.pov_spm_65_2021" /> SPM in 2021, and <Fact id="ch1.pov_off_65_2024" /> against <Fact id="ch1.pov_spm_65_2024" /> in 2024, a gap of <Fact id="ch1.pov_gap_65_2024" ci /> percentage points. In the Census Bureau's accounting, subtracting out-of-pocket medical expenses raises the SPM rate for people 65 and older by more than it does for children <Cite id="creamer2022" />. Across all ages the SPM rate was below the official rate in 2021, <Fact id="ch1.pov_spm_all_2021" /> against <Fact id="ch1.pov_off_all_2021" />, and above it in every later year. Same survey, same weight, same people, and differences of opposite sign by age.
 
-The ASEC is the one source in this chapter with replicate weights, the survey world's pre-packaged repeated sampling, so these intervals mean what they say. Each uses the 160 successive-difference replicate weights, $$\widehat{\Var}(\hat\theta) = \tfrac{4}{160}\sum_{r=1}^{160}(\hat\theta_r - \hat\theta)^2$$, with 159 degrees of freedom. The interval for a gap comes from the replicate estimates of the gap itself, so it accounts for both measures being computed on the same children. [Chapter 3](/ch03-design#replicate-weights-briefly) and [Lab 3](/ch03-lab-replicates) develop the machinery.
+The ASEC is the one source in this chapter with replicate weights, so its intervals are design-based. Each uses the 160 successive-difference replicate weights, $$\widehat{\Var}(\hat\theta) = \tfrac{4}{160}\sum_{r=1}^{160}(\hat\theta_r - \hat\theta)^2$$, with 159 degrees of freedom. The interval for a gap comes from the replicate estimates of the gap itself, so it accounts for both measures being computed on the same children. [Chapter 3](/ch03-design#replicate-weights-briefly) and [Lab 3](/ch03-lab-replicates) develop the machinery.
+
+Two qualifications travel with these rates until a re-extract resolves them. The official rates use IPUMS's `POVERTY` variable rather than its `OFFPOV` variable, and the SPM rates use the ASEC person weight rather than the SPM weight IPUMS recommends, which this extract lacks. The official rates reproduce <Fact id="ch1.pov_match_official" /> published rates, and the SPM rates are never more than <Fact id="ch1.pov_max_spm_gap" /> percentage points from the published figures, but both are provisional until they are rebuilt from the recommended variable and weight.
 
 <Callout kind="draft" title="Pending pipeline decision #8: official poverty from POVERTY">
 
@@ -183,9 +198,21 @@ The ASEC is the one source in this chapter with replicate weights, the survey wo
 
 ## An oversample by design
 
-<Callout kind="box" title="Classic replication: the PSID's low-income oversample">
+<Callout kind="box" title="Provenance: the PSID's low-income oversample">
 
 The Panel Study of Income Dynamics began in 1968 by combining a national probability sample with a large supplementary sample of low-income families, drawn on purpose to study poverty. A poverty rate computed from the pooled file without weights describes that pooled sample, in which poor families are overrepresented by design. It does not describe the country. Solon, Haider, and Wooldridge use this case to motivate the first reason to weight: when the goal is a population descriptive statistic and units were sampled with unequal probabilities, the weights are what point the estimator at the population quantity <Cite id="solon2015" />. The ATUS weekend oversample is the same situation in a current survey. This draft does not yet reproduce the PSID numbers.
+
+</Callout>
+
+<Callout kind="note" title="A new case">
+
+A survey records a household characteristic, say whether the home is overcrowded, and copies it onto every person record, alongside a household weight and a person weight. An analyst reports the person-weighted share. What has changed relative to the household rate, and when will the two differ?
+
+<Details summary="One answer">
+
+The unit has changed, and with it the estimand. A person-weighted share of a household characteristic counts each household once per member, so it describes people living in such households, not households. The classification is unchanged; the implicit weight on each household is now its size. The two rates differ whenever the characteristic is more or less common in larger households, as food insecurity is more common in households with children. For a household rate, use the household weight on one record per household.
+
+</Details>
 
 </Callout>
 

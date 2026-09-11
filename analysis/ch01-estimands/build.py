@@ -359,8 +359,8 @@ def build_atus() -> None:
         "randomness": ("Sampling (ATUS draws households from those completing the CPS, one person aged "
                        "15+ per household, and assigns the diary day) and response."),
         "variance_estimator": ("Not computed. The store carries no ATUS replicate weights (BLS publishes "
-                               "them as RWT06), so an SE from WT06 alone would understate the "
-                               "uncertainty. Tier: weights_only_understated."),
+                               "them as RWT06), so an SE from WT06 alone would leave out the design, and its "
+                               "error could run in either direction."),
     }
     wt_text = (f"WT06, the ATUS final weight. Each diary counts for the number of person-days it "
                f"represents: the 2023 weights sum to {wsum / 1e9:.1f} billion person-days, about 365 for "
@@ -655,7 +655,7 @@ def build_turnout() -> None:
                              "respondents."),
            randomness="Sampling of housing units, household response to the CPS, and person response to the supplement.",
            variance_estimator=("Not computed: the extract carries no replicate weights or design variables "
-                               "(weights-only tier); an SE from VOSUPPWT alone would understate."),
+                               "(weights-only tier); an SE from VOSUPPWT alone would not be design-based."),
            assumptions=("Supplement nonrespondents did not vote; respondents report their own voting "
                         "accurately. Both are assumptions, not data."),
            facts=["ch1.turnout_census_2020", "ch1.turnout_resp_2020", "ch1.turnout_nonresp_2020"])

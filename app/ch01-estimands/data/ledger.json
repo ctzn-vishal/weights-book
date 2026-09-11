@@ -15,7 +15,7 @@
       "randomness": "Sampling (ATUS draws households from those completing the CPS, one person aged 15+ per household, and assigns the diary day) and response.",
       "target_population": "All 2023 person-days of the U.S. civilian noninstitutional population aged 15 and older",
       "title": "How much do Americans work? All person-days (ATUS 2023)",
-      "variance_estimator": "Not computed. The store carries no ATUS replicate weights (BLS publishes them as RWT06), so an SE from WT06 alone would understate the uncertainty. Tier: weights_only_understated."
+      "variance_estimator": "Not computed. The store carries no ATUS replicate weights (BLS publishes them as RWT06), so an SE from WT06 alone would leave out the design, and its error could run in either direction."
     },
     "atus_work_anywork": {
       "assumptions": "The population is defined by the outcome, so this is a conditional mean (an intensive margin), not a population average.",
@@ -30,7 +30,7 @@
       "randomness": "Sampling (ATUS draws households from those completing the CPS, one person aged 15+ per household, and assigns the diary day) and response.",
       "target_population": "2023 person-days with some work, U.S. civilian noninstitutional population aged 15 and older",
       "title": "Days with any work (ATUS 2023)",
-      "variance_estimator": "Not computed. The store carries no ATUS replicate weights (BLS publishes them as RWT06), so an SE from WT06 alone would understate the uncertainty. Tier: weights_only_understated."
+      "variance_estimator": "Not computed. The store carries no ATUS replicate weights (BLS publishes them as RWT06), so an SE from WT06 alone would leave out the design, and its error could run in either direction."
     },
     "atus_work_employed": {
       "assumptions": "Employment status measured at the ATUS interview describes the diary day.",
@@ -44,7 +44,7 @@
       "randomness": "Sampling (ATUS draws households from those completing the CPS, one person aged 15+ per household, and assigns the diary day) and response.",
       "target_population": "2023 person-days of employed members of the U.S. civilian noninstitutional population aged 15 and older",
       "title": "Employed people, all days (ATUS 2023)",
-      "variance_estimator": "Not computed. The store carries no ATUS replicate weights (BLS publishes them as RWT06), so an SE from WT06 alone would understate the uncertainty. Tier: weights_only_understated."
+      "variance_estimator": "Not computed. The store carries no ATUS replicate weights (BLS publishes them as RWT06), so an SE from WT06 alone would leave out the design, and its error could run in either direction."
     },
     "atus_work_employed_worked": {
       "assumptions": "As above. BLS's headline 'hours worked on days worked' counts time working at jobs only, a narrower activity, so it is yet another estimand.",
@@ -59,7 +59,7 @@
       "randomness": "Sampling (ATUS draws households from those completing the CPS, one person aged 15+ per household, and assigns the diary day) and response.",
       "target_population": "2023 work days of employed members of the U.S. civilian noninstitutional population aged 15 and older",
       "title": "Employed people, on days they worked (ATUS 2023)",
-      "variance_estimator": "Not computed. The store carries no ATUS replicate weights (BLS publishes them as RWT06), so an SE from WT06 alone would understate the uncertainty. Tier: weights_only_understated."
+      "variance_estimator": "Not computed. The store carries no ATUS replicate weights (BLS publishes them as RWT06), so an SE from WT06 alone would leave out the design, and its error could run in either direction."
     },
     "atus_work_unweighted": {
       "assumptions": "Only if the sample were a simple random sample of person-days would this target the population mean. ATUS is not one.",
@@ -74,7 +74,7 @@
       "randomness": "Sampling (ATUS draws households from those completing the CPS, one person aged 15+ per household, and assigns the diary day) and response.",
       "target_population": "All 2023 person-days of the U.S. civilian noninstitutional population aged 15 and older (the same target as the weighted row)",
       "title": "All person-days, unweighted (ATUS 2023)",
-      "variance_estimator": "Not computed. The store carries no ATUS replicate weights (BLS publishes them as RWT06), so an SE from WT06 alone would understate the uncertainty. Tier: weights_only_understated."
+      "variance_estimator": "Not computed. The store carries no ATUS replicate weights (BLS publishes them as RWT06), so an SE from WT06 alone would leave out the design, and its error could run in either direction."
     },
     "atus_work_weekday": {
       "assumptions": "As for all person-days. Holidays that fall on a weekday are included; BLS's own weekday tables exclude them.",
@@ -88,7 +88,7 @@
       "randomness": "Sampling (ATUS draws households from those completing the CPS, one person aged 15+ per household, and assigns the diary day) and response.",
       "target_population": "Monday–Friday person-days in 2023 of the U.S. civilian noninstitutional population aged 15 and older",
       "title": "Weekdays only (ATUS 2023)",
-      "variance_estimator": "Not computed. The store carries no ATUS replicate weights (BLS publishes them as RWT06), so an SE from WT06 alone would understate the uncertainty. Tier: weights_only_understated."
+      "variance_estimator": "Not computed. The store carries no ATUS replicate weights (BLS publishes them as RWT06), so an SE from WT06 alone would leave out the design, and its error could run in either direction."
     },
     "foodsec_children": {
       "assumptions": "A household's classification applies to every child in it. USDA's child-referenced measure, whether the children themselves were food insecure, is a different estimand.",
@@ -151,7 +151,7 @@
       "randomness": "Sampling of housing units, household response to the CPS, and person response to the supplement.",
       "target_population": "U.S. citizens 18 and older in the civilian noninstitutional population, not in the armed forces, November 2020",
       "title": "What was turnout? (CPS November 2020)",
-      "variance_estimator": "Not computed: the extract carries no replicate weights or design variables (weights-only tier); an SE from VOSUPPWT alone would understate."
+      "variance_estimator": "Not computed: the extract carries no replicate weights or design variables (weights-only tier); an SE from VOSUPPWT alone would not be design-based."
     }
   }
 }

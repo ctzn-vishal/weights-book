@@ -7,7 +7,7 @@
     "figures/poverty_official_spm.json": "f99d3a76e862dcec1de99d052ef5ef1b7819855830acc32c86fa09a553363821",
     "figures/poverty_validation.json": "1dcbede5655ac59b0bc8557e00119b7117963eb69f37b19b22830db77cc99cfb",
     "figures/turnout_conventions.json": "e33aec643057c7df0ff9f1b216f326ceadfc69457e8eaddfa39c897b31497cb9",
-    "ledger.json": "311c76d92016615c329c1e9f183e6989f5847d415b10600b0e8d205f455cf0e2"
+    "ledger.json": "48e53069f57723dc967ed36cac47f595b94a100c9784861d1fbeae20acd5bda7"
   },
   "code": "build.py",
   "generated_at": "2026-09-11T01:43:17+00:00",

@@ -15,7 +15,7 @@
       "randomness": "CPS-based household selection, random assignment of one designated day, and response.",
       "target_population": "All person-days in 2023, civilian noninstitutional population 15+.",
       "title": "The day-of-week design weight (ATUS 2023)",
-      "variance_estimator": "Not computed: weights-only file; any SE from these weights understates uncertainty."
+      "variance_estimator": "Not computed: weights-only file; an SE from these weights alone would not be design-based."
     },
     "brfss_fmd": {
       "assumptions": "Nonresponse and coverage bias in FMD run through the raking margins; the small telephone noncoverage is ignorable; self-report measures the construct; Taylor with fixed weights ignores the variability added by estimating the weights.",

@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Fact } from '@/components/book/Fact';
+import { FactPositioner } from '@/components/book/FactPositioner';
 import { TopBar } from '@/components/book/SiteChrome';
 import { SITE_URL } from '@/lib/site';
 import { book, entryHref, entryLabel, splitPartTitle } from '@/lib/toc';
@@ -46,18 +48,32 @@ export default function Home() {
 
         <div className="cv-pitch">
           <p>
-            Applied researchers often ask whether they should use the survey weights. The question is incomplete. A
-            defensible answer separates three decisions: the population quantity the analysis targets, the way each
-            observation enters the estimator, and the sampling or assignment design that governs the uncertainty.
-            Econometrics, survey statistics, epidemiology, and political science each teach part of this problem, with
-            different vocabularies and different defaults.
+            In the November 2020 Current Population Survey, <Fact id="ch1.turnout_census_2020" /> of citizen adults
+            reported voting under the Census Bureau&apos;s convention. Restrict the same file to the people who answered
+            the voting question, keep the survey weights, and the figure becomes <Fact id="ch1.turnout_resp_2020" />.
+            Remove the weights from that second calculation and it moves only to <Fact id="ch1.turnout_unw_2020" />.
           </p>
           <p>
-            This booklet connects the three decisions in one applied workflow. Each chapter starts from a question with
-            two or more defensible-looking answers, such as how much Americans work or how many adults with hypertension
-            have it under control, and shows which decision separates the answers. The data are public surveys applied
-            researchers already use: the American Community Survey, the Current Population Survey, the American Time Use
-            Survey, NHANES, NHIS, and BRFSS. One question recurs throughout.
+            The large disagreement is not about weights. It is about who stays in the denominator. The Census convention
+            keeps the adults who gave no answer and counts them as nonvoters; the respondents-only calculation leaves them
+            out, which treats them as voting at the respondents&apos; rate. Neither calculation reveals how the people who
+            did not answer actually voted. Both describe citizens 18 and older in the civilian noninstitutional
+            population the survey covers, both rest on self-reports, and the extract carries weights but no design
+            information, so the three numbers are compared for what they describe, not tested against one another.
+          </p>
+          <p>
+            Before asking which estimate is right, an analyst has to say what it is meant to describe. That is the first
+            of three decisions this booklet separates. The second is how each observation counts toward the answer. The
+            third is what could have come out differently if the study were repeated.{' '}
+            <Link href="/ch01-estimands#what-was-turnout-in-2020">Chapter 1</Link> works through the turnout example.
+          </p>
+          <p>
+            Every chapter starts from a question with two or more defensible-looking answers, drawn from public surveys
+            applied researchers already use: the American Community Survey, the Current Population Survey, the American
+            Time Use Survey, NHANES, NHIS, and BRFSS. Econometrics, survey statistics, epidemiology, and political science
+            each teach part of the problem, in different vocabularies; the booklet puts them in one workflow. It is
+            written for doctoral students and applied researchers who have taken an econometrics sequence but no course in
+            survey sampling.
           </p>
         </div>
         <blockquote className="cv-mnemonic">
@@ -123,6 +139,7 @@ export default function Home() {
           })}
         </section>
       </main>
+      <FactPositioner />
     </>
   );
 }

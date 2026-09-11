@@ -926,7 +926,7 @@ write_json(FIG / "atus_day_weights.json", {
          "work": rnd(atus["m_we"], 8)},
     ],
     "source": "IPUMS ATUS 2023; allocation from the BLS ATUS User's Guide, section 3.5",
-    "note": f"n = {atus['n']:,}. Weights-only: standard errors from these weights would understate uncertainty.",
+    "note": f"n = {atus['n']:,}. Weights-only extract: standard errors from these weights would not be design-based.",
 })
 write_json(FIG / "kish_table.json", {
     "type": "table",
@@ -996,7 +996,7 @@ ledgers = {
                              "allocation); WT06 adds the rest of the design weight plus nonresponse and population controls."),
         "implicit_weights": "None.",
         "randomness": "CPS-based household selection, random assignment of one designated day, and response.",
-        "variance_estimator": "Not computed: weights-only file; any SE from these weights understates uncertainty.",
+        "variance_estimator": "Not computed: weights-only file; an SE from these weights alone would not be design-based.",
         "assumptions": "The designated-day assignment follows the documented allocation; response on the designated day is ignorable after WT06.",
         "facts": ["ch2.atus_work_unweighted", "ch2.atus_work_design", "ch2.atus_work_weighted"],
     },
