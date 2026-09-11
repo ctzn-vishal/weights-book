@@ -38,6 +38,24 @@
       "volume": "138",
       "year": 2023
     },
+    "adao2019": {
+      "authors": [
+        "Rodrigo Adão",
+        "Michal Kolesár",
+        "Eduardo Morales"
+      ],
+      "doi": "10.1093/qje/qjz025",
+      "issue": "4",
+      "pages": "1949–2010",
+      "publisher": null,
+      "short": "Adão, Kolesár, and Morales",
+      "title": "Shift-Share Designs: Theory and Inference",
+      "url": "https://doi.org/10.1093/qje/qjz025",
+      "venue": "Quarterly Journal of Economics",
+      "verified": "Crossref API (works/10.1093/qje/qjz025), 2026-09-11; Crossref's title carries a trailing asterisk, dropped here",
+      "volume": "134",
+      "year": 2019
+    },
     "anes_cdf": {
       "authors": [
         "American National Election Studies"
@@ -86,6 +104,43 @@
       "verified": "Crossref API (works/10.1111/ajps.12185), 2026-09-10. Online-first date is 2015-04-28 but the official AJPS issue is Vol. 60 No. 1, print-dated January 2016, matching the key; an erratum was later published (AJPS 61(2):504, 2017) but is not a separate registry entry.",
       "volume": "60",
       "year": 2016
+    },
+    "barrios2012": {
+      "authors": [
+        "Thomas Barrios",
+        "Rebecca Diamond",
+        "Guido W. Imbens",
+        "Michal Kolesár"
+      ],
+      "doi": "10.1080/01621459.2012.682524",
+      "issue": "498",
+      "pages": "578–591",
+      "publisher": null,
+      "short": "Barrios et al.",
+      "title": "Clustering, Spatial Correlations, and Randomization Inference",
+      "url": "https://doi.org/10.1080/01621459.2012.682524",
+      "venue": "Journal of the American Statistical Association",
+      "verified": "Crossref API (works/10.1080/01621459.2012.682524), 2026-09-11",
+      "volume": "107",
+      "year": 2012
+    },
+    "berge2026": {
+      "authors": [
+        "Laurent R. Bergé",
+        "Kyle Butts",
+        "Grant McDermott"
+      ],
+      "doi": "10.48550/arXiv.2601.21749",
+      "issue": null,
+      "pages": null,
+      "publisher": "arXiv",
+      "short": "Bergé, Butts, and McDermott",
+      "title": "Fast and User-Friendly Econometrics Estimations: The R Package fixest",
+      "url": "https://doi.org/10.48550/arXiv.2601.21749",
+      "venue": "arXiv preprint 2601.21749",
+      "verified": "citation('fixest') from the installed fixest 0.14.2 (R 4.6.1), 2026-09-11; arXiv DOI not checked against DataCite",
+      "volume": null,
+      "year": 2026
     },
     "bertrand2004": {
       "authors": [
@@ -245,6 +300,24 @@
       "volume": "90",
       "year": 2008
     },
+    "cameron2011": {
+      "authors": [
+        "A. Colin Cameron",
+        "Jonah B. Gelbach",
+        "Douglas L. Miller"
+      ],
+      "doi": "10.1198/jbes.2010.07136",
+      "issue": "2",
+      "pages": "238–249",
+      "publisher": null,
+      "short": "Cameron, Gelbach, and Miller",
+      "title": "Robust Inference With Multiway Clustering",
+      "url": "https://doi.org/10.1198/jbes.2010.07136",
+      "venue": "Journal of Business & Economic Statistics",
+      "verified": "Crossref API (works/10.1198/jbes.2010.07136), 2026-09-11",
+      "volume": "29",
+      "year": 2011
+    },
     "cameron2015": {
       "authors": [
         "A. Colin Cameron",
@@ -261,6 +334,23 @@
       "verified": "Crossref API (works/10.3368/jhr.50.2.317), 2026-09-10",
       "volume": "50",
       "year": 2015
+    },
+    "card1994": {
+      "authors": [
+        "David Card",
+        "Alan B. Krueger"
+      ],
+      "doi": null,
+      "issue": "4",
+      "pages": "772–793",
+      "publisher": null,
+      "short": "Card and Krueger",
+      "title": "Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jersey and Pennsylvania",
+      "url": "https://www.jstor.org/stable/2118030",
+      "venue": "American Economic Review",
+      "verified": "Not machine-verified on 2026-09-11 (AER 1994 has no Crossref DOI; JSTOR stable 2118030 from the author's knowledge). Check volume 84, issue 4, pages 772–793 against JSTOR before final",
+      "volume": "84",
+      "year": 1994
     },
     "census_acs_dm": {
       "authors": [
@@ -312,6 +402,22 @@
       "volume": "110",
       "year": 2023
     },
+    "conley1999": {
+      "authors": [
+        "Timothy G. Conley"
+      ],
+      "doi": "10.1016/S0304-4076(98)00084-0",
+      "issue": "1",
+      "pages": "1–45",
+      "publisher": null,
+      "short": "Conley",
+      "title": "GMM Estimation with Cross Sectional Dependence",
+      "url": "https://doi.org/10.1016/S0304-4076(98)00084-0",
+      "venue": "Journal of Econometrics",
+      "verified": "Crossref API (works/10.1016/S0304-4076(98)00084-0), 2026-09-11; Crossref gives the author as T.G. Conley",
+      "volume": "92",
+      "year": 1999
+    },
     "creamer2022": {
       "authors": [
         "John Creamer",
@@ -362,6 +468,40 @@
       "verified": "Crossref API (works/10.2307/2109723), 2026-09-10 for title/authors/volume/issue/year; closing page cross-checked against IDEAS/RePEc (tpr:restat:v:72:y:1990:i:2:p:328-33), since Crossref's `page` field again gives only the first page (328).",
       "volume": "72",
       "year": 1990
+    },
+    "donald2007": {
+      "authors": [
+        "Stephen G. Donald",
+        "Kevin Lang"
+      ],
+      "doi": "10.1162/rest.89.2.221",
+      "issue": "2",
+      "pages": "221–233",
+      "publisher": null,
+      "short": "Donald and Lang",
+      "title": "Inference with Difference-in-Differences and Other Panel Data",
+      "url": "https://doi.org/10.1162/rest.89.2.221",
+      "venue": "Review of Economics and Statistics",
+      "verified": "Crossref API (works/10.1162/rest.89.2.221), 2026-09-11",
+      "volume": "89",
+      "year": 2007
+    },
+    "driscoll1998": {
+      "authors": [
+        "John C. Driscoll",
+        "Aart C. Kraay"
+      ],
+      "doi": "10.1162/003465398557825",
+      "issue": "4",
+      "pages": "549–560",
+      "publisher": null,
+      "short": "Driscoll and Kraay",
+      "title": "Consistent Covariance Matrix Estimation with Spatially Dependent Panel Data",
+      "url": "https://doi.org/10.1162/003465398557825",
+      "venue": "Review of Economics and Statistics",
+      "verified": "Crossref API (works/10.1162/003465398557825), 2026-09-11",
+      "volume": "80",
+      "year": 1998
     },
     "dumouchel1983": {
       "authors": [
@@ -660,6 +800,22 @@
       "volume": null,
       "year": 1965
     },
+    "krueger1999": {
+      "authors": [
+        "Alan B. Krueger"
+      ],
+      "doi": "10.1162/003355399556052",
+      "issue": "2",
+      "pages": "497–532",
+      "publisher": null,
+      "short": "Krueger",
+      "title": "Experimental Estimates of Education Production Functions",
+      "url": "https://doi.org/10.1162/003355399556052",
+      "venue": "Quarterly Journal of Economics",
+      "verified": "Crossref API (works/10.1162/003355399556052), 2026-09-11; Crossref gives the author as A. B. Krueger",
+      "volume": "114",
+      "year": 1999
+    },
     "leesolon2011": {
       "authors": [
         "Jin Young Lee",
@@ -726,6 +882,23 @@
       "verified": "Crossref API (works/10.1177/00031224211004187), 2026-09-10",
       "volume": "86",
       "year": 2021
+    },
+    "mackinnon2017": {
+      "authors": [
+        "James G. MacKinnon",
+        "Matthew D. Webb"
+      ],
+      "doi": "10.1002/jae.2508",
+      "issue": "2",
+      "pages": "233–254",
+      "publisher": null,
+      "short": "MacKinnon and Webb",
+      "title": "Wild Bootstrap Inference for Wildly Different Cluster Sizes",
+      "url": "https://doi.org/10.1002/jae.2508",
+      "venue": "Journal of Applied Econometrics",
+      "verified": "Crossref API (works/10.1002/jae.2508), 2026-09-11; Crossref's issued date is 2016-02-21 (online first); the issue is vol. 32 no. 2, 2017, so year=2017",
+      "volume": "32",
+      "year": 2017
     },
     "mackinnon2020": {
       "authors": [
@@ -847,6 +1020,23 @@
       "volume": null,
       "year": 2024
     },
+    "newey1987": {
+      "authors": [
+        "Whitney K. Newey",
+        "Kenneth D. West"
+      ],
+      "doi": "10.2307/1913610",
+      "issue": "3",
+      "pages": "703–708",
+      "publisher": null,
+      "short": "Newey and West",
+      "title": "A Simple, Positive Semi-Definite, Heteroskedasticity and Autocorrelation Consistent Covariance Matrix",
+      "url": "https://doi.org/10.2307/1913610",
+      "venue": "Econometrica",
+      "verified": "Crossref API (works/10.2307/1913610), 2026-09-11; Crossref lists the first page only (703); the closing page 708 is from the JSTOR table of contents for vol. 55 no. 3",
+      "volume": "55",
+      "year": 1987
+    },
     "nhanes": {
       "authors": [
         "National Center for Health Statistics"
@@ -891,6 +1081,22 @@
       "verified": "Direct PDF text extraction from cdc.gov/nchs/data/series/sr_02/sr02_175.pdf, 2026-09-10: title page reads “Vital and Health Statistics / Series 2, Number 175 / August 2017”; byline “by the Data Suppression Workgroup: Jennifer D. Parker, Ph.D. ... and Brian W. Ward, Ph.D.” (14 authors), matching ch03-design/NOTES.md's draft byline and title exactly. No DOI: the report's own “Suggested citation” (“...Vital Health Stat 2(175). 2017.”) gives no DOI and no page range — pages left null on that basis, matching the nchs_db511/census_spm/creamer2022/rabbitt2024 convention for report-series items. stacks.cdc.gov's record lists only its internal accession “cdc:47786”; checked both 10.15620/cdc/47786 and 10.15620/cdc:47786 against the Crossref API (2026-09-10) and neither resolves as a real DOI, unlike NCHS's newer (2023) follow-up reports which do carry registered 10.15620/cdc: DOIs — confirming this 2017 report itself was never assigned one.",
       "volume": null,
       "year": 2017
+    },
+    "petersen2009": {
+      "authors": [
+        "Mitchell A. Petersen"
+      ],
+      "doi": "10.1093/rfs/hhn053",
+      "issue": "1",
+      "pages": "435–480",
+      "publisher": null,
+      "short": "Petersen",
+      "title": "Estimating Standard Errors in Finance Panel Data Sets: Comparing Approaches",
+      "url": "https://doi.org/10.1093/rfs/hhn053",
+      "venue": "Review of Financial Studies",
+      "verified": "Crossref API (works/10.1093/rfs/hhn053), 2026-09-11; Crossref's issued date is 2008-06-03 (advance access); the issue is vol. 22 no. 1, 2009, so year=2009",
+      "volume": "22",
+      "year": 2009
     },
     "rabbitt2024": {
       "authors": [

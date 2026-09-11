@@ -143,6 +143,13 @@ function checkFigure(id, g) {
     case 'replicates':
       rows('units');
       break;
+    case 'vcov-menu':
+      rows('options').forEach((o, i) => {
+        if (typeof o?.key !== 'string' || typeof o?.label !== 'string') fail(`options[${i}] needs {key, label}`);
+        if (!isNum(o?.se)) fail(`options[${i}].se must be a number`);
+        role(o?.role, `options[${i}]`);
+      });
+      break;
     default:
       break;
   }

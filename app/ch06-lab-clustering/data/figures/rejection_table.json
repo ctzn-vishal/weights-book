@@ -1,0 +1,284 @@
+{
+  "alt": "Table of eight designs by their candidate vcov arguments with rejection rates and standard-error ratios.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "design",
+      "label": "Design"
+    },
+    {
+      "align": "left",
+      "key": "estimator",
+      "label": "Estimator"
+    },
+    {
+      "align": "left",
+      "key": "code",
+      "label": "fixest"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "reject",
+      "label": "Rejects"
+    },
+    {
+      "align": "right",
+      "format": "ratio2",
+      "key": "ratio",
+      "label": "SE × IID"
+    },
+    {
+      "align": "left",
+      "key": "verdict",
+      "label": "Verdict"
+    }
+  ],
+  "highlight_key": "reject",
+  "rows": [
+    {
+      "code": "vcov = \"hetero\"",
+      "design": "Experiment, students randomized",
+      "estimator": "HC1, no clustering",
+      "ratio": 1.0004,
+      "reject": 0.039,
+      "verdict": "matches the design"
+    },
+    {
+      "code": "vcov = ~classroom",
+      "design": "Experiment, students randomized",
+      "estimator": "cluster by classroom",
+      "ratio": 1.446,
+      "reject": 0.004,
+      "verdict": "valid, coarser or more conservative than needed"
+    },
+    {
+      "code": "vcov = ~school",
+      "design": "Experiment, students randomized",
+      "estimator": "cluster by school",
+      "ratio": 1.4572,
+      "reject": 0.005,
+      "verdict": "valid, coarser or more conservative than needed"
+    },
+    {
+      "code": "vcov = \"hetero\"",
+      "design": "Experiment, classrooms randomized",
+      "estimator": "HC1, no clustering",
+      "ratio": 1.0,
+      "reject": 0.445,
+      "verdict": "misses part of the dependence"
+    },
+    {
+      "code": "vcov = ~classroom",
+      "design": "Experiment, classrooms randomized",
+      "estimator": "cluster by classroom",
+      "ratio": 2.4671,
+      "reject": 0.076,
+      "verdict": "matches the design"
+    },
+    {
+      "code": "vcov = ~school",
+      "design": "Experiment, classrooms randomized",
+      "estimator": "cluster by school",
+      "ratio": 2.8382,
+      "reject": 0.037,
+      "verdict": "valid, coarser or more conservative than needed"
+    },
+    {
+      "code": "vcov = \"iid\"",
+      "design": "State-level regressor",
+      "estimator": "IID (fixest default)",
+      "ratio": 1.0,
+      "reject": 0.751,
+      "verdict": "misses part of the dependence"
+    },
+    {
+      "code": "vcov = \"hetero\"",
+      "design": "State-level regressor",
+      "estimator": "HC1, no clustering",
+      "ratio": 0.9952,
+      "reject": 0.756,
+      "verdict": "misses part of the dependence"
+    },
+    {
+      "code": "vcov = ~state",
+      "design": "State-level regressor",
+      "estimator": "cluster by state",
+      "ratio": 6.1511,
+      "reject": 0.061,
+      "verdict": "matches the design"
+    },
+    {
+      "code": "vcov = \"hetero\"",
+      "design": "DiD, 50 states, AR(1) shocks",
+      "estimator": "HC1, no clustering",
+      "ratio": 1.0,
+      "reject": 0.477,
+      "verdict": "misses part of the dependence"
+    },
+    {
+      "code": "vcov = ~state^year",
+      "design": "DiD, 50 states, AR(1) shocks",
+      "estimator": "cluster by state-year",
+      "ratio": 1.4783,
+      "reject": 0.283,
+      "verdict": "misses part of the dependence"
+    },
+    {
+      "code": "vcov = ~state",
+      "design": "DiD, 50 states, AR(1) shocks",
+      "estimator": "cluster by state",
+      "ratio": 2.7387,
+      "reject": 0.052,
+      "verdict": "matches the design"
+    },
+    {
+      "code": "vcov = ~state + year",
+      "design": "DiD, 50 states, AR(1) shocks",
+      "estimator": "two-way: state and year",
+      "ratio": 2.7097,
+      "reject": 0.048,
+      "verdict": "valid, coarser or more conservative than needed"
+    },
+    {
+      "code": "vcov = \"hetero\"",
+      "design": "DiD, 10 states, AR(1) shocks",
+      "estimator": "HC1, no clustering",
+      "ratio": 1.0006,
+      "reject": 0.481,
+      "verdict": "misses part of the dependence"
+    },
+    {
+      "code": "vcov = ~state^year",
+      "design": "DiD, 10 states, AR(1) shocks",
+      "estimator": "cluster by state-year",
+      "ratio": 1.4199,
+      "reject": 0.308,
+      "verdict": "misses part of the dependence"
+    },
+    {
+      "code": "vcov = ~state",
+      "design": "DiD, 10 states, AR(1) shocks",
+      "estimator": "cluster by state",
+      "ratio": 2.5781,
+      "reject": 0.055,
+      "verdict": "matches the design"
+    },
+    {
+      "code": "vcov = ~state + year",
+      "design": "DiD, 10 states, AR(1) shocks",
+      "estimator": "two-way: state and year",
+      "ratio": 2.5392,
+      "reject": 0.059,
+      "verdict": "valid, coarser or more conservative than needed"
+    },
+    {
+      "code": "vcov = \"hetero\"",
+      "design": "Region x industry cells",
+      "estimator": "HC1, no clustering",
+      "ratio": 0.9954,
+      "reject": 0.407,
+      "verdict": "misses part of the dependence"
+    },
+    {
+      "code": "vcov = ~region",
+      "design": "Region x industry cells",
+      "estimator": "cluster by region",
+      "ratio": 1.5306,
+      "reject": 0.191,
+      "verdict": "misses part of the dependence"
+    },
+    {
+      "code": "vcov = ~industry",
+      "design": "Region x industry cells",
+      "estimator": "cluster by industry",
+      "ratio": 1.7903,
+      "reject": 0.119,
+      "verdict": "misses part of the dependence"
+    },
+    {
+      "code": "vcov = ~region + industry",
+      "design": "Region x industry cells",
+      "estimator": "two-way: region and industry",
+      "ratio": 2.1516,
+      "reject": 0.058,
+      "verdict": "matches the design"
+    },
+    {
+      "code": "vcov = \"hetero\"",
+      "design": "Spatial lattice, 150 km range",
+      "estimator": "HC1, no clustering",
+      "ratio": 0.9934,
+      "reject": 0.511,
+      "verdict": "misses part of the dependence"
+    },
+    {
+      "code": "vcov = ~block",
+      "design": "Spatial lattice, 150 km range",
+      "estimator": "cluster by 25 arbitrary blocks",
+      "ratio": 2.2377,
+      "reject": 0.132,
+      "verdict": "misses part of the dependence"
+    },
+    {
+      "code": "vcov = conley(100) ~ lat + lon",
+      "design": "Spatial lattice, 150 km range",
+      "estimator": "Conley, 100 km cutoff",
+      "ratio": 1.8891,
+      "reject": 0.227,
+      "verdict": "misses part of the dependence"
+    },
+    {
+      "code": "vcov = conley(300) ~ lat + lon",
+      "design": "Spatial lattice, 150 km range",
+      "estimator": "Conley, 300 km cutoff",
+      "ratio": 2.5235,
+      "reject": 0.095,
+      "verdict": "matches the design"
+    },
+    {
+      "code": "vcov = conley(600) ~ lat + lon",
+      "design": "Spatial lattice, 150 km range",
+      "estimator": "Conley, 600 km cutoff",
+      "ratio": 2.2079,
+      "reject": 0.193,
+      "verdict": "cutoff too wide: the variance estimate is itself noisy"
+    },
+    {
+      "code": "vcov = ~id",
+      "design": "Panel, persistent common shocks",
+      "estimator": "cluster by unit",
+      "ratio": 1.1217,
+      "reject": 0.399,
+      "verdict": "misses part of the dependence"
+    },
+    {
+      "code": "vcov = NW(8) ~ id + time",
+      "design": "Panel, persistent common shocks",
+      "estimator": "Newey-West within unit, 8 lags",
+      "ratio": 1.169,
+      "reject": 0.375,
+      "verdict": "misses part of the dependence"
+    },
+    {
+      "code": "vcov = ~id + time",
+      "design": "Panel, persistent common shocks",
+      "estimator": "two-way: unit and period",
+      "ratio": 1.7538,
+      "reject": 0.169,
+      "verdict": "misses part of the dependence"
+    },
+    {
+      "code": "vcov = DK(8) ~ time",
+      "design": "Panel, persistent common shocks",
+      "estimator": "Driscoll-Kraay, 8 lags",
+      "ratio": 2.381,
+      "reject": 0.073,
+      "verdict": "matches the design"
+    }
+  ],
+  "source": "Simulation: sim.R with R fixest (this chapter); no survey data",
+  "subtitle": "Rejection rate of a nominal 5% test under a true null, and the mean standard error relative to IID",
+  "title": "The menu, scored",
+  "type": "table"
+}

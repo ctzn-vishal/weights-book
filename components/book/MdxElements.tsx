@@ -62,13 +62,14 @@ export function MdxTable(props: ComponentPropsWithoutRef<'table'>) {
   );
 }
 
-/** Fenced code: monospace, no highlighter, with the language as a small label. */
-export function MdxPre({ children, ...rest }: ComponentPropsWithoutRef<'pre'>) {
-  let lang: string | null = null;
-  if (isValidElement<{ className?: string }>(children)) {
+/** Fenced code, highlighted at build time by rehype-pretty-code, with the language as a small label. */
+export function MdxPre({ children, ...rest }: ComponentPropsWithoutRef<'pre'> & { 'data-language'?: string }) {
+  let lang: string | null = rest['data-language'] ?? null;
+  if (!lang && isValidElement<{ className?: string; 'data-language'?: string }>(children)) {
     const m = /language-([\w+-]+)/.exec(children.props.className ?? '');
-    if (m) lang = m[1];
+    lang = m ? m[1] : (children.props['data-language'] ?? null);
   }
+  if (lang === 'text') lang = null;
   return (
     <div className="bk-code">
       {lang ? <span className="bk-code-lang">{lang}</span> : null}

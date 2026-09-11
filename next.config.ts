@@ -40,6 +40,10 @@ const withMDX = createMDX({
     rehypePlugins: [
       ['rehype-slug', {}],
       ['rehype-katex', { macros: katexMacros, strict: 'ignore' }],
+      // Build-time syntax highlighting. Both themes are emitted as CSS variables on
+      // every token (--shiki-light / --shiki-dark); app/globals.css picks one by the
+      // html.dark class, so the page's own theme toggle drives the code colours.
+      ['rehype-pretty-code', { theme: { light: 'github-light', dark: 'github-dark-dimmed' }, keepBackground: false, defaultLang: 'text' }],
     ],
   },
 });

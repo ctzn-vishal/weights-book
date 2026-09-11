@@ -525,6 +525,14 @@ html:has(.bk-drawer[open]) { overflow: hidden; }
   font: 500 0.625rem var(--font-sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted);
 }
 
+/* Syntax highlighting (rehype-pretty-code / shiki). Each token carries both themes as
+   custom properties; the html.dark class chooses. Backgrounds stay the page's own. */
+.bk-code pre code { display: block; font: inherit; background: transparent; padding: 0; }
+.bk-code pre [data-line] { padding: 0; }
+.bk-code code[data-theme] span { color: var(--shiki-light); }
+html.dark .bk-code code[data-theme] span { color: var(--shiki-dark); }
+.bk-code pre [data-highlighted-line] { background: var(--accent-subtle); margin: 0 -1rem; padding: 0 1rem; }
+
 .bk-table-scroll { overflow-x: auto; }
 
 /* Room to the right of the reading column: the sidenote margin on xl screens, otherwise the empty

@@ -129,6 +129,15 @@ export const book: BookManifest = {
           credential: 'ACS 2011–2019 · Medicaid expansion · few-cluster inference',
           status: 'draft',
         },
+        {
+          slug: 'ch06-lab-clustering',
+          key: 'ch6lab',
+          number: 'Lab 6',
+          title: 'Lab: Which Cluster? The Variance Menu in fixest',
+          dek: 'Six designs whose source of variation is known by construction score every vcov argument, and one procedure picks the right one.',
+          credential: 'Simulation · fixest 0.14 · pyfixest cross-check · 1,000 draws per design',
+          status: 'draft',
+        },
       ],
     },
     {

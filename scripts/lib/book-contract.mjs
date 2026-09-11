@@ -18,6 +18,7 @@ export const GLOBAL_COMPONENTS = [
 export const WIDGETS = [
   'PopulationSampler', 'WeightBuilder', 'HiddenEffectWeights',
   'EstimandSwitcher', 'ReplicateRanking', 'ClusterDesignWorksheet',
+  'VcovExplorer', 'RejectionGrid',
 ];
 
 /** Widgets that read a figure artifact: the prop naming it and the type it must have. */
@@ -25,10 +26,12 @@ export const WIDGET_DATA = {
   EstimandSwitcher: { prop: 'id', type: 'estimand-set' },
   ReplicateRanking: { prop: 'id', type: 'replicates' },
   HiddenEffectWeights: { prop: 'cellsId', type: 'cells' },
+  VcovExplorer: { prop: 'id', type: 'vcov-menu' },
+  RejectionGrid: { prop: 'id', type: 'table' },
 };
 
 export const CHART_TYPES = ['dot', 'bar', 'line', 'slope', 'table', 'histogram'];
-export const WIDGET_TYPES = ['cells', 'estimand-set', 'replicates'];
+export const WIDGET_TYPES = ['cells', 'estimand-set', 'replicates', 'vcov-menu'];
 export const FIGURE_TYPES = [...CHART_TYPES, ...WIDGET_TYPES];
 
 export const FORMATS = ['pct0', 'pct1', 'pct2', 'num0', 'num1', 'num2', 'num3', 'int', 'usd0', 'min0', 'min1', 'ratio2'];

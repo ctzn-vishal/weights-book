@@ -1,0 +1,174 @@
+{
+  "alt": "Interactive: choosing a variance estimator shows its standard error, interval and p-value for the same coefficient, what it assumes, and the code in R, Python and Stata.",
+  "coef": -0.0149,
+  "coef_display": "−0.015",
+  "format": "num3",
+  "n_obs": 10000,
+  "note": "Ratios are relative to the IID standard error. Verdicts follow the design: the policy is assigned to states and state shocks persist across years.",
+  "options": [
+    {
+      "arg": {
+        "python": "vcov=\"iid\"",
+        "r": "vcov = \"iid\"",
+        "stata": ""
+      },
+      "assumes": "Every observation is an independent draw with the same error variance. Ten people in the same state and year, and the same state in consecutive years, are treated as unrelated.",
+      "ci_display": "−0.094–0.065",
+      "ci_high": 0.0646,
+      "ci_low": -0.0944,
+      "code": {
+        "python": "pf.feols(\"y ~ d | state + year\", data=panel, vcov=\"iid\")",
+        "r": "feols(y ~ d | state + year, data = panel, vcov = \"iid\")",
+        "stata": "reghdfe y d, absorb(state year)"
+      },
+      "key": "iid",
+      "label": "IID (fixest 0.13+ default)",
+      "p": 0.7137,
+      "p_display": "0.714",
+      "ratio": 1.0,
+      "ratio_display": "1.00×",
+      "role": "naive",
+      "se": 0.040547,
+      "se_display": "0.041",
+      "verdict": "wrong"
+    },
+    {
+      "arg": {
+        "python": "vcov=\"hetero\"",
+        "r": "vcov = \"hetero\"",
+        "stata": "vce(robust)"
+      },
+      "assumes": "Error variances may differ across observations, but no two observations are correlated. Heteroskedasticity is not the problem in this design, so the number barely moves.",
+      "ci_display": "−0.095–0.065",
+      "ci_high": 0.0649,
+      "ci_low": -0.0947,
+      "code": {
+        "python": "pf.feols(\"y ~ d | state + year\", data=panel, vcov=\"hetero\")",
+        "r": "feols(y ~ d | state + year, data = panel, vcov = \"hetero\")",
+        "stata": "reghdfe y d, absorb(state year) vce(robust)"
+      },
+      "key": "hetero",
+      "label": "HC1",
+      "p": 0.7149,
+      "p_display": "0.715",
+      "ratio": 1.0043,
+      "ratio_display": "1.00×",
+      "role": "naive",
+      "se": 0.040722,
+      "se_display": "0.041",
+      "verdict": "wrong"
+    },
+    {
+      "arg": {
+        "python": "vcov={\"CRV1\": \"state_year\"}",
+        "r": "vcov = ~state^year",
+        "stata": "vce(cluster state_year)"
+      },
+      "assumes": "People in the same state and year may be correlated in any way; a state's consecutive years are independent. Persistent state shocks and a policy that stays on violate this.",
+      "ci_display": "−0.136–0.106",
+      "ci_high": 0.1064,
+      "ci_low": -0.1362,
+      "code": {
+        "python": "pf.feols(\"y ~ d | state + year\", data=panel, vcov={\"CRV1\": \"state_year\"})",
+        "r": "feols(y ~ d | state + year, data = panel, vcov = ~state^year)",
+        "stata": "egen state_year = group(state year)\nreghdfe y d, absorb(state year) vce(cluster state_year)"
+      },
+      "key": "stateyear",
+      "label": "Cluster by state-year",
+      "p": 0.8099,
+      "p_display": "0.810",
+      "ratio": 1.5247,
+      "ratio_display": "1.52×",
+      "role": "naive",
+      "se": 0.061821,
+      "se_display": "0.062",
+      "verdict": "wrong"
+    },
+    {
+      "arg": {
+        "python": "vcov={\"CRV1\": \"state+year\"}",
+        "r": "vcov = ~state + year",
+        "stata": "vce(cluster state year)"
+      },
+      "assumes": "Observations may be correlated within a state across all years, and within a year across all states. Valid here; the year dimension adds little because year shocks are absorbed by the fixed effects.",
+      "ci_display": "−0.228–0.199",
+      "ci_high": 0.1986,
+      "ci_low": -0.2284,
+      "code": {
+        "python": "pf.feols(\"y ~ d | state + year\", data=panel, vcov={\"CRV1\": \"state+year\"})",
+        "r": "feols(y ~ d | state + year, data = panel, vcov = ~state + year)",
+        "stata": "reghdfe y d, absorb(state year) vce(cluster state year)"
+      },
+      "key": "twoway",
+      "label": "Two-way: state and year",
+      "p": 0.8856,
+      "p_display": "0.886",
+      "ratio": 2.5156,
+      "ratio_display": "2.52×",
+      "role": "design",
+      "se": 0.102001,
+      "se_display": "0.102",
+      "verdict": "valid"
+    },
+    {
+      "arg": {
+        "python": "vcov={\"CRV1\": \"state\"}",
+        "r": "vcov = ~state",
+        "stata": "vce(cluster state)"
+      },
+      "assumes": "Observations within a state may be correlated in any way across people and years; states are independent. The policy was assigned to states and the shocks persist within them: this is the design.",
+      "ci_display": "−0.225–0.195",
+      "ci_high": 0.1949,
+      "ci_low": -0.2247,
+      "code": {
+        "python": "pf.feols(\"y ~ d | state + year\", data=panel, vcov={\"CRV1\": \"state\"})",
+        "r": "feols(y ~ d | state + year, data = panel, vcov = ~state)",
+        "stata": "reghdfe y d, absorb(state year) vce(cluster state)"
+      },
+      "key": "state",
+      "label": "Cluster by state (fixest <= 0.12 default)",
+      "p": 0.8873,
+      "p_display": "0.887",
+      "ratio": 2.5745,
+      "ratio_display": "2.57×",
+      "role": "highlight",
+      "se": 0.10439,
+      "se_display": "0.104",
+      "verdict": "right"
+    },
+    {
+      "arg": {
+        "python": "vcov=\"DK\", vcov_kwargs={\"time_id\": \"year\", \"lag\": 4}",
+        "r": "vcov = DK(4) ~ year",
+        "stata": "xtscc ... lag(4)"
+      },
+      "assumes": "Correlation across all states within a year and across years up to the lag, through the period sums of the scores. Built for panels with long time dimensions and common shocks; 20 years is short for it.",
+      "ci_display": "−0.160–0.130",
+      "ci_high": 0.1304,
+      "ci_low": -0.1602,
+      "code": {
+        "python": "pf.feols(\"y ~ d | state + year\", data=panel, vcov=\"DK\", vcov_kwargs={\"time_id\": \"year\", \"lag\": 4})",
+        "r": "feols(y ~ d | state + year, data = panel, vcov = DK(4) ~ year)",
+        "stata": "xtset state year\nxtscc y d i.year, fe lag(4)"
+      },
+      "key": "dk",
+      "label": "Driscoll-Kraay, 4 lags",
+      "p": 0.8326,
+      "p_display": "0.833",
+      "ratio": 1.7121,
+      "ratio_display": "1.71×",
+      "role": "muted",
+      "se": 0.069422,
+      "se_display": "0.069",
+      "verdict": "noisy"
+    }
+  ],
+  "source": "Simulation: sim.R with R fixest (this chapter); no survey data",
+  "states": 50,
+  "subtitle": "The opening panel: 50 states, 20 years, a placebo policy with a true effect of zero. Choose an estimator.",
+  "title": "One coefficient, one argument, six answers",
+  "treated_states": 25,
+  "truth": 0,
+  "type": "vcov-menu",
+  "years": 20
+}

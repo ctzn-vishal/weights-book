@@ -11,6 +11,7 @@ const WIDGET_FOR: Record<string, string> = {
   cells: 'HiddenEffectWeights cellsId',
   'estimand-set': 'EstimandSwitcher id',
   replicates: 'ReplicateRanking id',
+  'vcov-menu': 'VcovExplorer id',
 };
 
 export interface ChartProps {

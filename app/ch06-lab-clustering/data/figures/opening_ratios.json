@@ -1,0 +1,42 @@
+{
+  "alt": "Six horizontal bars: IID, HC1 and state-year clustering are near one; two-way and Driscoll-Kraay are larger; clustering by state is the largest, several times the IID value.",
+  "format": "ratio2",
+  "note": "Same data, same coefficient; only the vcov argument to feols changes.",
+  "rows": [
+    {
+      "label": "IID (fixest 0.13+ default)",
+      "role": "naive",
+      "value": 1.0
+    },
+    {
+      "label": "HC1",
+      "role": "naive",
+      "value": 1.0043
+    },
+    {
+      "label": "Cluster by state-year",
+      "role": "naive",
+      "value": 1.5247
+    },
+    {
+      "label": "Two-way: state and year",
+      "role": "design",
+      "value": 2.5156
+    },
+    {
+      "label": "Cluster by state (fixest <= 0.12 default)",
+      "role": "highlight",
+      "value": 2.5745
+    },
+    {
+      "label": "Driscoll-Kraay, 4 lags",
+      "role": "cat1",
+      "value": 1.7121
+    }
+  ],
+  "source": "Simulation: sim.R with R fixest (this chapter); no survey data",
+  "subtitle": "Placebo state policy in a simulated 50-state panel; standard error relative to the IID value",
+  "title": "One coefficient, six standard errors",
+  "type": "bar",
+  "x_label": "Standard error × IID standard error"
+}

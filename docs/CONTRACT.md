@@ -306,6 +306,8 @@ Zero errors required. Every remaining warning is either fixed or explained in NO
 | `EstimandSwitcher` | `id` | `type:"estimand-set"`: `{question, format, options:[{id, label, unit, weight, estimate, display, n, note?, ledger?}]}` |
 | `ReplicateRanking` | `id` | `type:"replicates"`: `{measure_label, format, method:"SDR", n_reps:80, scale:0.05, top_k, units:[{id, label, estimate, reps:number[]}]}` |
 | `ClusterDesignWorksheet` | none | rule-based, no data |
+| `VcovExplorer` | `id` | `type:"vcov-menu"`: `{coef, coef_display, truth, n_obs, options:[{key, label, assumes, verdict, role, se, ratio, ci_low, ci_high, p, *_display, code:{r,python,stata}, arg:{r,python,stata}}]}` |
+| `RejectionGrid` | `id` | a `type:"table"` figure with columns `design, estimator, code, reject, ratio, verdict` (sortable, filterable) |
 
 Use only CSS custom properties from `app/globals.css` (`--role-*`, `--chart-*`,
 `--text*`, `--surface*`, `--border*`, `--accent`). Charts never hard-code a colour.

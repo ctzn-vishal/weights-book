@@ -206,8 +206,42 @@ export interface ReplicatesFigure extends FigureBase {
   units: ReplicateUnit[];
 }
 
+export type CodeLang = 'r' | 'python' | 'stata';
+export interface VcovOption {
+  key: string;
+  label: string;
+  /** One or two sentences: what this estimator lets the errors do. */
+  assumes: string;
+  verdict: 'right' | 'valid' | 'wrong' | 'noisy';
+  role?: Role;
+  se: number;
+  ratio: number;
+  ci_low: number;
+  ci_high: number;
+  p: number;
+  se_display: string;
+  ratio_display: string;
+  p_display: string;
+  ci_display: string;
+  code: Record<CodeLang, string>;
+  /** The substring of `code` that changes between options (highlighted). */
+  arg: Record<CodeLang, string>;
+}
+/** Lab 6: one coefficient under several vcov arguments (VcovExplorer). */
+export interface VcovMenuFigure extends FigureBase {
+  type: 'vcov-menu';
+  coef: number;
+  coef_display: string;
+  truth: number;
+  n_obs: number;
+  states: number;
+  years: number;
+  treated_states: number;
+  options: VcovOption[];
+}
+
 export type ChartFigure = DotFigure | BarFigure | LineFigure | SlopeFigure | TableFigure | HistogramFigure;
-export type WidgetFigure = CellsFigure | EstimandSetFigure | ReplicatesFigure;
+export type WidgetFigure = CellsFigure | EstimandSetFigure | ReplicatesFigure | VcovMenuFigure;
 export type Figure = ChartFigure | WidgetFigure;
 
 // ------------------------------------------------------------ references

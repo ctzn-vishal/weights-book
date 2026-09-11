@@ -1,0 +1,154 @@
+{
+  "alpha": 0.05,
+  "code": "build.py; sim.R",
+  "designs": {
+    "common": {
+      "extra": {
+        "periods": 400,
+        "rho": 0.7,
+        "units": 50
+      },
+      "n_obs": 20000,
+      "seconds": 62.4,
+      "seed": 651
+    },
+    "did_g10": {
+      "extra": {
+        "per_cell": 10,
+        "rho": 0.8,
+        "states": 10,
+        "years": 20
+      },
+      "n_obs": 2000,
+      "seconds": 37.2,
+      "seed": 622
+    },
+    "did_g50": {
+      "extra": {
+        "per_cell": 10,
+        "rho": 0.8,
+        "states": 50,
+        "years": 20
+      },
+      "n_obs": 10000,
+      "seconds": 34.4,
+      "seed": 621
+    },
+    "exp_classroom": {
+      "extra": {
+        "classrooms": 160,
+        "schools": 40,
+        "students": 4000
+      },
+      "n_obs": 4000,
+      "seconds": 12.7,
+      "seed": 602
+    },
+    "exp_individual": {
+      "extra": {
+        "classrooms": 160,
+        "schools": 40,
+        "students": 4000
+      },
+      "n_obs": 4000,
+      "seconds": 12.5,
+      "seed": 601
+    },
+    "moulton": {
+      "extra": {
+        "icc": 0.2,
+        "moulton_factor": 6.3874877691,
+        "per_state": 200,
+        "states": 50
+      },
+      "n_obs": 10000,
+      "seconds": 11.5,
+      "seed": 611
+    },
+    "spatial": {
+      "extra": {
+        "blocks": 25,
+        "points": 1600,
+        "range_km": 150,
+        "spacing_deg": 0.5
+      },
+      "n_obs": 1600,
+      "seconds": 175.7,
+      "seed": 641
+    },
+    "twoway": {
+      "extra": {
+        "industries": 30,
+        "regions": 50
+      },
+      "n_obs": 1500,
+      "seconds": 33.5,
+      "seed": 631
+    }
+  },
+  "generated_at": "2026-09-11T23:51:07+00:00",
+  "inputs": [
+    {
+      "note": "No survey data. Every number is simulated by sim.R (R 4.6.1, fixest 0.14.2)",
+      "path": null,
+      "rows": null
+    }
+  ],
+  "key": "ch6lab",
+  "reps": 1000,
+  "slug": "ch06-lab-clustering",
+  "software": {
+    "R": "4.6.1",
+    "fixest": "0.14.2",
+    "ssc": "K.adj = TRUE, K.fixef = 'nonnested', G.adj = TRUE, G.df = 'min', t.df = 'min' (fixest defaults)"
+  },
+  "validation": [
+    {
+      "check": "opening draw SE, IID (fixest 0.13+ default)",
+      "detail": "pyfixest 0.60.0, vcov='iid'; coefficient matches to 1.1e-13",
+      "fixest": 0.04054696,
+      "pyfixest": 0.04054696,
+      "rel_diff": 1e-12,
+      "status": "PASS"
+    },
+    {
+      "check": "opening draw SE, HC1",
+      "detail": "pyfixest 0.60.0, vcov='hetero'; coefficient matches to 1.1e-13",
+      "fixest": 0.04072245,
+      "pyfixest": 0.04072245,
+      "rel_diff": 6.9e-12,
+      "status": "PASS"
+    },
+    {
+      "check": "opening draw SE, Cluster by state-year",
+      "detail": "pyfixest 0.60.0, vcov={'CRV1': 'stateyear'}; coefficient matches to 1.1e-13",
+      "fixest": 0.06182091,
+      "pyfixest": 0.06182091,
+      "rel_diff": 1.04e-12,
+      "status": "PASS"
+    },
+    {
+      "check": "opening draw SE, Two-way: state and year",
+      "detail": "pyfixest 0.60.0, vcov={'CRV1': 'state+year'}; coefficient matches to 1.1e-13",
+      "fixest": 0.10200145,
+      "pyfixest": 0.10200145,
+      "rel_diff": 3.71e-11,
+      "status": "PASS"
+    },
+    {
+      "check": "opening draw SE, Cluster by state (fixest <= 0.12 default)",
+      "detail": "pyfixest 0.60.0, vcov={'CRV1': 'state'}; coefficient matches to 1.1e-13",
+      "fixest": 0.10438954,
+      "pyfixest": 0.10438954,
+      "rel_diff": 7.35e-12,
+      "status": "PASS"
+    },
+    {
+      "check": "Moulton factor",
+      "detail": "sqrt(1 + (n_g - 1) rho) for a regressor constant within equal-sized clusters, versus the mean CRV1/IID ratio across replications",
+      "mean_ratio_state_to_iid": 6.151,
+      "predicted": 6.387,
+      "status": "INFO"
+    }
+  ]
+}
