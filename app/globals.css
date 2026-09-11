@@ -109,42 +109,48 @@
   --shadow-pop: 0 10px 28px oklch(0.2 0.02 260 / 0.13), 0 2px 6px oklch(0.2 0.02 260 / 0.08);
 }
 
+/* Dark: a warm charcoal ground and soft paper-white ink, not black and white. Body text sits near
+   11.5:1 on the canvas instead of 16:1, which reads with far less glare on long serif text; secondary
+   text keeps 7.3:1 or more and muted text 5.3:1 or more on every surface. Surfaces step up in
+   lightness to show elevation (sunken, canvas, surface). Neutrals lean warm to match the paper of the
+   light theme, and the accent and chart hues are calmed slightly so they do not glow. */
 .dark {
-  --canvas:          oklch(0.155 0.008 265);
-  --surface:         oklch(0.192 0.010 265);
-  --surface-sunken:  oklch(0.128 0.008 265);
-  --border:          oklch(0.300 0.012 265);
-  --border-strong:   oklch(0.410 0.014 265);
-  --text:            oklch(0.930 0.006 90);
-  --text-secondary:  oklch(0.770 0.010 260);
-  --text-muted:      oklch(0.650 0.012 260);
-  --accent:          oklch(0.760 0.130 70);
-  --accent-ink:      oklch(0.800 0.120 75);
-  --accent-subtle:   oklch(0.300 0.050 70);
-  --positive:        oklch(0.700 0.120 155);
-  --negative:        oklch(0.680 0.160 27);
-  --warning:         oklch(0.780 0.130 80);
-  --chart-grid:       oklch(0.265 0.010 265);
-  --chart-axis:       oklch(0.420 0.012 265);
-  --chart-label:      oklch(0.770 0.010 260);
-  --chart-tick:       oklch(0.650 0.012 260);
-  --chart-annotation: oklch(0.930 0.006 90);
-  --chart-band:       oklch(0.930 0.006 90 / 0.09);
-  --chart-mark:       oklch(0.780 0.015 260);
-  --chart-fill:       oklch(0.560 0.015 260);
-  /* categorical steps selected for the dark ground (not inverted): inside the
-     dark lightness band, adjacent CVD worst ΔE 9.0, normal-vision floor 17.4 */
-  --cat-1: oklch(0.660 0.130 250);
-  --cat-2: oklch(0.600 0.160 38);
-  --cat-3: oklch(0.665 0.125 160);
-  --cat-4: oklch(0.620 0.130 78);
-  --cat-5: oklch(0.550 0.165 305);
-  --cat-6: oklch(0.665 0.105 220);
-  --cat-7: oklch(0.600 0.160 8);
-  --cat-8: oklch(0.620 0.020 70);
-  --role-unweighted: oklch(0.640 0.015 260);
-  --role-naive:      oklch(0.520 0.012 260);
-  --shadow-pop: 0 10px 28px oklch(0 0 0 / 0.5), 0 2px 6px oklch(0 0 0 / 0.35);
+  --canvas:          oklch(0.225 0.006 75);
+  --surface:         oklch(0.262 0.007 75);
+  --surface-sunken:  oklch(0.198 0.006 75);
+  --border:          oklch(0.345 0.008 75);
+  --border-strong:   oklch(0.455 0.010 75);
+  --text:            oklch(0.870 0.012 85);
+  --text-secondary:  oklch(0.765 0.012 80);
+  --text-muted:      oklch(0.680 0.012 80);
+  --accent:          oklch(0.745 0.105 68);
+  --accent-ink:      oklch(0.795 0.095 72);
+  --accent-subtle:   oklch(0.320 0.040 70);
+  --positive:        oklch(0.720 0.100 155);
+  --negative:        oklch(0.700 0.130 27);
+  --warning:         oklch(0.780 0.110 80);
+  --chart-grid:       oklch(0.305 0.008 75);
+  --chart-axis:       oklch(0.465 0.010 75);
+  --chart-label:      oklch(0.765 0.012 80);
+  --chart-tick:       oklch(0.680 0.012 80);
+  --chart-annotation: oklch(0.870 0.012 85);
+  --chart-band:       oklch(0.870 0.012 85 / 0.08);
+  --chart-mark:       oklch(0.780 0.012 80);
+  --chart-fill:       oklch(0.600 0.014 80);
+  /* categorical steps for this ground: the earlier dark set lifted uniformly (+0.05 L) so neighbours
+     keep their lightness spacing, with the two most saturated hues calmed. Every mark clears 4:1 on the
+     canvas; adjacent CVD worst ΔE 8.7 (deutan), normal-vision floor 16.7 (Machado 2009 simulation). */
+  --cat-1: oklch(0.710 0.125 250);
+  --cat-2: oklch(0.650 0.150 38);
+  --cat-3: oklch(0.715 0.120 160);
+  --cat-4: oklch(0.670 0.125 78);
+  --cat-5: oklch(0.600 0.155 305);
+  --cat-6: oklch(0.715 0.100 220);
+  --cat-7: oklch(0.650 0.150 8);
+  --cat-8: oklch(0.670 0.020 70);
+  --role-unweighted: oklch(0.660 0.014 260);
+  --role-naive:      oklch(0.580 0.012 260);
+  --shadow-pop: 0 10px 28px oklch(0 0 0 / 0.45), 0 2px 6px oklch(0 0 0 / 0.3);
 }
 
 @theme inline {
@@ -520,6 +526,26 @@ html:has(.bk-drawer[open]) { overflow: hidden; }
 }
 
 .bk-table-scroll { overflow-x: auto; }
+
+/* Room to the right of the reading column: the sidenote margin on xl screens, otherwise the empty
+   space between the column and the edge of the main area (none on phones). Top-level code blocks,
+   text tables, and table figures that cannot fit the column grow into it, only as far as their
+   content needs, and scroll only when even that is not enough. */
+.bk-prose { --bk-room: max(0px, (100cqw - 100%) / 2); }
+/* with the sidebar layout the page gutter beside the main area is free too; leave half a rem of it */
+@media (min-width: 64rem) { .bk-prose { --bk-room: calc(max(0px, (100cqw - 100%) / 2) + 1rem); } }
+@media (min-width: 80rem) { .bk-prose { --bk-room: calc(var(--margin-gap) + var(--margin-w)); } }
+.bk-prose > .bk-code,
+.bk-prose > .bk-table-scroll,
+.bk-prose > .ch :is(.tbl-wrap, .ch-data-scroll),
+.bk-prose > .bk-figure.fig-body :is(.tbl-wrap, .ch-data-scroll) {
+  width: fit-content; min-width: 100%; max-width: calc(100% + var(--bk-room));
+}
+/* on xl that room is the sidenote margin, so a block that may grow starts below any sidenote beside it */
+@media (min-width: 80rem) {
+  .bk-prose > :is(.bk-code, .bk-table-scroll, .ch),
+  .bk-prose > .bk-figure.fig-body:has(.tbl-wrap) { clear: right; }
+}
 .bk-prose :where(table) {
   width: 100%; border-collapse: collapse;
   font-family: var(--font-sans); font-size: 0.875rem; line-height: 1.45;
@@ -547,19 +573,19 @@ html:has(.bk-drawer[open]) { overflow: hidden; }
 }
 .fact.is-plain .fact-num { text-decoration: none; cursor: auto; }
 .fact-num:focus-visible { outline-offset: 1px; }
+/* A closed card is display:none, not merely invisible: an invisible absolutely positioned card still
+   counts toward its scroll container's overflow, so a fact near the edge of a table gave the table a
+   phantom scrollbar. */
 .fact-pop {
   position: absolute; left: 50%; top: 100%; z-index: 45;
-  display: block; width: min(22rem, calc(100vw - 2rem)); padding-top: 0.5rem;
+  display: none; width: min(22rem, calc(100vw - 2rem)); padding-top: 0.5rem;
   transform: translateX(calc(-50% + var(--fact-shift, 0px)));
-  visibility: hidden; opacity: 0; pointer-events: none;
-  transition: opacity 120ms ease, visibility 0s linear 120ms;
   text-align: left; white-space: normal;
 }
 .fact:hover > .fact-pop,
-.fact:focus-within > .fact-pop {
-  visibility: visible; opacity: 1; pointer-events: auto; transition-delay: 0s;
-}
-.fact[data-dismissed] > .fact-pop { visibility: hidden; opacity: 0; pointer-events: none; }
+.fact:focus-within > .fact-pop { display: block; animation: fact-pop-in 120ms ease; }
+.fact[data-dismissed] > .fact-pop { display: none; }
+@keyframes fact-pop-in { from { opacity: 0; } }
 .fact-pop.is-above { top: auto; bottom: 100%; padding-top: 0; padding-bottom: 0.5rem; }
 .fact-card {
   display: block; padding: 0.75rem 0.9rem 0.8rem;
@@ -682,9 +708,12 @@ html:has(.bk-drawer[open]) { overflow: hidden; }
 }
 .ch-data[open] > summary::before { transform: rotate(45deg); margin-top: -0.25rem; }
 .ch-data > summary:hover { color: var(--text); }
-.ch-data-scroll { margin-top: 0.5rem; max-height: 24rem; overflow: auto; border: 1px solid var(--border); border-radius: 6px; }
+/* A long data table still scrolls inside its panel, but only past most of a screen. */
+.ch-data-scroll { margin-top: 0.5rem; max-height: min(75vh, 42rem); overflow: auto; border: 1px solid var(--border); border-radius: 6px; }
 .ch-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; line-height: 1.4; font-variant-numeric: tabular-nums; }
 .ch-table th, .ch-table td { padding: 0.32rem 0.65rem; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
+/* headers may wrap; values never break */
+.ch-table thead th { white-space: normal; vertical-align: bottom; }
 .ch-table th { position: sticky; top: 0; background: var(--surface); font-weight: 600; color: var(--text-secondary); }
 .ch-table tr:last-child td { border-bottom: 0; }
 .ch-table .num { text-align: right; }

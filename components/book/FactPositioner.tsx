@@ -38,7 +38,8 @@ export function FactPositioner() {
       const from = (e as PointerEvent | FocusEvent).relatedTarget as Node | null;
       if (from && fact.contains(from)) return;
       fact.removeAttribute('data-dismissed');
-      place(fact);
+      // The card is display:none until :hover or :focus-within applies; measure on the next frame.
+      requestAnimationFrame(() => place(fact));
     };
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return;

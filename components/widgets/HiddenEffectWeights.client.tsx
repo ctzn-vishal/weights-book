@@ -220,7 +220,7 @@ function CellsPanel({ data }: { data: CellsFigure }) {
         full set of cell dummies.
       </p>
       <div className="mt-3 overflow-x-auto [contain:inline-size]">
-        <table className="w-full min-w-[40rem] border-collapse text-sm tabular-nums [&_td]:border-b [&_td]:border-rule [&_td]:px-2 [&_td]:py-1 [&_th]:border-b [&_th]:border-[var(--border-strong)] [&_th]:px-2 [&_th]:py-1">
+        <table className="w-full min-w-[36rem] border-collapse text-sm tabular-nums [&_td]:border-b [&_td]:border-rule [&_td]:px-2 [&_td]:py-1 [&_th]:border-b [&_th]:border-[var(--border-strong)] [&_th]:px-2 [&_th]:py-1">
           <caption className="sr-only">Cells sorted by {sort.key}; click a column header to sort.</caption>
           <thead>
             <tr>
