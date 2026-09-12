@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import { CloseIcon, MenuIcon } from './icons';
-import { OnThisPage } from './OnThisPage';
+import { OnThisPage, revealInScrollParent } from './OnThisPage';
 
 /**
  * Below lg the sidebar becomes this drawer: a native modal <dialog>, so focus
@@ -39,8 +39,13 @@ export function MobileNav({ children, showSections = false }: { children: ReactN
         aria-haspopup="dialog"
         aria-expanded={open}
         onClick={() => {
-          ref.current?.showModal();
+          const dialog = ref.current;
+          if (!dialog) return;
+          dialog.showModal();
           setOpen(true);
+          // the drawer is display:none while closed, so the current entry can only be revealed now
+          const current = dialog.querySelector<HTMLElement>('a[aria-current="page"]');
+          if (current) revealInScrollParent(current, 'center');
         }}
       >
         <MenuIcon />

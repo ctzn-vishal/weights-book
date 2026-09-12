@@ -325,7 +325,20 @@ def main(run_r: bool = True, reuse_r: bool = False) -> None:
         put("state", r, SF_st.fit(y, wr)[1])
         put("occind", r, SF_oi.fit(y, wr)[1])
         f = wr / w
-        put("adj_log_olsf", r, W.fe_solve(CM_log.sums(f))["beta"])
+        Sf, Svf = CM_log.sums(f), CM_lev.sums(f)
+        put("adj_log_olsf", r, W.fe_solve(Sf)["beta"])
+        # Separate regressions within each education level (own age-sex slopes): WLS with the
+        # replicate weight, and the OLS replicate-factor approximation, so the WLS - OLS gap gets
+        # a replicate SE of its own. (pass 2, 2026-09-12)
+        for k in range(4):
+            bw_, bo_ = W.fe_solve(Sl[k:k + 1])["beta"], W.fe_solve(Sf[k:k + 1])["beta"]
+            put(f"edu{k}_wls", r, bw_)
+            put(f"edu{k}_olsf", r, bo_)
+            put(f"edu{k}_gap", r, bw_ - bo_)
+            bwl_, bol_ = W.fe_solve(Sv[k:k + 1])["beta"], W.fe_solve(Svf[k:k + 1])["beta"]
+            put(f"edu{k}_lev_wls", r, bwl_)
+            put(f"edu{k}_lev_olsf", r, bol_)
+            put(f"edu{k}_lev_gap", r, bwl_ - bol_)
         Sc = CM_c.sums(wr)
         fr = W.fe_solve(Sc)
         er = W.estimands_from_cells(fr)
@@ -362,8 +375,34 @@ def main(run_r: bool = True, reuse_r: bool = False) -> None:
     for k in ("w1", "att", "atu", "ape", "delta"):
         full[f"sl5_{k}"] = sl5w[k]
         full[f"sl4_{k}"] = sl4w[k]
+    # within-education regressions (full-sample values; OLS = equal case weights)
+    edu = {}
+    for k in range(4):
+        m = e4 == k
+        hh_k = np.unique(hh[m], return_inverse=True)[1]
+        st_k = np.unique(st[m], return_inverse=True)[1]
+        zc = np.zeros(int(m.sum()), dtype=np.int64)
+        cl = {"hh": hh_k, "state": st_k}
+        ols_log = W.fe_ses(zc, 1, D[m], Z[m], y[m], ones[m], cl)
+        wls_log = W.fe_ses(zc, 1, D[m], Z[m], y[m], w[m], cl)
+        ols_lev = W.fe_ses(zc, 1, D[m], Z[m], hw[m], ones[m], cl)
+        wls_lev = W.fe_ses(zc, 1, D[m], Z[m], hw[m], w[m], cl)
+        for nm, fit_, Sk in (("wls", wls_log, S4w[0]), ("olsf", ols_log, S4u[0]), ("lev_wls", wls_lev, S4w[1]), ("lev_olsf", ols_lev, S4u[1])):
+            bm = W.fe_solve(Sk[k:k + 1])["beta"]
+            if abs(bm - fit_["beta"]) > 1e-9 * max(1.0, abs(bm)):
+                raise AssertionError(f"education-{k} {nm}: moment {bm} vs within {fit_['beta']}")
+            full[f"edu{k}_{nm}"] = fit_["beta"]
+        full[f"edu{k}_gap"] = wls_log["beta"] - ols_log["beta"]
+        full[f"edu{k}_lev_gap"] = wls_lev["beta"] - ols_lev["beta"]
+        edu[k] = {"n": int(m.sum()), "ols": ols_log, "wls": wls_log, "ols_lev": ols_lev, "wls_lev": wls_lev,
+                  "cv_w": float(np.std(w[m]) / np.mean(w[m]))}
     for k, v in full.items():
         se_of(k, v)
+    for k in range(4):
+        edu[k]["gap_z"] = full[f"edu{k}_gap"] / SE[f"edu{k}_gap"]
+        edu[k]["lev_gap_z"] = full[f"edu{k}_lev_gap"] / SE[f"edu{k}_lev_gap"]
+    val4.append({"check": "within-education regressions: moment engine vs within-transformed WLS (logs and levels, OLS and WLS)",
+                 "result": "agree to 1e-9"})
     tau_se = W.sdr_se_vec(fit5w["tau"], tau_r)
     p_se = W.sdr_se_vec(fit5w["p"], p_r)
     prevog = (np.bincount(cell_og, weights=S5w[:, 1, 0, 0], minlength=N_OG)
@@ -527,7 +566,12 @@ def main(run_r: bool = True, reuse_r: bool = False) -> None:
                     "fixest_headline_wls_crhh": (c4w["adj_log"], se_head["wls"]["se"]["cr_hh"]),
                     "fixest_headline_ols_crhh": (c4u["adj_log"], se_head["ols"]["se"]["cr_hh"]),
                     "fixest_occind_wls_hetero": (rung[("occind", "wls")]["beta"], rung[("occind", "wls")]["se"]["hc1"]),
-                    "fixest_occind_ols_hetero": (rung[("occind", "ols")]["beta"], rung[("occind", "ols")]["se"]["hc1"])}
+                    "fixest_occind_ols_hetero": (rung[("occind", "ols")]["beta"], rung[("occind", "ols")]["se"]["hc1"]),
+                    "fixest_somecoll_wls_crhh": (edu[2]["wls"]["beta"], edu[2]["wls"]["se"]["cr_hh"]),
+                    "fixest_somecoll_ols_crhh": (edu[2]["ols"]["beta"], edu[2]["ols"]["se"]["cr_hh"]),
+                    "fixest_somecoll_lev_wls_crhh": (edu[2]["wls_lev"]["beta"], edu[2]["wls_lev"]["se"]["cr_hh"]),
+                    "wr_somecoll_log": (edu[2]["wls"]["beta"], SE["edu2_wls"]),
+                    "wr_somecoll_levels": (edu[2]["wls_lev"]["beta"], SE["edu2_lev_wls"])}
             rows = []
             for chk in rc["checks"]:
                 o = ours.get(chk["check"])
@@ -690,6 +734,44 @@ def main(run_r: bool = True, reuse_r: bool = False) -> None:
     max_abs_change = max(abs(d_["change"]) for d_ in infl)
     s4.add("infl_max_change", max_abs_change, W.fnum(max_abs_change, 3), "Largest absolute change in the WLS-OLS gap from "
            "dropping any single state, occupation group, or education level", unit="log points", variance="none")
+    # ---- where weighted and unweighted results do not agree: separate regressions by education
+    ksub = max(range(4), key=lambda k: abs(edu[k]["gap_z"]))
+    if W.EDUC4_LEVELS[ksub] != "Some college" or max(range(4), key=lambda k: abs(edu[k]["lev_gap_z"])) != ksub:
+        raise AssertionError("the prose names 'Some college' as the group where OLS and WLS disagree most; revise")
+    es = edu[ksub]
+    sub_pop = f"Population: {POP}, with {W.EDUC4_LEVELS[ksub].lower()} (some college or an associate degree) and no bachelor's degree."
+    est_sub = (f"Coefficient on WFH in a linear regression of {LOGW} on WFH, age, age², and sex, estimated separately within "
+               f"the education group. {sub_pop}")
+    s4.add("sub_educ", W.EDUC4_LEVELS[ksub], W.EDUC4_LEVELS[ksub].lower(), "Education group in which the weighted and unweighted "
+           "WFH coefficients differ most, of the four (pinned in build.py)", variance="none")
+    s4.add("sub_n", es["n"], W.fint(es["n"]), f"Unweighted records in the {W.EDUC4_LEVELS[ksub].lower()} group", unit="records",
+           n=es["n"], variance="none")
+    s4.add("sub_prev", c4w["p_e4"][ksub], W.fpct(c4w["p_e4"][ksub], 1), f"PERWT-weighted WFH share, {W.EDUC4_LEVELS[ksub].lower()} group",
+           se=pe4_se[ksub], n=es["n"], weight=wls_w, variance="replicate_sdr(80)", df=W.DF_SDR)
+    s4.coef("sub_ols", es["ols"]["beta"], es["ols"]["se"]["cr_hh"], sdr=False, estimand=est_sub + " Unweighted (OLS).", n=es["n"],
+            weight=ols_w, note=NOTE_OLS_CI)
+    s4.coef("sub_wls", es["wls"]["beta"], SE[f"edu{ksub}_wls"], sdr=True, estimand=est_sub + " PERWT-weighted (WLS).", n=es["n"],
+            weight=wls_w)
+    s4.coef("sub_gap", full[f"edu{ksub}_gap"], SE[f"edu{ksub}_gap"], sdr=True, n=es["n"], weight=wls_w,
+            estimand=f"WLS minus OLS coefficient within the {W.EDUC4_LEVELS[ksub].lower()} group (log points); SE from the 80 replicates, "
+                     "each replicate re-solving both regressions (the OLS side applies the replicate perturbation to equal case weights)")
+    s4.add("sub_gap_z", abs(es["gap_z"]), W.fnum(abs(es["gap_z"]), 1), "|WLS - OLS| within the group divided by the replicate SE of the gap, logs",
+           unit="standard errors", variance="none")
+    s4.add("sub_gap_rel", abs(full[f"edu{ksub}_gap"] / es["ols"]["beta"]), W.fpct(abs(full[f"edu{ksub}_gap"] / es["ols"]["beta"]), 0),
+           "|WLS - OLS| as a share of the OLS coefficient within the group, logs", variance="none")
+    s4.coef("sub_lev_ols", es["ols_lev"]["beta"], es["ols_lev"]["se"]["cr_hh"], sdr=False, n=es["n"], weight=ols_w, unit="dollars per hour",
+            d=2, kind="usd", note=NOTE_OLS_CI, estimand=est_sub.replace(LOGW, "hourly wage in dollars (levels)") + " Unweighted (OLS).")
+    s4.coef("sub_lev_wls", es["wls_lev"]["beta"], SE[f"edu{ksub}_lev_wls"], sdr=True, n=es["n"], weight=wls_w, unit="dollars per hour",
+            d=2, kind="usd", estimand=est_sub.replace(LOGW, "hourly wage in dollars (levels)") + " PERWT-weighted (WLS).")
+    s4.add("sub_lev_gap_z", abs(es["lev_gap_z"]), W.fnum(abs(es["lev_gap_z"]), 1), "|WLS - OLS| within the group divided by the replicate SE of the gap, levels",
+           unit="standard errors", variance="none")
+    s4.add("sub_lev_gap_rel", abs(full[f"edu{ksub}_lev_gap"] / es["ols_lev"]["beta"]), W.fpct(abs(full[f"edu{ksub}_lev_gap"] / es["ols_lev"]["beta"]), 0),
+           "|WLS - OLS| as a share of the OLS coefficient within the group, levels", variance="none")
+    others_z = max(abs(edu[k]["gap_z"]) for k in range(4) if k != ksub)
+    s4.add("sub_other_z_max", others_z, W.fnum(others_z, 1), "Largest |WLS - OLS| / SE(gap) among the other three education groups, logs",
+           unit="standard errors", variance="none")
+    s4.add("sub_cv_w", es["cv_w"], W.fnum(es["cv_w"], 2), f"Coefficient of variation of PERWT within the {W.EDUC4_LEVELS[ksub].lower()} group",
+           variance="none")
 
     # ---- Chapter 4 figures
     def ci_rows(label, group, b, se, sdr, role):
@@ -759,6 +841,29 @@ def main(run_r: bool = True, reuse_r: bool = False) -> None:
         "note": ("Headline specification (WFH, age, age\u00b2, sex, education). The OLS entry in the replicate row applies each "
                  "replicate's perturbation (REPWTP_r \u00f7 PERWT) to equal case weights, an approximation because the "
                  "replicates also re-run the weighting adjustments.")}
+    s4.figures["educ_split"] = {
+        "type": "table", "title": "Four separate regressions, one per education level: where weighting matters",
+        "alt": ("Table of the work-from-home coefficient estimated separately within each of four education levels, unweighted and "
+                "PERWT-weighted, in logs and in dollars; the two estimates agree within a standard error in three groups and differ by "
+                "several standard errors of their gap in the some-college group."),
+        "columns": [{"key": "educ", "label": "Education", "align": "left"},
+                    {"key": "n", "label": "Records", "format": "int", "align": "right"},
+                    {"key": "prev", "label": "WFH share", "format": "pct1", "align": "right"},
+                    {"key": "ols", "label": "OLS, log points", "format": "num3", "align": "right"},
+                    {"key": "wls", "label": "WLS, log points", "format": "num3", "align": "right"},
+                    {"key": "gap", "label": "WLS − OLS", "format": "num3", "align": "right"},
+                    {"key": "z", "label": "Gap ÷ its SE", "format": "num1", "align": "right"},
+                    {"key": "ols_lev", "label": "OLS, $/hour", "align": "right"},
+                    {"key": "wls_lev", "label": "WLS, $/hour", "align": "right"},
+                    {"key": "z_lev", "label": "Gap ÷ its SE, levels", "format": "num1", "align": "right"}],
+        "rows": [{"educ": W.EDUC4_LEVELS[k], "n": edu[k]["n"], "prev": float(c4w["p_e4"][k]), "ols": edu[k]["ols"]["beta"],
+                  "wls": edu[k]["wls"]["beta"], "gap": full[f"edu{k}_gap"], "z": edu[k]["gap_z"],
+                  "ols_lev": W.fusd(edu[k]["ols_lev"]["beta"], 2), "wls_lev": W.fusd(edu[k]["wls_lev"]["beta"], 2),
+                  "z_lev": edu[k]["lev_gap_z"], "highlight": k == ksub} for k in range(4)],
+        "highlight_key": "highlight", "source": SOURCE,
+        "note": ("Each row is a regression of the outcome on WFH, age, age², and sex within one education level, so the age–sex "
+                 "slopes differ by group. Gap SE: 80 SDR replicates, each replicate re-solving both regressions (the OLS side applies the "
+                 "replicate perturbation to equal case weights). WFH shares are PERWT-weighted.")}
     irows = []
     for dim, k in (("State", 5), ("Occupation group", 5), ("Education", 4)):
         for d_ in sel[dim][:k]:

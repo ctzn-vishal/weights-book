@@ -1,14 +1,17 @@
 import Link from 'next/link';
 import { hasChapterPage } from '@/lib/pages';
 import { book, entryHref, entryKind, splitPartTitle } from '@/lib/toc';
-import { OnThisPage } from './OnThisPage';
+import { OnThisPage, RevealCurrent } from './OnThisPage';
 
 /**
  * The book's contents: parts, then chapters, labs, and appendices, with the
  * current page marked. Rendered twice per page (the lg+ sidebar and the
  * mobile drawer); `sections` nests the current chapter's h2 list under its
  * entry, which the sidebar uses between lg and the width where the separate
- * "On this page" rail appears.
+ * "On this page" rail appears. Every row shares one two-column grid (number,
+ * title), so chapter numbers, appendix letters, and the lab tag line up and
+ * every title starts at the same x; the current entry is scrolled into view
+ * on arrival.
  */
 export function TocNav({ currentSlug, sections = false }: { currentSlug?: string; sections?: boolean }) {
   return (
@@ -21,7 +24,7 @@ export function TocNav({ currentSlug, sections = false }: { currentSlug?: string
         return (
           <div key={part.title} className="bk-toc-part" role="group" aria-label={part.title}>
             <p className="bk-toc-part-title">
-              {label ?? name}
+              <span className="lbl">{label ?? name}</span>
               {label ? <span className="name">{name}</span> : null}
             </p>
             <ol>
@@ -35,7 +38,10 @@ export function TocNav({ currentSlug, sections = false }: { currentSlug?: string
                       className={lab ? 'bk-toc-link is-lab' : 'bk-toc-link'}
                       aria-current={current ? 'page' : undefined}
                     >
-                      <span className="bk-toc-num">{lab ? '' : e.number}</span>
+                      {/* the lab tag is visual only: a lab's title already begins "Lab:" */}
+                      <span className="bk-toc-num" aria-hidden={lab ? 'true' : undefined}>
+                        {lab ? 'Lab' : e.number}
+                      </span>
                       <span className="bk-toc-title">
                         {e.title}
                         {hasChapterPage(e.slug) ? null : (
@@ -57,6 +63,7 @@ export function TocNav({ currentSlug, sections = false }: { currentSlug?: string
           </div>
         );
       })}
+      {currentSlug ? <RevealCurrent /> : null}
     </nav>
   );
 }

@@ -69,7 +69,7 @@ stamp("NHANES done")
 nhis <- as.data.frame(read_parquet(
   "C:/Users/Vishal Singh/Box/ipums/analysis/nhis/nhis_core/part_2015_2024.parquet",
   col_select = c("YEAR", "STRATA", "PSU", "SAMPWEIGHT", "ASTATFLG", "HYPERTENEV",
-                 "DELAYCOST", "HINOTCOVE", "HEALTH")))
+                 "DELAYCOST", "HINOTCOVE", "HEALTH", "AGE", "REGION", "female")))
 ad <- nhis[nhis$YEAR == 2023 & !is.na(nhis$ASTATFLG) & nhis$ASTATFLG == 1, ]
 ad$hyp <- ifelse(ad$HYPERTENEV %in% 2, 1, ifelse(ad$HYPERTENEV %in% 1, 0, NA))
 delay <- ifelse(ad$DELAYCOST %in% 2, 1, ifelse(ad$DELAYCOST %in% 1, 0, NA))
@@ -101,6 +101,25 @@ for (rule in c("certainty", "remove", "adjust", "average")) {
     add(paste0("nhis_subset_", rule, "_total_se"), SE(svytotal(~delay0, dF)))
   })
 }
+# Group contrasts in one sample: uninsured share among sample adults 18-64, Northeast minus
+# Midwest (regions share no PSU) and ages 18-29 minus 30-44 (the two age groups share PSUs, so
+# the covariance matters). svyby(covmat = TRUE) keeps the covariance; svycontrast uses it.
+ad$unins <- ifelse(ad$HINOTCOVE %in% 2, 1, ifelse(ad$HINOTCOVE %in% 1, 0, NA))
+ad$wa <- ad$AGE >= 18 & ad$AGE <= 64 & !is.na(ad$unins)
+dN <- svydesign(ids = ~psu_key, strata = ~STRATA, weights = ~SAMPWEIGHT, nest = TRUE, data = ad)
+dWA <- subset(dN, wa)
+mu <- svymean(~unins, dWA)
+add("nhis_unins_wa_est", coef(mu))
+add("nhis_unins_wa_se", SE(mu))
+by_reg <- svyby(~unins, ~REGION, dWA, svymean, covmat = TRUE)
+ct <- svycontrast(by_reg, c("1" = 1, "2" = -1))
+add("nhis_ne_mw_diff", coef(ct))
+add("nhis_ne_mw_se", SE(ct))
+add("nhis_ne_mw_df", degf(subset(dWA, REGION %in% c(1, 2))))
+by_sex <- svyby(~unins, ~female, dWA, svymean, covmat = TRUE)
+cs <- svycontrast(by_sex, c("0" = 1, "1" = -1))          # men minus women
+add("nhis_sex_diff", coef(cs))
+add("nhis_sex_se", SE(cs))
 stamp("NHIS done")
 
 # ---------------------------------------------------------------- BRFSS 2024

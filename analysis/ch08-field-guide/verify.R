@@ -75,6 +75,23 @@ run_snip("atus", "atus.R")
 # 5. CPS ASEC 2025, full replicate file
 run_snip("asec", "asec.R")
 
+# 5b. Weights-only comparators (added 2026-09-12): the same weighted shares with the
+#     design variables dropped, for the "if you get it wrong" facts of NHANES and BRFSS.
+d <- read_parquet("NHANES/data/processed/nhanes_analysis.parquet",
+                  col_select = c("CYCLE_YEAR", "WTMEC2YR", "RIDAGEYR", "htn_measured"))
+d <- d[d$CYCLE_YEAR == 2021 & d$RIDAGEYR >= 18 & d$WTMEC2YR > 0 & !is.na(d$htn_measured), ]
+res <- svymean(~htn_measured, svydesign(ids = ~1, weights = ~WTMEC2YR, data = d))
+out("nhanes_wonly", "est", unname(coef(res)[1]))
+out("nhanes_wonly", "se", unname(SE(res)[1]))
+b <- read_parquet("BRFSS/BRFSS_2026/cleaned/brfss_multi_rec.parquet",
+                  col_select = c("iyear", "xllcpwt", "Health"))
+b <- b[b$iyear == 2024 & !is.na(b$Health), ]
+b$fairpoor <- as.numeric(b$Health == "Poor")
+res <- svymean(~fairpoor, svydesign(ids = ~1, weights = ~xllcpwt, data = b))
+out("brfss_wonly", "est", unname(coef(res)[1]))
+out("brfss_wonly", "se", unname(SE(res)[1]))
+rm(b, d)
+
 # 6. Synthetic SDR frames: survey's successive-difference type applies 4/R with df = R - 1
 set.seed(20260910)
 for (R in c(80, 160)) {

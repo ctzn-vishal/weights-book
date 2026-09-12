@@ -223,15 +223,18 @@ button { cursor: pointer; }
 
 /* ============================================================== chrome */
 
+/* The draft notice is a colophon line, not an alert: the sunken ground, muted ink, a small accent dot. */
 .bk-draft {
-  background: var(--accent-subtle);
-  border-bottom: 1px solid color-mix(in oklch, var(--accent) 35%, transparent);
-  color: var(--text);
-  font: 500 0.8125rem/1.4 var(--font-sans);
+  display: flex; align-items: center; justify-content: center; gap: 0.45rem;
+  background: var(--surface-sunken);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  font: 500 0.75rem/1.4 var(--font-sans); letter-spacing: 0.01em;
   text-align: center;
-  padding: 0.42rem 1rem;
+  padding: 0.38rem 1rem;
 }
-.bk-draft strong { color: var(--accent-ink); font-weight: 650; }
+.bk-draft strong { color: var(--text-secondary); font-weight: 600; margin-right: 0.15em; }
+.bk-draft-dot { width: 0.4rem; height: 0.4rem; border-radius: 999px; background: var(--accent); flex-shrink: 0; }
 
 .bk-topbar {
   position: sticky; top: 0; z-index: 40;
@@ -260,19 +263,24 @@ button { cursor: pointer; }
   border: 1px solid transparent; background: transparent;
 }
 .bk-iconbtn:hover { color: var(--text); background: var(--surface-sunken); }
-.bk-iconbtn svg { width: 1.05rem; height: 1.05rem; }
+/* every top-bar glyph is 1rem, on a 2rem control */
+.bk-iconbtn svg { width: 1rem; height: 1rem; flex-shrink: 0; }
 .bk-menu-btn { border-color: var(--border); margin-left: -0.25rem; }
+/* the global focus rule squares corners; these controls keep their own radius and a visible ring */
+.bk-iconbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
 
 .bk-theme {
   display: inline-flex; padding: 2px; gap: 1px;
   border: 1px solid var(--border); border-radius: 999px; background: var(--surface);
 }
 .bk-theme button {
-  width: 1.85rem; height: 1.6rem; display: grid; place-items: center;
+  width: 1.85rem; height: 1.625rem; display: grid; place-items: center;
   border-radius: 999px; border: 0; background: transparent; color: var(--text-muted);
+  transition: color 120ms ease, background-color 120ms ease;
 }
 .bk-theme button:hover { color: var(--text); }
-.bk-theme button svg { width: 0.95rem; height: 0.95rem; }
+.bk-theme button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-radius: 999px; }
+.bk-theme button svg { width: 1rem; height: 1rem; }
 html:not([data-theme-pref]) .bk-theme [data-value="system"],
 html[data-theme-pref="system"] .bk-theme [data-value="system"],
 html[data-theme-pref="light"] .bk-theme [data-value="light"],
@@ -312,10 +320,12 @@ html[data-theme-pref="dark"] .bk-theme [data-value="dark"] {
 }
 @media (min-width: 64rem) {
   .bk-shell { display: grid; grid-template-columns: var(--sidebar-w) minmax(0, 1fr); column-gap: 2.5rem; }
+  /* The sidebar scrolls on its own inside the viewport below the top bar. A touch of horizontal
+     padding keeps focus rings and the active entry's edge clear of the clipping box. */
   .bk-sidebar {
     display: block; position: sticky; top: var(--topbar-h); align-self: start;
-    max-height: calc(100vh - var(--topbar-h)); overflow-y: auto; overscroll-behavior: contain;
-    padding: 2rem 0.25rem 3rem 0; scrollbar-width: thin;
+    max-height: calc(100dvh - var(--topbar-h)); overflow-y: auto; overscroll-behavior: contain;
+    padding: 2.5rem 0.375rem 3rem 0.25rem; margin-left: -0.25rem; scrollbar-width: thin;
   }
 }
 /* xl: the article grows a right margin for sidenotes; its content box stays at the measure. */
@@ -325,17 +335,21 @@ html[data-theme-pref="dark"] .bk-theme [data-value="dark"] {
     padding-right: calc(var(--margin-gap) + var(--margin-w));
   }
 }
-/* wide: a separate "On this page" rail beyond the sidenote margin. */
+/* wide: a separate "On this page" rail beyond the sidenote margin. The article track is fixed at
+   measure + margin so the reading column never gives up width to the rail; the rail takes what is
+   left up to its own width (at 90rem with a scrollbar that is still a full 10rem). */
 @media (min-width: 90rem) {
   .bk-page {
     display: grid;
-    grid-template-columns: minmax(0, calc(var(--measure) + var(--margin-gap) + var(--margin-w))) var(--rail-w);
-    column-gap: 2rem; justify-content: center;
+    grid-template-columns: calc(var(--measure) + var(--margin-gap) + var(--margin-w)) minmax(0, var(--rail-w));
+    column-gap: 1.5rem; justify-content: center;
   }
   .bk-page .bk-article { margin: 0; }
   .bk-rail {
     display: block; position: sticky; top: var(--topbar-h); align-self: start;
-    max-height: calc(100vh - var(--topbar-h)); overflow-y: auto; padding: 3.25rem 0 2rem;
+    max-height: calc(100dvh - var(--topbar-h)); overflow-y: auto; overscroll-behavior: contain;
+    /* the rail's title shares a baseline with the chapter kicker on arrival */
+    padding: calc(3rem + 2px + 0.8rem) 0.25rem 2rem 0;
     scrollbar-width: thin;
   }
   .bk-toc-sections { display: none; }
@@ -343,56 +357,80 @@ html[data-theme-pref="dark"] .bk-theme [data-value="dark"] {
 
 /* ============================================================== contents (sidebar, drawer) */
 
-.bk-toc { font-family: var(--font-sans); font-size: 0.8125rem; line-height: 1.4; }
+/* One grid for every row: a number column (--toc-num) and the title. Numbers, appendix letters,
+   and the lab tag share the column, so every title starts at the same x; the part labels and the
+   home link sit on the list's left edge, and the nested section list indents to the title column. */
+.bk-toc { --toc-num: 1.9rem; --toc-pad: 0.5rem; font-family: var(--font-sans); font-size: 0.8125rem; line-height: 1.4; }
 .bk-toc-home {
-  display: block; margin: 0 0 1.1rem 0.625rem;
-  font-family: var(--font-serif); font-weight: 600; font-size: 0.95rem; line-height: 1.3;
-  color: var(--text); text-decoration: none;
+  display: block; margin: 0 0 1.4rem var(--toc-pad); padding-bottom: 0.9rem; border-bottom: 1px solid var(--border);
+  font-family: var(--font-serif); font-weight: 600; font-size: 0.95rem; line-height: 1.3; letter-spacing: -0.005em;
+  color: var(--text); text-decoration: none; text-wrap: balance;
 }
 .bk-toc-home:hover { color: var(--accent-ink); }
-.bk-toc-part + .bk-toc-part { margin-top: 1.25rem; }
+.bk-toc-part + .bk-toc-part { margin-top: 1.4rem; }
 .bk-toc-part-title {
-  margin: 0 0 0.35rem 0.625rem;
-  font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  margin: 0 0 0.4rem var(--toc-pad);
+  font-size: 0.66rem; font-weight: 650; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--text-muted);
 }
 .bk-toc-part-title .name {
-  display: block; margin-top: 0.1rem;
+  display: block; margin-top: 0.15rem;
   font-size: 0.78rem; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-secondary);
+  text-wrap: balance;
 }
 .bk-toc-link {
-  display: grid; grid-template-columns: 1.7rem minmax(0, 1fr); align-items: baseline;
-  padding: 0.32rem 0.5rem 0.32rem 0.625rem;
+  display: grid; grid-template-columns: var(--toc-num) minmax(0, 1fr); align-items: baseline;
+  padding: 0.34rem 0.5rem 0.34rem calc(var(--toc-pad) - 2px);
   border-left: 2px solid transparent; border-radius: 0 5px 5px 0;
   color: var(--text-secondary); text-decoration: none;
+  scroll-margin: 2rem 0;
+  transition: color 120ms ease, background-color 120ms ease;
 }
 .bk-toc-link:hover { color: var(--text); background: var(--surface-sunken); }
+.bk-toc-link:hover .bk-toc-num { color: var(--text-secondary); }
+.bk-toc-link:focus-visible { outline-offset: -2px; border-radius: 5px; }
 .bk-toc-link[aria-current="page"] {
   color: var(--text); font-weight: 550; border-left-color: var(--accent); background: var(--surface-sunken);
 }
-.bk-toc-num { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
-.bk-toc-link.is-lab .bk-toc-title { padding-left: 0.6rem; border-left: 1px solid var(--border); }
+.bk-toc-link[aria-current="page"] .bk-toc-num { color: var(--accent-ink); }
+.bk-toc-num {
+  font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); font-variant-numeric: tabular-nums;
+  transition: color 120ms ease;
+}
+/* a lab is filed under its chapter: a small tag in the number column, the title slightly quieter */
+.bk-toc-link.is-lab .bk-toc-num {
+  font: 600 0.56rem/1 var(--font-sans); letter-spacing: 0.08em; text-transform: uppercase; align-self: center;
+}
+.bk-toc-link.is-lab .bk-toc-title { font-size: 0.78rem; }
 .bk-toc-pending {
   margin-left: 0.4rem; font-size: 0.66rem; font-weight: 500; font-style: italic; color: var(--text-muted);
 }
 .bk-sidebar, .bk-rail { scrollbar-color: var(--border) transparent; }
-.bk-toc-sections { margin: 0.3rem 0 0.6rem 2.3rem; }
+.bk-toc-sections { margin: 0.35rem 0 0.7rem calc(var(--toc-pad) + var(--toc-num)); }
 
-/* "On this page": rail, nested under the current chapter, or inside the drawer */
+/* "On this page": rail, nested under the current chapter, or inside the drawer. The list hangs
+   from a hairline; the current entry carries a short accent bar on it and darker ink; h3s step in. */
 .bk-otp { font-family: var(--font-sans); font-size: 0.78rem; line-height: 1.4; }
 .bk-otp-title {
-  margin-bottom: 0.6rem;
-  font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted);
+  margin-bottom: 0.75rem;
+  font-size: 0.66rem; font-weight: 650; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted);
 }
 .bk-otp ol { border-left: 1px solid var(--border); }
+.bk-otp li + li { margin-top: 0.05rem; }
 .bk-otp a {
-  display: block; margin-left: -1px; padding: 0.22rem 0 0.22rem 0.75rem;
+  display: block; margin-left: -1px; padding: 0.24rem 0.25rem 0.24rem 0.8rem;
   border-left: 2px solid transparent; color: var(--text-muted); text-decoration: none;
+  text-wrap: pretty;
+  transition: color 120ms ease, border-color 120ms ease;
 }
-.bk-otp a:hover { color: var(--text); }
-.bk-otp a.is-active { color: var(--text); border-left-color: var(--accent); }
-.bk-otp .lvl-3 a { padding-left: 1.45rem; font-size: 0.74rem; }
+.bk-otp a:hover { color: var(--text); border-left-color: var(--border-strong); }
+.bk-otp a:focus-visible { outline-offset: -2px; border-radius: 3px; }
+.bk-otp a.is-active { color: var(--text); font-weight: 500; border-left-color: var(--accent); }
+.bk-otp .lvl-3 a { padding-left: 1.55rem; font-size: 0.74rem; }
+.bk-otp .lvl-2 + .lvl-3 { margin-top: 0.1rem; }
+.bk-otp .lvl-3 + .lvl-2 { margin-top: 0.15rem; }
 .bk-otp.is-nested { font-size: 0.75rem; }
+.bk-otp.is-nested a { padding-block: 0.2rem; }
 
 /* the mobile drawer is a native <dialog>: focus trap, Escape, and inert page for free */
 .bk-drawer {
@@ -416,45 +454,77 @@ html:has(.bk-drawer[open]) { overflow: hidden; }
 
 /* ============================================================== chapter header, pager */
 
-.bk-header { margin-bottom: 2.5rem; padding-bottom: 1.9rem; border-bottom: 1px solid var(--border); }
+/* The title page: a short accent rule, the kicker (part in muted ink, the chapter's own label in the
+   accent), the title, the dek, and the data credential in small caps and mono; a hairline closes
+   it before the body. Spacing steps up once from phone widths. */
+.bk-header { margin-bottom: 2.5rem; padding-bottom: 1.75rem; border-bottom: 1px solid var(--border); }
 .bk-kicker {
-  font: 600 0.75rem/1.3 var(--font-sans); letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--accent-ink);
+  font: 600 0.7rem/1.5 var(--font-sans); letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted);
+}
+.bk-kicker::before { content: ""; display: block; width: 2.5rem; height: 2px; margin-bottom: 0.8rem; background: var(--accent); }
+.bk-kicker .n { color: var(--accent-ink); }
+/* a hairline between the part and the chapter label */
+.bk-kicker .p + .n::before {
+  content: ""; display: inline-block; width: 1px; height: 0.85em; margin: 0 0.65rem; vertical-align: -0.08em;
+  background: var(--border-strong);
 }
 .bk-title {
-  margin-top: 0.7rem;
+  margin-top: 0.85rem;
   font-family: var(--font-serif); font-weight: 600;
-  font-size: clamp(2rem, 1.35rem + 2.3vw, 2.8rem); line-height: 1.12; letter-spacing: -0.015em;
-  text-wrap: balance;
+  font-size: clamp(1.9rem, 1.25rem + 2.2vw, 2.7rem); line-height: 1.12; letter-spacing: -0.018em;
+  text-wrap: balance; overflow-wrap: break-word;
 }
 .bk-dek {
-  margin-top: 0.95rem; max-width: 38rem;
-  font-family: var(--font-serif); font-size: clamp(1.125rem, 1rem + 0.45vw, 1.3rem); line-height: 1.5;
+  margin-top: 1rem; max-width: 36rem;
+  font-family: var(--font-serif); font-size: clamp(1.1rem, 1rem + 0.4vw, 1.28rem); line-height: 1.5;
   color: var(--text-secondary); text-wrap: pretty;
 }
 .bk-credential {
-  margin-top: 1.05rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.6rem;
-  font: 500 0.78rem/1.5 var(--font-mono); color: var(--text-muted);
+  margin-top: 1.35rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.7rem;
+  font: 450 0.76rem/1.55 var(--font-mono); color: var(--text-muted);
 }
 .bk-credential .lbl {
-  font-family: var(--font-sans); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  font-family: var(--font-sans); font-size: 0.66rem; font-weight: 650; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.bk-credential .val { overflow-wrap: anywhere; }
+@media (min-width: 40rem) {
+  .bk-header { margin-bottom: 3rem; padding-bottom: 2.1rem; }
+  .bk-title { margin-top: 1rem; }
+  .bk-dek { margin-top: 1.15rem; }
 }
 
+/* Prev/next: two cards under a hairline. The small line names the direction and the neighbour
+   ("← Previous · Chapter 6"); the title sits under it in serif. Each card is a full tap target
+   and the arrow slides a little on hover. */
 .bk-pager {
   margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
   display: grid; gap: 0.75rem; font-family: var(--font-sans);
 }
 .bk-pager a {
-  display: block; padding: 0.9rem 1rem 1rem; border: 1px solid var(--border); border-radius: 8px;
+  display: flex; flex-direction: column; gap: 0.5rem; min-height: 5.25rem;
+  padding: 0.95rem 1.1rem 1.05rem; border: 1px solid var(--border); border-radius: 10px;
   color: var(--text); text-decoration: none; background: transparent;
+  transition: border-color 140ms ease, background-color 140ms ease;
 }
 .bk-pager a:hover { border-color: var(--border-strong); background: var(--surface); }
-.bk-pager .dir { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
-.bk-pager .lbl { display: block; margin-top: 0.45rem; font-size: 0.75rem; color: var(--text-muted); }
-.bk-pager .t { display: block; margin-top: 0.1rem; font-family: var(--font-serif); font-size: 1.05rem; font-weight: 600; line-height: 1.3; }
+.bk-pager a:focus-visible { outline-offset: 2px; border-radius: 10px; }
+.bk-pager .dir {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.66rem; font-weight: 650; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted);
+}
+.bk-pager .arr { width: 0.95rem; height: 0.95rem; flex-shrink: 0; color: var(--text-muted); transition: transform 160ms cubic-bezier(0.2, 0, 0, 1), color 140ms ease; }
+.bk-pager .lbl { color: var(--accent-ink); }
+.bk-pager .prev .lbl::before, .bk-pager .next .lbl::after { content: "·"; margin: 0 0.5rem; color: var(--border-strong); }
+.bk-pager .t { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 600; line-height: 1.3; letter-spacing: -0.005em; text-wrap: balance; }
+.bk-pager a:hover .arr { color: var(--accent-ink); }
+.bk-pager .prev:hover .arr { transform: translateX(-3px); }
+.bk-pager .next:hover .arr { transform: translateX(3px); }
 @media (min-width: 40rem) {
-  .bk-pager { grid-template-columns: 1fr 1fr; }
-  .bk-pager .next { grid-column: 2; text-align: right; }
+  .bk-pager { grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .bk-pager .next { grid-column: 2; text-align: right; align-items: flex-end; }
+  .bk-pager .next .dir { justify-content: flex-end; }
 }
 
 /* ============================================================== article prose */
@@ -1104,10 +1174,27 @@ html.dark .bk-code code[data-theme] span { color: var(--shiki-dark); }
   .cv-hero { grid-template-columns: minmax(0, 27rem) minmax(0, 1fr); }
 }
 
-.bk-simple { width: 100%; max-width: var(--measure); margin: 0 auto; padding: 4rem 1.25rem 5rem; }
-.bk-simple h1 { font-family: var(--font-serif); font-weight: 600; font-size: clamp(2rem, 1.5rem + 2vw, 2.6rem); line-height: 1.15; }
-.bk-simple p { margin-top: 1rem; font-size: 1.1rem; line-height: 1.6; color: var(--text-secondary); }
-.bk-simple ol { margin-top: 2rem; font-family: var(--font-sans); font-size: 0.9rem; }
-.bk-simple li + li { margin-top: 0.35rem; }
-.bk-simple a { color: var(--text); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 0.2em; }
-.bk-simple a:hover { color: var(--accent-ink); }
+/* Not found: the chapter header's grammar, then the contents in the sidebar's (label column, title). */
+.bk-simple { width: 100%; max-width: calc(var(--measure) + 2.5rem); margin: 0 auto; padding: 2.25rem 1.25rem 5rem; flex: 1 0 auto; }
+.bk-simple .bk-dek a { color: var(--text); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 0.2em; }
+.bk-simple .bk-dek a:hover { color: var(--accent-ink); }
+.bk-simple-toc { font-family: var(--font-sans); }
+.bk-simple-part + .bk-simple-part { margin-top: 1.9rem; }
+.bk-simple-part h2 {
+  margin: 0 0 0.5rem 0.75rem;
+  font-size: 0.66rem; font-weight: 650; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted);
+}
+.bk-simple-part h2 .name { margin-left: 0.5rem; letter-spacing: 0; text-transform: none; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); }
+.bk-simple-part ol { list-style: none; margin: 0; padding: 0; }
+.bk-simple-part li + li { margin-top: 0.15rem; }
+.bk-simple-part a {
+  display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: 0.15rem 1rem; align-items: baseline;
+  padding: 0.55rem 0.75rem; border-radius: 6px; color: var(--text); text-decoration: none;
+  transition: background-color 120ms ease;
+}
+.bk-simple-part a:hover { background: var(--surface-sunken); }
+.bk-simple-part a .lbl { font: 500 0.7rem/1.5 var(--font-mono); color: var(--text-muted); white-space: nowrap; }
+.bk-simple-part a:hover .lbl { color: var(--accent-ink); }
+.bk-simple-part a .t { font-family: var(--font-serif); font-size: 0.98rem; line-height: 1.35; }
+@media (max-width: 30rem) { .bk-simple-part a { grid-template-columns: 1fr; } }
+@media (min-width: 40rem) { .bk-simple { padding: 3rem 1.5rem 5rem; } }

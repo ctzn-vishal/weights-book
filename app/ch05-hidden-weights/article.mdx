@@ -2,6 +2,8 @@ import { HiddenEffectWeights } from '@/components/widgets/HiddenEffectWeights'
 
 ## Whose wage gap is it?
 
+You ran the regression with the controls your field expects, and you are about to describe the coefficient as the average effect of the treatment, holding the controls fixed. Most readers will take it that way. But when the effect differs across the groups the controls define, and it usually does, the coefficient is a weighted average of the group contrasts with weights the regression chose and nobody reports. Survey weights do not choose them and cannot correct them. This chapter makes the weights visible in a case where they move the answer, and in a second case where they are just as unequal and do not.
+
 A report on the 2024 American Community Survey wants one sentence: among full-time wage and salary workers, how much more do people who work from home earn than people who commute, holding occupation and education fixed? [Chapter 4](/ch04-regression) supplied the regression. Refine its education dummies into <Fact id="ch5.n_cells" /> occupation-by-education cells, keep the survey weights, and the coefficient is <Fact id="ch5.cellfe_wls" ci /> log points. The same <Fact id="ch5.n_cells" /> cells each have their own home–commute contrast, and those contrasts can be averaged by hand, each cell counted by its share of workers. That average is <Fact id="ch5.pate" ci />. Same workers, same `PERWT`, same cell contrasts, and the regression's number is <Fact id="ch5.proj_pate_ratio" /> times the population's.
 
 Both numbers are defensible. The difference between them is a choice of weights, and nobody made it. Written out, a regression with a full set of cell effects is a weighted average of the cell contrasts in which each cell counts by its population times the variance of the work-from-home indicator inside it <Cite id="angrist1998" />. A cell where home workers and commuters are both plentiful counts heavily. A cell where almost everyone commutes barely counts, however many workers it holds. College-educated managers, <Fact id="ch5.top_cell_pop" /> of the workforce, receive <Fact id="ch5.top_cell_reg" /> of the regression's weight. Transportation and moving workers with a high school diploma, <Fact id="ch5.lowp_big_pop" /> of the workforce, receive <Fact id="ch5.lowp_big_reg" />. The ten most-weighted cells hold <Fact id="ch5.top10_pop" /> of workers and <Fact id="ch5.top10_reg" /> of the weight. Seen from the other side, in the decomposition of <Cite id="sloczynski2022" narrative />, home workers are <Fact id="ch5.sl_rho_wls" /> of the workforce and the term for their contrast carries <Fact id="ch5.sl_w1_wls" /> of the coefficient.
@@ -110,6 +112,32 @@ Every aggregate in this chapter, including the population-share average, gets it
 
 </Details>
 
+## The same cells, a second contrast: the gender gap
+
+<Callout kind="predict" title="Predict first">
+
+Keep the <Fact id="ch5.n_cells" /> cells and change the contrast to women against men. Women are <Fact id="ch5.gg_rho" /> of these workers, <Fact id="ch5.gg_p_min" /> of the <Fact id="ch5.gg_p_min_label" /> cell and <Fact id="ch5.gg_p_max" /> of the <Fact id="ch5.gg_p_max_label" /> cell, so the regression will again give the lopsided cells little weight. Will its coefficient miss the population-share average by as much as it did for working from home?
+
+</Callout>
+
+The gender wage gap within occupations is a standard object in labor economics and sociology, and the usual estimate of it is the coefficient on a female indicator in a regression with occupation controls <Cite id="blau2017" />. The model is the one above with the roles exchanged: the female indicator is the treatment, working from home joins age and age squared among the controls, and the cells are unchanged, since every cell holds at least 30 women and 30 men. The cell contrasts run from <Fact id="ch5.gg_tau_min" /> to <Fact id="ch5.gg_tau_max" /> log points and the female share from <Fact id="ch5.gg_p_min" /> to <Fact id="ch5.gg_p_max" />.
+
+The implicit weights are as unequal as before. The <Fact id="ch5.gg_n_seg" /> cells in which women are fewer than a fifth or more than four fifths of workers hold <Fact id="ch5.gg_seg_pop" /> of the workforce and receive <Fact id="ch5.gg_seg_reg" /> of the regression's weight; the ten most-weighted cells hold <Fact id="ch5.gg_top10_pop" /> of workers and <Fact id="ch5.gg_top10_reg" /> of the weight; the effective number of cells falls from <Fact id="ch5.gg_eff_cells_pop" /> to <Fact id="ch5.gg_eff_cells_reg" />. Yet the survey-weighted regression gives <Fact id="ch5.gg_wls" ci /> and the population-share average <Fact id="ch5.gg_pate" ci />, a difference of <Fact id="ch5.gg_proj_minus_pate" ci /> (Figure 5.5); the unweighted regression gives <Fact id="ch5.gg_ols" />.
+
+<Figure n="5.5" caption="For the gender gap the survey-weighted regression and the population-share average coincide, although the implicit weights are as unequal as in the work-from-home case.">
+  <Chart id="ch5.gender_six_way" />
+</Figure>
+
+The reason is in Figure 5.6. The regression drifts from the population average only when the contrasts covary with the overlap term $$p_c(1-p_c)$$, and here they barely do: the population-share-weighted correlation between them is <Fact id="ch5.gg_corr" />. The gap in the lopsided cells, <Fact id="ch5.gg_seg_tau" /> log points, is close to the gap in the mixed cells, <Fact id="ch5.gg_int_tau" />, and reweighting cells whose contrasts are alike changes nothing. In the work-from-home case the cells that gained weight were the cells with the larger contrasts, and the coefficient followed them.
+
+<Figure n="5.6" caption="Mixed cells gain regression weight and lopsided cells lose it, but the average contrast in the two groups is nearly the same.">
+  <Chart id="ch5.gender_overlap_table" />
+</Figure>
+
+Two smaller differences follow the same logic. The women-share average is <Fact id="ch5.gg_att" /> and the men-share average <Fact id="ch5.gg_atu" />, <Fact id="ch5.gg_att_minus_atu" ci /> apart, because the gap is smaller in the few cells where women predominate. The regression sits between the two rather than beside the women-share average: with a treatment that splits the population nearly in half, the weights $$p_c(1-p_c)$$ tilt toward neither group. And Słoczyński's weight on the women's term is <Fact id="ch5.gg_sl_w1" /> against a female share of <Fact id="ch5.gg_rho" />, the same over-weighting of the smaller group as before, in a case where it happens not to matter. Unequal implicit weights are necessary for the regression to miss the population average; they are not sufficient. The diagnostic is not the spread of the weights but their covariance with the contrasts, and Figure 5.6 is the table to report.
+
+<Ledger id="ch5.gender_gap" />
+
 ## The variance-weighting machine
 
 <Callout kind="predict" title="Predict first">
@@ -132,7 +160,7 @@ Four habits follow for anyone reporting a regression like this one.
 
 1. **Name the target.** The population projection, a population-weighted average of conditional contrasts, and an average for the treated are three different numbers.
 2. **If the population average is the target, estimate it directly.** Compute the contrast in each cell, or interact the treatment with the cells, and aggregate with population shares. This counts small cells, whose contrasts rest on few home workers, at full population weight, and it depends on how the workers were divided into cells.
-3. **Report the regression-effective sample next to the coefficient.** The implicit weights by group against population shares, as in Figure 5.4 and the table inside the interactive.
+3. **Report the regression-effective sample next to the coefficient.** The implicit weights by group against population shares, as in Figure 5.4 and the table inside the interactive, and the group contrasts beside them, since unequal weights matter only where the contrasts differ (Figure 5.6).
 4. **When the controls enter additively rather than as a full set of cells, check the two representations in the next section.** Some implied weights can turn negative, and the weight on the treated group's term can sit far from the treated share.
 
 ## Going further: signed weights and group weights
@@ -150,9 +178,9 @@ The headline needs nothing beyond the cell weights above. Two further representa
 
 With a full set of cell fixed effects the weights are non-negative. With linear covariates they need not be. <Cite id="chattopadhyay2023" narrative /> show that an OLS coefficient on a binary treatment is a difference between a weighted mean of treated outcomes and a weighted mean of control outcomes, with the weight on person $$i$$ proportional to $$D_i - \hat\ell_i$$ (times $$w_i$$ in a survey-weighted regression), where $$\hat\ell_i$$ is the fitted value from a linear probability model of the treatment on the controls. A commuter whose fitted probability is below zero enters with the wrong sign, as if counted among the home workers.
 
-In Chapter 4's headline specification this does not happen: fitted probabilities of working from home run from <Fact id="ch5.lpm_min_head" /> to <Fact id="ch5.lpm_max_head" />, so every implied weight is positive. Add fixed effects for detailed occupation, industry, and state, as on the last rung of Chapter 4's ladder, and the additive linear probability model gives fitted values from <Fact id="ch5.lpm_min_occind" /> to <Fact id="ch5.lpm_max_occind" />. Then <Fact id="ch5.neg_commuters" /> of commuters, weighted by `PERWT`, carry negative weight (Figure 5.5). Their weights are small, together <Fact id="ch5.neg_mass" /> of the total absolute weight, but they are concentrated where home work is rare: in <Fact id="ch5.neg_top_occ" />, <Fact id="ch5.neg_top_occ_share" /> of commuters are counted with the wrong sign.<SideNote>Strictly, even the cell model's linear age and sex terms push a few fitted probabilities just below zero (the lowest is <Fact id="ch5.m5_lpm_min" />, affecting <Fact id="ch5.m5_neg_share" /> of commuters). The cell-level weights above are exact and remain non-negative.</SideNote>
+In Chapter 4's headline specification this does not happen: fitted probabilities of working from home run from <Fact id="ch5.lpm_min_head" /> to <Fact id="ch5.lpm_max_head" />, so every implied weight is positive. Add fixed effects for detailed occupation, industry, and state, as on the last rung of Chapter 4's ladder, and the additive linear probability model gives fitted values from <Fact id="ch5.lpm_min_occind" /> to <Fact id="ch5.lpm_max_occind" />. Then <Fact id="ch5.neg_commuters" /> of commuters, weighted by `PERWT`, carry negative weight (Figure 5.7). Their weights are small, together <Fact id="ch5.neg_mass" /> of the total absolute weight, but they are concentrated where home work is rare: in <Fact id="ch5.neg_top_occ" />, <Fact id="ch5.neg_top_occ_share" /> of commuters are counted with the wrong sign.<SideNote>Strictly, even the cell model's linear age and sex terms push a few fitted probabilities just below zero (the lowest is <Fact id="ch5.m5_lpm_min" />, affecting <Fact id="ch5.m5_neg_share" /> of commuters). The cell-level weights above are exact and remain non-negative.</SideNote>
 
-<Figure n="5.5" caption="Under additive fixed effects some commuters get negative implied weight, most often in occupations where home work is rare.">
+<Figure n="5.7" caption="Under additive fixed effects some commuters get negative implied weight, most often in occupations where home work is rare.">
   <Chart id="ch5.signed_weights" />
 </Figure>
 
@@ -172,15 +200,15 @@ $$
 
 where $$\omega_1$$ is the implicit weight on the treated group's term (Słoczyński writes $$w_1$$, the symbol the table and ledger keep), $$\rho$$ is the share treated, and $$V_d$$ is the variance of the linear propensity score (the fitted values of a linear probability model of the treatment on the controls) among people with treatment status $$d$$. If the propensity score were equally variable in both groups, $$\omega_1 = 1-\rho$$: OLS would give the treated group's effect the weight that belongs to the untreated group, and vice versa. The smaller group gets the larger weight.
 
-<Figure n="5.6" caption="Home workers are a small minority, yet the home-worker term gets most of the regression's weight.">
+<Figure n="5.8" caption="Home workers are a small minority, yet the home-worker term gets most of the regression's weight.">
   <Chart id="ch5.sloczynski" />
 </Figure>
 
-In the survey-weighted cell regression (Figure 5.6), <Fact id="ch5.sl_rho_wls" /> of workers work from home and the weight on the home-worker term is <Fact id="ch5.sl_w1_wls" />. The unweighted regression, in which <Fact id="ch5.sl_rho_ols" /> of records are home workers, gives <Fact id="ch5.sl_w1_ols" />, and Chapter 4's model with education only gives <Fact id="ch5.sl4_w1" />. That is the same pattern as Figure 5.3, where the regression sat next to the home-worker-share average.
+In the survey-weighted cell regression (Figure 5.8), <Fact id="ch5.sl_rho_wls" /> of workers work from home and the weight on the home-worker term is <Fact id="ch5.sl_w1_wls" />. The unweighted regression, in which <Fact id="ch5.sl_rho_ols" /> of records are home workers, gives <Fact id="ch5.sl_w1_ols" />, and Chapter 4's model with education only gives <Fact id="ch5.sl4_w1" />. That is the same pattern as Figure 5.3, where the regression sat next to the home-worker-share average.
 
 Słoczyński's $$\ATT$$ and $$\ATU$$ are not the cell-based averages of Figure 5.3. They are average partial linear effects: within each group, log wage is projected on the propensity score by a straight line, and each term compares one group's mean with the other group's line evaluated at the first group's mean score. Here they are <Fact id="ch5.sl_att" /> for home workers and <Fact id="ch5.sl_atu" /> for commuters, implying an average partial effect of <Fact id="ch5.sl_ape" />, against cell-based averages of <Fact id="ch5.att" /> and <Fact id="ch5.atu" />. The two pairs disagree even on which group's contrast is larger, because within groups mean log wage is not a straight-line function of the propensity score across occupation-by-education cells. The commuter term is the most exposed: it evaluates the home workers' line, fitted mostly where home work is common, at the low scores typical of commuters.
 
-What the decomposition does establish is its weights. They depend only on the share working from home and on how much the propensity score varies within each group, and applied to the cell-based averages they give <Fact id="ch5.sl_hybrid" />, close to the fitted coefficient. It does not establish a causal result. Reading the two terms as causal quantities would require unconfoundedness as well as linearity, and this descriptive analysis claims neither. Read Figure 5.6 for its weights, not for its ATT and ATU columns.
+What the decomposition does establish is its weights. They depend only on the share working from home and on how much the propensity score varies within each group, and applied to the cell-based averages they give <Fact id="ch5.sl_hybrid" />, close to the fitted coefficient. It does not establish a causal result. Reading the two terms as causal quantities would require unconfoundedness as well as linearity, and this descriptive analysis claims neither. Read Figure 5.8 for its weights, not for its ATT and ATU columns.
 
 <Details summary="Checks on the decomposition">
 
@@ -205,7 +233,7 @@ The population-share average counts the cell at its full population share, so it
 <Closing>
 <Learned>
 
-Among full-time wage and salary workers in 2024, the home–commute wage contrast is larger in occupations and education groups where working from home is common. The population-share average of the occupation-by-education cell contrasts is <Fact id="ch5.pate" /> log points; the survey-weighted regression with the same cells reports <Fact id="ch5.cellfe_wls" />, close to the home-worker-share average.
+Among full-time wage and salary workers in 2024, the home–commute wage contrast is larger in occupations and education groups where working from home is common. The population-share average of the occupation-by-education cell contrasts is <Fact id="ch5.pate" /> log points; the survey-weighted regression with the same cells reports <Fact id="ch5.cellfe_wls" />, close to the home-worker-share average. For the gender gap in the same cells the two summaries coincide, at <Fact id="ch5.gg_wls" /> and <Fact id="ch5.gg_pate" />, because the gap is about as large in the lopsided cells the regression discounts as in the mixed cells it favors.
 
 </Learned>
 <Changed>
@@ -220,6 +248,7 @@ Nothing about the sample or the survey weights changed. What changed is the weig
 - **Precise contrasts in small cells.** Small cells have imprecise contrasts, and the population-share average counts them at full population weight.
 - **A telework contrast.** Chapter 4's construct caveat applies: `TRANWORK` records the usual means of getting to work, not any telework.
 - **Słoczyński's ATT and ATU.** Here they are linear-projection summaries that disagree with the cell-based averages, not estimates of the causal quantities.
+- **A discrimination estimate.** The gender contrast within cells is descriptive. Sorting into occupations, education, and home work is held fixed by the cells and controls, not explained, and the agreement of the two summaries says nothing about what the gap is a gap of.
 
 </NotEstablished>
 </Closing>

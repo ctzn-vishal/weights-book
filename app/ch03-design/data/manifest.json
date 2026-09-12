@@ -1,6 +1,6 @@
 {
   "code": "build.py",
-  "generated_at": "2026-09-11T01:39:34Z",
+  "generated_at": "2026-09-12T05:15:57Z",
   "inputs": [
     {
       "note": "CYCLE_YEAR in 2017, 2019, 2021; design, weights, BPQ020, BPQ150, BPXOSY1-3, BPXODI1-3",
@@ -13,7 +13,7 @@
       "rows": 36747
     },
     {
-      "note": "YEAR = 2023; sample adults ASTATFLG = 1; SAMPWEIGHT; (STRATA, PSU) composite key built for 2023",
+      "note": "YEAR = 2023; sample adults ASTATFLG = 1; SAMPWEIGHT; (STRATA, PSU) composite key built for 2023; group contrasts use AGE, REGION, race_eth5, educ4, citizen_b, female, age_group",
       "path": "C:/Users/Vishal Singh/Box/ipums/analysis/nhis/nhis_core/part_2015_2024.parquet",
       "rows": 37214
     },
@@ -556,6 +556,69 @@
       "quantity": "brfss_df",
       "r": 455277.0,
       "rel_diff": 0.0
+    },
+    {
+      "abs_diff": 0.0,
+      "kind": "R survey 4.5",
+      "pass": true,
+      "python": 0.1078781925,
+      "quantity": "nhis_unins_wa_est",
+      "r": 0.1078781925,
+      "rel_diff": 0.0
+    },
+    {
+      "abs_diff": 0.0,
+      "kind": "R survey 4.5",
+      "pass": true,
+      "python": 0.003467111498,
+      "quantity": "nhis_unins_wa_se",
+      "r": 0.003467111498,
+      "rel_diff": 0.0
+    },
+    {
+      "abs_diff": 0.0,
+      "kind": "R survey 4.5",
+      "pass": true,
+      "python": -0.01814179916,
+      "quantity": "nhis_ne_mw_diff",
+      "r": -0.01814179916,
+      "rel_diff": 0.0
+    },
+    {
+      "abs_diff": 1.734723476e-18,
+      "kind": "R survey 4.5",
+      "pass": true,
+      "python": 0.009399435384,
+      "quantity": "nhis_ne_mw_se",
+      "r": 0.009399435384,
+      "rel_diff": 1.845561361e-16
+    },
+    {
+      "abs_diff": 0.0,
+      "kind": "R survey 4.5",
+      "pass": true,
+      "python": 240.0,
+      "quantity": "nhis_ne_mw_df",
+      "r": 240.0,
+      "rel_diff": 0.0
+    },
+    {
+      "abs_diff": 0.0,
+      "kind": "R survey 4.5",
+      "pass": true,
+      "python": 0.03440146212,
+      "quantity": "nhis_sex_diff",
+      "r": 0.03440146212,
+      "rel_diff": 0.0
+    },
+    {
+      "abs_diff": 8.67361738e-19,
+      "kind": "R survey 4.5",
+      "pass": true,
+      "python": 0.005439414537,
+      "quantity": "nhis_sex_se",
+      "r": 0.005439414537,
+      "rel_diff": 1.594586572e-16
     },
     {
       "kind": "R survey 4.5",

@@ -1,0 +1,136 @@
+{
+  "alt": "Table of rejection rates of a nominal 5 percent test under five variance rules in two placebo designs; the record, household and state-year rules reject a true null far more than 5 percent of the time, and the state-level rules reject near 5 percent.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "design",
+      "label": "Placebo design"
+    },
+    {
+      "align": "left",
+      "key": "rung",
+      "label": "Variance rule"
+    },
+    {
+      "align": "left",
+      "key": "independent",
+      "label": "Independent units"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "reject",
+      "label": "Rejects at 5%"
+    },
+    {
+      "align": "right",
+      "format": "num2",
+      "key": "median_se",
+      "label": "Median SE (points)"
+    },
+    {
+      "align": "right",
+      "format": "ratio2",
+      "key": "ratio",
+      "label": "Median SE / HC1"
+    }
+  ],
+  "highlight_key": "reject",
+  "note": "In the first design no expansion happened in any state, so the null is true by construction. In the second the real expansion stays in the outcome and acts as a state-level shock the placebo regression does not model. Tests use t(N − K) for HC1 and t(G − 1) for the clustered rules, as pyfixest does.",
+  "rows": [
+    {
+      "design": "15 never-expanded states, 7 placebo expanders (all 6,435 assignments)",
+      "independent": "Every record",
+      "median_se": 0.2827,
+      "ratio": 1.0,
+      "reject": 0.8668,
+      "role": "naive",
+      "rung": "HC1 (records independent)"
+    },
+    {
+      "design": "15 never-expanded states, 7 placebo expanders (all 6,435 assignments)",
+      "independent": "Households",
+      "median_se": 0.3334,
+      "ratio": 1.1793,
+      "reject": 0.8278,
+      "role": "design",
+      "rung": "CRV1 by ACS household"
+    },
+    {
+      "design": "15 never-expanded states, 7 placebo expanders (all 6,435 assignments)",
+      "independent": "State-years",
+      "median_se": 0.5898,
+      "ratio": 2.0422,
+      "reject": 0.6404,
+      "role": "naive",
+      "rung": "CRV1 by state-year"
+    },
+    {
+      "design": "15 never-expanded states, 7 placebo expanders (all 6,435 assignments)",
+      "independent": "States",
+      "median_se": 1.1582,
+      "ratio": 3.9901,
+      "reject": 0.1209,
+      "role": "highlight",
+      "rung": "CRV1 by state, t(G − 1)"
+    },
+    {
+      "design": "15 never-expanded states, 7 placebo expanders (all 6,435 assignments)",
+      "independent": "States",
+      "median_se": 1.5931,
+      "ratio": 5.5394,
+      "reject": 0.0031,
+      "role": "highlight",
+      "rung": "CRV3 jackknife by state, t(G − 1)"
+    },
+    {
+      "design": "30 design states, 15 placebo expanders (4,000 seeded draws)",
+      "independent": "Every record",
+      "median_se": 0.2166,
+      "ratio": 1.0,
+      "reject": 0.86,
+      "role": "naive",
+      "rung": "HC1 (records independent)"
+    },
+    {
+      "design": "30 design states, 15 placebo expanders (4,000 seeded draws)",
+      "independent": "Households",
+      "median_se": 0.2567,
+      "ratio": 1.1851,
+      "reject": 0.8347,
+      "role": "design",
+      "rung": "CRV1 by ACS household"
+    },
+    {
+      "design": "30 design states, 15 placebo expanders (4,000 seeded draws)",
+      "independent": "State-years",
+      "median_se": 0.8356,
+      "ratio": 3.813,
+      "reject": 0.4798,
+      "role": "naive",
+      "rung": "CRV1 by state-year"
+    },
+    {
+      "design": "30 design states, 15 placebo expanders (4,000 seeded draws)",
+      "independent": "States",
+      "median_se": 1.9434,
+      "ratio": 8.8748,
+      "reject": 0.0828,
+      "role": "highlight",
+      "rung": "CRV1 by state, t(G − 1)"
+    },
+    {
+      "design": "30 design states, 15 placebo expanders (4,000 seeded draws)",
+      "independent": "States",
+      "median_se": 2.2354,
+      "ratio": 10.1733,
+      "reject": 0.05,
+      "role": "highlight",
+      "rung": "CRV3 jackknife by state, t(G − 1)"
+    }
+  ],
+  "source": "IPUMS USA, ACS 1-year samples 2011–2019 (analysis/usa/acs/part_2010_2014.parquet, part_2015_2019.parquet); expansion dates in _data/expansion_dates.csv (KFF; medicaid.gov)",
+  "subtitle": "Placebo expansion assigned to states at random from 2014; the same regression and rungs as the ladder",
+  "title": "Laws that never happened: how often each variance rule rejects a true null",
+  "type": "table"
+}

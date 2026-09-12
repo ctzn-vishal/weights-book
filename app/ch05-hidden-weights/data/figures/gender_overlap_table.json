@@ -1,0 +1,63 @@
+{
+  "alt": "Table of three bands of cells by female share, showing the number of cells, their share of workers, their share of the regression's implicit weight, and their average gender contrast; mixed cells gain weight and segregated cells lose it, while the average contrast differs little between the first two bands.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "band",
+      "label": "Female share of the cell"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "cells",
+      "label": "Cells"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "pop",
+      "label": "Share of workers"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "reg",
+      "label": "Regression weight"
+    },
+    {
+      "align": "right",
+      "format": "num3",
+      "key": "tau",
+      "label": "Average contrast (log points)"
+    }
+  ],
+  "highlight_key": "reg",
+  "note": "Implicit weight of a cell = N_c p_c (1 − p_c) with p_c the cell's PERWT-weighted female share.",
+  "rows": [
+    {
+      "band": "Under 20% women",
+      "cells": 16,
+      "pop": 0.15053744,
+      "reg": 0.068571548,
+      "tau": -0.1967188
+    },
+    {
+      "band": "20–80% women",
+      "cells": 62,
+      "pop": 0.79908935,
+      "reg": 0.8954937,
+      "tau": -0.20297813
+    },
+    {
+      "band": "Over 80% women",
+      "cells": 7,
+      "pop": 0.050373206,
+      "reg": 0.035934749,
+      "tau": -0.11376705
+    }
+  ],
+  "source": "IPUMS USA, ACS 2024 1-year (SAMPLE 202401), analysis/usa/acs/part_2020_2024.parquet; replicate weights REPWTP1–80 from analysis/usa/acs_repwt/part_2020_2024.parquet",
+  "subtitle": "Cells grouped by their female share; contrasts are population-share averages within the band",
+  "title": "Where the gender regression's weight goes",
+  "type": "table"
+}

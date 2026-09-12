@@ -82,7 +82,10 @@ RESCALE = math.sqrt(C * R)      # = 2: one SDR replicate deviation carries Var/4
 PROSE = {"rank1": "Texas", "rank2": "Georgia", "rank3": "Oklahoma", "rank9": "Wyoming",
          "rank10": "Arizona", "rank11": "Tennessee", "rank51": "Massachusetts",
          "median": "Indiana", "ratio_min": "Oklahoma", "ratio_max": "Minnesota",
-         "largest": "California", "n_min": "Wyoming", "n_max": "California"}
+         "largest": "California", "n_min": "Wyoming", "n_max": "California",
+         "movers": ["Delaware", "New Jersey"]}   # largest rank change between the 19-64 and 55-64 tables
+OLD_LO, OLD_HI = 55, 64
+OLD_BANDS = [55, 60]                    # AGE_BANDS entries covering 55-64
 
 SOURCE = ("IPUMS USA, ACS 2024 1-year sample (analysis/usa/acs + acs_repwt, "
           "part_2020_2024.parquet; PERWT and REPWTP1-80)")
@@ -441,9 +444,10 @@ def main():
     cov_ratio = se_D[iu] / se_D_indep[iu]
 
     # rank ranges from pairwise tests (per comparison, 90%)
-    def rank_bounds(sigm):
-        hi_ = np.array([sum(1 for j in range(S) if th0[j] > th0[i] and sigm[i, j]) for i in range(S)])
-        lo_ = np.array([sum(1 for j in range(S) if th0[j] < th0[i] and sigm[i, j]) for i in range(S)])
+    def rank_bounds(sigm, th=None):
+        th = th0 if th is None else th
+        hi_ = np.array([sum(1 for j in range(S) if th[j] > th[i] and sigm[i, j]) for i in range(S)])
+        lo_ = np.array([sum(1 for j in range(S) if th[j] < th[i] and sigm[i, j]) for i in range(S)])
         return 1 + hi_, S - lo_, hi_ + lo_
     L, U, distinct = rank_bounds(sig_sdr)
     _, _, distinct_naive = rank_bounds(sig_naive)
@@ -481,6 +485,44 @@ def main():
     se_state_us_rep = float(np.sqrt(C * (d_us ** 2).sum()))
     se_state_us_ind = float(np.sqrt(se_sdr[big] ** 2 + US["se_sdr"] ** 2))
 
+    # ---- a second table from the same file: adults 55-64 (pass 2, 2026-09-12)
+    # Same universe, same estimator, same variance; only the age band changes. The point is
+    # that a ranking belongs to an estimand: states move when the population does, and the
+    # smaller samples separate fewer pairs.
+    dm_o = domain(cells, UNIVERSE & pl.col("age_lo").is_in(OLD_BANDS))
+    assert [int(f) for f in dm_o["fips"]] == fips
+    Eo = estimates(dm_o)
+    th_o, dev_o, se_o, se_iid_o, n_o = Eo["th0"], Eo["dev"], Eo["se_sdr"], Eo["se_iid"], Eo["n"]
+    cv_o = se_o / th_o
+    assert n_o.min() >= 100, "suppression rule would bite (55-64)"
+    assert cv_o.max() <= 0.30, "CV flag would bite (55-64)"
+    order_o = sorted(range(S), key=lambda i: (-th_o[i], names[i]))
+    rank_o = np.empty(S, dtype=int)
+    for pos, i in enumerate(order_o):
+        rank_o[i] = pos + 1
+    D_o = th_o[:, None] - th_o[None, :]
+    DD_o = dev_o[:, None, :] - dev_o[None, :, :]
+    se_D_o = np.sqrt(C * (DD_o ** 2).sum(axis=2))
+    se_D_naive_o = np.sqrt(se_iid_o[:, None] ** 2 + se_iid_o[None, :] ** 2)
+    for m_ in (se_D_o, se_D_naive_o):
+        np.fill_diagonal(m_, np.inf)
+    sig_o = np.abs(D_o) / se_D_o > Z90
+    sig_naive_o = np.abs(D_o) / se_D_naive_o > Z90
+    counts_o = {"sdr": int(sig_o[iu].sum()), "naive": int(sig_naive_o[iu].sum())}
+    adj_o = [(order_o[k], order_o[k + 1]) for k in range(S - 1)]
+    adj_sdr_o = sum(bool(sig_o[a, b]) for a, b in adj_o)
+    adj_naive_o = sum(bool(sig_naive_o[a, b]) for a, b in adj_o)
+    L_o, U_o, distinct_o = rank_bounds(sig_o, th_o)
+    move = rank_o - rank                       # positive = lower in the older-adult table
+    move_max = int(np.abs(move).max())
+    movers = sorted(i for i in range(S) if abs(move[i]) == move_max)
+    moved5 = int((np.abs(move) >= 5).sum())
+    moved10 = int((np.abs(move) >= 10).sum())
+    assert {names[i] for i in movers} == set(PROSE["movers"]), [names[i] for i in movers]
+    mover = next(i for i in movers if names[i] == PROSE["movers"][0])
+    assert names[order_o[0]] == PROSE["rank1"] and names[order_o[-1]] == PROSE["rank51"]   # Texas and Massachusetts hold both ends
+    assert counts_o["sdr"] < counts["sdr"] and adj_sdr_o <= adj_sdr + 1              # "separates fewer pairs"
+
     # ---- named units and the claims the prose makes about them
     top, top2, top3, bot = order[0], order[1], order[2], order[-1]
     r9, r10, r11 = order[TOP_K - 2], order[TOP_K - 1], order[TOP_K]
@@ -491,7 +533,7 @@ def main():
     got = {"rank1": names[top], "rank2": names[top2], "rank3": names[top3], "rank9": names[r9],
            "rank10": names[r10], "rank11": names[r11], "rank51": names[bot], "median": names[med],
            "ratio_min": names[rmin], "ratio_max": names[rmax], "largest": names[big],
-           "n_min": names[small], "n_max": names[large_n]}
+           "n_min": names[small], "n_max": names[large_n], "movers": sorted(names[i] for i in movers)}
     assert got == PROSE, {k: (PROSE[k], got[k]) for k in PROSE if PROSE[k] != got[k]}
     assert (L[top], U[top]) == (1, 1) and (L[bot], U[bot]) == (S, S)           # "first and last under every test"
     assert th0[top] - Z90 * se_sdr[top] > th0[top2] + Z90 * se_sdr[top2]         # Figure 3L.1 caption
@@ -533,13 +575,39 @@ def main():
                       fips[order[S // 2 + 1]], fips[order[-1]], fips[small]})
     tpairs = [[fips[order[0]], fips[order[1]]], [fips[order[9]], fips[order[10]]],
               [fips[med], fips[order[S // 2 + 1]]]]
-    dump({"sample": SAMPLE, "age_min": AGE_MIN, "age_max": AGE_MAX, "n_reps": R,
-          "states": tstates, "pairs": tpairs}, TARGETS)
+    # second table: the two largest movers, the top state, and the mover pair, among adults 55-64
     fidx = {f: i for i, f in enumerate(fips)}
+    ostates = sorted({fips[i] for i in movers} | {fips[order_o[0]]})
+    opairs = [[fips[movers[0]], fips[movers[1]]]] if len(movers) >= 2 else [[fips[movers[0]], fips[order_o[0]]]]
+    dump({"sample": SAMPLE, "age_min": AGE_MIN, "age_max": AGE_MAX, "n_reps": R,
+          "states": tstates, "pairs": tpairs,
+          "extra": {"age_min": OLD_LO, "age_max": OLD_HI, "states": ostates, "pairs": opairs}}, TARGETS)
     r_val = None
+    r_val_old = None
     if R_RESULTS.exists():
         rr = json.loads(R_RESULTS.read_text(encoding="utf-8"))
         st = {int(x["fips"]): x for x in rr["states"]}
+        ex = rr.get("extra")
+        if ex and sorted(int(x["fips"]) for x in ex["states"]) == ostates and [[p["a"], p["b"]] for p in ex["pairs"]] == opairs:
+            def num_(x):
+                return float(np.asarray(x, dtype=float).ravel()[0])
+            sto = {int(x["fips"]): x for x in ex["states"]}
+            d_est_o = max(abs(num_(sto[f]["estimate"]) - th_o[fidx[f]]) for f in ostates)
+            d_se_o = max(abs(num_(sto[f]["se_successive_difference"]) - se_o[fidx[f]]) for f in ostates)
+            d_n_o = max(abs(int(num_(sto[f]["n"])) - int(n_o[fidx[f]])) for f in ostates)
+            d_pair_o = max(abs(num_(p["se_diff"]) - se_D_o[fidx[p["a"]], fidx[p["b"]]]) for p in ex["pairs"])
+            d_pdiff_o = max(abs(num_(p["diff"]) - D_o[fidx[p["a"]], fidx[p["b"]]]) for p in ex["pairs"])
+            d_all_o = max(d_est_o, d_se_o, d_pair_o, d_pdiff_o)
+            r_val_old = {"check": f"hand-coded SDR vs R survey, adults {OLD_LO}-{OLD_HI} (second table)",
+                         "call": "subset(des_sdr, AGE >= 55 & AGE <= 64); svyby(~uninsured, ~STATEFIP, svymean, covmat=TRUE); svycontrast",
+                         "states": [STATES[f][1] for f in ostates], "pairs": [f"{STATES[a][1]}-{STATES[b][1]}" for a, b in opairs],
+                         "max_abs_diff_estimate": float(f"{d_est_o:.3g}"), "max_abs_diff_se": float(f"{d_se_o:.3g}"),
+                         "max_abs_diff_pair_estimate": float(f"{d_pdiff_o:.3g}"), "max_abs_diff_pair_se": float(f"{d_pair_o:.3g}"),
+                         "max_abs_diff_all": float(f"{d_all_o:.3g}"), "max_abs_diff_n": int(d_n_o), "tolerance": 1e-9,
+                         "pass": bool(d_all_o < 1e-9 and d_n_o == 0)}
+            assert r_val_old["pass"], r_val_old
+        else:
+            print(f"verify_R.json has no matching 'extra' block ({OLD_LO}-{OLD_HI}): rerun verify.R")
         if sorted(st) == tstates and [[p["a"], p["b"]] for p in rr["pairs"]] == tpairs:
             def num(x):  # jsonlite writes 1 x 1 matrices as nested arrays
                 return float(np.asarray(x, dtype=float).ravel()[0])
@@ -690,6 +758,29 @@ def main():
                                      "(estimates, SEs, pairwise differences and their SEs; proportion scale).",
                                      unit="absolute difference (bound)", disp=disp10,
                                      note=f"Largest observed difference {r_val['max_abs_diff_all']:.2g}.")
+    # ---- the second table: adults 55-64
+    U_O = f"Uninsured rate among civilian noninstitutionalized adults aged {OLD_LO}-{OLD_HI} in the 50 states and DC, 2024 (IPUMS approximation as above)"
+    F["old_n_total"] = count_fact(int(n_o.sum()), f"Unweighted sample size, adults {OLD_LO}-{OLD_HI} in the universe.", variance="none")
+    F["old_n_min"] = count_fact(int(n_o.min()), f"Smallest state sample, adults {OLD_LO}-{OLD_HI} ({names[int(np.argmin(n_o))]}).", variance="none")
+    F["old_us_rate"] = est_fact(est=float(dm_o["SWY"].sum(axis=0)[0] / dm_o["SW"].sum(axis=0)[0]),
+                                se=float(np.sqrt(C * ((dm_o["SWY"].sum(axis=0)[1:] / dm_o["SW"].sum(axis=0)[1:]
+                                                       - dm_o["SWY"].sum(axis=0)[0] / dm_o["SW"].sum(axis=0)[0]) ** 2).sum())),
+                                nn=int(n_o.sum()), estimand=U_O + "; all states pooled.")
+    F["old_pairs_sig_sdr"] = count_fact(counts_o["sdr"], f"{PAIRS} {TEST}, adults {OLD_LO}-{OLD_HI}, SE of each difference from the replicates.")
+    F["old_pairs_sig_naive"] = count_fact(counts_o["naive"], f"{PAIRS} {TEST}, adults {OLD_LO}-{OLD_HI}, naive iid SEs.", variance="none")
+    F["old_adj_sig_sdr"] = count_fact(adj_sdr_o, f"Of the 50 pairs adjacent in the {OLD_LO}-{OLD_HI} ranking, the number distinguishable at the 90% level with SDR SEs.")
+    F["old_adj_sig_naive"] = count_fact(adj_naive_o, f"Of the 50 pairs adjacent in the {OLD_LO}-{OLD_HI} ranking, the number distinguishable at the 90% level with naive iid SEs.", variance="none")
+    F["old_ratio_median"] = ratio_fact(float(np.median(se_o / se_iid_o)), f"Median across the 51 states of SE(SDR) / SE(naive iid), adults {OLD_LO}-{OLD_HI}.")
+    F["old_cv_max"] = base(sig(float(cv_o.max())), f"{cv_o.max():.2f}", f"Largest coefficient of variation (SDR SE / estimate) among the 51 state rates, adults {OLD_LO}-{OLD_HI} ({names[int(np.argmax(cv_o))]}).", "coefficient of variation")
+    F["old_move_max"] = count_fact(move_max, f"Largest change in rank between the 19-64 table and the {OLD_LO}-{OLD_HI} table ({', '.join(names[i] for i in movers)}).", variance="none", unit="ranks")
+    F["old_moved5"] = count_fact(moved5, f"States whose rank differs by 5 or more places between the 19-64 and {OLD_LO}-{OLD_HI} tables.", variance="none")
+    F["old_moved10"] = count_fact(moved10, f"States whose rank differs by 10 or more places between the 19-64 and {OLD_LO}-{OLD_HI} tables.", variance="none")
+    F["mover_rank_all"] = count_fact(int(rank[mover]), f"Rank of {names[mover]} among adults 19-64 (1 = highest uninsured rate).", variance="none", unit="rank")
+    F["mover_rank_old"] = count_fact(int(rank_o[mover]), f"Rank of {names[mover]} among adults {OLD_LO}-{OLD_HI}.", variance="none", unit="rank")
+    F["mover_rate_all"] = est_fact(mover, estimand=f"{U_}: {names[mover]}.")
+    F["mover_rate_old"] = est_fact(est=th_o[mover], se=se_o[mover], nn=int(n_o[mover]), estimand=f"{U_O}: {names[mover]}.")
+    F["mover_range_all"] = count_fact(f"{L[mover]}-{U[mover]}", f"Ranks consistent with every pairwise 90% test for {names[mover]}, adults 19-64.", unit="rank range", disp=f"{L[mover]}–{U[mover]}")
+    F["mover_range_old"] = count_fact(f"{L_o[mover]}-{U_o[mover]}", f"Ranks consistent with every pairwise 90% test for {names[mover]}, adults {OLD_LO}-{OLD_HI}.", unit="rank range", disp=f"{L_o[mover]}–{U_o[mover]}")
     # Displays that read better than the helpers' defaults: replicate frequencies as exact
     # counts out of 80 (they move in steps of 1/80), and the state-vs-nation SEs with a third
     # decimal so the contrast is visible.
@@ -813,8 +904,25 @@ def main():
                  "REPWTP1-80; Var = 0.05 x sum of squared deviations, so a draw-like view rescales each deviation "
                  "by sqrt(0.05 x 80) = 2. Replicates approximate sampling spread; they are not posterior draws."),
     }
+    rank_shift = {
+        "type": "slope",
+        "title": f"The same states, two tables: rank among adults 19–64 and among adults {OLD_LO}–{OLD_HI}",
+        "subtitle": "Rank 1 = highest uninsured rate. Highlighted states move ten or more places.",
+        "alt": (f"Slope chart connecting each state's rank in the uninsured-rate table for adults 19 to 64 to its rank in the "
+                f"table for adults {OLD_LO} to {OLD_HI}; Texas stays first and Massachusetts last while {moved10} states move ten or "
+                f"more places, {', '.join(names[i] for i in movers)} the most."),
+        "format": "int",
+        "left_label": "Rank, adults 19–64",
+        "right_label": f"Rank, adults {OLD_LO}–{OLD_HI}",
+        "rows": [{"label": names[i], "left": int(rank[i]), "right": int(rank_o[i]),
+                  "role": "highlight" if abs(int(move[i])) >= 10 else "muted"} for i in order],
+        "source": src_fig,
+        "note": ("Both tables use the same universe (civilian noninstitutionalized), estimator, and replicate variance; only the age band "
+                 f"changes. The {OLD_LO}–{OLD_HI} samples are smaller (from {fint(int(n_o.min()))} in {names[int(np.argmin(n_o))]}), so its "
+                 "intervals are wider and fewer pairs are distinguishable."),
+    }
     for name, obj in [("rank_table", rank_table), ("state_forest", state_forest),
-                      ("rank_gap", rank_gap), ("state_replicates", state_replicates)]:
+                      ("rank_gap", rank_gap), ("state_replicates", state_replicates), ("rank_shift", rank_shift)]:
         dump(obj, FIG / f"{name}.json")
 
     # ---- manifest
@@ -823,6 +931,11 @@ def main():
         validation.append(r_val)
     else:
         validation.append({"check": "hand-coded SDR vs R survey", "pass": None,
+                           "status": "pending: run verify.R, then build.py again"})
+    if r_val_old:
+        validation.append(r_val_old)
+    else:
+        validation.append({"check": f"hand-coded SDR vs R survey, adults {OLD_LO}-{OLD_HI} (second table)", "pass": None,
                            "status": "pending: run verify.R, then build.py again"})
     validation.append({
         "check": "hand-coded SDR vs svy 0.28 replication path (third implementation)",
@@ -897,6 +1010,9 @@ def main():
           f"({names[wmin]}, {names[wmax]}); se_D rep/indep median {np.median(cov_ratio):.4f}")
     print(f"top10: sure {len(sure_top)} maybe {len(maybe_top)}; freq r9 {top_freq[r9]:.4f} r10 {top_freq[r10]:.4f} r11 {top_freq[r11]:.4f}")
     print(f"state-vs-US ({usps[big]}): se rep {pp(se_state_us_rep, 3)} vs indep {pp(se_state_us_ind, 3)}")
+    print(f"55-64 table: pairs {counts_o}; adjacent sdr {adj_sdr_o} naive {adj_naive_o}; n_min {n_o.min()}; max CV {cv_o.max():.3f}; "
+          f"moved>=5 {moved5}, >=10 {moved10}; movers {[names[i] for i in movers]} ({move_max}); "
+          f"{names[mover]} rank {rank[mover]} -> {rank_o[mover]}, ranges {L[mover]}-{U[mover]} / {L_o[mover]}-{U_o[mover]}; R(old): {r_val_old['pass'] if r_val_old else 'pending'}")
     print(f"svy [{usps[top]}] default se {svy_res['default']['se']:.8f} df {svy_res['default']['df']}; "
           f"replication se {svy_res['replication']['se']:.8f} df {svy_res['replication']['df']}; |diff| {svy_rep_diff:.2e}")
     print(f"PUMS: {len(pums)} rows; est exact {pums_est_ok}; se ok {pums_se_ok}; max se diff {max(r['se_abs_diff'] for r in pums)}")

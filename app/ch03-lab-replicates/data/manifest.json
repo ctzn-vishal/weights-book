@@ -1,6 +1,6 @@
 {
   "code": "build.py",
-  "generated_at": "2026-09-11T00:19:10+00:00",
+  "generated_at": "2026-09-12T05:18:09+00:00",
   "inputs": [
     {
       "note": "SAMPLE 202401 (ACS 2024 1-year); SERIAL, PERNUM, STATEFIP, SEX, AGE, GQ, EMPSTATD, PERWT, uninsured",
@@ -82,7 +82,7 @@
         "IN-IL"
       ],
       "pass": true,
-      "rows": 461307,
+      "rows": 519464,
       "rscales": 1,
       "scale": 0.05,
       "states": [
@@ -94,6 +94,26 @@
         "TN",
         "TX",
         "WY"
+      ],
+      "tolerance": 1e-09
+    },
+    {
+      "call": "subset(des_sdr, AGE >= 55 & AGE <= 64); svyby(~uninsured, ~STATEFIP, svymean, covmat=TRUE); svycontrast",
+      "check": "hand-coded SDR vs R survey, adults 55-64 (second table)",
+      "max_abs_diff_all": 3.89e-16,
+      "max_abs_diff_estimate": 3.89e-16,
+      "max_abs_diff_n": 0,
+      "max_abs_diff_pair_estimate": 4.51e-17,
+      "max_abs_diff_pair_se": 1.73e-18,
+      "max_abs_diff_se": 2.17e-18,
+      "pairs": [
+        "DE-NJ"
+      ],
+      "pass": true,
+      "states": [
+        "DE",
+        "NJ",
+        "TX"
       ],
       "tolerance": 1e-09
     },

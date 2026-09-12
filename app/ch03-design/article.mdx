@@ -1,14 +1,14 @@
 import { PopulationSampler } from '@/components/widgets/PopulationSampler'
 
-## Nearly half of adults
+## A standard error of what?
 
-Nearly half of U.S. adults have high blood pressure. In August 2021–August 2023, <Fact id="ch3.htn_prev" ci /> of adults met the definition the National Center for Health Statistics (NCHS) uses: a reading of 130/80 mm Hg or higher in the examination room, or current use of prescribed blood-pressure medication. Untreated, hypertension raises the risk of stroke, heart attack, and kidney failure, and it is treatable in a specific sequence. A person has to learn they have it, start medication, and keep the pressure below the line. Public health counts those steps as a cascade. Among adults with hypertension, <Fact id="ch3.htn_aware" /> had been told so by a health professional, <Fact id="ch3.htn_treat" /> were taking medication for it, and <Fact id="ch3.htn_control" /> had their blood pressure under control.
+The software printed a standard error. Is it the standard error of anything? You have a public-use health file open and a difference between two weighted shares, and one call gives it a p-value of <Fact id="ch3.chg_control_men_p_naive" /> while another gives <Fact id="ch3.chg_control_men_p_design" />. One of them goes in the paper, and nothing in the output says which. The two calls agree on the estimate. They disagree about a single input: a statement about the repetition that makes an estimate vary, which one call was given and the other was not. This chapter is about that input, what it costs to leave it out, and how to tell when leaving it out changes a conclusion.
+
+The difference in question is a change in blood pressure control among men. Nearly half of U.S. adults have high blood pressure: in August 2021–August 2023, <Fact id="ch3.htn_prev" ci /> met the definition the National Center for Health Statistics (NCHS) uses, a reading of 130/80 mm Hg or higher in the examination room or current use of prescribed blood-pressure medication. Hypertension is treatable in a specific sequence, and public health counts the steps as a cascade. Among adults with hypertension, <Fact id="ch3.htn_aware" /> had been told so by a health professional, <Fact id="ch3.htn_treat" /> were taking medication for it, and <Fact id="ch3.htn_control" /> had their blood pressure under control. The shares come from the National Health and Nutrition Examination Survey (NHANES), which measures blood pressure in a mobile examination center rather than asking about it, and NCHS published them in Data Brief 511 <Cite id="nchs_db511" />. The brief also answers the question clinicians asked as the pandemic receded: did control get worse? Between 2017–March 2020 and August 2021–August 2023, NCHS reported no detectable change in awareness, treatment, or control.
 
 <KeyNumber id="ch3.htn_control" label="of adults with hypertension had it under control, August 2021–August 2023" />
 
-Those four shares come from the National Health and Nutrition Examination Survey (NHANES), the national survey that measures blood pressure in a mobile examination center rather than asking about it, and NCHS published them in Data Brief 511 <Cite id="nchs_db511" />. The brief also answers the question clinicians asked as the pandemic receded: did control get worse? Between 2017–March 2020 and August 2021–August 2023, NCHS reported no detectable change in awareness, treatment, or control.
-
-That conclusion is easy to overturn by accident. Take men with hypertension. The estimated change in control is <Fact id="ch3.chg_control_men" ci /> percentage points. An analyst who computes weighted shares with a group-by and attaches the textbook standard error reports a significant decline, p = <Fact id="ch3.chg_control_men_p_naive" />. An analyst who declares NHANES's sampling design reports p = <Fact id="ch3.chg_control_men_p_design" />. Same files, same weights, same point estimate. The two differ in one input: a statement about the repetition that makes an estimate vary. This chapter is about that input. Men's control is also one of 24 period comparisons, four stages of the cascade in six groups of adults, so one small p-value among them deserves suspicion before the design is even declared.
+That conclusion is easy to overturn by accident. Among men with hypertension, the estimated change in control is <Fact id="ch3.chg_control_men" ci /> percentage points. An analyst who computes weighted shares with a group-by and attaches the textbook standard error reports a significant decline, p = <Fact id="ch3.chg_control_men_p_naive" />. An analyst who declares NHANES's sampling design reports p = <Fact id="ch3.chg_control_men_p_design" />. Same files, same weights, same point estimate. Men's control is also one of 24 period comparisons, four stages of the cascade in six groups of adults, so one small p-value among them deserves suspicion before the design is even declared.
 
 ## The cascade, counted the way NCHS counts it
 
@@ -38,7 +38,7 @@ $$
 
 where $$y_i$$ is 1 for hypertension and $$w_i$$ is the examination weight. With correct inclusion weights, $$\hat p$$ is a consistent estimator of one specified finite-population quantity: the share of the target population with hypertension. The weights define what the formula estimates. They do not say how far the estimate would move if the survey were run again.
 
-Three standard errors answer three different questions about that repetition. The **naive** standard error imagines repeated simple random samples of examined adults and ignores the weights. The **weights-only** standard error charges for unequal weights but still treats each respondent as an independent draw. The **full-design** standard error describes the sample NHANES draws: a few dozen primary sampling units (PSUs), counties or groups of counties, selected within strata, with many people examined in each.
+Three standard errors answer three different questions about that repetition. The **naive** standard error imagines repeated simple random samples of examined adults and ignores the weights. The **weights-only** standard error charges for unequal weights but still treats each respondent as an independent draw. The **full-design** standard error describes the sample NHANES draws: a few dozen primary sampling units (PSUs), counties or groups of counties, selected within strata, with hundreds of people examined in each.
 
 <Callout kind="predict" title="Predict first">
 
@@ -48,7 +48,7 @@ The sampler below is the one from [Chapter 0](/ch00-start-here). Its second stag
 
 <PopulationSampler />
 
-The clustered estimates spread more than the simple random ones, the gap grows as fewer neighborhoods supply more residents each, and the center of the distribution does not move. Two people examined in the same county share its diet, its incomes, its doctors, and its air. The second one tells the survey less than a stranger from a new county would. That is the pattern behind every NHANES standard error: the same point estimate, with more spread than a simple random sample of the same size would have.
+The clustered estimates spread more than the simple random ones, the gap grows as fewer neighborhoods supply more residents each, and the center of the distribution does not move. Two people examined in the same county share its diet, its incomes, its doctors, and its air; the second one tells the survey less than a stranger from a new county would. That is the pattern behind every NHANES standard error.
 
 <Callout kind="predict" title="Predict first">
 
@@ -124,7 +124,7 @@ The conclusions part company in subgroups. Across the 24 pre-specified compariso
 
 <Ledger id="ch3.period_change" />
 
-That answers the opening question. The same data hold four further lessons about weights and designs.
+That answers the opening question, for a comparison of two independent samples. The same data hold four further lessons about weights and designs, and a second survey supplies the case researchers meet more often: two groups inside one sample.
 
 ## Age standardization: a third kind of weight
 
@@ -142,7 +142,7 @@ $$
 
 where $$\hat p_a$$ is the survey-weighted prevalence in the age groups 18–39, 40–59, and 60 and older, and $$s_a$$ is each group's share of the 2000 U.S. standard population, the NCHS convention. The $$s_a$$ are constants, so the variance comes from linearizing the three $$\hat p_a$$ jointly under the design.
 
-Crude prevalence is <Fact id="ch3.htn_prev" />; age-adjusted prevalence is <Fact id="ch3.htn_prev_adj" ci /> (Figure 3.6). For men the two are <Fact id="ch3.htn_prev_men" /> and <Fact id="ch3.htn_prev_men_adj" />; for women, <Fact id="ch3.htn_prev_women" /> and <Fact id="ch3.htn_prev_women_adj" />. The sex gap widens from <Fact id="ch3.sex_gap_crude" ci /> to <Fact id="ch3.sex_gap_adj" ci /> percentage points. The crude comparison sets an older female population against a younger male one; standardization removes that difference. Neither number is "the" prevalence. The crude share describes the actual population; the adjusted share describes a hypothetical one with the standard's age distribution, which is what makes groups and periods comparable. The pre-pandemic values, <Fact id="ch3.pre_prev" /> and <Fact id="ch3.pre_prev_adj" />, show the same wedge.
+Crude prevalence is <Fact id="ch3.htn_prev" />; age-adjusted prevalence is <Fact id="ch3.htn_prev_adj" ci /> (Figure 3.6). For men the two are <Fact id="ch3.htn_prev_men" /> and <Fact id="ch3.htn_prev_men_adj" />; for women, <Fact id="ch3.htn_prev_women" /> and <Fact id="ch3.htn_prev_women_adj" />. The sex gap widens from <Fact id="ch3.sex_gap_crude" ci /> to <Fact id="ch3.sex_gap_adj" ci /> percentage points, because the crude comparison sets an older female population against a younger male one. Neither number is "the" prevalence. The crude share describes the actual population; the adjusted share describes a hypothetical one with the standard's age distribution, which is what makes groups and periods comparable. The pre-pandemic values, <Fact id="ch3.pre_prev" /> and <Fact id="ch3.pre_prev_adj" />, show the same wedge.
 
 <Figure n="3.6" caption="Age adjustment lowers prevalence and widens the gap between men and women: standardization changes the comparison population, not the representation of the sample.">
   <Chart id="ch3.crude_vs_adjusted" />
@@ -162,39 +162,59 @@ The mechanism is collapsed strata, not subsetting as such. The domain's members 
 
 The software has to be told what a lonely PSU contributes, and each answer is a modeling decision (Figure 3.7). Under *certainty* or *remove*, it contributes zero, as if that PSU had been selected with certainty. Under *adjust*, it is centered at the grand mean rather than at its stratum mean. Under *average*, the other strata's variance is scaled up to stand in for it. For the sparse domain these rules give <Fact id="ch3.sparse_se_sub" />, <Fact id="ch3.sparse_se_adjust" />, and <Fact id="ch3.sparse_se_average" /> percentage points, against the correct <Fact id="ch3.sparse_se_full" />. R's default, `survey.lonely.psu = "fail"`, stops with an error, and `svy` raises `SingletonError`. Both defaults force the decision into the open.
 
-How sparse is too sparse? A controlled experiment gives a gradual answer, not a threshold (Figure 3.8). Draw 200 random domains of each size from the sample adults, from everyone down to <Fact id="ch3.thin_n_02" /> respondents, and compare the two standard errors for self-reported hypertension. Down to domains of about one percent of the sample, the median ratio of the delete-rows-first standard error to the correct one stays within a percent of one (<Fact id="ch3.thin_ratio_1" />). At <Fact id="ch3.thin_n_02" /> respondents, a median of <Fact id="ch3.thin_single_02" /> strata are left with one PSU, the median ratio falls to <Fact id="ch3.thin_ratio_02" />, and <Fact id="ch3.thin_share_02" /> of the domains get a standard error more than 10 percent too small.
+How sparse is too sparse? A controlled experiment gives a gradual answer, not a threshold (Figure 3.8). Draw 200 random domains of each size from the sample adults and compare the two standard errors for self-reported hypertension. Down to domains of about one percent of the sample, the median ratio of the delete-rows-first standard error to the correct one stays within a percent of one (<Fact id="ch3.thin_ratio_1" />). At <Fact id="ch3.thin_n_02" /> respondents, a median of <Fact id="ch3.thin_single_02" /> strata are left with one PSU, the median ratio falls to <Fact id="ch3.thin_ratio_02" />, and <Fact id="ch3.thin_share_02" /> of the domains get a standard error more than 10 percent too small.
 
 <Figure n="3.8" caption="As the domain shrinks and strata lose PSUs, the delete-rows-first standard error drifts gradually below the correct one; the understatement becomes serious only in very small domains.">
   <Chart id="ch3.thinning" />
 </Figure>
 
-Two reporting rules follow. Put the PSUs retained and the number of single-PSU strata next to every domain standard error; for every NHANES domain in this chapter, all PSUs contain domain members and no stratum is lonely. And state the degrees of freedom separately from the variance: NCHS counts only the PSUs and strata that contain domain members, and R and `svy` report the same count, <Fact id="ch3.sparse_df" /> for the sparse domain, although the full design has <Fact id="ch3.nhis_df" />.
+Two reporting rules follow. Put the PSUs retained and the number of single-PSU strata next to every domain standard error; every NHANES domain in this chapter keeps all PSUs with no lonely stratum. And state the degrees of freedom separately from the variance: NCHS counts only the PSUs and strata that contain domain members, and R and `svy` report the same count, <Fact id="ch3.sparse_df" /> for the sparse domain, although the full design has <Fact id="ch3.nhis_df" />.
 
 <Ledger id="ch3.nhis_domain" />
 
+## Two groups in one sample
+
+Most published comparisons are not between two surveys. They are between two groups in one: the South against the Northeast, women against men, citizens against noncitizens. Each group is a domain, and the difference between two domain means is the estimate that carries the argument. Its standard error has to be computed under the design, and it has a term the naive formula never contains: the covariance between the two estimates, which is not zero when the two groups were interviewed in the same PSUs.
+
+<Callout kind="predict" title="Predict first">
+
+Take the uninsured share among NHIS adults 18–64 and compare it between the Northeast and the Midwest, and then between men and women. For which comparison does the design inflate the naive standard error more? And for which does it matter that the two estimates come from the same PSUs?
+
+</Callout>
+
+The family is fixed before any result is seen: the uninsured share among sample adults 18–64, the Medicaid-relevant age range that [Lab 3](/ch03-lab-replicates) ranks by state, compared between every pair of groups along six dimensions, region, race and Hispanic origin, education, citizenship, sex, and age group, <Fact id="ch3.grp_k" /> comparisons in all. Nationally the share is <Fact id="ch3.nhis_unins_wa" ci />. Most of the <Fact id="ch3.grp_k" /> differences are large, and every method agrees on them: naive tests flag <Fact id="ch3.grp_sig_naive" />, weights-only tests <Fact id="ch3.grp_sig_wonly" />, full-design tests <Fact id="ch3.grp_sig_design" />, and the verdict changes for <Fact id="ch3.grp_flips" /> (Figure 3.9). That one is the comparison a regional story would be built on. The uninsured share is <Fact id="ch3.grp_ne_rate" /> in the Northeast and <Fact id="ch3.grp_mw_rate" /> in the Midwest, a difference of <Fact id="ch3.grp_ne_mw" ci /> percentage points. Its naive standard error is <Fact id="ch3.grp_ne_mw_se_naive" /> points (p = <Fact id="ch3.grp_ne_mw_p_naive" />), the weights-only standard error is <Fact id="ch3.grp_ne_mw_se_wonly" /> (p = <Fact id="ch3.grp_ne_mw_p_wonly" />), and the full-design standard error is <Fact id="ch3.grp_ne_mw_se_design" /> (p = <Fact id="ch3.grp_ne_mw_p_design" />). The opening's two p-values were of this kind.
+
+<Figure n="3.9" caption="Region comparisons carry the largest design inflation because regions are built from whole PSUs; comparisons between groups that share PSUs have a covariance the independence formula misses. One of 27 verdicts changes.">
+  <Chart id="ch3.group_contrasts" />
+</Figure>
+
+Two patterns in Figure 3.9 answer the prediction. First, geography is where clustering bites hardest. A region is a union of whole PSUs, so a comparison between regions is a comparison between two sets of counties, and every PSU's shared conditions land entirely on one side of it. Over the six region comparisons the full-design standard error is a median <Fact id="ch3.grp_geo_ratio" /> times the naive one; over the other 21 it is <Fact id="ch3.grp_demo_ratio" /> times. Second, the covariance runs the other way. Two regions share no PSU, and the design standard error of their difference equals the value the independence formula $$\sqrt{\SE_a^2 + \SE_b^2}$$ gives (median ratio <Fact id="ch3.grp_geo_cov" />). Men and women live in the same households and the same counties, their estimates move together across repeated samples, and the design standard error of their difference is <Fact id="ch3.grp_cov_min" /> times the independence value: the positive covariance makes the comparison more precise, not less. Overlapping confidence intervals are therefore not a test in either direction. Even for independent estimates the standard error of a difference is $$\sqrt{2}$$ times one of them and not twice, so two intervals can overlap while the interval for the difference excludes zero, and shared PSUs change the answer again. Estimate the difference itself, on the declared design, with both groups kept in the frame.
+
+<Ledger id="ch3.nhis_groups" />
+
 ## Two complex surveys, opposite uncertainty
 
-"Complex survey" names a family, not a property. The Behavioral Risk Factor Surveillance System (BRFSS) 2024 <Cite id="brfss2024" /> interviewed <Fact id="ch3.brfss_n" /> adults by telephone in <Fact id="ch3.brfss_strata" /> strata, and each respondent is a PSU: <Fact id="ch3.brfss_psu" /> PSUs and <Fact id="ch3.brfss_df" /> design degrees of freedom. Its raked weights ([Chapter 2](/ch02-weights)) vary widely, with a coefficient of variation of <Fact id="ch3.brfss_cv" />. For fair or poor self-rated health, <Fact id="ch3.brfss_fp" ci />, the design effect is <Fact id="ch3.brfss_deff" />: a weighting factor of <Fact id="ch3.brfss_wfac" /> times a clustering-and-stratification factor of <Fact id="ch3.brfss_cfac" />. NHANES is the mirror image, with a weighting factor of <Fact id="ch3.wfac_prev" />, a clustering factor of <Fact id="ch3.cfac_prev" />, and <Fact id="ch3.nhanes_df" /> degrees of freedom. NHIS sits between them (Figure 3.9).
+"Complex survey" names a family, not a property. The Behavioral Risk Factor Surveillance System (BRFSS) 2024 <Cite id="brfss2024" /> interviewed <Fact id="ch3.brfss_n" /> adults by telephone in <Fact id="ch3.brfss_strata" /> strata, and each respondent is a PSU: <Fact id="ch3.brfss_psu" /> PSUs and <Fact id="ch3.brfss_df" /> design degrees of freedom. Its raked weights ([Chapter 2](/ch02-weights)) vary widely, with a coefficient of variation of <Fact id="ch3.brfss_cv" />. For fair or poor self-rated health, <Fact id="ch3.brfss_fp" ci />, the design effect is <Fact id="ch3.brfss_deff" />: a weighting factor of <Fact id="ch3.brfss_wfac" /> times a clustering-and-stratification factor of <Fact id="ch3.brfss_cfac" />. NHANES is the mirror image, with a weighting factor of <Fact id="ch3.wfac_prev" />, a clustering factor of <Fact id="ch3.cfac_prev" />, and <Fact id="ch3.nhanes_df" /> degrees of freedom. NHIS sits between them (Figure 3.10).
 
-The contrast changes what the analyst should worry about. In BRFSS the t critical value is <Fact id="ch3.t_crit_z" /> and the degrees of freedom never bind, but unequal weights use up most of the sample's information. In NHANES the weights cost less, and a handful of PSUs determines both the variance and how precisely the variance itself is estimated. Even BRFSS needs a lonely-PSU rule: <Fact id="ch3.brfss_single" /> of its strata contain a single respondent, and this chapter uses *adjust*.<SideNote>BRFSS 2024 omits Tennessee, so its target population is adults in the participating jurisdictions, not the nation.</SideNote>
+The contrast changes what the analyst should worry about. In BRFSS the t critical value is <Fact id="ch3.t_crit_z" /> and the degrees of freedom never bind, but unequal weights use up most of the sample's information. In NHANES the weights cost less, and a handful of PSUs determines both the variance and how precisely the variance itself is estimated. Even BRFSS needs a lonely-PSU rule: <Fact id="ch3.brfss_single" /> of its strata contain a single respondent, and this chapter uses *adjust*.<SideNote>BRFSS 2024 omits Tennessee, so its target population is adults in the participating jurisdictions.</SideNote>
 
-<Figure n="3.9" caption="NHANES uncertainty comes from few PSUs and BRFSS uncertainty from unequal weights; both surveys are called complex." width="wide">
+<Figure n="3.10" caption="NHANES uncertainty comes from few PSUs and BRFSS uncertainty from unequal weights; both surveys are called complex." width="wide">
   <Chart id="ch3.df_contrast" />
 </Figure>
 
 ## Interlude: weighting repairs representation, not measurement
 
-Weights can correct for who answered. They cannot correct what was measured. Three surveys ask adults whether a health professional ever told them they had high blood pressure: BRFSS 2023 gives <Fact id="ch3.brfss_bphigh" ci />, NHIS 2023 gives <Fact id="ch3.nhis_hyp" />, and NHANES's own interview gives <Fact id="ch3.nhanes_selfreport" />. Those three agree within a few percentage points. NHANES's measured definition gives <Fact id="ch3.htn_prev" />, and the older 140/90 threshold applied to the same readings gives <Fact id="ch3.nhanes_htn140" /> (Figure 3.10). The gap between self-report and measurement is not a representation error that better weights could close. The surveys estimate different constructs: a remembered diagnosis on one side, a blood pressure reading plus medication use on the other.<SideNote>BRFSS asks this item only in odd years, and 2023 omits Kentucky and Pennsylvania, so its population is adults in 48 states and the District of Columbia.</SideNote>
+Weights can correct for who answered. They cannot correct what was measured. Three surveys ask adults whether a health professional ever told them they had high blood pressure: BRFSS 2023 gives <Fact id="ch3.brfss_bphigh" ci />, NHIS 2023 gives <Fact id="ch3.nhis_hyp" />, and NHANES's own interview gives <Fact id="ch3.nhanes_selfreport" />. NHANES's measured definition gives <Fact id="ch3.htn_prev" />, and the older 140/90 threshold applied to the same readings gives <Fact id="ch3.nhanes_htn140" /> (Figure 3.11). The gap between self-report and measurement is not a representation error that better weights could close. The surveys estimate different constructs: a remembered diagnosis on one side, a blood pressure reading plus medication use on the other.<SideNote>BRFSS asks this item only in odd years, and 2023 omits Kentucky and Pennsylvania, so its population is adults in 48 states and the District of Columbia.</SideNote>
 
-<Figure n="3.10" caption="Self-reported diagnosis agrees across three surveys; measured hypertension is a different construct, and no weighting reconciles the two.">
+<Figure n="3.11" caption="Self-reported diagnosis agrees across three surveys; measured hypertension is a different construct, and no weighting reconciles the two.">
   <Chart id="ch3.constructs" />
 </Figure>
 
-NHANES shows the same lesson inside one survey. In 2017–2018, NCHS measured the same examinees with both the old auscultatory protocol and the new oscillometric device, in random order <Cite id="nhanes" />. For those <Fact id="ch3.instr_n" /> adults, with identical weights, mean systolic pressure was <Fact id="ch3.instr_sbp_diff" ci /> mm Hg higher by auscultation. Prevalence under the 130/80-or-medication definition was <Fact id="ch3.instr_aus" /> by auscultation and <Fact id="ch3.instr_osc" /> by the device, a difference of <Fact id="ch3.instr_diff" ci /> percentage points; the definition based on readings alone moves by <Fact id="ch3.instr_bp_diff" /> points. Representation is identical by construction; only the instrument changed. That is why the period comparison above uses two oscillometric samples.
+NHANES shows the same lesson inside one survey. In 2017–2018, NCHS measured the same examinees with both the old auscultatory protocol and the new oscillometric device, in random order <Cite id="nhanes" />. For those <Fact id="ch3.instr_n" /> adults, with identical weights, mean systolic pressure was <Fact id="ch3.instr_sbp_diff" ci /> mm Hg higher by auscultation, and prevalence under the 130/80-or-medication definition was <Fact id="ch3.instr_aus" /> by auscultation against <Fact id="ch3.instr_osc" /> by the device, a difference of <Fact id="ch3.instr_diff" ci /> percentage points (<Fact id="ch3.instr_bp_diff" /> points for the readings-alone definition). Representation is identical by construction; only the instrument changed. That is why the period comparison above uses two oscillometric samples.
 
 ## Replicate weights, briefly
 
-NHANES releases masked strata and PSUs, so Taylor linearization is the producer's method. Other surveys ship replicate weights instead: the American Community Survey provides 80 alternative weight columns and the CPS ASEC provides 160. Replicate weights are the survey world's pre-packaged repeated sampling. Re-estimate once with each column, and the spread of the replicate estimates, scaled by a method-specific constant, approximates the sampling variance. Balanced repeated replication, Fay's method <Cite id="fay1995" />, the jackknife, successive difference replication, and the bootstrap are distinct procedures with different constants and degrees of freedom; calling them all "a bootstrap" hides exactly the constants an analyst must get right. When the producer repeats the weighting steps inside each replicate, the replicate variance also carries the weight-construction variability that fixed-weight linearization leaves out. [Lab 3](/ch03-lab-replicates) works through the American Community Survey case.
+NHANES releases masked strata and PSUs, so Taylor linearization is the producer's method. Other surveys ship replicate weights instead: the American Community Survey provides 80 alternative weight columns and the CPS ASEC provides 160. Replicate weights are the survey world's pre-packaged repeated sampling: re-estimate once with each column, and the spread of the replicate estimates, scaled by a method-specific constant, approximates the sampling variance. Balanced repeated replication, Fay's method <Cite id="fay1995" />, the jackknife, successive difference replication, and the bootstrap are distinct procedures with different constants and degrees of freedom; calling them all "a bootstrap" hides exactly the constants an analyst must get right. Because the producer repeats the weighting steps inside each replicate, the replicate variance also carries the weight-construction variability that fixed-weight linearization leaves out. [Lab 3](/ch03-lab-replicates) works through the American Community Survey case.
 
 ## The tools
 
@@ -218,7 +238,7 @@ des <- svydesign(ids = ~SDMVPSU, strata = ~SDMVSTRA, weights = ~WTMEC2YR,
 svymean(~htn, subset(des, analytic), deff = "replace")
 ```
 
-The domain rule is the `where` argument in `svy` and `subset()` on the design object in R; filtering the data frame first is the mistake from the domain section.
+The domain rule is the `where` argument in `svy` and `subset()` on the design object in R; filtering the data frame first is the mistake from the domain section. A difference between two domains is one more line: `svyby(..., covmat = TRUE)` followed by `svycontrast()` keeps the covariance between the two group estimates, which is how the men-minus-women standard error in Figure 3.9 was checked.
 
 ```python
 # Wrong: delete rows, then declare. svy refuses to guess.
@@ -229,32 +249,20 @@ sub.singleton.handle("certainty")       # an explicit rule you must report
 svy.Sample(adults, design=design).estimation.mean("delay", where=svy.col("sparse") == 1)
 ```
 
-<Callout kind="note" title="A new case">
-
-Two groups' 95 percent intervals overlap. Does that settle whether the difference between the groups is statistically significant?
-
-<Details summary="One answer">
-
-No. For two independent estimates with equal standard errors, the standard error of their difference is $$\sqrt{2}$$ times one of them, not twice, so two intervals can overlap while the interval for the difference excludes zero. When the estimates share PSUs or respondents, their covariance changes the answer again. Estimate the difference itself and give it a standard error under the design, as the period comparison in this chapter does with two independent samples and as [Lab 3](/ch03-lab-replicates) does with replicate weights.
-
-</Details>
-
-</Callout>
-
 <Closing>
 <Learned>
 
-Hypertension is common and poorly controlled. In August 2021–August 2023, <Fact id="ch3.htn_prev" /> of adults met the 130/80-or-medication definition; of those, <Fact id="ch3.htn_aware" /> knew it, <Fact id="ch3.htn_treat" /> were treated, and <Fact id="ch3.htn_control" /> had it controlled. None of the four national shares changed detectably from 2017–March 2020. Two of the three subgroup changes that naive intervals flag do not exclude zero under the declared design, and the third is one of 24 comparisons.
+Hypertension is common and poorly controlled. In August 2021–August 2023, <Fact id="ch3.htn_prev" /> of adults met the 130/80-or-medication definition; of those, <Fact id="ch3.htn_aware" /> knew it, <Fact id="ch3.htn_treat" /> were treated, and <Fact id="ch3.htn_control" /> had it controlled. None of the four national shares changed detectably from 2017–March 2020. Two of the three subgroup changes that naive intervals flag do not exclude zero under the declared design, and the third is one of 24 comparisons. In the NHIS, <Fact id="ch3.grp_sig_design" /> of <Fact id="ch3.grp_k" /> group differences in the uninsured share among adults 18–64 hold under the design; the Northeast–Midwest difference, <Fact id="ch3.grp_ne_mw" /> percentage points, does not.
 
 </Learned>
 <Changed>
 
-The point estimates never changed. What changed was the width of every interval (for prevalence, <Fact id="ch3.ci_width_ratio" /> times the naive width, with <Fact id="ch3.nhanes_df" /> degrees of freedom), the number of subgroup changes whose intervals exclude zero (from <Fact id="ch3.chg_sig_naive" /> to <Fact id="ch3.chg_sig_design" />), the standard errors of sparse domains, and, through standardization weights, the population in which men and women are compared.
+The point estimates never changed. What changed was the width of every interval (for prevalence, <Fact id="ch3.ci_width_ratio" /> times the naive width, with <Fact id="ch3.nhanes_df" /> degrees of freedom), the number of subgroup changes whose intervals exclude zero (from <Fact id="ch3.chg_sig_naive" /> to <Fact id="ch3.chg_sig_design" />), the standard errors of sparse domains, the standard error of a difference between two groups in one sample, which grew by a median factor of <Fact id="ch3.grp_geo_ratio" /> across regions and fell below the independence value for men against women, and, through standardization weights, the population in which men and women are compared.
 
 </Changed>
 <NotEstablished>
 
-This analysis does not show that the cascade was stable in every subgroup: the interval for the national change in control, <Fact id="ch3.chg_control" ci /> percentage points, is wide enough to hide a meaningful decline, and subgroup intervals are wider still. It establishes no trend beyond two periods and nothing about why control did or did not change; the pandemic is a date here, not a cause. Treatment rests on self-reported medication use, asked differently in the two periods. Agreement with NCHS Data Brief 511 validates the code, not the population values. The sparse NHIS proportion is not a publishable estimate, and the implied intraclass correlation is a back-of-envelope reading of an equal-cluster formula.
+This analysis does not show that the cascade was stable in every subgroup: the interval for the national change in control, <Fact id="ch3.chg_control" ci /> percentage points, is wide enough to hide a meaningful decline, and subgroup intervals are wider still. It establishes no trend beyond two periods and nothing about why control did or did not change; the pandemic is a date here, not a cause. Treatment rests on self-reported medication use, asked differently in the two periods. Agreement with NCHS Data Brief 511 validates the code, not the population values. The NHIS group differences are descriptive contrasts, tested one at a time without a multiplicity adjustment, and the Northeast–Midwest comparison is not shown to be zero, only not distinguishable from it. The sparse NHIS proportion is not a publishable estimate, and the implied intraclass correlation is a back-of-envelope reading of an equal-cluster formula.
 
 </NotEstablished>
 </Closing>

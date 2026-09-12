@@ -470,10 +470,13 @@ def load_nhis():
     con = duckdb.connect()
     x = con.sql(
         "select YEAR, SERIAL, PERNUM, STRATA, PSU, SAMPWEIGHT, ASTATFLG, HYPERTENEV, DELAYCOST, "
-        f"HINOTCOVE, HEALTH from read_parquet('{NHIS}') where YEAR = 2023"
+        "HINOTCOVE, HEALTH, AGE, REGION, CAST(race_eth5 AS VARCHAR) AS race_eth5, "
+        "CAST(educ4 AS VARCHAR) AS educ4, citizen_b, female, CAST(age_group AS VARCHAR) AS age_group "
+        f"from read_parquet('{NHIS}') where YEAR = 2023"
     ).pl()
     INPUTS.append({"path": NHIS, "rows": int(x.height),
-                   "note": "YEAR = 2023; sample adults ASTATFLG = 1; SAMPWEIGHT; (STRATA, PSU) composite key built for 2023"})
+                   "note": "YEAR = 2023; sample adults ASTATFLG = 1; SAMPWEIGHT; (STRATA, PSU) composite key built for 2023; "
+                           "group contrasts use AGE, REGION, race_eth5, educ4, citizen_b, female, age_group"})
     ad = x.filter(pl.col("ASTATFLG") == 1).sort(["SERIAL", "PERNUM"])
     return ad.with_columns(
         (pl.col("STRATA").cast(pl.Int64) * 1000 + pl.col("PSU").cast(pl.Int64)).alias("psu_key"),
@@ -482,6 +485,8 @@ def load_nhis():
         pl.when(pl.col("DELAYCOST") == 2).then(1.0).when(pl.col("DELAYCOST") == 1).then(0.0)
         .otherwise(None).alias("delay"),
         (pl.col("HINOTCOVE") == 2).fill_null(False).alias("unins"),
+        pl.when(pl.col("HINOTCOVE") == 2).then(1.0).when(pl.col("HINOTCOVE") == 1).then(0.0)
+        .otherwise(None).alias("unins_y"),
         (pl.col("HEALTH") == 5).fill_null(False).alias("poor"),
     )
 
@@ -582,6 +587,70 @@ def svy_check_nhis(ad, sparse):
         {"estimand": "NHIS 2023 sparse domain, subset first, center (R adjust)", "svy_se": e_cent.se,
          "mine_se": sparse["se_sub"]["adjust"], "abs_diff": abs(e_cent.se - sparse["se_sub"]["adjust"])},
     ]
+
+
+# ---------------------------------------------------------------- NHIS 2023: group contrasts in one sample
+# A pre-specified family: the uninsured share among sample adults 18-64, compared between
+# groups along six dimensions. Every pair is one comparison; the family is fixed before any
+# result is seen (region 6, race/ethnicity 10, education 6, citizenship 1, sex 1, age 3 = 27).
+REGION_LABEL = {1: "Northeast", 2: "Midwest", 3: "South", 4: "West"}
+GROUP_DIMS = [
+    ("REGION", "Census region", lambda v: REGION_LABEL[int(v)]),
+    ("race_eth5", "Race and Hispanic origin", None),
+    ("educ4", "Education", None),
+    ("citizen_b", "Citizenship", lambda v: "Citizen" if int(v) == 1 else "Not a citizen"),
+    ("female", "Sex", lambda v: "Women" if int(v) == 1 else "Men"),
+    ("age_group", "Age group", None),
+]
+GROUP_ORDER = {"educ4": ["Less than HS", "HS", "Some college", "BA+"],
+               "race_eth5": ["White NH", "Black NH", "Hispanic", "Asian/PI NH", "Other/Multiple NH"],
+               "age_group": ["18-29", "30-44", "45-64"]}
+GEO_DIM = "REGION"
+
+
+def group_contrasts(des, ad, y, base):
+    """All within-dimension pairs of domain means in one sample, with four standard errors:
+    naive iid (independent SRS), weights-only, full design with the covariance (Taylor on
+    z_a - z_b), and full design treating the two domains as independent."""
+    import itertools
+    y = np.nan_to_num(np.asarray(y, dtype=np.float64))
+    valid = ~np.isnan(np.asarray(ad["unins_y"].to_numpy(), dtype=np.float64))
+    rows, means = [], {}
+    for col, dim_label, fmt in GROUP_DIMS:
+        raw = ad[col].to_list()
+        g = np.array([None if v is None else str(v) for v in raw], dtype=object)
+        levels = sorted(set(v for v in g.tolist() if v is not None), key=str)
+        if col in GROUP_ORDER:
+            levels = [l for l in GROUP_ORDER[col] if l in levels]
+        est = {}
+        for l in levels:
+            d = (base & valid & (g == l)).astype(float)
+            n = int(d.sum())
+            if n < 100:
+                continue
+            R, z = lin_mean(y, des.w, d)
+            v_d, _ = des.var(z)
+            m = d > 0
+            est[l] = {"est": R, "z": z, "n": n, "v_n": R * (1 - R) / (n - 1.0), "v_w": wonly_var(z, m), "v_d": v_d,
+                      "label": fmt(l) if fmt else l}
+        means[col] = est
+        for a, b in itertools.combinations(levels, 2):
+            if a not in est or b not in est:
+                continue
+            A, B_ = est[a], est[b]
+            diff = A["est"] - B_["est"]
+            se_n = (A["v_n"] + B_["v_n"]) ** 0.5
+            se_w = (A["v_w"] + B_["v_w"]) ** 0.5
+            v_d, _ = des.var(A["z"] - B_["z"])
+            se_d = v_d ** 0.5
+            se_ind = (A["v_d"] + B_["v_d"]) ** 0.5
+            df = des.domain_counts((A["z"] != 0) | (B_["z"] != 0))["df"]
+            rows.append({"dim": col, "dim_label": dim_label, "a": A["label"], "b": B_["label"],
+                         "est_a": A["est"], "est_b": B_["est"], "n_a": A["n"], "n_b": B_["n"], "diff": diff,
+                         "se_n": se_n, "se_w": se_w, "se_d": se_d, "se_ind": se_ind, "df": df, "t_crit": tcrit(df),
+                         "p_n": 2 * stats.norm.sf(abs(diff / se_n)), "p_w": 2 * stats.norm.sf(abs(diff / se_w)),
+                         "p_d": 2 * stats.t.sf(abs(diff / se_d), df)})
+    return rows, means
 
 
 # ---------------------------------------------------------------- BRFSS
@@ -894,6 +963,88 @@ def nhis_artifacts(nr, Dd, Ds, TH):
         "note": f"Domain: uninsured sample adults in poor self-rated health with a valid delayed-care response (n = {Ds['n']}). After deleting rows, {Ds['single']} of {Ds['strata']} surviving strata have one PSU. R's default rule (fail) and svy's default both refuse to compute."}
 
 
+def group_artifacts(nu, GC, means):
+    """Facts, figure and ledger for the NHIS 2023 group-contrast family (uninsured, adults 18-64)."""
+    s = SRC_NHIS
+    pop = "sample adults 18-64 with a known coverage status, NHIS 2023"
+    fact_prop("nhis_unins_wa", nu, f"Share without health insurance coverage at interview (HINOTCOVE), {pop}", s, "SAMPWEIGHT",
+              note="domain of the full 2023 sample-adult design; df counts PSUs and strata with domain members")
+    fact_num("grp_k", len(GC), str(len(GC)), "Number of pre-specified pairwise group comparisons of the uninsured share among adults 18-64 "
+             "(region 6, race/Hispanic origin 10, education 6, citizenship 1, sex 1, age group 3)", s)
+    for k, col, lab in [("naive", "p_n", "naive iid (independent simple random samples)"), ("wonly", "p_w", "weights-only"),
+                        ("design", "p_d", "full-design Taylor with the covariance (t, domain df)")]:
+        c = sum(r[col] < 0.05 for r in GC)
+        fact_num(f"grp_sig_{k}", c, str(c), f"Number of the {len(GC)} group comparisons with p < 0.05 under {lab}", s)
+    flips = [r for r in GC if (r["p_n"] < 0.05) != (r["p_d"] < 0.05)]
+    fact_num("grp_flips", len(flips), str(len(flips)), f"Number of the {len(GC)} group comparisons whose 5 percent verdict differs between the naive and the full-design test", s)
+    ne_mw = next(r for r in GC if r["dim"] == GEO_DIM and r["a"] == "Northeast" and r["b"] == "Midwest")
+    assert (ne_mw["p_n"] < 0.05) and (ne_mw["p_d"] >= 0.05), "the Northeast-Midwest example no longer flips; revise the prose"
+    lo, hi = ne_mw["diff"] - ne_mw["t_crit"] * ne_mw["se_d"], ne_mw["diff"] + ne_mw["t_crit"] * ne_mw["se_d"]
+    put_fact("grp_ne_mw", ne_mw["diff"], pp(ne_mw["diff"]), "Uninsured share, Northeast minus Midwest, adults 18-64, NHIS 2023 (percentage points)",
+             s, unit="percentage points", se=ne_mw["se_d"], ci=(lo, hi), ci_display=ci_pp(lo, hi), df=ne_mw["df"],
+             n=ne_mw["n_a"] + ne_mw["n_b"], weight="SAMPWEIGHT", variance="taylor",
+             note=f"naive p = {ne_mw['p_n']:.3f}; weights-only p = {ne_mw['p_w']:.3f}; design p = {ne_mw['p_d']:.3f}")
+    for k, col in [("p_naive", "p_n"), ("p_wonly", "p_w"), ("p_design", "p_d")]:
+        fact_num(f"grp_ne_mw_{k}", ne_mw[col], num(ne_mw[col], 3), f"Two-sided {k.replace('p_', '')} p-value, Northeast minus Midwest uninsured share", s)
+    for k, col, lab, var in [("se_naive", "se_n", "naive iid", "none"), ("se_wonly", "se_w", "weights-only", "weights_only_understated"),
+                             ("se_design", "se_d", "full design", "taylor")]:
+        fact_num(f"grp_ne_mw_{k}", ne_mw[col] * 100, num(ne_mw[col] * 100, 2), f"Standard error of the Northeast minus Midwest difference, {lab}, percentage points",
+                 s, unit="percentage points", weight="SAMPWEIGHT", variance=var)
+    reg = means[GEO_DIM]
+    for code, key in [("1", "ne"), ("2", "mw")]:
+        r = reg[code]
+        fact_num(f"grp_{key}_rate", r["est"], pct(r["est"]), f"Uninsured share, {r['label']}, adults 18-64, NHIS 2023", s, n=r["n"],
+                 weight="SAMPWEIGHT", variance="taylor")
+    geo = [r["se_d"] / r["se_n"] for r in GC if r["dim"] == GEO_DIM]
+    dem = [r["se_d"] / r["se_n"] for r in GC if r["dim"] != GEO_DIM]
+    fact_num("grp_geo_ratio", float(np.median(geo)), num(float(np.median(geo)), 2), "Median ratio of the full-design to the naive SE of the difference over the 6 region comparisons", s)
+    fact_num("grp_demo_ratio", float(np.median(dem)), num(float(np.median(dem)), 2), "Median ratio of the full-design to the naive SE of the difference over the 21 non-geographic comparisons", s)
+    assert float(np.median(geo)) > float(np.median(dem)), "prose: region comparisons inflate more than the others"
+    cov = [(r["se_d"] / r["se_ind"], r) for r in GC]
+    cmin = min(cov, key=lambda t: t[0])
+    # The prose names this pair; fail rather than drift if the data change.
+    assert cmin[1]["dim"] == "female" and {cmin[1]["a"], cmin[1]["b"]} == {"Men", "Women"}, (cmin[1]["a"], cmin[1]["b"])
+    fact_num("grp_cov_min", cmin[0], num(cmin[0], 2), f"Smallest ratio of the design SE with the covariance to the design SE assuming the two domains independent, over the {len(GC)} comparisons ({cmin[1]['a']} vs {cmin[1]['b']})", s)
+    geo_cov = [r["se_d"] / r["se_ind"] for r in GC if r["dim"] == GEO_DIM]
+    fact_num("grp_geo_cov", float(np.median(geo_cov)), num(float(np.median(geo_cov)), 2), "Median covariance ratio (design SE with covariance / design SE assuming independence) over the 6 region comparisons", s)
+    FIGS["group_contrasts"] = {
+        "type": "table", "title": "One sample, 27 group comparisons of the uninsured share",
+        "alt": (f"Table of {len(GC)} pairwise comparisons of the uninsured share among adults 18 to 64 in NHIS 2023 across region, race and Hispanic origin, "
+                "education, citizenship, sex, and age group, with naive and full-design p-values; the region comparisons show the largest inflation "
+                "of the standard error and the Northeast-Midwest comparison changes verdict."),
+        "columns": [{"key": "dim", "label": "Dimension"}, {"key": "a", "label": "Group A"}, {"key": "b", "label": "Group B"},
+                    {"key": "est_a", "label": "A", "format": "pct1", "align": "right"},
+                    {"key": "est_b", "label": "B", "format": "pct1", "align": "right"},
+                    {"key": "diff", "label": "A − B (pp)", "format": "num1", "align": "right"},
+                    {"key": "se_ratio", "label": "SE ratio, design ÷ naive", "format": "ratio2", "align": "right"},
+                    {"key": "cov_ratio", "label": "Covariance ratio", "format": "ratio2", "align": "right"},
+                    {"key": "p_naive", "label": "p, naive", "format": "num3", "align": "right"},
+                    {"key": "p_design", "label": "p, full design", "format": "num3", "align": "right"}],
+        "rows": [{"dim": r["dim_label"], "a": r["a"], "b": r["b"], "est_a": sig(r["est_a"], 6), "est_b": sig(r["est_b"], 6),
+                  "diff": sig(r["diff"] * 100, 6), "se_ratio": sig(r["se_d"] / r["se_n"], 6), "cov_ratio": sig(r["se_d"] / r["se_ind"], 6),
+                  "p_naive": sig(r["p_n"], 6), "p_design": sig(r["p_d"], 6),
+                  "highlight": bool((r["p_n"] < 0.05) != (r["p_d"] < 0.05))} for r in GC],
+        "highlight_key": "highlight",
+        "source": "IPUMS NHIS 2023 sample adults 18–64; chapter calculations",
+        "note": ("Uninsured at interview (HINOTCOVE). Naive: independent simple random samples, normal reference. Full design: Taylor variance of the "
+                 "difference on the declared (STRATA, PSU) design, covariance included, t reference with the df of PSUs and strata containing either "
+                 "group. Covariance ratio = design SE of the difference ÷ the design SE that treats the two groups as independent. "
+                 "Highlighted rows change verdict at the 5 percent level. No adjustment for multiple comparisons.")}
+    LEDGERS["nhis_groups"] = {
+        "title": "Which groups of adults differ in coverage? (NHIS 2023)",
+        "target_population": "U.S. civilian noninstitutionalized adults 18–64 in 2023, by Census region, race and Hispanic origin, education, citizenship, sex, and age group",
+        "estimand": "Differences between pairs of groups in the finite-population share without health insurance at interview; 27 pre-specified comparisons",
+        "estimator": "Difference of two weighted ratio (Hájek) means, each a domain of the full sample-adult design",
+        "explicit_weights": "SAMPWEIGHT, the sample-adult weight",
+        "implicit_weights": "None",
+        "randomness": "One stratified multistage sample; both groups in every comparison come from the same PSUs, so their estimates covary",
+        "variance_estimator": "Taylor linearization of the difference on the declared design, (STRATA, PSU) composite key, covariance included; t with the df of PSUs and strata containing either group; compared with naive iid and weights-only variances",
+        "assumptions": "With-replacement PSU approximation; item nonresponse on coverage excluded; no multiplicity adjustment; descriptive contrasts, not effects",
+        "facts": ["ch3.nhis_unins_wa", "ch3.grp_k", "ch3.grp_sig_naive", "ch3.grp_sig_design", "ch3.grp_ne_mw"],
+    }
+    return ne_mw
+
+
 def contrast_artifacts(L, nr, br):
     y = br["y2024"]
     s = SRC_BRFSS24
@@ -1049,7 +1200,7 @@ def read_r():
         return {row["check"]: row["value"] for row in csv.DictReader(f)}
 
 
-def validation_block(L, P, nr, Ds, br, svy_rows):
+def validation_block(L, P, nr, Ds, br, svy_rows, nu=None, GC=None):
     V = []
     for row in svy_rows:
         V.append({"kind": "svy 0.28 dual path", **{k: (sig(v) if isinstance(v, float) else v) for k, v in row.items()}})
@@ -1080,6 +1231,12 @@ def validation_block(L, P, nr, Ds, br, svy_rows):
         comp += [(f"nhis_subset_{rule}_se", Ds["se_sub"][rule]), (f"nhis_subset_{rule}_total_se", Ds["se_total_sub"][rule])]
     comp += [("nhis_subset_remove_se", Ds["se_sub"]["certainty"]), ("nhis_subset_remove_total_se", Ds["se_total_sub"]["certainty"]),
              ("brfss_fp_est", y["est"]), ("brfss_fp_se", y["se_d"]), ("brfss_fp_deff", y["deff"]), ("brfss_df", y["df_full"])]
+    if nu is not None and GC is not None:
+        ne_mw = next(r for r in GC if r["dim"] == GEO_DIM and r["a"] == "Northeast" and r["b"] == "Midwest")
+        sex = next(r for r in GC if r["dim"] == "female" and r["a"] == "Men" and r["b"] == "Women")
+        comp += [("nhis_unins_wa_est", nu["est"]), ("nhis_unins_wa_se", nu["se_d"]),
+                 ("nhis_ne_mw_diff", ne_mw["diff"]), ("nhis_ne_mw_se", ne_mw["se_d"]), ("nhis_ne_mw_df", ne_mw["df"]),
+                 ("nhis_sex_diff", sex["diff"]), ("nhis_sex_se", sex["se_d"])]
     for k, mine in comp:
         if k not in R:
             V.append({"kind": "R survey 4.5", "quantity": k, "status": "missing from verify_R_results.csv"})
@@ -1139,12 +1296,19 @@ def main():
     svy_rows += svy_check_nhis(ad, Ds)
     TH = thinning(desN, np.nan_to_num(hyp.to_numpy()), hyp.is_not_null().to_numpy())
     nhis_artifacts(nr, Dd, Ds, TH)
+    age = ad["AGE"].to_numpy()
+    wa = (age >= 18) & (age <= 64)
+    uy = ad["unins_y"].to_numpy().astype(float)
+    nu = three_ses(desN, np.nan_to_num(uy), wa & ~np.isnan(uy))
+    GC, GM = group_contrasts(desN, ad, uy, wa)
+    assert len(GC) == 27, len(GC)
+    ne_mw = group_artifacts(nu, GC, GM)
 
     br = brfss_block(load_brfss())
     constructs_artifacts(L, nr, br)
     contrast_artifacts(L, nr, br)
     make_ledgers()
-    V = validation_block(L, P, nr, Ds, br, svy_rows)
+    V = validation_block(L, P, nr, Ds, br, svy_rows, nu, GC)
 
     dump(ART / "facts.json", {"key": KEY, "facts": FACTS})
     dump(ART / "ledger.json", {"key": KEY, "ledgers": LEDGERS})

@@ -1,0 +1,99 @@
+{
+  "alt": "Table for the 2016, 2020, and 2024 elections showing White and Black turnout under the Census convention and among respondents only, the gap under each, and the share of each group with no answer to the voting question. The gap is about twice as large under the Census convention because nonresponse is higher among Black citizens.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "election",
+      "label": "Election"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "white_census",
+      "label": "White, everyone counted"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "black_census",
+      "label": "Black, everyone counted"
+    },
+    {
+      "align": "right",
+      "format": "num1",
+      "key": "gap_census",
+      "label": "Gap (pts)"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "white_resp",
+      "label": "White, respondents only"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "black_resp",
+      "label": "Black, respondents only"
+    },
+    {
+      "align": "right",
+      "format": "num1",
+      "key": "gap_resp",
+      "label": "Gap (pts)"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "nonresp_white",
+      "label": "White, no answer"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "nonresp_black",
+      "label": "Black, no answer"
+    }
+  ],
+  "format": "pct1",
+  "note": "Weights-only extract: point estimates only. Gaps are White minus Black in percentage points, computed from unrounded rates. race_eth5 groups: Hispanic of any race is a separate group, so 'White' and 'Black' are single-race non-Hispanic.",
+  "rows": [
+    {
+      "black_census": 0.595719,
+      "black_resp": 0.722076,
+      "election": "2016",
+      "gap_census": 5.7237,
+      "gap_resp": 2.9635,
+      "nonresp_black": 0.174991,
+      "nonresp_white": 0.131372,
+      "white_census": 0.652956,
+      "white_resp": 0.75171
+    },
+    {
+      "black_census": 0.627983,
+      "black_resp": 0.785158,
+      "election": "2020",
+      "gap_census": 8.1386,
+      "gap_resp": 3.9122,
+      "nonresp_black": 0.200182,
+      "nonresp_white": 0.139407,
+      "white_census": 0.709369,
+      "white_resp": 0.82428
+    },
+    {
+      "black_census": 0.600514,
+      "black_resp": 0.728626,
+      "election": "2024",
+      "gap_census": 10.4123,
+      "gap_resp": 7.7244,
+      "nonresp_black": 0.175827,
+      "nonresp_white": 0.125619,
+      "white_census": 0.704637,
+      "white_resp": 0.80587
+    }
+  ],
+  "source": "IPUMS CPS November Voting and Registration Supplements, 2016, 2020, 2024 (analysis/cps/cps_voter.parquet)",
+  "subtitle": "Non-Hispanic White and non-Hispanic Black citizens 18 and older, CPS November supplements",
+  "title": "The Black–White turnout gap under two denominators",
+  "type": "table"
+}

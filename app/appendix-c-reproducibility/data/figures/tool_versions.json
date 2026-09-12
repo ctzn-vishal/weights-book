@@ -85,6 +85,11 @@
       "version": "25.0.1"
     },
     {
+      "role": "Chapter 7's simulated designs and their variance estimators",
+      "tool": "R fixest",
+      "version": "0.14.2"
+    },
+    {
       "role": "site build and scripts/check-mdx.mjs",
       "tool": "Node.js",
       "version": "24.19.0"

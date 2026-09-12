@@ -46,6 +46,9 @@ import pyfixest as pf
 from scipy import stats
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+import placebo  # noqa: E402  (placebo-law check on the design's cells; see placebo.py)
+
 ART = HERE / "artifacts"
 FIG = ART / "figures"
 SCR = HERE / "_scratch"
@@ -63,6 +66,8 @@ AGE_LO, AGE_HI, POV_HI = 19, 64, 138
 NREP, SDR_SCALE, SDR_DF = 80, 4 / 80, 79
 B_WCB, SEED_WCB = 9999, 20260910
 B_RI, SEED_RI = 9999, 20260911
+N_PLACEBO_COMP = 7                       # placebo expanders among the 15 comparison states (all C(15,7) enumerated)
+R_PLACEBO_ALL, SEED_PLACEBO = 4000, 20260912   # seeded draws of 15 placebo expanders among the 30 design states
 MINUS = "\u2212"
 EN = "\u2013"
 TIMES = "\u00d7"
@@ -540,6 +545,62 @@ def main():
     assert not ri["grid_edge_hit"]
     ladder["ri"] = {"ci": ri["ci"], "p": ri["p_t"], "p_coef": ri["p_coef"], "G": G}
 
+    # -------------------------------------------------------------- placebo laws (placebo.py)
+    log("placebo laws")
+
+    def placebo_cells(states):
+        sub = dsub.filter(pl.col("STATEFIP").is_in(states))
+        hhs = (sub.group_by(["STATEFIP", "YEAR", "CLUSTER"])
+               .agg(A=(pl.col("PERWT") * pl.col("y")).sum(), B=pl.col("PERWT").sum()))
+        hc = hhs.group_by(["STATEFIP", "YEAR"]).agg(HA2=(pl.col("A") ** 2).sum(), HAB=(pl.col("A") * pl.col("B")).sum(),
+                                                    HB2=(pl.col("B") ** 2).sum(), nh=pl.len())
+        cx = (sub.group_by(["STATEFIP", "YEAR"])
+              .agg(W=pl.col("PERWT").sum(), Sy=(pl.col("PERWT") * pl.col("y")).sum(), n=pl.len(),
+                   S2=(pl.col("PERWT") ** 2).sum(), S2y=((pl.col("PERWT") ** 2) * pl.col("y")).sum())
+              .join(hc, on=["STATEFIP", "YEAR"]).with_columns(ybar=pl.col("Sy") / pl.col("W")).sort(["STATEFIP", "YEAR"]))
+        arrs = {"st": cx["STATEFIP"].to_numpy().astype(np.int64), "yr": cx["YEAR"].to_numpy().astype(np.int64),
+                "W": cx["W"].to_numpy(), "ybar": cx["ybar"].to_numpy(), "S2": cx["S2"].to_numpy(), "S2y": cx["S2y"].to_numpy(),
+                "HA2": cx["HA2"].to_numpy(), "HAB": cx["HAB"].to_numpy(), "HB2": cx["HB2"].to_numpy()}
+        return arrs, int(cx["n"].sum()), int(sub["CLUSTER"].n_unique())
+
+    pcells_all, n_all, nh_all = placebo_cells(design_states)
+    pcells_comp, n_comp, nh_comp = placebo_cells(comp_states)
+    assert n_all == NP and nh_all == n_households
+    plc = placebo.run(pcells_comp, pcells_all, n_comp, nh_comp, n_all, nh_all, comp_states, design_states,
+                      N_PLACEBO_COMP, R_PLACEBO_ALL, SEED_PLACEBO)
+    # validation 1: the real design's four rungs from the cell sums vs pyfixest at the person level
+    real = plc["pc_all"].fit(plc["pc_all"].D_for(treat_states), jackknife=True)
+    for k, lk in (("hc1", "hc1"), ("household", "household"), ("state_year", "state_year"), ("state", "state")):
+        validation.append({"check": f"placebo module: real-design {k} SE from per-cell sums vs pyfixest person-level",
+                           "cell_sums": r6(real[k] * 100), "pyfixest": r6(ladder[lk]["se"] * 100), "unit": "points",
+                           "pass": abs(real[k] / ladder[lk]["se"] - 1) < 1e-5})
+    validation.append({"check": "placebo module: real-design coefficient and CV3 from the module vs the chapter's",
+                       "module_beta": r6(real["b"] * 100), "beta": r6(beta * 100), "module_cv3": r6(real["cv3"] * 100),
+                       "cv3": r6(cv3 * 100), "pass": abs(real["b"] - beta) < 1e-10 and abs(real["cv3"] / cv3 - 1) < 1e-8})
+    # validation 2: one enumerated assignment and one seeded draw, HC1 and state CRV1 vs pyfixest person-level
+    plc_targets = {}
+    for lab, T, pc_, frame in (("comparison design, first enumerated assignment", plc["first_enum"], plc["pc_comp"],
+                                pdf[pdf["STATEFIP"].isin(comp_states)]),
+                               ("all-states design, first seeded draw", plc["first_draw"], plc["pc_all"], pdf)):
+        fr = frame.assign(Dp=(frame["STATEFIP"].isin(T) & (frame["YEAR"] >= POLICY_YEAR)).astype(float))
+        fp_ = pf.feols("y ~ Dp | STATEFIP + YEAR", data=fr, weights="PERWT", vcov="hetero")
+        b_pf, se_h_pf = float(fp_.coef()["Dp"]), float(fp_.se()["Dp"])
+        fp_.vcov({"CRV1": "STATEFIP"})
+        se_s_pf = float(fp_.se()["Dp"])
+        fp_.vcov({"CRV1": "CLUSTER"})
+        se_hh_pf = float(fp_.se()["Dp"])
+        own = pc_.fit(pc_.D_for(T))
+        validation.append({"check": f"placebo module: {lab}: coefficient, HC1, household and state CRV1 SEs vs pyfixest person-level",
+                           "states": [abbr[s] for s in T], "module": {k: r6(own[k] * 100) for k in ("b", "hc1", "household", "state")},
+                           "pyfixest": {"b": r6(b_pf * 100), "hc1": r6(se_h_pf * 100), "household": r6(se_hh_pf * 100), "state": r6(se_s_pf * 100)},
+                           "unit": "points",
+                           "pass": abs(own["b"] - b_pf) < 1e-10 and abs(own["hc1"] / se_h_pf - 1) < 1e-5
+                                   and abs(own["state"] / se_s_pf - 1) < 1e-5 and abs(own["household"] / se_hh_pf - 1) < 1e-5})
+        plc_targets[lab] = {"states": [int(s) for s in T], "beta_points": own["b"] * 100, "se_hc1_points": own["hc1"] * 100,
+                            "se_state_points": own["state"] * 100, "se_household_points": own["household"] * 100}
+    log(f"placebo: comparison design {plc['comparison']['n']} assignments, reject {plc['comparison']['reject']}; "
+        f"all-states {plc['all']['n']} draws, reject {plc['all']['reject']}")
+
     # -------------------------------------------------------------- event study (person level)
     log("event study")
     evs = [yy for yy in range(Y0, Y1 + 1) if yy != REF_YEAR]
@@ -733,6 +794,34 @@ def main():
          note=f"{B_RI} random reassignments, seed {SEED_RI}; coefficient statistic inverted over a 0.01-point grid")
     fact("p_ri", r6(ri["p_t"]), num(ri["p_t"], 4), "Randomization-inference p-value for the sharp null of no effect in any state (studentized statistic)",
          variance="simulation", note=f"(1 + count)/(R + 1) with R = {B_RI}; the smallest attainable value")
+
+    # ---- facts: placebo laws
+    plc_note = {"comparison": f"placebo expansion in {N_PLACEBO_COMP} of the {len(comp_states)} never-expanded states from 2014; "
+                              f"all {plc['n_assignments_comp']:,} assignments enumerated; the null of no effect holds by construction",
+                "all": f"placebo expansion in {len(design_states) // 2} of the {G} design states from 2014; {R_PLACEBO_ALL:,} seeded draws "
+                       f"(seed {SEED_PLACEBO}); the real expansion stays in the outcome"}
+    rung_words = {"hc1": "HC1 (records independent)", "household": "CRV1 by ACS household", "state_year": "CRV1 by state-year",
+                  "state": "CRV1 by state, t(G − 1)", "cv3": "CRV3 jackknife by state, t(G − 1)"}
+    fact("plc_treated_comp", N_PLACEBO_COMP, intc(N_PLACEBO_COMP), "Placebo expansion states drawn from the comparison states", unit="states", weight=None)
+    fact("plc_assignments_comp", plc["n_assignments_comp"], intc(plc["n_assignments_comp"]),
+         f"Distinct assignments of {N_PLACEBO_COMP} placebo expanders among the {len(comp_states)} comparison states (all enumerated)",
+         unit="assignments", weight=None)
+    fact("plc_draws_all", R_PLACEBO_ALL, intc(R_PLACEBO_ALL), f"Seeded random assignments of {len(design_states) // 2} placebo expanders among the {G} design states",
+         unit="draws", weight=None, note=f"seed {SEED_PLACEBO}")
+    for dk in ("comparison", "all"):
+        res_ = plc[dk]
+        for k in placebo.RUNGS:
+            fact(f"plc_rej_{k}_{dk}", r6(res_["reject"][k]), pct(res_["reject"][k], 1),
+                 f"Share of placebo regressions in which a nominal 5% test rejects no effect under {rung_words[k]}; {plc_note[dk]}",
+                 variance="simulation", weight="PERWT", n=(n_comp if dk == "comparison" else NP))
+        fact(f"plc_sd_coef_{dk}", r6(res_["sd_coef"] * 100), pts(res_["sd_coef"], 2),
+             f"Standard deviation of the placebo coefficients across assignments (percentage points); {plc_note[dk]}",
+             unit="percentage points", variance="simulation", weight="PERWT")
+        for k in ("hc1", "state", "cv3"):
+            fact(f"plc_med_se_{k}_{dk}", r6(res_["median_se"][k] * 100), pts(res_["median_se"][k], 2),
+                 f"Median across placebo assignments of the {rung_words[k]} standard error (percentage points); {plc_note[dk]}",
+                 unit="percentage points", variance="simulation", weight="PERWT")
+    fact("plc_states_comp", len(comp_states), intc(len(comp_states)), "Comparison states available for placebo assignment", unit="states", weight=None)
 
     # ---- facts: stage one and state variation
     fact("median_cell_se", r6(med_cell_se * 100), pts(med_cell_se, 1), "Median SDR standard error of a design state-year uninsured share (percentage points)",
@@ -933,6 +1022,55 @@ def main():
         "rows": grows, "source": "KFF Status of State Medicaid Expansion Decisions; medicaid.gov; see _data/expansion_dates.csv for per-state sources",
         "note": "Dates are effective (coverage) dates, not adoption or approval dates."}
 
+    # ---- placebo figures
+    plc_rows = []
+    what_plc = {"hc1": "Every record", "household": "Households", "state_year": "State-years", "state": "States", "cv3": "States"}
+    for dk, dlab in (("comparison", f"{len(comp_states)} never-expanded states, {N_PLACEBO_COMP} placebo expanders (all {plc['n_assignments_comp']:,} assignments)"),
+                     ("all", f"{G} design states, {len(design_states) // 2} placebo expanders ({R_PLACEBO_ALL:,} seeded draws)")):
+        res_ = plc[dk]
+        for k in placebo.RUNGS:
+            plc_rows.append({"design": dlab, "rung": rung_words[k], "independent": what_plc[k], "reject": r4(res_["reject"][k]),
+                             "median_se": r4(res_["median_se"][k] * 100), "ratio": r4(res_["median_ratio_to_hc1"][k]),
+                             "role": "highlight" if k in ("state", "cv3") else ("design" if k == "household" else "naive")})
+    figures["placebo_table"] = {
+        "type": "table", "title": "Laws that never happened: how often each variance rule rejects a true null",
+        "subtitle": "Placebo expansion assigned to states at random from 2014; the same regression and rungs as the ladder",
+        "alt": "Table of rejection rates of a nominal 5 percent test under five variance rules in two placebo designs; the record, "
+               "household and state-year rules reject a true null far more than 5 percent of the time, and the state-level rules "
+               "reject near 5 percent.",
+        "columns": [{"key": "design", "label": "Placebo design", "align": "left"},
+                    {"key": "rung", "label": "Variance rule", "align": "left"},
+                    {"key": "independent", "label": "Independent units", "align": "left"},
+                    {"key": "reject", "label": "Rejects at 5%", "format": "pct1", "align": "right"},
+                    {"key": "median_se", "label": "Median SE (points)", "format": "num2", "align": "right"},
+                    {"key": "ratio", "label": "Median SE / HC1", "format": "ratio2", "align": "right"}],
+        "rows": plc_rows, "highlight_key": "reject", "source": SOURCE,
+        "note": ("In the first design no expansion happened in any state, so the null is true by construction. In the second the real "
+                 "expansion stays in the outcome and acts as a state-level shock the placebo regression does not model. Tests use "
+                 "t(N − K) for HC1 and t(G − 1) for the clustered rules, as pyfixest does.")}
+    bc = plc["comparison"]["coefs"] * 100
+    width = 0.5
+    lo_b = float(np.floor(bc.min() / width) * width)
+    hi_b = float(np.ceil(bc.max() / width) * width)
+    edges = np.round(np.arange(lo_b, hi_b + width / 2, width), 6)
+    counts, _ = np.histogram(bc, bins=edges)
+    pc_c = plc["pc_comp"]
+    hw_h = pc_c.t_hc1 * plc["comparison"]["median_se"]["hc1"] * 100
+    hw_s = pc_c.t_g * plc["comparison"]["median_se"]["state"] * 100
+    figures["placebo_hist"] = {
+        "type": "histogram", "format": "num1",
+        "title": "Placebo coefficients across every assignment of seven expanders among the fifteen comparison states",
+        "subtitle": "Each bar counts assignments; the markers are the half-widths of a typical 95% interval under two rules",
+        "alt": "Histogram of placebo coefficients spread over several percentage points either side of zero; the record-level "
+               "interval half-width sits close to zero and the state-clustered half-width covers most of the spread.",
+        "x_label": "Placebo coefficient (percentage points)", "y_label": "Assignments",
+        "bins": [{"x0": float(edges[i]), "x1": float(edges[i + 1]), "count": int(counts[i])} for i in range(len(counts))],
+        "markers": [{"x": r4(-hw_h), "label": "− HC1 half-width"}, {"x": r4(hw_h), "label": "+ HC1 half-width"},
+                    {"x": r4(-hw_s), "label": "− state-clustered half-width"}, {"x": r4(hw_s), "label": "+ state-clustered half-width"}],
+        "source": SOURCE,
+        "note": (f"All {plc['n_assignments_comp']:,} assignments; no expansion happened in these states. Half-widths use the median SE "
+                 f"across assignments: t(N − K) for HC1 and t({pc_c.G - 1}) for state clustering.")}
+
     # ---- ledgers
     ledgers["policy_inference"] = {
         "title": "Medicaid expansion and uninsurance: inference for the policy comparison",
@@ -983,6 +1121,16 @@ def main():
             validation.extend(rj.get("checks", []))
         else:
             validation.append({"check": "R validation", "status": "stale: rerun verify.R"})
+    dump(SCR / "placebo_targets.json", {"beta_points": beta * 100, "cases": plc_targets})
+    rp = SCR / "r_placebo_validation.json"
+    if rp.exists():
+        rj = json.loads(rp.read_text(encoding="utf-8"))
+        if abs(rj.get("python_beta_points", 1e9) - beta * 100) < 1e-8 and rj.get("cases") == {k: v["states"] for k, v in plc_targets.items()}:
+            validation.extend(rj.get("checks", []))
+        else:
+            validation.append({"check": "R placebo validation", "status": "stale: rerun verify_placebo.R"})
+    else:
+        validation.append({"check": "R placebo validation (verify_placebo.R)", "status": "not run: _scratch/r_placebo_validation.json missing"})
     manifest = {
         "key": "ch6", "slug": "ch06-clustering", "status": "draft", "code": "build.py",
         "inputs": [{"path": "analysis/usa/acs/" + p, "rows": None, "note": "columns YEAR, SAMPLE, SERIAL, PERNUM, CLUSTER, STRATA, STATEFIP, GQ, AGE, POVERTY, PERWT, HCOVANY, uninsured"} for p in PERSON_PARTS]
@@ -995,6 +1143,12 @@ def main():
                      "poverty_max": POV_HI, "sdr": {"n_reps": NREP, "scale": "4/80", "df": SDR_DF, "center": "full-sample estimate"},
                      "wcb": {"B": B_WCB, "seed": SEED_WCB, "weights": "rademacher", "type": "WCR-C, CRV1-studentized, symmetric"},
                      "ri": {"R": B_RI, "seed": SEED_RI, "permute": "which design states are treated; count and timing fixed"},
+                     "placebo": {"code": "placebo.py", "comparison_design": {"states": len(comp_states), "placebo_treated": N_PLACEBO_COMP,
+                                                                              "assignments": plc["n_assignments_comp"], "enumerated": True},
+                                 "all_states_design": {"states": G, "placebo_treated": len(design_states) // 2, "draws": R_PLACEBO_ALL,
+                                                       "seed": SEED_PLACEBO},
+                                 "timing": f"placebo effective {POLICY_YEAR}, fixed", "rungs": list(placebo.RUNGS),
+                                 "reference_distributions": "t(N - K) for HC1, t(G - 1) for clustered rules (pyfixest conventions)"},
                      "crv_df": "t with G - 1", "pyfixest": pf.__version__},
         "validation": validation,
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),

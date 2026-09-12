@@ -1,6 +1,6 @@
 {
   "code": "build.py",
-  "generated_at": "2026-09-11T00:44:49Z",
+  "generated_at": "2026-09-12T05:07:11Z",
   "inputs": [
     {
       "note": "canonical weights, replicate block, notes",
@@ -55,7 +55,7 @@
       "rows": 4874919
     },
     {
-      "note": "YEAR, WT06, STRATA, BLS_WORK; YEAR = 2024 used",
+      "note": "YEAR, WT06, STRATA, BLS_WORK, DAY; YEAR = 2024 used",
       "path": "ipums/analysis/atus/atus_respondent.parquet",
       "rows": 252808
     },
@@ -119,7 +119,7 @@
       "pass": true
     },
     {
-      "check": "ATUS 2024: positive WT06 on every respondent, no design variables in the extract",
+      "check": "ATUS 2024: positive WT06 on every respondent, no design variables in the extract, DAY coded 1-7",
       "n": 7669,
       "pass": true
     },
@@ -231,6 +231,34 @@
       "pass": true
     },
     {
+      "check": "NHANES 2021-2023: weights-only SE (no strata or PSUs) equals the hand with-replacement formula; the estimate is unchanged",
+      "design_se": 0.009438646,
+      "df_design": 15,
+      "df_weights_only": 6122,
+      "hand": 0.0075320419,
+      "n": 6123,
+      "pass": true,
+      "weights_only_se": 0.0075320419
+    },
+    {
+      "check": "BRFSS 2024: weights-only SE equals the hand with-replacement formula; the estimate is unchanged",
+      "design_se": 0.001344506,
+      "hand": 0.001347336,
+      "n": 456360,
+      "pass": true,
+      "srs_se": 0.0005873582,
+      "unweighted": 0.1974822509,
+      "weights_only_se": 0.001347336
+    },
+    {
+      "check": "ATUS 2024: the snippet's weighted mean equals the hand formula; weekend diaries are about half the sample and about two-sevenths of weighted person-days",
+      "pass": true,
+      "unweighted": 148.306037293,
+      "weekend_sample": 0.4996740123,
+      "weekend_weighted": 0.284149696,
+      "weighted": 205.5040950767
+    },
+    {
       "check": "verify.R completed",
       "pass": true,
       "r": "R version 4.6.1 (2026-06-24 ucrt)",
@@ -268,7 +296,7 @@
       "r_est": 0.1957624328,
       "r_se": 0.001344506,
       "rel_se_diff": 0.0,
-      "seconds": "192.7",
+      "seconds": "122.5",
       "svy_df": 453967,
       "svy_est": 0.1957624328,
       "svy_se": 0.001344506
@@ -292,10 +320,34 @@
       "r_est": 0.0804107878,
       "r_se": 0.0011205975,
       "rel_se_diff": 0.0,
-      "seconds": "11.6",
+      "seconds": "6.7",
       "svy_df": 159,
       "svy_est": 0.0804107878,
       "svy_se": 0.0011205975
+    },
+    {
+      "check": "R snippet nhanes_wonly vs svy: same estimate and SE",
+      "pass": true,
+      "r_degf": null,
+      "r_est": 0.3749506288,
+      "r_se": 0.0075320419,
+      "rel_se_diff": 0.0,
+      "seconds": null,
+      "svy_df": 6122,
+      "svy_est": 0.3749506288,
+      "svy_se": 0.0075320419
+    },
+    {
+      "check": "R snippet brfss_wonly vs svy: same estimate and SE",
+      "pass": true,
+      "r_degf": null,
+      "r_est": 0.1957624328,
+      "r_se": 0.001347336,
+      "rel_se_diff": 0.0,
+      "seconds": null,
+      "svy_df": 456359,
+      "svy_est": 0.1957624328,
+      "svy_se": 0.001347336
     },
     {
       "check": "R svydesign stops on NHIS 2024 without nest = TRUE",

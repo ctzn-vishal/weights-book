@@ -36,6 +36,24 @@
       "title": "A sparse domain, estimated two ways (NHIS 2023)",
       "variance_estimator": "Taylor linearization on the full declared design, (STRATA, PSU) composite key (662 PSUs); contrasted with deleting non-domain rows first under certainty, adjust, and average lonely-PSU rules"
     },
+    "nhis_groups": {
+      "assumptions": "With-replacement PSU approximation; item nonresponse on coverage excluded; no multiplicity adjustment; descriptive contrasts, not effects",
+      "estimand": "Differences between pairs of groups in the finite-population share without health insurance at interview; 27 pre-specified comparisons",
+      "estimator": "Difference of two weighted ratio (Hájek) means, each a domain of the full sample-adult design",
+      "explicit_weights": "SAMPWEIGHT, the sample-adult weight",
+      "facts": [
+        "ch3.nhis_unins_wa",
+        "ch3.grp_k",
+        "ch3.grp_sig_naive",
+        "ch3.grp_sig_design",
+        "ch3.grp_ne_mw"
+      ],
+      "implicit_weights": "None",
+      "randomness": "One stratified multistage sample; both groups in every comparison come from the same PSUs, so their estimates covary",
+      "target_population": "U.S. civilian noninstitutionalized adults 18–64 in 2023, by Census region, race and Hispanic origin, education, citizenship, sex, and age group",
+      "title": "Which groups of adults differ in coverage? (NHIS 2023)",
+      "variance_estimator": "Taylor linearization of the difference on the declared design, (STRATA, PSU) composite key, covariance included; t with the df of PSUs and strata containing either group; compared with naive iid and weights-only variances"
+    },
     "period_change": {
       "assumptions": "Comparable definitions and instruments (oscillometric in both periods; medication question changed wording and skip pattern in 2021–2023); no adjustment for multiple comparisons, as in NCHS reports",
       "estimand": "Differences between the two periods in finite-population proportions, overall and in five pre-specified groups (24 comparisons)",

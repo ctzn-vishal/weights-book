@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { entryHref, entryLabel, kickerFor, type TocEntry, type TocPart } from '@/lib/toc';
 import { FactPositioner } from './FactPositioner';
+import { ArrowLeftIcon, ArrowRightIcon } from './icons';
 import { MobileNav } from './MobileNav';
 import { OnThisPage } from './OnThisPage';
 import { TocNav } from './Sidebar';
@@ -46,13 +47,13 @@ export function BookShell({ entry, part, prev, next, kicker, inToc = true, child
           <div className="bk-page">
             <article className="bk-article">
               <header className="bk-header">
-                <p className="bk-kicker">{kicker ?? kickerFor(entry, part)}</p>
+                <Kicker text={kicker ?? kickerFor(entry, part)} />
                 <h1 className="bk-title">{entry.title}</h1>
                 <p className="bk-dek">{entry.dek}</p>
                 {entry.credential ? (
                   <p className="bk-credential">
                     <span className="lbl">Data</span>
-                    <span>{entry.credential}</span>
+                    <span className="val">{entry.credential}</span>
                   </p>
                 ) : null}
               </header>
@@ -72,6 +73,31 @@ export function BookShell({ entry, part, prev, next, kicker, inToc = true, child
   );
 }
 
+/**
+ * "Part II · Chapter 7": the part in muted ink, the entry's own label in the
+ * accent, a hairline between. A kicker without a separator (an appendix, an
+ * override) is one span.
+ */
+function Kicker({ text }: { text: string }) {
+  const parts = text.split(' · ');
+  return (
+    <p className="bk-kicker">
+      {parts.map((p, i) => (
+        // the space keeps "Part II" and "Chapter 7" as two words for assistive tech; the hairline is CSS
+        <span key={i} className={i === parts.length - 1 ? 'n' : 'p'}>
+          {i > 0 ? ' ' : null}
+          {p}
+        </span>
+      ))}
+    </p>
+  );
+}
+
+/**
+ * Prev/next as two cards: a small uppercase line with the direction and the
+ * neighbour's label ("Chapter 8"), then its title. The arrow slides on hover.
+ * A page with only a "next" keeps it on the right.
+ */
 function Pager({ prev, next }: { prev: TocEntry | null; next: TocEntry | null }) {
   if (!prev && !next) return null;
   return (
@@ -79,18 +105,20 @@ function Pager({ prev, next }: { prev: TocEntry | null; next: TocEntry | null })
       {prev ? (
         <Link href={entryHref(prev)} className="prev" rel="prev">
           <span className="dir">
-            <span aria-hidden="true">← </span>Previous
+            <ArrowLeftIcon className="arr" />
+            <span>Previous</span>
+            <span className="lbl">{entryLabel(prev)}</span>
           </span>
-          <span className="lbl">{entryLabel(prev)}</span>
           <span className="t">{prev.title}</span>
         </Link>
       ) : null}
       {next ? (
         <Link href={entryHref(next)} className="next" rel="next">
           <span className="dir">
-            Next<span aria-hidden="true"> →</span>
+            <span className="lbl">{entryLabel(next)}</span>
+            <span>Next</span>
+            <ArrowRightIcon className="arr" />
           </span>
-          <span className="lbl">{entryLabel(next)}</span>
           <span className="t">{next.title}</span>
         </Link>
       ) : null}

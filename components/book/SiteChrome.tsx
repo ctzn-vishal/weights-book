@@ -9,6 +9,7 @@ import { ThemeToggle } from './ThemeToggle';
 export function DraftBanner() {
   return (
     <div className="bk-draft" role="note">
+      <span className="bk-draft-dot" aria-hidden="true" />
       <strong>Draft:</strong> numbers and prose are under review
     </div>
   );

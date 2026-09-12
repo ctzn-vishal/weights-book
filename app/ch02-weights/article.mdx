@@ -1,10 +1,12 @@
 import { WeightBuilder } from '@/components/widgets/WeightBuilder'
 
-## One respondent, thousands of adults
+## What is this weight column?
 
-Somewhere in the 2024 Behavioral Risk Factor Surveillance System (BRFSS) file is a respondent who answered a telephone interviewer's questions and, in the estimates CDC publishes, stands for <Fact id="ch2.brfss_weight_max" /> adults. The median respondent stands for <Fact id="ch2.brfss_weight_median" />. The average Vermont respondent stands for <Fact id="ch2.brfss_mean_w_vt" /> adults and the average California respondent for <Fact id="ch2.brfss_mean_w_ca" />, because Vermont supplied <Fact id="ch2.brfss_n_vt" /> interviews and California <Fact id="ch2.brfss_n_ca" /> for adult populations of very different size. These numbers are the final weight, `_LLCPWT`, and across the <Fact id="ch2.brfss_n_target" /> respondents in the states and the District of Columbia they add up to <Fact id="ch2.brfss_weight_total" /> adults.
+You have decided to use the weights. Now the codebook lists six of them. The 2024 Behavioral Risk Factor Surveillance System (BRFSS) file carries `_STRWT`, `_RAWRAKE`, `_WT2RAKE`, `_DUALCOR`, `_LLCPWT2`, and `_LLCPWT`, and the documentation says to use the last. The American Time Use Survey file carries `WT06` and a page of text about weekends. Before you attach either to an estimate, the question worth an hour is: what is this column, and what did the producer do to it? Because the answer decides what the weighted number means, whose chance of selection it undoes, and what it silently assumes about the people who never answered.
 
-The weight decides how much each answer counts. Among the <Fact id="ch2.brfss_n_fmd" /> respondents who gave a valid count of poor mental health days, <Fact id="ch2.brfss_fmd_unweighted" /> reported frequent mental distress: 14 or more of the past 30 days on which their mental health was not good. Weighted, the same answers give <Fact id="ch2.brfss_fmd_final" ci />. No answer changed. The <Fact id="ch2.brfss_fmd_gap_pp" /> percentage points between the two figures come from the weight, and the weight is the product of five steps, each with its own reason. This chapter takes it apart step by step, asks how much of it can be rebuilt from the public file, and then asks what a person's weight means when it is no longer the inverse of a probability.
+Two weights, two logics. The ATUS weight begins as something you can see: BLS assigns half of its diary days to weekends on purpose, and a weekend diary therefore stands for fewer days than a weekday diary. That part of `WT06` is an inverse probability, and you could rebuild it from the design description. The BRFSS weight ends as something you cannot see. Somewhere in the 2024 file is a respondent who answered a telephone interviewer's questions and, in the estimates CDC publishes, stands for <Fact id="ch2.brfss_weight_max" /> adults. The median respondent stands for <Fact id="ch2.brfss_weight_median" />. The average Vermont respondent stands for <Fact id="ch2.brfss_mean_w_vt" /> adults and the average California respondent for <Fact id="ch2.brfss_mean_w_ca" />, because Vermont supplied <Fact id="ch2.brfss_n_vt" /> interviews and California <Fact id="ch2.brfss_n_ca" /> for adult populations of very different size. These numbers are `_LLCPWT`, and across the <Fact id="ch2.brfss_n_target" /> respondents in the states and the District of Columbia they add up to <Fact id="ch2.brfss_weight_total" /> adults. That respondent does not have a one-in-<Fact id="ch2.brfss_weight_max" /> chance of selection. The number is the product of five steps, and only the first three are probabilities.
+
+The weight decides how much each answer counts. Among the <Fact id="ch2.brfss_n_fmd" /> respondents who gave a valid count of poor mental health days, <Fact id="ch2.brfss_fmd_unweighted" /> reported frequent mental distress: 14 or more of the past 30 days on which their mental health was not good. Weighted, the same answers give <Fact id="ch2.brfss_fmd_final" ci />. No answer changed. The <Fact id="ch2.brfss_fmd_gap_pp" /> percentage points between the two figures come from the weight. This chapter takes the BRFSS weight apart step by step, asks how much of it can be rebuilt from the public file, sets the ATUS design weight beside it as the case where the probability is visible, and then asks what a person's weight means when it is no longer the inverse of a probability.
 
 <KeyNumber id="ch2.brfss_fmd_final" label="Frequent mental distress, adults in the 49 states and DC that released 2024 BRFSS data" />
 
@@ -59,7 +61,7 @@ At the `_STRWT` scale the dual-frame factor cuts the weighted share of dual user
 
 ### What can be rebuilt
 
-The chain has three kinds of link (Figure 2.4), and the difference matters to anyone who wants to modify a weight.
+The chain has three kinds of link (Figure 2.4), and the difference matters to anyone who wants to modify a weight, or to understand what a modified weight has lost.
 
 - **Rebuilt exactly from public variables.** `_RAWRAKE`, the adults-and-phones factor, equals $$\min(A_i,5)/\min(k_i,3)$$ for every landline respondent with a known count of numbers; the <Fact id="ch2.brfss_ll_unknown_phones" /> with an unknown count are treated as having one. `_WT2RAKE` equals `_STRWT` times `_RAWRAKE` on all but <Fact id="ch2.brfss_wt2rake_exceptions" /> records, all Illinois cell interviews that carry another stratum's weight. The two compositing factors sum to one in every state. `_STRWT` itself is shipped but not derivable: the counts behind it are not public.
 - **Documented, not rebuildable.** `_LLCPWT2` depends on sub-state regions, which are removed from the public file, and on a rescaling the Overview does not describe. `_LLCPWT` depends on control totals and regional and county margins that are not on the file.
@@ -73,7 +75,7 @@ The chain has three kinds of link (Figure 2.4), and the difference matters to an
 
 A prevalence needs a population, and this one is not the United States. The 2024 public file holds <Fact id="ch2.brfss_n_file" /> interviews, none of them from Tennessee, which could not collect enough data to meet CDC's minimum for release <Cite id="brfss2024" />. It does include Guam, Puerto Rico, and the US Virgin Islands, which draw simple random samples of landline numbers rather than the stratified samples the states use. The target here is **adults in the 49 states and the District of Columbia that released 2024 data**. The <Fact id="ch2.brfss_n_terr" /> territorial interviews are set aside. BRFSS asks about mental health in one question, `MENTHLTH`, coded as a count of days, 88 for none, and 77 or 99 for don't know or refused. The <Fact id="ch2.brfss_fmd_missing_share" /> who answered don't know or refused are excluded from the outcome, so the estimand is prevalence among adults who would answer.
 
-The missing state is not a rounding error. In 2022, the most recent year in which all 50 states and DC released data, Tennessee's respondents represented <Fact id="ch2.tn_2022_adults" /> adults, <Fact id="ch2.tn_2022_share" /> of the weighted total. The set of jurisdictions also changes from year to year, so a trend or pooled estimate labeled "U.S. adults" describes a population that shifts beneath it (Figure 2.3).
+The missing state is not a rounding error. In 2022, the most recent year in which all 50 states and DC released data, Tennessee's respondents represented <Fact id="ch2.tn_2022_adults" /> adults, <Fact id="ch2.tn_2022_share" /> of the weighted total. The set of jurisdictions also changes from year to year, so a trend or pooled estimate labeled "U.S. adults" describes a population that shifts beneath it (Figure 2.3). If your paper pools BRFSS years, this table is the footnote it needs.
 
 <Figure n="2.3" caption="The jurisdictions in the BRFSS public file change from year to year: 2024 omits Tennessee, 2023 Kentucky and Pennsylvania, 2021 Florida, and 2019 New Jersey.">
 <Chart id="ch2.coverage" />
@@ -114,9 +116,9 @@ Both give a standard error of <Fact id="ch2.se_as_sampling" /> percentage points
 
 ## Inverse probabilities, and where they end
 
-### A design weight you can see
+### The other logic: a design weight you can see
 
-Only the first three links of the BRFSS chain have a probability interpretation, and even they rest on counts the public cannot see. The American Time Use Survey (ATUS) shows a design weight in the open. It asks each respondent about one day, assigned in advance and never substituted. BLS assigns a share $$0.10$$ of the sample to each weekday and $$0.25$$ to each weekend day, so weekdays and weekends each receive half <Cite id="bls2026" />. People work much less on weekends.
+Only the first three links of the BRFSS chain have a probability interpretation, and even they rest on counts the public cannot see. The ATUS weight is the contrasting case, and it is worth holding the two side by side. ATUS asks each respondent about one day, assigned in advance and never substituted. BLS assigns a share $$0.10$$ of the sample to each weekday and $$0.25$$ to each weekend day, so weekdays and weekends each receive half <Cite id="bls2026" />. People work much less on weekends. Here the producer's decision is printed in the user guide, the probability is known, and a reader with the file can check what the weight does about it.
 
 <Callout kind="predict" title="Predict first">
 Weekend days are about half of the ATUS diaries but two of every seven days in a year. Is the unweighted mean of minutes worked per day too high or too low, and by roughly how much?
@@ -138,6 +140,8 @@ A weekday diary has $$\pi_i \propto 0.10$$ and gets $$d_i \propto 10$$; a weeken
 
 The published weight, `WT06`, gives <Fact id="ch2.atus_work_weighted" /> minutes, which matches the published BLS figure to rounding <Cite id="bls_atus" />. It still carries the day allocation: the average weekday diary has <Fact id="ch2.atus_wt_ratio" /> times the weight of the average weekend diary, near the design ratio of $$10/4$$, and weekends get <Fact id="ch2.atus_weekend_share_wt06" /> of weighted person-days. The remaining distance is the $$g_i$$ in $$w_i = d_i g_i$$: other design factors, a nonresponse adjustment, and calibration to population totals, none of which a user can rebuild.<SideNote>This ATUS extract has no design variables, so it carries an estimand lesson and no uncertainty lesson. A standard error computed from `WT06` alone would leave out the design.</SideNote>
 
+So the two weights differ in where the visible part ends. In ATUS, a known design probability does most of the work and the adjustment finishes it. In BRFSS, the design links are a scaffold, and the step that moves the estimate most is the one that rests on a model of who answers. Both columns are called "the weight," and both give a weighted mean with the same formula. What differs is how much of each weight you can defend from the design alone, and how much rests on the producer's assumptions about nonresponse.
+
 <Ledger id="ch2.atus_design_weight" />
 
 ### Where the probability interpretation ends
@@ -146,7 +150,7 @@ The rescaling in `_LLCPWT2` and the raking in `_LLCPWT` make the sample reproduc
 
 ### What software calls a weight
 
-The word "weight" also names three different objects in statistical software.
+The word "weight" also names three different objects in statistical software, and the option you type commits you to one of them.
 
 - A **frequency weight** $$f_i$$ says the record stands for $$f_i$$ identical observations; the sample size is $$\sum_i f_i$$.
 - A **precision (analytic) weight** $$a_i$$ says observation $$i$$ has variance $$\sigma^2/a_i$$, as when each record is a mean over $$a_i$$ people.
@@ -219,7 +223,7 @@ State totals, and anything that depends only on them, are unchanged. The age mix
 <Closing>
 <Learned>
 
-An estimated <Fact id="ch2.brfss_fmd_final" /> of adults in the 49 states and DC that released 2024 BRFSS data report frequent mental distress, among those who answered. It is far more common among young adults, <Fact id="ch2.brfss_fmd_age1824" /> of those 18–24, than among adults 65 and older, <Fact id="ch2.brfss_fmd_age65" />. Young adults are scarce among respondents, so an analysis that ignores the weights understates the prevalence.
+An estimated <Fact id="ch2.brfss_fmd_final" /> of adults in the 49 states and DC that released 2024 BRFSS data report frequent mental distress, among those who answered. It is far more common among young adults, <Fact id="ch2.brfss_fmd_age1824" /> of those 18–24, than among adults 65 and older, <Fact id="ch2.brfss_fmd_age65" />. Young adults are scarce among respondents, so an analysis that ignores the weights understates the prevalence. The BRFSS weight is mostly a nonresponse model with a design scaffold; the ATUS weight is mostly a design probability with an adjustment on top.
 
 </Learned>
 <Changed>

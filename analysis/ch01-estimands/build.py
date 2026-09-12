@@ -506,7 +506,7 @@ def build_turnout() -> None:
     # records null, so neither can flag them.
     df = query(f"""
         SELECT a.YEAR, a.SERIAL, a.PERNUM, a.VOSUPPWT, a.WTFINL, a.voted_census, a.voted_selfreport,
-               r.VOTED AS VOTED_RAW
+               a.race_eth5, r.VOTED AS VOTED_RAW
         FROM read_parquet({sq(VOTER)}) a
         LEFT JOIN read_parquet({sq(VOTER_RAW)}) r
           ON a.YEAR = r.YEAR AND a.SERIAL = r.SERIAL AND a.PERNUM = r.PERNUM
@@ -583,9 +583,125 @@ def build_turnout() -> None:
     DIAG["turnout"] = {yr: {k: (round(v, 5) if isinstance(v, float) else v) for k, v in r.items()}
                        for yr, r in res.items()}
 
+    # The same two denominators, by race and ethnicity (added 2026-09-12). Supplement nonresponse
+    # is not evenly spread across groups, so the two conventions give different group gaps, not
+    # just different levels. race_eth5: Hispanic of any race first, then single-race non-Hispanic.
+    RACE_YEARS = (2016, 2020, 2024)
+    RACE_GROUPS = (("White NH", "white"), ("Black NH", "black"))
+    race: dict[tuple[int, str], dict] = {}
+    for yr in RACE_YEARS:
+        d = df.filter((pl.col("YEAR") == yr) & (pl.col("VOSUPPWT") > 0))
+        for lvl, tag in RACE_GROUPS:
+            g = d.filter(pl.col("race_eth5") == lvl)
+            w = g["VOSUPPWT"].to_numpy().astype(float)
+            sr = g["voted_selfreport"].fill_null(-1).to_numpy()
+            voter, responded = sr == 1, sr >= 0
+            race[(yr, tag)] = {
+                "census": float(np.sum(w[voter]) / np.sum(w)),
+                "respondents": float(np.sum(w[responded & voter]) / np.sum(w[responded])),
+                "nonresponse": float(np.sum(w[~responded]) / np.sum(w)),
+                "n_counted": int(g.height), "n_responded": int(responded.sum()),
+            }
+    sql_race = query(f"""
+        SELECT YEAR, race_eth5,
+          SUM(VOSUPPWT * (voted_selfreport = 1)::INT) / SUM(VOSUPPWT) AS census,
+          SUM(VOSUPPWT * voted_selfreport) FILTER (WHERE voted_selfreport IS NOT NULL)
+            / SUM(VOSUPPWT) FILTER (WHERE voted_selfreport IS NOT NULL) AS respondents,
+          SUM(VOSUPPWT) FILTER (WHERE voted_selfreport IS NULL) / SUM(VOSUPPWT) AS nonresponse
+        FROM read_parquet({sq(VOTER)})
+        WHERE YEAR IN (2016, 2020, 2024) AND citizen_b = 1 AND AGE >= 18 AND VOSUPPWT > 0
+          AND race_eth5 IN ('White NH', 'Black NH')
+        GROUP BY YEAR, race_eth5 ORDER BY YEAR, race_eth5""")
+    tag_of = dict(RACE_GROUPS)
+    for row in sql_race.iter_rows(named=True):
+        for k in ("census", "respondents", "nonresponse"):
+            agree(race[(row["YEAR"], tag_of[row["race_eth5"]])][k], row[k], 1e-9,
+                  f"turnout {row['YEAR']} {row['race_eth5']} {k} numpy vs SQL")
+    # External benchmark: Census Bureau, Voting and Registration in the Election of November 2020,
+    # Table 2 (P20-585, table02_3.xlsx "White alone not Hispanic" and table02_4.xlsx "Black alone"),
+    # citizens 18+: reported voted 70.9 / 62.6 percent; no response to voting 13.9 / 20.0 percent.
+    # The groups differ slightly: Census's "Black alone" includes Hispanic Black citizens; race_eth5
+    # puts Hispanic citizens of any race in "Hispanic".
+    RACE_PUBLISHED = {"white": {"census": 70.9, "nonresponse": 13.9, "label": "White alone not Hispanic"},
+                      "black": {"census": 62.6, "nonresponse": 20.0, "label": "Black alone"}}
+    RACE_SOURCE = ("Census Bureau, Voting and Registration in the Election of November 2020, Table 2 "
+                   "(P20-585; www2.census.gov/programs-surveys/cps/tables/p20/585/table02_3.xlsx and "
+                   "table02_4.xlsx, read 2026-09-12)")
+    for tag, pub in RACE_PUBLISHED.items():
+        for k in ("census", "nonresponse"):
+            ours = round(100 * race[(2020, tag)][k], 1)
+            check(f"turnout_2020_{tag}_{k}_vs_published", "benchmark", round(100 * race[(2020, tag)][k], 3),
+                  pub[k], RACE_SOURCE, abs(ours - pub[k]) <= 0.2,
+                  f"race_eth5 '{'White NH' if tag == 'white' else 'Black NH'}' vs Census '{pub['label']}' "
+                  f"({'reported voted' if k == 'census' else 'no response to voting'}, citizens 18+). "
+                  "Census's 'Black alone' includes Hispanic Black citizens; race_eth5 does not.")
+    DIAG["turnout_race"] = {f"{yr}_{tag}": {k: (round(v, 5) if isinstance(v, float) else v) for k, v in r.items()}
+                            for (yr, tag), r in race.items()}
+
     r20, r22, r24 = res[2020], res[2022], res[2024]
     wt = "VOSUPPWT"
     cvap = "U.S. citizens 18 and older in the civilian noninstitutional population, not in the armed forces"
+    grp_name = {"white": "non-Hispanic White", "black": "non-Hispanic Black"}
+    for tag in ("white", "black"):
+        rr = race[(2020, tag)]
+        pub = RACE_PUBLISHED[tag]
+        fact(f"turnout_census_{tag}_2020", rr["census"], pct(rr["census"]), n=rr["n_counted"], weight=wt,
+             source=src_voter(2020),
+             estimand=(f"Share of {grp_name[tag]} {cvap} who reported voting in November 2020, supplement "
+                       "nonrespondents counted as nonvoters (Census convention); race_eth5"),
+             benchmark=f"Census Bureau Table 2, '{pub['label']}': {pub['census']}% (external benchmark; group definitions differ slightly)")
+        fact(f"turnout_resp_{tag}_2020", rr["respondents"], pct(rr["respondents"]), n=rr["n_responded"], weight=wt,
+             source=src_voter(2020),
+             estimand=(f"Share who reported voting among {grp_name[tag]} {cvap} who answered the voting "
+                       "question, November 2020; race_eth5"))
+        fact(f"turnout_nonresp_{tag}_2020", rr["nonresponse"], pct(rr["nonresponse"]), n=rr["n_counted"], weight=wt,
+             source=src_voter(2020),
+             estimand=f"Weighted share of {grp_name[tag]} {cvap} with no answer to the voting question, November 2020",
+             benchmark=f"Census Bureau Table 2, '{pub['label']}', no response to voting: {pub['nonresponse']}% (external benchmark)")
+    gap_c = race[(2020, "white")]["census"] - race[(2020, "black")]["census"]
+    gap_r = race[(2020, "white")]["respondents"] - race[(2020, "black")]["respondents"]
+    n_wb = race[(2020, "white")]["n_counted"] + race[(2020, "black")]["n_counted"]
+    fact("turnout_gap_race_census_2020", gap_c, pts(gap_c, 1), unit="percentage points", n=n_wb, weight=wt,
+         source=src_voter(2020),
+         estimand="Non-Hispanic White minus non-Hispanic Black turnout, November 2020, Census convention (every citizen adult the weight counts)")
+    fact("turnout_gap_race_resp_2020", gap_r, pts(gap_r, 1), unit="percentage points",
+         n=race[(2020, "white")]["n_responded"] + race[(2020, "black")]["n_responded"], weight=wt,
+         source=src_voter(2020),
+         estimand="Non-Hispanic White minus non-Hispanic Black turnout, November 2020, among citizen adults who answered the voting question")
+    FIGURES["turnout_gap_race"] = {
+        "type": "table",
+        "title": "The Black–White turnout gap under two denominators",
+        "subtitle": "Non-Hispanic White and non-Hispanic Black citizens 18 and older, CPS November supplements",
+        "format": "pct1",
+        "alt": ("Table for the 2016, 2020, and 2024 elections showing White and Black turnout under the "
+                "Census convention and among respondents only, the gap under each, and the share of each "
+                "group with no answer to the voting question. The gap is about twice as large under the "
+                "Census convention because nonresponse is higher among Black citizens."),
+        "source": "IPUMS CPS November Voting and Registration Supplements, 2016, 2020, 2024 (analysis/cps/cps_voter.parquet)",
+        "note": ("Weights-only extract: point estimates only. Gaps are White minus Black in percentage "
+                 "points, computed from unrounded rates. race_eth5 groups: Hispanic of any race is a "
+                 "separate group, so 'White' and 'Black' are single-race non-Hispanic."),
+        "columns": [
+            {"key": "election", "label": "Election", "align": "left"},
+            {"key": "white_census", "label": "White, everyone counted", "format": "pct1", "align": "right"},
+            {"key": "black_census", "label": "Black, everyone counted", "format": "pct1", "align": "right"},
+            {"key": "gap_census", "label": "Gap (pts)", "format": "num1", "align": "right"},
+            {"key": "white_resp", "label": "White, respondents only", "format": "pct1", "align": "right"},
+            {"key": "black_resp", "label": "Black, respondents only", "format": "pct1", "align": "right"},
+            {"key": "gap_resp", "label": "Gap (pts)", "format": "num1", "align": "right"},
+            {"key": "nonresp_white", "label": "White, no answer", "format": "pct1", "align": "right"},
+            {"key": "nonresp_black", "label": "Black, no answer", "format": "pct1", "align": "right"},
+        ],
+        "rows": [
+            {"election": str(yr),
+             "white_census": rnd(race[(yr, "white")]["census"]), "black_census": rnd(race[(yr, "black")]["census"]),
+             "gap_census": rnd(100 * (race[(yr, "white")]["census"] - race[(yr, "black")]["census"]), 4),
+             "white_resp": rnd(race[(yr, "white")]["respondents"]), "black_resp": rnd(race[(yr, "black")]["respondents"]),
+             "gap_resp": rnd(100 * (race[(yr, "white")]["respondents"] - race[(yr, "black")]["respondents"]), 4),
+             "nonresp_white": rnd(race[(yr, "white")]["nonresponse"]), "nonresp_black": rnd(race[(yr, "black")]["nonresponse"])}
+            for yr in RACE_YEARS
+        ],
+    }
     fact("turnout_census_2020", r20["census"], pct(r20["census"]), n=r20["n_counted"], weight=wt,
          source=src_voter(2020),
          estimand=(f"Share of {cvap} who reported voting in November 2020, supplement nonrespondents "
@@ -658,7 +774,8 @@ def build_turnout() -> None:
                                "(weights-only tier); an SE from VOSUPPWT alone would not be design-based."),
            assumptions=("Supplement nonrespondents did not vote; respondents report their own voting "
                         "accurately. Both are assumptions, not data."),
-           facts=["ch1.turnout_census_2020", "ch1.turnout_resp_2020", "ch1.turnout_nonresp_2020"])
+           facts=["ch1.turnout_census_2020", "ch1.turnout_resp_2020", "ch1.turnout_nonresp_2020",
+                  "ch1.turnout_gap_race_census_2020", "ch1.turnout_gap_race_resp_2020"])
 
     FIGURES["turnout_conventions"] = {
         "type": "table",

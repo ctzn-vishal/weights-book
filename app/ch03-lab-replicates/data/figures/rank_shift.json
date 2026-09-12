@@ -1,0 +1,319 @@
+{
+  "alt": "Slope chart connecting each state's rank in the uninsured-rate table for adults 19 to 64 to its rank in the table for adults 55 to 64; Texas stays first and Massachusetts last while 7 states move ten or more places, Delaware, New Jersey the most.",
+  "format": "int",
+  "left_label": "Rank, adults 19–64",
+  "note": "Both tables use the same universe (civilian noninstitutionalized), estimator, and replicate variance; only the age band changes. The 55–64 samples are smaller (from 593 in District of Columbia), so its intervals are wider and fewer pairs are distinguishable.",
+  "right_label": "Rank, adults 55–64",
+  "rows": [
+    {
+      "label": "Texas",
+      "left": 1,
+      "right": 1,
+      "role": "muted"
+    },
+    {
+      "label": "Georgia",
+      "left": 2,
+      "right": 7,
+      "role": "muted"
+    },
+    {
+      "label": "Oklahoma",
+      "left": 3,
+      "right": 4,
+      "role": "muted"
+    },
+    {
+      "label": "Nevada",
+      "left": 4,
+      "right": 5,
+      "role": "muted"
+    },
+    {
+      "label": "Florida",
+      "left": 5,
+      "right": 6,
+      "role": "muted"
+    },
+    {
+      "label": "New Mexico",
+      "left": 6,
+      "right": 2,
+      "role": "muted"
+    },
+    {
+      "label": "Alaska",
+      "left": 7,
+      "right": 3,
+      "role": "muted"
+    },
+    {
+      "label": "Mississippi",
+      "left": 8,
+      "right": 13,
+      "role": "muted"
+    },
+    {
+      "label": "Wyoming",
+      "left": 9,
+      "right": 10,
+      "role": "muted"
+    },
+    {
+      "label": "Arizona",
+      "left": 10,
+      "right": 8,
+      "role": "muted"
+    },
+    {
+      "label": "Tennessee",
+      "left": 11,
+      "right": 11,
+      "role": "muted"
+    },
+    {
+      "label": "South Carolina",
+      "left": 12,
+      "right": 14,
+      "role": "muted"
+    },
+    {
+      "label": "Arkansas",
+      "left": 13,
+      "right": 17,
+      "role": "muted"
+    },
+    {
+      "label": "Alabama",
+      "left": 14,
+      "right": 15,
+      "role": "muted"
+    },
+    {
+      "label": "Montana",
+      "left": 15,
+      "right": 12,
+      "role": "muted"
+    },
+    {
+      "label": "North Carolina",
+      "left": 16,
+      "right": 19,
+      "role": "muted"
+    },
+    {
+      "label": "Idaho",
+      "left": 17,
+      "right": 9,
+      "role": "muted"
+    },
+    {
+      "label": "Kansas",
+      "left": 18,
+      "right": 20,
+      "role": "muted"
+    },
+    {
+      "label": "Louisiana",
+      "left": 19,
+      "right": 18,
+      "role": "muted"
+    },
+    {
+      "label": "South Dakota",
+      "left": 20,
+      "right": 26,
+      "role": "muted"
+    },
+    {
+      "label": "New Jersey",
+      "left": 21,
+      "right": 35,
+      "role": "highlight"
+    },
+    {
+      "label": "Nebraska",
+      "left": 22,
+      "right": 22,
+      "role": "muted"
+    },
+    {
+      "label": "Utah",
+      "left": 23,
+      "right": 16,
+      "role": "muted"
+    },
+    {
+      "label": "Missouri",
+      "left": 24,
+      "right": 21,
+      "role": "muted"
+    },
+    {
+      "label": "Colorado",
+      "left": 25,
+      "right": 23,
+      "role": "muted"
+    },
+    {
+      "label": "Indiana",
+      "left": 26,
+      "right": 32,
+      "role": "muted"
+    },
+    {
+      "label": "Illinois",
+      "left": 27,
+      "right": 33,
+      "role": "muted"
+    },
+    {
+      "label": "Kentucky",
+      "left": 28,
+      "right": 24,
+      "role": "muted"
+    },
+    {
+      "label": "Virginia",
+      "left": 29,
+      "right": 28,
+      "role": "muted"
+    },
+    {
+      "label": "Delaware",
+      "left": 30,
+      "right": 44,
+      "role": "highlight"
+    },
+    {
+      "label": "Ohio",
+      "left": 31,
+      "right": 29,
+      "role": "muted"
+    },
+    {
+      "label": "Washington",
+      "left": 32,
+      "right": 31,
+      "role": "muted"
+    },
+    {
+      "label": "West Virginia",
+      "left": 33,
+      "right": 36,
+      "role": "muted"
+    },
+    {
+      "label": "Connecticut",
+      "left": 34,
+      "right": 45,
+      "role": "highlight"
+    },
+    {
+      "label": "Maryland",
+      "left": 35,
+      "right": 42,
+      "role": "muted"
+    },
+    {
+      "label": "California",
+      "left": 36,
+      "right": 34,
+      "role": "muted"
+    },
+    {
+      "label": "Iowa",
+      "left": 37,
+      "right": 39,
+      "role": "muted"
+    },
+    {
+      "label": "Maine",
+      "left": 38,
+      "right": 25,
+      "role": "highlight"
+    },
+    {
+      "label": "Pennsylvania",
+      "left": 39,
+      "right": 41,
+      "role": "muted"
+    },
+    {
+      "label": "North Dakota",
+      "left": 40,
+      "right": 27,
+      "role": "highlight"
+    },
+    {
+      "label": "Oregon",
+      "left": 41,
+      "right": 30,
+      "role": "highlight"
+    },
+    {
+      "label": "Wisconsin",
+      "left": 42,
+      "right": 48,
+      "role": "muted"
+    },
+    {
+      "label": "Minnesota",
+      "left": 43,
+      "right": 43,
+      "role": "muted"
+    },
+    {
+      "label": "Michigan",
+      "left": 44,
+      "right": 38,
+      "role": "muted"
+    },
+    {
+      "label": "New York",
+      "left": 45,
+      "right": 46,
+      "role": "muted"
+    },
+    {
+      "label": "New Hampshire",
+      "left": 46,
+      "right": 47,
+      "role": "muted"
+    },
+    {
+      "label": "Rhode Island",
+      "left": 47,
+      "right": 49,
+      "role": "muted"
+    },
+    {
+      "label": "Vermont",
+      "left": 48,
+      "right": 40,
+      "role": "muted"
+    },
+    {
+      "label": "District of Columbia",
+      "left": 49,
+      "right": 37,
+      "role": "highlight"
+    },
+    {
+      "label": "Hawaii",
+      "left": 50,
+      "right": 50,
+      "role": "muted"
+    },
+    {
+      "label": "Massachusetts",
+      "left": 51,
+      "right": 51,
+      "role": "muted"
+    }
+  ],
+  "source": "IPUMS USA, ACS 2024 1-year; PERWT and REPWTP1-80; SDR variance (4/80, df 79).",
+  "subtitle": "Rank 1 = highest uninsured rate. Highlighted states move ten or more places.",
+  "title": "The same states, two tables: rank among adults 19–64 and among adults 55–64",
+  "type": "slope"
+}

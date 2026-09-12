@@ -42,7 +42,7 @@
     ]
   },
   "code": "build.py",
-  "generated_at": "2026-09-11T01:40:00+00:00",
+  "generated_at": "2026-09-12T05:10:14+00:00",
   "inputs": [
     {
       "note": "columns YEAR, SAMPLE, SERIAL, PERNUM, CLUSTER, STRATA, STATEFIP, GQ, AGE, POVERTY, PERWT, HCOVANY, uninsured",
@@ -82,6 +82,30 @@
       64
     ],
     "crv_df": "t with G - 1",
+    "placebo": {
+      "all_states_design": {
+        "draws": 4000,
+        "placebo_treated": 15,
+        "seed": 20260912,
+        "states": 30
+      },
+      "code": "placebo.py",
+      "comparison_design": {
+        "assignments": 6435,
+        "enumerated": true,
+        "placebo_treated": 7,
+        "states": 15
+      },
+      "reference_distributions": "t(N - K) for HC1, t(G - 1) for clustered rules (pyfixest conventions)",
+      "rungs": [
+        "hc1",
+        "household",
+        "state_year",
+        "state",
+        "cv3"
+      ],
+      "timing": "placebo effective 2014, fixed"
+    },
     "policy_year": 2014,
     "poverty_max": 138,
     "pyfixest": "0.60.0",
@@ -155,6 +179,102 @@
       "own": 0.1633,
       "pass": true,
       "wildboottest": 0.1633
+    },
+    {
+      "cell_sums": 0.218048,
+      "check": "placebo module: real-design hc1 SE from per-cell sums vs pyfixest person-level",
+      "pass": true,
+      "pyfixest": 0.218048,
+      "unit": "points"
+    },
+    {
+      "cell_sums": 0.259025,
+      "check": "placebo module: real-design household SE from per-cell sums vs pyfixest person-level",
+      "pass": true,
+      "pyfixest": 0.259025,
+      "unit": "points"
+    },
+    {
+      "cell_sums": 0.634454,
+      "check": "placebo module: real-design state_year SE from per-cell sums vs pyfixest person-level",
+      "pass": true,
+      "pyfixest": 0.634454,
+      "unit": "points"
+    },
+    {
+      "cell_sums": 1.321029,
+      "check": "placebo module: real-design state SE from per-cell sums vs pyfixest person-level",
+      "pass": true,
+      "pyfixest": 1.321029,
+      "unit": "points"
+    },
+    {
+      "beta": -7.965221,
+      "check": "placebo module: real-design coefficient and CV3 from the module vs the chapter's",
+      "cv3": 1.461577,
+      "module_beta": -7.965221,
+      "module_cv3": 1.461577,
+      "pass": true
+    },
+    {
+      "check": "placebo module: comparison design, first enumerated assignment: coefficient, HC1, household and state CRV1 SEs vs pyfixest person-level",
+      "module": {
+        "b": -1.557575,
+        "hc1": 0.27722,
+        "household": 0.32744,
+        "state": 1.235612
+      },
+      "pass": true,
+      "pyfixest": {
+        "b": -1.557575,
+        "hc1": 0.27722,
+        "household": 0.32744,
+        "state": 1.235613
+      },
+      "states": [
+        "AL",
+        "FL",
+        "GA",
+        "ID",
+        "KS",
+        "MS",
+        "MO"
+      ],
+      "unit": "points"
+    },
+    {
+      "check": "placebo module: all-states design, first seeded draw: coefficient, HC1, household and state CRV1 SEs vs pyfixest person-level",
+      "module": {
+        "b": -2.389187,
+        "hc1": 0.244632,
+        "household": 0.290363,
+        "state": 2.030509
+      },
+      "pass": true,
+      "pyfixest": {
+        "b": -2.389187,
+        "hc1": 0.244632,
+        "household": 0.290363,
+        "state": 2.03051
+      },
+      "states": [
+        "AL",
+        "AZ",
+        "CO",
+        "HI",
+        "IA",
+        "MD",
+        "NE",
+        "NV",
+        "NM",
+        "ND",
+        "OK",
+        "OR",
+        "RI",
+        "SD",
+        "WV"
+      ],
+      "unit": "points"
     },
     {
       "check": "event study: person-level pyfixest vs cell-level coefficients and CRV1 SEs",
@@ -281,6 +401,78 @@
       "r": 0.19494828285019,
       "relative": false,
       "tolerance": 1e-06
+    },
+    {
+      "check": "placebo (all-states design, first seeded draw): coefficient (points), fixest vs placebo.py",
+      "diff": 1.53210777398272e-13,
+      "pass": true,
+      "python": -2.38918717655855,
+      "r": -2.38918717655839,
+      "relative": false,
+      "tolerance": 1e-08
+    },
+    {
+      "check": "placebo (all-states design, first seeded draw): HC1 SE (points), fixest vs placebo.py",
+      "diff": 3.36926234689727e-07,
+      "pass": true,
+      "python": 0.244631990076156,
+      "r": 0.244632072499092,
+      "relative": true,
+      "tolerance": 0.0001
+    },
+    {
+      "check": "placebo (all-states design, first seeded draw): CRV1 SE by state (points), fixest vs placebo.py",
+      "diff": 3.36928084543331e-07,
+      "pass": true,
+      "python": 2.03050901422374,
+      "r": 2.03050969835925,
+      "relative": true,
+      "tolerance": 0.0001
+    },
+    {
+      "check": "placebo (all-states design, first seeded draw): CRV1 SE by household (points), fixest vs placebo.py",
+      "diff": 4.89608353859694e-14,
+      "pass": true,
+      "python": 0.290362738752745,
+      "r": 0.29036273875273,
+      "relative": true,
+      "tolerance": 0.0001
+    },
+    {
+      "check": "placebo (comparison design, first enumerated assignment): coefficient (points), fixest vs placebo.py",
+      "diff": 7.50510764646606e-14,
+      "pass": true,
+      "python": -1.55757454956766,
+      "r": -1.55757454956758,
+      "relative": false,
+      "tolerance": 1e-08
+    },
+    {
+      "check": "placebo (comparison design, first enumerated assignment): HC1 SE (points), fixest vs placebo.py",
+      "diff": 5.31819036586612e-07,
+      "pass": true,
+      "python": 0.277219903917403,
+      "r": 0.277220051348225,
+      "relative": true,
+      "tolerance": 0.0001
+    },
+    {
+      "check": "placebo (comparison design, first enumerated assignment): CRV1 SE by state (points), fixest vs placebo.py",
+      "diff": 5.31824543292814e-07,
+      "pass": true,
+      "python": 1.23561247458724,
+      "r": 1.23561313171628,
+      "relative": true,
+      "tolerance": 0.0001
+    },
+    {
+      "check": "placebo (comparison design, first enumerated assignment): CRV1 SE by household (points), fixest vs placebo.py",
+      "diff": 6.43929354282591e-14,
+      "pass": true,
+      "python": 0.327439767486792,
+      "r": 0.327439767486771,
+      "relative": true,
+      "tolerance": 0.0001
     }
   ]
 }

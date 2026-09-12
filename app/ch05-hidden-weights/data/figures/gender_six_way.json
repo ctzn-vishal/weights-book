@@ -1,0 +1,61 @@
+{
+  "alt": "Dot plot of the female-male log wage coefficient from two regressions beside population-, women-, and men-share averages of the same cell contrasts; the survey-weighted regression and the population-share average coincide, and all five sit near minus 0.2.",
+  "format": "num3",
+  "note": "Weighted rows: 80-replicate SDR, t with 79 df. OLS intervals use household-clustered (CR1) standard errors and the normal critical value. Contrasts are net of a common age and work-from-home profile.",
+  "reference": {
+    "label": "no difference",
+    "value": 0
+  },
+  "rows": [
+    {
+      "ci_high": -0.20376599,
+      "ci_low": -0.20892004,
+      "estimate": -0.20634301,
+      "group": "Regression coefficients",
+      "label": "Unweighted regression, cell fixed effects",
+      "n": 984475,
+      "role": "unweighted"
+    },
+    {
+      "ci_high": -0.19487027,
+      "ci_low": -0.20124091,
+      "estimate": -0.19805559,
+      "group": "Regression coefficients",
+      "label": "Survey-weighted projection, cell fixed effects",
+      "n": 984475,
+      "role": "weighted"
+    },
+    {
+      "ci_high": -0.19381562,
+      "ci_low": -0.20126842,
+      "estimate": -0.19754202,
+      "group": "Averages of the same cell contrasts",
+      "label": "Population-share average (PATE-analogue)",
+      "n": 984475,
+      "role": "design"
+    },
+    {
+      "ci_high": -0.18177579,
+      "ci_low": -0.18873898,
+      "estimate": -0.18525738,
+      "group": "Averages of the same cell contrasts",
+      "label": "Women-share average (ATT-analogue)",
+      "n": 984475,
+      "role": "design"
+    },
+    {
+      "ci_high": -0.20291216,
+      "ci_low": -0.2132029,
+      "estimate": -0.20805753,
+      "group": "Averages of the same cell contrasts",
+      "label": "Men-share average (ATU-analogue)",
+      "n": 984475,
+      "role": "design"
+    }
+  ],
+  "source": "IPUMS USA, ACS 2024 1-year (SAMPLE 202401), analysis/usa/acs/part_2020_2024.parquet; replicate weights REPWTP1–80 from analysis/usa/acs_repwt/part_2020_2024.parquet",
+  "subtitle": "Female − male difference in log hourly wage, the same 85 occupation-by-education cells, 2024 ACS",
+  "title": "The gender gap: unequal implicit weights, and the same answer",
+  "type": "dot",
+  "x_label": "Log points"
+}

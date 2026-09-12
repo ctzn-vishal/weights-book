@@ -58,8 +58,9 @@ def npm(pkg: str) -> str:
 # ------------------------------------------------------------------ tools
 r_out = run([str(RSCRIPT), "-e",
              "cat(paste(R.version$major, R.version$minor, sep='.'), "
-             "as.character(packageVersion('survey')), as.character(packageVersion('arrow')), sep='|')"])
-r_parts = r_out.split("|") if r_out.count("|") == 2 else ["unavailable"] * 3
+             "as.character(packageVersion('survey')), as.character(packageVersion('arrow')), "
+             "as.character(packageVersion('fixest')), sep='|')"])
+r_parts = r_out.split("|") if r_out.count("|") == 3 else ["unavailable"] * 4
 tools = [
     ("Python", platform.python_version(), "analysis language for every build.py"),
     ("svy", pyver("svy"), "design-based estimation (Taylor and replication); the book's computational spine"),
@@ -74,6 +75,7 @@ tools = [
     ("R", r_parts[0], "independent oracle for design-based results"),
     ("R survey", r_parts[1], "sentinel checks (svydesign, svrepdesign)"),
     ("R arrow", r_parts[2], "reads the parquet store directly from R"),
+    ("R fixest", r_parts[3], "Chapter 7's simulated designs and their variance estimators"),
     ("Node.js", run(["node", "--version"]).lstrip("v"), "site build and scripts/check-mdx.mjs"),
     ("Next.js", npm("next"), "static site framework"),
     ("@mdx-js/mdx", npm("@mdx-js/mdx"), "MDX 3 compiler"),

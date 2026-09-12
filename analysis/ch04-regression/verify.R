@@ -46,6 +46,15 @@ add("fixest_occind_wls_hetero", coef(f3)[["D"]], se(f3)[["D"]], "fixest hetero")
 f4 <- feols(lnw ~ D + z1 + z2 + z3 + educ4 | OCC + IND + STATEFIP, data = d, vcov = "hetero")
 add("fixest_occind_ols_hetero", coef(f4)[["D"]], se(f4)[["D"]], "fixest hetero")
 rm(f1, f2, f3, f4); invisible(gc())
+# 1b. separate regressions within one education level (pass 2: the group where OLS and WLS disagree)
+ds <- d[d$educ4 == "Some college", ]
+f5 <- feols(lnw ~ D + z1 + z2 + z3, data = ds, weights = ~PERWT, cluster = ~SERIAL)
+add("fixest_somecoll_wls_crhh", coef(f5)[["D"]], se(f5)[["D"]], "fixest CR1 SERIAL, educ4 == Some college")
+f6 <- feols(lnw ~ D + z1 + z2 + z3, data = ds, cluster = ~SERIAL)
+add("fixest_somecoll_ols_crhh", coef(f6)[["D"]], se(f6)[["D"]], "fixest CR1 SERIAL, educ4 == Some college")
+f7 <- feols(hw ~ D + z1 + z2 + z3, data = ds, weights = ~PERWT, cluster = ~SERIAL)
+add("fixest_somecoll_lev_wls_crhh", coef(f7)[["D"]], se(f7)[["D"]], "fixest CR1 SERIAL, educ4 == Some college, levels")
+rm(f5, f6, f7, ds); invisible(gc())
 
 # 2. replicate design (SDR, 80 replicates, scale 4/80, centred at the full-sample estimate)
 des <- svrepdesign(data = d[, c("lnw", "hw", "D", "z1", "z2", "z3", "educ4", "cell", "PERWT", rw)],
@@ -79,6 +88,22 @@ th2 <- withReplicates(des, function(w, data) {
 })
 add("wr_cellfe_log", as.numeric(coef(th2))[1], sqrt(as.numeric(vcov(th2)))[1], "withReplicates(within-cell WLS)")
 rm(Xh, Zc); invisible(gc())
+# 3b. the same replicate route on the some-college subset (subset() of a replicate design keeps the
+# domain's rows with all 80 replicate weights; the function receives the subset's weights and data)
+des_s <- subset(des, educ4 == "Some college")
+th3 <- withReplicates(des_s, function(w, data) {
+  Xs <- cbind(1, data$D, data$z1, data$z2, data$z3)
+  b <- solve(crossprod(Xs, w * Xs), crossprod(Xs, w * data$lnw))
+  b[2]
+})
+add("wr_somecoll_log", as.numeric(coef(th3))[1], sqrt(as.numeric(vcov(th3)))[1], "withReplicates(normal equations, educ4 == Some college)")
+th4 <- withReplicates(des_s, function(w, data) {
+  Xs <- cbind(1, data$D, data$z1, data$z2, data$z3)
+  b <- solve(crossprod(Xs, w * Xs), crossprod(Xs, w * data$hw))
+  b[2]
+})
+add("wr_somecoll_levels", as.numeric(coef(th4))[1], sqrt(as.numeric(vcov(th4)))[1], "withReplicates(normal equations, educ4 == Some college, levels)")
+rm(des_s, th3, th4); invisible(gc())
 
 # 4. svyglm, the usual route (drops records with non-positive replicate weights inside glm.fit)
 fit_glm <- function(formula, name) {

@@ -1,8 +1,10 @@
 import { ReplicateRanking } from '@/components/widgets/ReplicateRanking'
 
-## A league table
+## Is our state worse than the one next door?
 
-Each September the Census Bureau releases the previous year's American Community Survey (ACS), and within a day the state uninsured rates are a league table. The 2024 table reads: Texas first, Georgia second, Oklahoma third, Arizona tenth, Massachusetts last. The story writes itself. Texas has the highest share of working-age adults without health insurance, <Fact id="ch3lab.top_rate" />, and Massachusetts the lowest, <Fact id="ch3lab.bottom_rate" />, against a national rate of <Fact id="ch3lab.us_rate" ci />. A governor's office in a state that dropped three places wants to know why. An advocacy group in a state that climbed two has the press release drafted.
+A reporter calls, or a dean does, with the same question: is our state worse than the one next door? The state uninsured rates came out this morning, your state sits a few places below its neighbor in the table, and you are the person on campus who works with the American Community Survey (ACS). You know that both rates are estimates. What you have to decide before you answer is whether the survey can tell the two places apart, and the answer is on the public-use file, in 80 weight columns most users never open.
+
+Each September the Census Bureau releases the previous year's ACS, and within a day the state uninsured rates are a league table. The 2024 table for working-age adults reads: Texas first, Georgia second, Oklahoma third, Arizona tenth, Massachusetts last. Texas has the highest share of adults aged 19 to 64 without health insurance, <Fact id="ch3lab.top_rate" />, and Massachusetts the lowest, <Fact id="ch3lab.bottom_rate" />, against a national rate of <Fact id="ch3lab.us_rate" ci />. A governor's office in a state that dropped three places wants to know why. An advocacy group in a state that climbed two has the press release drafted.
 
 Every step down the table is a claim about neighbors: this state's rate is higher than the next one's. There are 50 such neighboring pairs. With textbook standard errors, <Fact id="ch3lab.adj_sig_naive" /> of them differ at the 90 percent level. With the standard errors the ACS was built to support, <Fact id="ch3lab.adj_sig_sdr" /> do. The estimated rates have not moved. The evidence for separating neighboring places has, and a story about who moved up or down is mostly a story about pairs the data cannot tell apart.
 
@@ -76,11 +78,27 @@ The pairwise tests also give each state a range of ranks compatible with them (F
 
 These are per-comparison tests, the ACS convention, and across <Fact id="ch3lab.pairs_total" /> comparisons some false positives are expected. Holding the chance of any false positive to 10 percent with a Bonferroni correction leaves <Fact id="ch3lab.pairs_sig_bonf" /> distinguishable pairs.
 
+## Worse at what? The same states, a second table
+
+<Callout kind="predict" title="Predict first">
+
+Restrict the same file to adults aged 55 to 64, the group closest to Medicare, and rank the states again. Will the order stay roughly the same, and will more or fewer neighboring pairs be distinguishable?
+
+</Callout>
+
+The dean's question has a hidden clause: worse at what, for whom? A ranking belongs to an estimand. Change the population and the table changes, and it changes by more than the uncertainty in either table would suggest. Among adults 55 to 64 the national uninsured rate is <Fact id="ch3lab.old_us_rate" ci />, and the same code, universe, and replicate variance give a second table from <Fact id="ch3lab.old_n_total" /> respondents. Texas is still first and Massachusetts still last. In between, <Fact id="ch3lab.old_moved5" /> states move five or more places and <Fact id="ch3lab.old_moved10" /> move ten or more (Figure 3L.4). Delaware and New Jersey move the most, <Fact id="ch3lab.old_move_max" /> places each. Delaware is <Fact id="ch3lab.mover_rank_all" />th among all working-age adults, with an uninsured rate of <Fact id="ch3lab.mover_rate_all" ci />, and <Fact id="ch3lab.mover_rank_old" />th among adults 55 to 64, at <Fact id="ch3lab.mover_rate_old" ci />. Its rank ranges in the two tables, <Fact id="ch3lab.mover_range_all" /> and <Fact id="ch3lab.mover_range_old" />, barely touch. That is not sampling noise moving one number. It is two different questions with two different answers, and a state can be middling at one and near the bottom at the other.
+
+<Figure n="3L.4" caption="Texas and Massachusetts hold the ends of both tables, but seven states move ten or more places between the working-age ranking and the ranking for adults 55 to 64: a rank is a property of an estimand, not of a state.">
+  <Chart id="ch3lab.rank_shift" />
+</Figure>
+
+The second table is also less able to separate its own neighbors. The smallest state sample falls to <Fact id="ch3lab.old_n_min" />, in the District of Columbia, and the largest coefficient of variation among the 51 rates is <Fact id="ch3lab.old_cv_max" />, close to the level at which producers suppress estimates. The replicate standard error is a median <Fact id="ch3lab.old_ratio_median" /> the naive one, and it distinguishes <Fact id="ch3lab.old_pairs_sig_sdr" /> of the <Fact id="ch3lab.pairs_total" /> pairs, down from <Fact id="ch3lab.pairs_sig_sdr" /> in the working-age table, and <Fact id="ch3lab.old_adj_sig_sdr" /> of the 50 adjacent pairs. The naive test still claims <Fact id="ch3lab.old_pairs_sig_naive" /> pairs and <Fact id="ch3lab.old_adj_sig_naive" /> adjacent ones; here its error is spread over the whole table rather than concentrated among neighbors. So the honest answer to the dean has two parts: state which population the ranking describes, and then say whether the two places differ under the replicate test in that table, which for neighbors they usually do not.
+
 ## Re-rank on every replicate
 
 <Callout kind="predict" title="Predict first">
 
-Wyoming ranks ninth and Arizona tenth. If you recompute the ranking with each set of replicate weights, which of the two stays in the top ten more often?
+Wyoming ranks ninth and Arizona tenth among working-age adults. If you recompute the ranking with each set of replicate weights, which of the two stays in the top ten more often?
 
 </Callout>
 
@@ -116,7 +134,7 @@ est <- svyby(~uninsured, ~STATEFIP, des, svymean, covmat = TRUE)
 svycontrast(est, c("48" = 1, "13" = -1))  # Texas minus Georgia
 ```
 
-Setting `mse = TRUE` centers the squared deviations on the full-sample estimate, as the Census formula does.
+Setting `mse = TRUE` centers the squared deviations on the full-sample estimate, as the Census formula does. The second table is `subset(des, AGE >= 55 & AGE <= 64)` followed by the same two lines; subsetting a replicate design keeps all 80 weight columns, so the domain's variance is right without further thought.
 
 <Callout kind="warning" title="svy ignores declared replicate weights unless told otherwise">
 
@@ -136,7 +154,7 @@ An incorrect shortcut also circulates: clustering standard errors on PUMA, the p
 
 <Callout kind="box" title="Validation">
 
-Three checks stand behind these numbers. R's `survey` package, reading the parquet files and joining the replicate weights on its own, reproduces the estimates, their standard errors, and the standard errors of the differences for eight states and three pairs to within <Fact id="ch3lab.r_max_diff" />. The `svy` replication path agrees as well. The same code also reproduces an external benchmark, the Census Bureau's 2024 PUMS verification file: summing PERWT gives the published U.S. population of <Fact id="ch3lab.pums_us_total" />, <Fact id="ch3lab.pums_est_exact" /> of <Fact id="ch3lab.pums_rows" /> published totals (by sex, age group, and group-quarters type, for the nation and six states) match exactly, and <Fact id="ch3lab.pums_se_ok" /> of their standard errors match to the published integer. Those PUMS standard errors, not the full-sample margins on data.census.gov, are the right target: the public-use file is a subsample of the ACS, so its standard errors are larger.
+Three checks stand behind these numbers. R's `survey` package, reading the parquet files and joining the replicate weights on its own, reproduces the estimates, their standard errors, and the standard errors of the differences for eight states and three pairs to within <Fact id="ch3lab.r_max_diff" />, and does the same for the second table's estimates, standard errors, and the Delaware–New Jersey difference. The `svy` replication path agrees as well. The same code also reproduces an external benchmark, the Census Bureau's 2024 PUMS verification file: summing PERWT gives the published U.S. population of <Fact id="ch3lab.pums_us_total" />, <Fact id="ch3lab.pums_est_exact" /> of <Fact id="ch3lab.pums_rows" /> published totals (by sex, age group, and group-quarters type, for the nation and six states) match exactly, and <Fact id="ch3lab.pums_se_ok" /> of their standard errors match to the published integer. Those PUMS standard errors, not the full-sample margins on data.census.gov, are the right target: the public-use file is a subsample of the ACS, so its standard errors are larger.
 
 </Callout>
 
@@ -145,17 +163,17 @@ Three checks stand behind these numbers. R's `survey` package, reading the parqu
 <Closing>
 <Learned>
 
-Among adults 19 to 64, Texas has a higher uninsured rate than every other state and Massachusetts a lower one, and every pairwise test distinguishes both from each of the others. Between the two ends a state's place is a range, not a number: Indiana, in the middle, is compatible with any rank in <Fact id="ch3lab.median_rank_range" />, and only <Fact id="ch3lab.sure_top" /> states remain in the top ten under every ordering the tests allow. The league table's first and last lines are findings; most of the lines between them are not.
+Among adults 19 to 64, Texas has a higher uninsured rate than every other state and Massachusetts a lower one, and every pairwise test distinguishes both from each of the others. Between the two ends a state's place is a range, not a number: Indiana, in the middle, is compatible with any rank in <Fact id="ch3lab.median_rank_range" />, and only <Fact id="ch3lab.sure_top" /> states remain in the top ten under every ordering the tests allow. The league table's first and last lines are findings; most of the lines between them are not. And the table is one estimand's table: among adults 55 to 64, <Fact id="ch3lab.old_moved10" /> states sit ten or more places away from where the working-age ranking puts them.
 
 </Learned>
 <Changed>
 
-Replacing the iid standard error with the replicate standard error made the typical state's interval <Fact id="ch3lab.ratio_median" /> as wide. Testing each difference with its own replicate standard error cut the adjacent pairs that differ from <Fact id="ch3lab.adj_sig_naive" /> to <Fact id="ch3lab.adj_sig_sdr" />, and turned single ranks into ranges.
+Replacing the iid standard error with the replicate standard error made the typical state's interval <Fact id="ch3lab.ratio_median" /> as wide. Testing each difference with its own replicate standard error cut the adjacent pairs that differ from <Fact id="ch3lab.adj_sig_naive" /> to <Fact id="ch3lab.adj_sig_sdr" />, and turned single ranks into ranges. Changing the population from all working-age adults to adults 55 to 64 changed the ranking itself, and cut the distinguishable pairs from <Fact id="ch3lab.pairs_sig_sdr" /> to <Fact id="ch3lab.old_pairs_sig_sdr" />.
 
 </Changed>
 <NotEstablished>
 
-Why the states differ. The rates are descriptive: Medicaid expansion, income, immigration, and industry mix all vary across states, and none is separated here. The estimates describe coverage on the interview date during 2024, from the public-use subsample, so full-sample ACS tables will differ slightly and carry smaller margins. The tests are per comparison, and neither the rank ranges nor the replicate counts are simultaneous confidence statements about the ranking. And the replicates measure sampling and weighting variability, not error in self-reported coverage.
+Why the states differ. The rates are descriptive: Medicaid expansion, income, immigration, and industry mix all vary across states, and none is separated here. The estimates describe coverage on the interview date during 2024, from the public-use subsample, so full-sample ACS tables will differ slightly and carry smaller margins. The tests are per comparison, and neither the rank ranges nor the replicate counts are simultaneous confidence statements about the ranking. The rank changes between the two tables are differences between two estimands, not evidence that either table is wrong. And the replicates measure sampling and weighting variability, not error in self-reported coverage.
 
 </NotEstablished>
 </Closing>

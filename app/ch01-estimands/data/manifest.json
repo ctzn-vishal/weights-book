@@ -1,16 +1,17 @@
 {
   "artifact_sha256": {
-    "facts.json": "b65f70250df816c5a25ad07f1fbbbba3eb00386a07ae94fd58521b225d28e0f2",
+    "facts.json": "4fc9255c6dd67642d2e079116e4f6fb539696bddbbacd9098f32a5c4413dce15",
     "figures/atus_estimands.json": "2b54e1f51bfa5d3be3a7cb77149c366ca41e02434476c195d0a63c084a8aa765",
     "figures/atus_six_estimands.json": "32130e3acc9898f7f3b135cab6f7aaca50222155ca5d8cd9ef9613984c1b6d24",
     "figures/foodsec_units.json": "e03cdfba81b157ba8313af9a898cf24c78ed53976914dbfe3b7f685613463779",
     "figures/poverty_official_spm.json": "4bfea992bf35911ce28d36f9b787d6c407a5074e8c95ecf9f3c305a5c37c75e8",
     "figures/poverty_validation.json": "1dcbede5655ac59b0bc8557e00119b7117963eb69f37b19b22830db77cc99cfb",
     "figures/turnout_conventions.json": "e33aec643057c7df0ff9f1b216f326ceadfc69457e8eaddfa39c897b31497cb9",
-    "ledger.json": "d4eb848273b7823099fa09f1a6ce8e25fbb49f9248604d8c19373641f3b0c50f"
+    "figures/turnout_gap_race.json": "9d7eed95989fcbb68938fc8a43eeeea21738b275d31cf99f2d79c991df12b8a2",
+    "ledger.json": "0229819d6580027d52df09f8163888e4f363a07877972ba75c9b4ce42ace884f"
   },
   "code": "build.py",
-  "generated_at": "2026-09-11T01:43:17+00:00",
+  "generated_at": "2026-09-12T04:59:47+00:00",
   "inputs": [
     {
       "note": "YEAR = 2023; CASEID, WT06, BLS_WORK, DAY, HOLIDAY, emp3",
@@ -243,6 +244,42 @@
       "reference": "2008-2024 citizen adults",
       "result": "match",
       "source": "analysis/cps/cps_voter.parquet"
+    },
+    {
+      "id": "turnout_2020_white_census_vs_published",
+      "kind": "benchmark",
+      "note": "race_eth5 'White NH' vs Census 'White alone not Hispanic' (reported voted, citizens 18+). Census's 'Black alone' includes Hispanic Black citizens; race_eth5 does not.",
+      "ours": 70.937,
+      "reference": 70.9,
+      "result": "match",
+      "source": "Census Bureau, Voting and Registration in the Election of November 2020, Table 2 (P20-585; www2.census.gov/programs-surveys/cps/tables/p20/585/table02_3.xlsx and table02_4.xlsx, read 2026-09-12)"
+    },
+    {
+      "id": "turnout_2020_white_nonresponse_vs_published",
+      "kind": "benchmark",
+      "note": "race_eth5 'White NH' vs Census 'White alone not Hispanic' (no response to voting, citizens 18+). Census's 'Black alone' includes Hispanic Black citizens; race_eth5 does not.",
+      "ours": 13.941,
+      "reference": 13.9,
+      "result": "match",
+      "source": "Census Bureau, Voting and Registration in the Election of November 2020, Table 2 (P20-585; www2.census.gov/programs-surveys/cps/tables/p20/585/table02_3.xlsx and table02_4.xlsx, read 2026-09-12)"
+    },
+    {
+      "id": "turnout_2020_black_census_vs_published",
+      "kind": "benchmark",
+      "note": "race_eth5 'Black NH' vs Census 'Black alone' (reported voted, citizens 18+). Census's 'Black alone' includes Hispanic Black citizens; race_eth5 does not.",
+      "ours": 62.798,
+      "reference": 62.6,
+      "result": "match",
+      "source": "Census Bureau, Voting and Registration in the Election of November 2020, Table 2 (P20-585; www2.census.gov/programs-surveys/cps/tables/p20/585/table02_3.xlsx and table02_4.xlsx, read 2026-09-12)"
+    },
+    {
+      "id": "turnout_2020_black_nonresponse_vs_published",
+      "kind": "benchmark",
+      "note": "race_eth5 'Black NH' vs Census 'Black alone' (no response to voting, citizens 18+). Census's 'Black alone' includes Hispanic Black citizens; race_eth5 does not.",
+      "ours": 20.018,
+      "reference": 20.0,
+      "result": "match",
+      "source": "Census Bureau, Voting and Registration in the Election of November 2020, Table 2 (P20-585; www2.census.gov/programs-surveys/cps/tables/p20/585/table02_3.xlsx and table02_4.xlsx, read 2026-09-12)"
     },
     {
       "id": "foodsec_households_vs_usda",

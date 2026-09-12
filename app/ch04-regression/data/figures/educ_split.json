@@ -1,0 +1,121 @@
+{
+  "alt": "Table of the work-from-home coefficient estimated separately within each of four education levels, unweighted and PERWT-weighted, in logs and in dollars; the two estimates agree within a standard error in three groups and differ by several standard errors of their gap in the some-college group.",
+  "columns": [
+    {
+      "align": "left",
+      "key": "educ",
+      "label": "Education"
+    },
+    {
+      "align": "right",
+      "format": "int",
+      "key": "n",
+      "label": "Records"
+    },
+    {
+      "align": "right",
+      "format": "pct1",
+      "key": "prev",
+      "label": "WFH share"
+    },
+    {
+      "align": "right",
+      "format": "num3",
+      "key": "ols",
+      "label": "OLS, log points"
+    },
+    {
+      "align": "right",
+      "format": "num3",
+      "key": "wls",
+      "label": "WLS, log points"
+    },
+    {
+      "align": "right",
+      "format": "num3",
+      "key": "gap",
+      "label": "WLS − OLS"
+    },
+    {
+      "align": "right",
+      "format": "num1",
+      "key": "z",
+      "label": "Gap ÷ its SE"
+    },
+    {
+      "align": "right",
+      "key": "ols_lev",
+      "label": "OLS, $/hour"
+    },
+    {
+      "align": "right",
+      "key": "wls_lev",
+      "label": "WLS, $/hour"
+    },
+    {
+      "align": "right",
+      "format": "num1",
+      "key": "z_lev",
+      "label": "Gap ÷ its SE, levels"
+    }
+  ],
+  "highlight_key": "highlight",
+  "note": "Each row is a regression of the outcome on WFH, age, age², and sex within one education level, so the age–sex slopes differ by group. Gap SE: 80 SDR replicates, each replicate re-solving both regressions (the OLS side applies the replicate perturbation to equal case weights). WFH shares are PERWT-weighted.",
+  "rows": [
+    {
+      "educ": "Less than HS",
+      "gap": -0.0012173602,
+      "highlight": false,
+      "n": 53748,
+      "ols": 0.1184783,
+      "ols_lev": "$4.61",
+      "prev": 0.043832566,
+      "wls": 0.11726093,
+      "wls_lev": "$4.30",
+      "z": -0.11125612,
+      "z_lev": -0.88347837
+    },
+    {
+      "educ": "HS",
+      "gap": -0.0037580139,
+      "highlight": false,
+      "n": 204437,
+      "ols": 0.17042376,
+      "ols_lev": "$5.60",
+      "prev": 0.063838722,
+      "wls": 0.16666575,
+      "wls_lev": "$5.39",
+      "z": -0.78325933,
+      "z_lev": -1.0527594
+    },
+    {
+      "educ": "Some college",
+      "gap": -0.013195545,
+      "highlight": true,
+      "n": 266367,
+      "ols": 0.20881749,
+      "ols_lev": "$8.12",
+      "prev": 0.111767,
+      "wls": 0.19562195,
+      "wls_lev": "$7.36",
+      "z": -4.5726998,
+      "z_lev": -6.4479804
+    },
+    {
+      "educ": "BA+",
+      "gap": -0.00075642734,
+      "highlight": false,
+      "n": 459923,
+      "ols": 0.21559339,
+      "ols_lev": "$9.73",
+      "prev": 0.19981971,
+      "wls": 0.21483696,
+      "wls_lev": "$9.52",
+      "z": -0.39326575,
+      "z_lev": -1.8723541
+    }
+  ],
+  "source": "IPUMS USA, ACS 2024 1-year (SAMPLE 202401), analysis/usa/acs/part_2020_2024.parquet; replicate weights REPWTP1–80 from analysis/usa/acs_repwt/part_2020_2024.parquet",
+  "title": "Four separate regressions, one per education level: where weighting matters",
+  "type": "table"
+}

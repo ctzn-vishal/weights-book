@@ -1,5 +1,5 @@
 {
-  "code": "../ch04-regression/build.py (shared pipeline with wfhlib.py; this folder's build.py calls it)",
+  "code": "build.py (runs ../ch04-regression/build.py, then gender_cells.py)",
   "diagnostics": {
     "cell_merges": [
       {
@@ -1066,6 +1066,13 @@
         "tau_se": 0.080844248
       }
     ],
+    "gender_example": {
+      "cells_reused": 85,
+      "code": "gender_cells.py",
+      "min_men_per_cell": 84,
+      "min_women_per_cell": 35,
+      "segregated_bands": "female share under 0.2 or over 0.8"
+    },
     "occupation_groups": [
       {
         "label": "Management",
@@ -1395,7 +1402,7 @@
       }
     }
   },
-  "generated_at": "2026-09-11T01:42:30+00:00",
+  "generated_at": "2026-09-12T05:15:29+00:00",
   "inputs": [
     {
       "note": "SAMPLE 202401; SAMPLE = 202401 AND CLASSWKR = 2 AND AGE BETWEEN 25 AND 64 AND UHRSWORK >= 30 AND WKSWORK2 IN (4, 5, 6) AND INCWAGE > 0 AND TRANWORK <> 0; sample flow {'persons_2024': 3422888, 'wage_25_64': 1314595, 'hours_30': 1084659, 'weeks_40': 1012915, 'wage_pos': 1012834, 'at_work': 984475}",
@@ -1414,6 +1421,11 @@
     {
       "note": "labels asserted: TRANWORK 80 'Worked at home'; CLASSWKR 2 'Works for wages'; WKSWORK2 4 '40-47 weeks', 6 '50-52 weeks'",
       "path": "analysis/usa/metadata/acs.dictionary.json"
+    },
+    {
+      "note": "gender example: the pipeline's frozen analytic sample with REPWTP1-80 (a cache of the two inputs above; written by ../ch04-regression/build.py; microdata, never exported)",
+      "path": "book/chapters/ch04-regression/_scratch/analytic_ch45.parquet",
+      "rows": 984475
     }
   ],
   "key": "ch5",
@@ -1503,6 +1515,44 @@
     {
       "check": "cells.json implicit-weight average reproduces wls_coef",
       "result": "|diff| = 1.26e-15"
+    },
+    {
+      "check": "gender example: exact identities on the real data (moment engine = within WLS; FWL cell representation; Sloczynski identity; PATE split)",
+      "result": "agree to 1e-9"
+    },
+    {
+      "check": "gender example: the WFH cell partition satisfies the 30-per-side rule for sex as well",
+      "result": "pass (minimum women and men per cell recorded in diagnostics)"
+    },
+    {
+      "check": "gender example: R sentinel (verify_gender.R): survey 4.5 svrepdesign(type='successive-difference', mse=TRUE), svymean of female and withReplicates within-cell WLS coefficient on female",
+      "r_version": "R version 4.6.1 (2026-06-24 ucrt)",
+      "result": "run",
+      "rows": [
+        {
+          "abs_diff_estimate": 3.8991033e-13,
+          "check": "svymean_female",
+          "method": "svymean",
+          "pass": true,
+          "py_estimate": 0.46120349,
+          "py_se": 0.00038132236,
+          "r_estimate": 0.46120349,
+          "r_se": 0.00038132236,
+          "rel_diff_se": 5.3951035e-13
+        },
+        {
+          "abs_diff_estimate": 2.3120394e-13,
+          "check": "wr_cellfe_female",
+          "method": "withReplicates(within-cell WLS)",
+          "pass": true,
+          "py_estimate": -0.19805559,
+          "py_se": 0.0016002992,
+          "r_estimate": -0.19805559,
+          "r_se": 0.0016002992,
+          "rel_diff_se": 9.9599224e-12
+        }
+      ],
+      "survey": "4.5"
     }
   ]
 }

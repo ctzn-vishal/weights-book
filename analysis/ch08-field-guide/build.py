@@ -220,14 +220,16 @@ inputs.append({"path": "BRFSS/BRFSS_2026/cleaned/brfss_multi_rec.parquet", "rows
                "note": "iyear, xststr, xpsu, xllcpwt, xstate, State, Health; iyear = 2024 used"})
 del bf
 
-at = pl.read_parquet(P["atus_data"], columns=["YEAR", "WT06", "STRATA", "BLS_WORK"])
+at = pl.read_parquet(P["atus_data"], columns=["YEAR", "WT06", "STRATA", "BLS_WORK", "DAY"])
 a24 = at.filter(pl.col("YEAR") == 2024)
 atus = {"n": a24.height, "wt_pos": int((a24["WT06"] > 0).sum()),
-        "strata_nonnull": int(a24["STRATA"].is_not_null().sum())}
-check("ATUS 2024: positive WT06 on every respondent, no design variables in the extract",
-      atus["wt_pos"] == atus["n"] and atus["strata_nonnull"] == 0, n=atus["n"])
+        "strata_nonnull": int(a24["STRATA"].is_not_null().sum()),
+        "day_codes": sorted(int(v) for v in a24["DAY"].unique().to_list())}
+check("ATUS 2024: positive WT06 on every respondent, no design variables in the extract, DAY coded 1-7",
+      atus["wt_pos"] == atus["n"] and atus["strata_nonnull"] == 0 and atus["day_codes"] == list(range(1, 8)),
+      n=atus["n"])
 inputs.append({"path": "ipums/analysis/atus/atus_respondent.parquet", "rows": at.height,
-               "note": "YEAR, WT06, STRATA, BLS_WORK; YEAR = 2024 used"})
+               "note": "YEAR, WT06, STRATA, BLS_WORK, DAY; YEAR = 2024 used"})
 
 am = pl.read_parquet(P["asec_data"], columns=["YEAR", "ASECWT", "ASECFLAG", "uninsured_ly"])
 a25 = am.filter(pl.col("YEAR") == 2025)
@@ -663,6 +665,67 @@ except Exception as exc:  # noqa: BLE001
 check("BRFSS 2024: svy refuses the full-file design without a lonely-PSU rule",
       b_err.startswith("SingletonError") and str(brfss["singletons"]) in b_err, message=b_err)
 
+
+# ------------------------------------------------------------------ 5b. what happens if you get it wrong
+# One comparator per survey that lacked one (2026-09-12): the design SE against the SE the
+# same weighted estimate gets with the design variables dropped (NHANES, BRFSS), the
+# with-replacement SRS SE (BRFSS), and the unweighted estimate (BRFSS, ATUS). All are
+# computed on frames the executed snippets already loaded.
+print("5b. what happens if you get it wrong")
+
+
+def wr_se_hand(frame: pl.DataFrame, y: str, w: str) -> float:
+    """With-replacement Taylor SE of a Hajek mean with every row its own PSU and no strata."""
+    yv = frame[y].cast(pl.Float64).to_numpy()
+    wv = frame[w].cast(pl.Float64).to_numpy()
+    n_ = yv.size
+    z_ = wv * (yv - (wv * yv).sum() / wv.sum()) / wv.sum()
+    return float(np.sqrt(n_ / (n_ - 1) * (z_ ** 2).sum()))
+
+
+# NHANES: examined adults, hypertension by measured blood pressure or medication
+nh_ad = (PY["nhanes"]["ns"]["d"]
+         .filter((pl.col("RIDAGEYR") >= 18) & (pl.col("WTMEC2YR") > 0) & pl.col("htn_measured").is_not_null()))
+nhanes_design = PY["nhanes"]["est"]
+nhanes_wonly = svy.Sample(nh_ad, design=svy.Design(wgt="WTMEC2YR")).estimation.mean("htn_measured").to_dicts()[0]
+nhanes_hand = wr_se_hand(nh_ad, "htn_measured", "WTMEC2YR")
+check("NHANES 2021-2023: weights-only SE (no strata or PSUs) equals the hand with-replacement formula; "
+      "the estimate is unchanged",
+      abs(nhanes_wonly["se"] - nhanes_hand) / nhanes_hand < 1e-9
+      and abs(nhanes_wonly["est"] - nhanes_design["est"]) < 1e-12,
+      design_se=float(nhanes_design["se"]), weights_only_se=float(nhanes_wonly["se"]), hand=nhanes_hand,
+      n=nh_ad.height, df_design=int(nhanes_design["df"]), df_weights_only=int(nhanes_wonly["df"]))
+nhanes_ratio_wonly = nhanes_design["se"] / nhanes_wonly["se"]
+
+# BRFSS: fair or poor health, participating jurisdictions
+b_valid = PY["brfss"]["ns"]["d"].filter(pl.col("fairpoor").is_not_null())
+brfss_design = PY["brfss"]["est"]
+brfss_wonly = svy.Sample(b_valid, design=svy.Design(wgt="xllcpwt")).estimation.mean("fairpoor").to_dicts()[0]
+brfss_hand = wr_se_hand(b_valid, "fairpoor", "xllcpwt")
+brfss_unw = float(b_valid["fairpoor"].mean())
+brfss_srs_se = float(np.sqrt(brfss_design["est"] * (1 - brfss_design["est"]) / b_valid.height))
+check("BRFSS 2024: weights-only SE equals the hand with-replacement formula; the estimate is unchanged",
+      abs(brfss_wonly["se"] - brfss_hand) / brfss_hand < 1e-9
+      and abs(brfss_wonly["est"] - brfss_design["est"]) < 1e-12,
+      design_se=float(brfss_design["se"]), weights_only_se=float(brfss_wonly["se"]), hand=brfss_hand,
+      srs_se=brfss_srs_se, unweighted=brfss_unw, n=b_valid.height)
+brfss_ratio_wonly = brfss_design["se"] / brfss_wonly["se"]
+brfss_ratio_srs = brfss_design["se"] / brfss_srs_se
+
+# ATUS: minutes of work per day, weighted (person-days) against unweighted (diary days)
+atus_w = PY["atus"]["est"]
+atus_unw = float(a24["BLS_WORK"].mean())
+atus_hand_w = float((a24["WT06"] * a24["BLS_WORK"]).sum() / a24["WT06"].sum())
+wkend = pl.col("DAY").is_in([1, 7])
+atus_wkend_sample = float(a24.filter(wkend).height / a24.height)
+atus_wkend_weighted = float(a24.filter(wkend)["WT06"].sum() / a24["WT06"].sum())
+check("ATUS 2024: the snippet's weighted mean equals the hand formula; weekend diaries are about half the sample "
+      "and about two-sevenths of weighted person-days",
+      abs(atus_w["est"] - atus_hand_w) / atus_hand_w < 1e-12 and 0.4 < atus_wkend_sample < 0.6
+      and 0.25 < atus_wkend_weighted < 0.32,
+      weighted=float(atus_w["est"]), unweighted=atus_unw, weekend_sample=atus_wkend_sample,
+      weekend_weighted=atus_wkend_weighted)
+
 # ------------------------------------------------------------------ 6. R sentinel checks
 print("6. R")
 RES: dict[str, dict[str, str]] = {}
@@ -695,6 +758,8 @@ else:
 
     for tag in ("nhis", "nhanes", "brfss", "atus", "asec"):
         cmp(tag, PY[tag]["est"], tol_se=1e-4 if tag == "brfss" else 1e-6)
+    cmp("nhanes_wonly", nhanes_wonly)
+    cmp("brfss_wonly", brfss_wonly, tol_se=1e-4)
     nest_msg = RES.get("nhis_nest", {}).get("message", "")
     check("R svydesign stops on NHIS 2024 without nest = TRUE", "nest" in nest_msg.lower(), message=nest_msg)
     fail_msg = RES.get("brfss_fail", {}).get("message", "")
@@ -811,6 +876,29 @@ count_fact("nhanes_psus", nhanes["psus"], "Masked variance pseudo-PSUs, NHANES A
            SRC["nhanes"], unit="PSUs")
 count_fact("nhanes_df", nhanes["df"], "Design degrees of freedom (PSUs minus strata), NHANES August 2021-August 2023",
            SRC["nhanes"], unit="degrees of freedom")
+F["nhanes_htn"] = fact(
+    r6(nhanes_design["est"]), pct(nhanes_design["est"]),
+    "Share of examined US civilian noninstitutionalized adults 18+ with hypertension by measured blood pressure "
+    "(mean reading at or above 130/80 mm Hg) or current medication (store flag htn_measured), NHANES August "
+    "2021-August 2023", SRC["nhanes"], se=r6(nhanes_design["se"]), ci_low=r6(nhanes_design["lci"]),
+    ci_high=r6(nhanes_design["uci"]),
+    ci_display=f"{100 * nhanes_design['lci']:.1f}%–{100 * nhanes_design['uci']:.1f}%",
+    df=int(nhanes_design["df"]), n=nh_ad.height, weight="WTMEC2YR", variance="taylor",
+    note="Domain of the full design (RIDAGEYR >= 18 and WTMEC2YR > 0); t interval with 15 df. Chapter 3's "
+         "cascade uses a narrower analytic sample (excludes pregnant women, requires valid readings), so its "
+         "prevalence differs.")
+F["nhanes_se_design"] = fact(r6(100 * nhanes_design["se"]), f"{100 * nhanes_design['se']:.2f}",
+                             "Taylor SE (pseudo-strata and pseudo-PSUs) of the NHANES 2021-2023 measured-hypertension "
+                             "share", SRC["nhanes"], unit="percentage points", variance="taylor", n=nh_ad.height,
+                             df=int(nhanes_design["df"]))
+F["nhanes_se_wonly"] = fact(r6(100 * nhanes_wonly["se"]), f"{100 * nhanes_wonly['se']:.2f}",
+                            "SE of the same weighted share with SDMVSTRA and SDMVPSU dropped (weights only, every "
+                            "examinee its own PSU)", SRC["nhanes"], unit="percentage points",
+                            variance="weights_only_understated", n=nh_ad.height, df=int(nhanes_wonly["df"]),
+                            note="Equals the hand with-replacement formula and R svydesign(ids = ~1).")
+F["nhanes_wonly_ratio"] = fact(round(nhanes_ratio_wonly, 4), f"{nhanes_ratio_wonly:.2f}×",
+                               "Design SE divided by the weights-only SE, NHANES 2021-2023 measured hypertension",
+                               SRC["nhanes"])
 
 count_fact("brfss_n", brfss["n"], "Respondent records in the BRFSS 2024 public file", SRC["brfss"], unit="respondents")
 count_fact("brfss_jurisdictions", brfss["jurisdictions"], "Jurisdictions in the BRFSS 2024 public file (49 states, DC, "
@@ -821,12 +909,53 @@ count_fact("brfss_df", brfss["df"], "Design degrees of freedom (PSUs minus strat
            unit="degrees of freedom")
 count_fact("brfss_singletons", brfss["singletons"], "Strata containing a single PSU (one respondent) in the full "
            "BRFSS 2024 file", SRC["brfss"], unit="strata")
+F["brfss_fairpoor"] = fact(
+    r6(brfss_design["est"]), pct(brfss_design["est"]),
+    "Share of adults 18+ reporting fair or poor general health, BRFSS 2024 participating jurisdictions (49 states, "
+    "DC, and three territories; Tennessee absent)", SRC["brfss"], se=r6(brfss_design["se"]),
+    ci_low=r6(brfss_design["lci"]), ci_high=r6(brfss_design["uci"]),
+    ci_display=f"{100 * brfss_design['lci']:.1f}%–{100 * brfss_design['uci']:.1f}%", df=int(brfss_design["df"]),
+    n=b_valid.height, weight="_LLCPWT", variance="taylor",
+    note="Strata _STSTR, PSU _PSU, single-PSU strata centered; df is svy's count on the records with a valid answer.")
+F["brfss_fairpoor_unw"] = fact(r6(brfss_unw), pct(brfss_unw),
+                               "Unweighted share of BRFSS 2024 respondents with a valid answer who report fair or poor "
+                               "general health", SRC["brfss"], n=b_valid.height)
+F["brfss_se_design"] = fact(r6(100 * brfss_design["se"]), f"{100 * brfss_design['se']:.3f}",
+                            "Taylor SE (strata and PSUs) of the BRFSS 2024 fair-or-poor-health share", SRC["brfss"],
+                            unit="percentage points", variance="taylor", n=b_valid.height, df=int(brfss_design["df"]))
+F["brfss_se_wonly"] = fact(r6(100 * brfss_wonly["se"]), f"{100 * brfss_wonly['se']:.3f}",
+                           "SE of the same weighted share with _STSTR and _PSU dropped (weights only)", SRC["brfss"],
+                           unit="percentage points", variance="weights_only_understated", n=b_valid.height,
+                           note="Equals the hand with-replacement formula and R svydesign(ids = ~1).")
+F["brfss_wonly_ratio"] = fact(round(brfss_ratio_wonly, 4), f"{brfss_ratio_wonly:.2f}×",
+                              "Design SE divided by the weights-only SE, BRFSS 2024 fair or poor health", SRC["brfss"])
+F["brfss_se_srs"] = fact(r6(100 * brfss_srs_se), f"{100 * brfss_srs_se:.3f}",
+                         "SE the weighted share would have as a with-replacement simple random sample of the same "
+                         "size, sqrt(p(1 - p)/n)", SRC["brfss"], unit="percentage points", n=b_valid.height)
+F["brfss_srs_ratio"] = fact(round(brfss_ratio_srs, 4), f"{brfss_ratio_srs:.2f}×",
+                            "Design SE divided by the simple-random-sample SE (the square root of the design effect), "
+                            "BRFSS 2024 fair or poor health", SRC["brfss"])
 
 count_fact("atus_n", atus["n"], "Respondents (diary days) in ATUS 2024", SRC["atus"], unit="respondents")
 count_fact("atus_n_reps", 160, "Replicate final weights BLS and IPUMS provide for each ATUS final weight",
            "BLS ATUS user's guide (June 2026); IPUMS ATUS RWT06", unit="replicate weights")
 F["atus_scale"] = fact(4 / 160, "4/160", "ATUS replicate variance constant", "BLS ATUS user's guide (June 2026)",
                        note="The 4 comes from replicate factors 1.7, 1.0, and 0.3.")
+F["atus_work_weighted"] = fact(r6(atus_w["est"]), f"{atus_w['est']:.1f}",
+                               "Mean minutes per person-day of working and work-related activities (BLS_WORK), all "
+                               "2024 person-days, civilian noninstitutional population 15+, weighted by WT06",
+                               SRC["atus"], unit="minutes per day", n=a24.height, weight="WT06",
+                               variance="weights_only_understated",
+                               note="No SE is reported: the extract carries no design variables.")
+F["atus_work_unweighted"] = fact(r6(atus_unw), f"{atus_unw:.1f}",
+                                 "Unweighted mean minutes of working and work-related activities per 2024 ATUS diary "
+                                 "day", SRC["atus"], unit="minutes per day", n=a24.height)
+F["atus_weekend_share_sample"] = fact(r6(atus_wkend_sample), pct(atus_wkend_sample),
+                                      "Share of 2024 ATUS diary days that are a Saturday or Sunday (unweighted)",
+                                      SRC["atus"], n=a24.height)
+F["atus_weekend_share_weighted"] = fact(r6(atus_wkend_weighted), pct(atus_wkend_weighted),
+                                        "Share of 2024 person-days that are a Saturday or Sunday, weighted by WT06",
+                                        SRC["atus"], n=a24.height, weight="WT06", variance="weights_only_understated")
 
 # ------------------------------------------------------------------ 8. guides (table figures)
 print("8. figures")

@@ -34,14 +34,18 @@ smp <- as.integer(tg$sample)
 amin <- as.integer(tg$age_min)
 amax <- as.integer(tg$age_max)
 n_reps <- as.integer(tg$n_reps)
+## Second table (pass 2): the same estimand for adults 55-64 in a few named states.
+extra <- tg$extra
+xstates <- if (is.null(extra)) integer(0) else as.integer(extra$states)
+all_states <- sort(union(states, xstates))
 
 t0 <- Sys.time()
 
 ## Universe: civilian noninstitutionalized adults 19-64 (see build.py):
 ## drop institutional group quarters (GQ = 3) and the Armed Forces (EMPSTATD 13-15).
 d <- open_dataset(data_path) |>
-  filter(SAMPLE == smp, STATEFIP %in% states, AGE >= amin, AGE <= amax, GQ != 3L) |>
-  select(SAMPLE, SERIAL, PERNUM, STATEFIP, EMPSTATD, PERWT, uninsured) |>
+  filter(SAMPLE == smp, STATEFIP %in% all_states, AGE >= amin, AGE <= amax, GQ != 3L) |>
+  select(SAMPLE, SERIAL, PERNUM, STATEFIP, AGE, EMPSTATD, PERWT, uninsured) |>
   collect()
 d <- d[is.na(d$EMPSTATD) | !(d$EMPSTATD %in% c(13, 14, 15)), ]
 stopifnot(!anyNA(d$uninsured))
@@ -81,6 +85,35 @@ V <- vcov(b_sdr)
 names(se_sdr) <- names(est)
 names(se_oth) <- names(est)
 
+## The second table: a domain of the same replicate design (subset() keeps every replicate).
+extra_out <- NULL
+if (!is.null(extra)) {
+  des_old <- subset(des_sdr, AGE >= as.integer(extra$age_min) & AGE <= as.integer(extra$age_max)
+                    & STATEFIP %in% xstates)
+  b_old <- svyby(~uninsured, ~STATEFIP, des_old, svymean, covmat = TRUE)
+  est_o <- coef(b_old)
+  se_o <- SE(b_old)
+  names(se_o) <- names(est_o)
+  xpairs <- extra$pairs
+  extra_out <- list(
+    age_min = as.integer(extra$age_min), age_max = as.integer(extra$age_max),
+    states = lapply(names(est_o), function(s) {
+      list(fips = as.integer(s),
+           n = sum(x$STATEFIP == as.integer(s) & x$AGE >= as.integer(extra$age_min) & x$AGE <= as.integer(extra$age_max)),
+           estimate = unname(est_o[s]), se_successive_difference = unname(se_o[s]))
+    }),
+    pairs = lapply(seq_len(nrow(xpairs)), function(i) {
+      a <- as.character(xpairs[i, 1]); b <- as.character(xpairs[i, 2])
+      ct <- svycontrast(b_old, setNames(c(1, -1), c(a, b)))
+      list(a = as.integer(a), b = as.integer(b), diff = as.numeric(coef(ct))[1], se_diff = as.numeric(SE(ct))[1])
+    }))
+}
+
+## Restrict the main comparison to the main target states (the extra states were read only
+## for the second table).
+keep <- names(est) %in% as.character(states)
+est <- est[keep]; se_sdr <- se_sdr[keep]; se_oth <- se_oth[keep]
+
 per_state <- lapply(names(est), function(s) {
   list(fips = as.integer(s),
        n = sum(x$STATEFIP == as.integer(s)),
@@ -111,6 +144,7 @@ out <- list(
   degf = degf(des_sdr),
   states = per_state,
   pairs = pair_rows,
+  extra = extra_out,
   seconds_read = round(t_read, 1),
   seconds_total = round(as.numeric(difftime(Sys.time(), t0, units = "secs")), 1)
 )

@@ -1,18 +1,20 @@
 import { PopulationSampler } from '@/components/widgets/PopulationSampler'
 
-## One question, three answers, one column of weights
+## Should I use the weights?
 
-In 2024, <Fact id="ch2.brfss_n_fmd" /> adults picked up a telephone, agreed to a state health department interview, and answered one question: on how many of the past 30 days was your mental health not good? Count the answers, and <Fact id="ch2.brfss_fmd_unweighted" /> said 14 or more, the threshold CDC calls frequent mental distress. Apply the weight column that ships on the same file, and the figure is <Fact id="ch2.brfss_fmd_final" />. No answer changed. The <Fact id="ch2.brfss_fmd_gap_pp" /> percentage points between the two numbers is the difference between describing the people who answered the phone and describing the adults they were called to stand for.
+You have the file open. It came from IPUMS or from a CDC download page, and somewhere in it is a column called `PERWT`, or `_LLCPWT`, or `WT06`. The question you are asking is the one every applied researcher asks of a survey file and no econometrics sequence quite answers: should I use the weights, and which column is the weight? The software will not help you decide. Stata accepts `[pw=]` on any positive column; R's `lm` has a `weights` argument that means something else entirely; a referee who asks "did you use the survey weights?" will accept yes. The question feels like a yes-or-no about a column. It is three decisions about your estimate, and this chapter's job is to make you feel all three as yours before Chapter 1 starts settling them.
 
-Which adults? Not the United States. Tennessee could not collect enough interviews to meet CDC's release standard and is absent from the file, and the three territories draw their samples differently and are set aside, so the weighted figure describes adults in 49 states and the District of Columbia, and only those who would answer the question <Cite id="brfss2024" />. And how sure is it? That depends on how the software is told to read the weight column. Read as a count of identical people, it yields a standard error of <Fact id="ch2.se_as_frequency" /> percentage points; read as a precision, <Fact id="ch2.se_as_analytic" />; read as a sampling weight with the survey's strata declared, <Fact id="ch2.se_as_sampling" />. Same estimate, three intervals, the widest many times the narrowest.
+One file shows the three. In 2024, <Fact id="ch2.brfss_n_fmd" /> adults picked up a telephone, agreed to a state health department interview, and answered one question: on how many of the past 30 days was your mental health not good? Count the answers, and <Fact id="ch2.brfss_fmd_unweighted" /> said 14 or more, the threshold CDC calls frequent mental distress. Apply the weight column that ships on the same file, and the figure is <Fact id="ch2.brfss_fmd_final" />. No answer changed. The <Fact id="ch2.brfss_fmd_gap_pp" /> percentage points between the two numbers is the difference between describing the people who answered the phone and describing the adults they were called to stand for. That is the first decision, and it is the one "should I use the weights?" is usually about: how each observation counts.
 
-The first question most applied researchers ask of a survey file is "should I use the weights?" The BRFSS numbers show why that question is incomplete. Inside it sit three separate decisions, and software asks about none of them: it accepts a weight variable and almost any column of positive numbers will do.
+The second decision is hidden in the word "adults." Which adults? Not the United States. Tennessee could not collect enough interviews to meet CDC's release standard and is absent from the file, and the three territories draw their samples differently and are set aside, so the weighted figure describes adults in 49 states and the District of Columbia, and only those who would answer the question <Cite id="brfss2024" />. Your paper's first table will say "U.S. adults" unless you decide otherwise, and the weights will not object. The third decision is how sure the number is, and it depends on how the software is told to read the same weight column. Read as a count of identical people, the column yields a standard error of <Fact id="ch2.se_as_frequency" /> percentage points; read as a precision, <Fact id="ch2.se_as_analytic" />; read as a sampling weight with the survey's strata declared, <Fact id="ch2.se_as_sampling" />. Same estimate, three intervals, the widest many times the narrowest, and only one of them describes the survey that was run.
 
-- **Target: who and what the number describes.** Adults in 49 states, among those who would answer, in the case above. In the American Time Use Survey, the same diaries and the same weight give <Fact id="ch1.atus_work_weighted_hours" /> hours of work per day across all person-days of people 15 and older and <Fact id="ch1.atus_work_employed_worked_hours" /> hours on the days when employed people worked <Cite id="bls_atus" />. A different set of days is a different question, not a better or worse answer to the same one.
-- **Contribution: how each observation counts.** A weight gives each record the number of population units it stands for. Counting every BRFSS record once describes a sample in which older, college-educated adults are far more common than they are in the population; counting every ATUS diary once describes a year that is half weekends.
-- **Uncertainty: what could have come out differently.** Another draw of households, other people answering, another assignment of a policy. A standard error is a claim about one such repetition, and the analysis has to say which one. The three BRFSS standard errors are three different claims, and only one of them describes the survey that was run.
+So the question to ask of your file is not one but three, and the software asks none of them. It accepts a weight variable, and almost any column of positive numbers will do.
 
-One question carries across the booklet:
+- **Target: who and what is my number about?** Adults in 49 states, among those who would answer, in the case above. In the American Time Use Survey, the same diaries and the same weight give <Fact id="ch1.atus_work_weighted_hours" /> hours of work per day across all person-days of people 15 and older and <Fact id="ch1.atus_work_employed_worked_hours" /> hours on the days when employed people worked <Cite id="bls_atus" />. A different set of days is a different question, not a better or worse answer to the same one.
+- **Contribution: how does each observation count?** A weight gives each record the number of population units it stands for. Counting every BRFSS record once describes a sample in which older, college-educated adults are far more common than they are in the population; counting every ATUS diary once describes a year that is half weekends.
+- **Uncertainty: what could have come out differently?** Another draw of households, other people answering, another assignment of a policy. A standard error is a claim about one such repetition, and the analysis has to say which one. The three BRFSS standard errors are three different claims.
+
+One question carries across the book, and it is the one to write at the top of your do-file:
 
 <Callout kind="definition" title="The question to ask of any estimate">
 
@@ -20,11 +22,11 @@ One question carries across the booklet:
 
 </Callout>
 
-Nearly every estimate an applied researcher reports is a weighted average of something: of respondents' answers, of cell means, of conditional effects. Sometimes a survey statistician chose the weights, knowing the selection probabilities. Sometimes the analyst chose them on purpose. And sometimes the estimator chose them, and nobody noticed.
+Nearly every estimate you will report is a weighted average of something: of respondents' answers, of cell means, of conditional effects. Sometimes a survey statistician chose the weights, knowing the selection probabilities. Sometimes you chose them on purpose. And sometimes the estimator chose them, and nobody noticed.
 
 ## A worked example: one Ledger, filled in
 
-Real surveys never reveal the truth they estimate, so the first worked example uses a population in which the truth is known. This chapter's build script creates a synthetic population of <Fact id="ch0.toy_pop_n" /> adults, a fifth of them rural, in which the share lacking a regular source of care is <Fact id="ch0.toy_truth" />. A stratified design samples <Fact id="ch0.toy_sample_n" /> adults, half rural and half urban, so each rural adult is four times as likely to be selected as each urban adult.
+A real survey never reveals the truth it estimates, which is why the argument about weights never ends. The first worked example uses a population in which the truth is known. This chapter's build script creates a synthetic population of <Fact id="ch0.toy_pop_n" /> adults, a fifth of them rural, in which the share lacking a regular source of care is <Fact id="ch0.toy_truth" />. A stratified design samples <Fact id="ch0.toy_sample_n" /> adults, half rural and half urban, so each rural adult is four times as likely to be selected as each urban adult. This is the design of every survey that oversamples a small group to say something about it.
 
 <Callout kind="predict" title="Predict first">
 
@@ -40,7 +42,7 @@ Repetition separates the two failures and answers the prediction. Across <Fact i
   <Chart id="ch0.toy_sampling" />
 </Figure>
 
-Every headline result in the booklet comes with an Analysis Ledger like the one below: eight fields that answer the three questions in writing. *Target population* and *estimand* state the Target. *Estimator*, *explicit weights*, and *implicit weights* state the Contribution. *Source of randomness* and *variance estimator* state the Uncertainty. *Assumptions* state what must hold for the interpretation to stand. The Ledger is generated from the same artifact as the numbers it describes, so the two cannot drift apart.
+Every headline result in the book comes with an Analysis Ledger like the one below: eight fields that answer the three questions in writing. *Target population* and *estimand* state the Target. *Estimator*, *explicit weights*, and *implicit weights* state the Contribution. *Source of randomness* and *variance estimator* state the Uncertainty. *Assumptions* state what must hold for the interpretation to stand. The Ledger is generated from the same artifact as the numbers it describes, so the two cannot drift apart. It is also a template: filled in for your own estimate, it is the paragraph a referee wants and rarely gets.
 
 <Ledger id="ch0.toy_care" />
 
@@ -48,7 +50,7 @@ Read the Ledger's assumptions field closely: known selection probabilities, comp
 
 ## Three moves on one synthetic population
 
-The interactive below uses a richer population, the booklet's canonical synthetic one, which the weight builder in [Chapter 2](/ch02-weights) also uses: adults nested in neighborhoods, with an age and education structure, one group (called G) that is more often uninsured and concentrated in some neighborhoods, outcomes that vary from neighborhood to neighborhood, and a work-from-home effect on wages that differs across age-by-degree cells. Because the whole population is known, the widget can place the truth next to every estimator and show what each of the three decisions does when nothing about the population is hidden. Make all three predictions before opening it.
+Before going back to your own file, spend a few minutes with a population in which nothing is hidden. The interactive below uses the book's canonical synthetic population, which the weight builder in [Chapter 2](/ch02-weights) also uses: adults nested in neighborhoods, with an age and education structure, one group (called G) that is more often uninsured and concentrated in some neighborhoods, outcomes that vary from neighborhood to neighborhood, and a work-from-home effect on wages that differs across age-by-degree cells. Because the whole population is known, the widget can place the truth next to every estimator. Its three stages are the three decisions, one at a time: who enters the sample, how the sample is drawn, and what a regression averages. Make all three predictions before opening it.
 
 ### Stage 1: who enters the sample
 
@@ -82,7 +84,7 @@ In the first stage only the unweighted rate moves with the oversampling factor, 
 
 In the second stage the center of the distribution stays put while its width grows as fewer neighborhoods supply more residents each, and the naive standard error does not notice. A standard error clustered on neighborhoods tracks the actual spread on average. It runs slightly high when half the neighborhoods are sampled, because it ignores the finite-population correction, and with only a handful of neighborhoods it rests on a handful of cluster totals.
 
-In the third stage the regression's target is a weighted average of cell effects, with weights proportional to each cell's share times $$p(1-p)$$ for its treated share $$p$$. Set either slider to zero and the target coincides with the population average effect: equal treated shares make the weights proportional to population shares, and equal effects make every average the same. Otherwise the target sits wherever the weights put it, and cells where treatment is split most evenly count for more than their share of the population.
+In the third stage the regression's target is a weighted average of cell effects, with weights proportional to each cell's share times $$p(1-p)$$ for its treated share $$p$$. Set either slider to zero and the target coincides with the population average effect: equal treated shares make the weights proportional to population shares, and equal effects make every average the same. Otherwise the target sits wherever the weights put it, and cells where treatment is split most evenly count for more than their share of the population. Nobody chose those weights. That is the third decision made by default, and [Chapters 4](/ch04-regression) and [5](/ch05-hidden-weights) are about noticing it.
 
 ## The vocabulary, in brief
 
@@ -106,7 +108,7 @@ The *sample*, the units actually selected, and the *respondents*, the selected u
 
 ### Kinds of weight
 
-A survey weight is not one thing, and the booklet gives each part its own symbol.
+A survey weight is not one thing, and the book gives each part its own symbol.
 
 - The *design weight* $$d_i = 1/\pi_i$$ undoes unequal selection probabilities $$\pi_i$$.
 - A *nonresponse and calibration adjustment* $$g_i$$ moves the weights so that respondents match known population totals, and the final weight shipped on the file is $$w_i = d_i g_i$$. BRFSS builds its weight in this order: a design weight from the telephone stratum, the number of adults, and the number of phones; a correction for people reachable on both a landline and a cell phone; truncation of extreme design weights; then raking to demographic margins, state by state <Cite id="brfss2024" />. After raking, the weight is no longer an inverse selection probability <Cite id="gelman2007" />.
@@ -149,7 +151,7 @@ The first two are variance ratios, the third is a distribution over units, and t
 
 ### One object, three dialects
 
-The same objects travel under different names in different fields. This is a short version of the crosswalk in [Appendix A](/appendix-a-notation).
+The same objects travel under different names in different fields, which is one reason your advisor and your referee can both be right. This is a short version of the crosswalk in [Appendix A](/appendix-a-notation).
 
 | The object | Survey statistics | Econometrics | Causal inference |
 |---|---|---|---|
@@ -162,10 +164,10 @@ The same objects travel under different names in different fields. This is a sho
 ## Reader routes
 
 - **Describing a population** (a prevalence, a rate, a mean, a gap between groups): [Chapter 1](/ch01-estimands) on estimands, [Chapter 2](/ch02-weights) on where weights come from, [Chapter 3](/ch03-design) on design-based uncertainty, and [Lab 3](/ch03-lab-replicates) on replicate weights.
-- **Estimating a regression coefficient or an effect**: [Chapter 4](/ch04-regression) on explicit weighting, [Chapter 5](/ch05-hidden-weights) on implicit weights under heterogeneous effects, and [Chapter 6](/ch06-clustering) on clustering as a question about sampling and assignment design.
+- **Estimating a regression coefficient or an effect**: [Chapter 4](/ch04-regression) on explicit weighting, [Chapter 5](/ch05-hidden-weights) on implicit weights under heterogeneous effects, and [Chapters 6](/ch06-clustering) and [7](/ch07-cluster-choice) on clustering as a question about sampling and assignment design.
 - **Declaring a specific survey**: [Chapter 8](/ch08-field-guide), with release guides for six surveys and declarations in Python, R, and Stata.
 - **Checking a symbol, a derivation, or a data source**: [Appendix A](/appendix-a-notation) for notation and the crosswalk, [Appendix B](/appendix-b-derivations) for derivations with their conditions, and [Appendix C](/appendix-c-reproducibility) for data, code, and validation.
 
 ## Before Chapter 1
 
-Each chapter that follows opens with a question that has at least two defensible-looking answers, and each isolates what changes the answer: the target, the representation weights, the design, the explicit weighting of a regression, the implicit weights inside it, or the number of independent units. Chapter 1 begins with the question that has to be settled first: what the number is supposed to describe.
+Each chapter that follows opens with a question a researcher actually asks of a file, one that has at least two defensible-looking answers, and each isolates what changes the answer: the target, the representation weights, the design, the explicit weighting of a regression, the implicit weights inside it, or the number of independent units. Chapter 1 begins with the decision that has to be settled before any column is touched: what the number is supposed to describe.

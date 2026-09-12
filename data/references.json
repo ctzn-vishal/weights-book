@@ -194,6 +194,23 @@
       "volume": "51",
       "year": 1983
     },
+    "blau2017": {
+      "authors": [
+        "Francine D. Blau",
+        "Lawrence M. Kahn"
+      ],
+      "doi": "10.1257/jel.20160995",
+      "issue": "3",
+      "pages": "789–865",
+      "publisher": null,
+      "short": "Blau and Kahn",
+      "title": "The Gender Wage Gap: Extent, Trends, and Explanations",
+      "url": "https://doi.org/10.1257/jel.20160995",
+      "venue": "Journal of Economic Literature",
+      "verified": "Crossref API (works/10.1257/jel.20160995), 2026-09-12",
+      "volume": "55",
+      "year": 2017
+    },
     "bls2026": {
       "authors": [
         "U.S. Bureau of Labor Statistics"
