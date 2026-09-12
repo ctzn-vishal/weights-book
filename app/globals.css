@@ -1017,7 +1017,7 @@ html.dark .bk-code code[data-theme] span { color: var(--shiki-dark); }
 .cv { width: 100%; max-width: 66rem; margin: 0 auto; padding: 2.25rem 1.25rem 4.5rem; }
 
 /* The first screen: the cover, shown as a book, beside a short puzzle and the way in. */
-.cv-hero { display: grid; gap: 2.25rem; align-items: center; }
+.cv-hero { display: grid; gap: 2.25rem; align-items: start; }
 .cv-cover { justify-self: center; width: min(100%, 26rem); }
 .cv-cover-img {
   display: block; width: 100%; height: auto; border-radius: 3px;
@@ -1096,8 +1096,12 @@ html.dark .bk-code code[data-theme] span { color: var(--shiki-dark); }
 }
 /* wide screens: cover on the left, the way in on the right */
 @media (min-width: 56rem) {
-  .cv-hero { grid-template-columns: minmax(0, 27rem) minmax(0, 1fr); gap: 3.5rem; }
-  .cv-cover { justify-self: start; width: 100%; }
+  .cv-hero { grid-template-columns: minmax(0, 24rem) minmax(0, 1fr); gap: 3.5rem; align-items: start; }
+  /* the cover stays in view while the longer story column scrolls past it */
+  .cv-cover { justify-self: start; width: 100%; position: sticky; top: calc(var(--topbar-h) + 3.5rem); }
+}
+@media (min-width: 72rem) {
+  .cv-hero { grid-template-columns: minmax(0, 27rem) minmax(0, 1fr); }
 }
 
 .bk-simple { width: 100%; max-width: var(--measure); margin: 0 auto; padding: 4rem 1.25rem 5rem; }

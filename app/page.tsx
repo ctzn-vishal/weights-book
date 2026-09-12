@@ -50,7 +50,7 @@ export default function Home() {
             <p className="cv-lede">
               In September 2022 the Census Bureau reported that <Fact id="ch1.pov_spm_child_2021" /> of American children
               were poor, a record low, and that <Fact id="ch1.pov_off_child_2021" /> were poor, in the same release, from
-              the same survey. A study of Medicaid expansion in the American Community Survey has a standard error
+              the same survey. A study of Medicaid expansion in the American Community Survey has a standard error{' '}
               <Fact id="ch6.ratio_state_hc1" /> as large once the question is which states decided, not how many people were
               interviewed. A league table of state uninsured rates looks definitive, and the survey&apos;s own replicate
               weights can tell apart <Fact id="ch3lab.adj_sig_sdr" /> of its 50 neighbouring pairs.
