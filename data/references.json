@@ -105,6 +105,24 @@
       "volume": "60",
       "year": 2016
     },
+    "autor2013": {
+      "authors": [
+        "David H. Autor",
+        "David Dorn",
+        "Gordon H. Hanson"
+      ],
+      "doi": "10.1257/aer.103.6.2121",
+      "issue": "6",
+      "pages": "2121–2168",
+      "publisher": null,
+      "short": "Autor, Dorn, and Hanson",
+      "title": "The China Syndrome: Local Labor Market Effects of Import Competition in the United States",
+      "url": "https://doi.org/10.1257/aer.103.6.2121",
+      "venue": "American Economic Review",
+      "verified": "Crossref API (works/10.1257/aer.103.6.2121), 2026-09-11",
+      "volume": "103",
+      "year": 2013
+    },
     "barrios2012": {
       "authors": [
         "Thomas Barrios",
@@ -966,6 +984,24 @@
       "verified": "Crossref API (works/10.1214/18-aoas1161sf), 2026-09-10 for title/author/volume/issue/year; Crossref carries no `page` value, so the range was cross-checked against Harvard Statistics' own hosting of the paper and Project Euclid's journal listing (both give pp. 685–726).",
       "volume": "12",
       "year": 2018
+    },
+    "miguel2004": {
+      "authors": [
+        "Edward Miguel",
+        "Shanker Satyanath",
+        "Ernest Sergenti"
+      ],
+      "doi": "10.1086/421174",
+      "issue": "4",
+      "pages": "725–753",
+      "publisher": null,
+      "short": "Miguel, Satyanath, and Sergenti",
+      "title": "Economic Shocks and Civil Conflict: An Instrumental Variables Approach",
+      "url": "https://doi.org/10.1086/421174",
+      "venue": "Journal of Political Economy",
+      "verified": "Crossref API (works/10.1086/421174), 2026-09-11",
+      "volume": "112",
+      "year": 2004
     },
     "miller2021": {
       "authors": [

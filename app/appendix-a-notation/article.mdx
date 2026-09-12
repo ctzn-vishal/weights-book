@@ -46,7 +46,7 @@ Five populations are named because each gap between them is a place where an ana
 
 The **sample**, the units actually selected, and the **respondents**, the selected units that answered, are realizations of the sampled and respondent populations, not populations of their own. [Chapter 1](/ch01-estimands#five-populations) follows all five populations through one estimate.
 
-Coverage honesty follows from the list: when a release omits a state, the target population is the participating jurisdictions, and the result is labeled that way ([Chapter 2](/ch02-weights), [Chapter 7](/ch07-field-guide)).
+Coverage honesty follows from the list: when a release omits a state, the target population is the participating jurisdictions, and the result is labeled that way ([Chapter 2](/ch02-weights), [Chapter 8](/ch08-field-guide)).
 
 ## What software calls a weight
 
@@ -107,9 +107,9 @@ The booklet began from an article that compared survey statistics and econometri
 | Design effect = Moulton factor $$1 + (\bar m - 1)\rho$$ | Moulton is a special-case regression analogue of the clustering component of a design effect | a design effect also reflects strata and weighting, and the Moulton factor involves the regressor's clustering |
 | Replicate weights are the survey world's pre-packaged cluster bootstrap | Replicate weights are pre-packaged repeated sampling; BRR, Fay, jackknife, SDR, and bootstrap are distinct | the ACS and CPS use successive difference replication, not a bootstrap |
 | Taylor linearization is CRV1 with strata as an extra refinement; weights plus clustering on the PSU get you most of the way | The two coincide exactly for a weighted mean in one stratum; with informative strata CRV1 omits the stratification gain and is conservative | stated with its conditions in [Appendix B](/appendix-b-derivations) |
-| df = PSUs minus strata | A common rule for Taylor linearization; replicate designs use the producer's value | ACS replicates carry <Fact id="ch7.acs_df" /> degrees of freedom whatever the number of strata |
+| df = PSUs minus strata | A common rule for Taylor linearization; replicate designs use the producer's value | ACS replicates carry <Fact id="ch8.acs_df" /> degrees of freedom whatever the number of strata |
 | "Cluster at the level of treatment variation" | Identify every sampling or assignment mechanism that induces common uncertainty; the coarsest relevant level governs within a nested hierarchy | the full statement is in [Chapter 6](/ch06-clustering) |
 
-The seed also described NHANES as roughly thirty strata of two PSUs each, with about fifteen degrees of freedom. For the August 2021–August 2023 cycle the public file has <Fact id="ch7.nhanes_strata" /> pseudo-strata and <Fact id="ch7.nhanes_psus" /> pseudo-PSUs, so the design degrees of freedom are <Fact id="ch7.nhanes_df" />.
+The seed also described NHANES as roughly thirty strata of two PSUs each, with about fifteen degrees of freedom. For the August 2021–August 2023 cycle the public file has <Fact id="ch8.nhanes_strata" /> pseudo-strata and <Fact id="ch8.nhanes_psus" /> pseudo-PSUs, so the design degrees of freedom are <Fact id="ch8.nhanes_df" />.
 
 </Details>

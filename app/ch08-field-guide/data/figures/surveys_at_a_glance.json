@@ -94,7 +94,7 @@
       "weight": "_LLCPWT"
     }
   ],
-  "source": "Design manifests (design.json) and counts computed by ch07-field-guide/build.py; ATUS replicates per the BLS ATUS user's guide",
+  "source": "Design manifests (design.json) and counts computed by ch08-field-guide/build.py; ATUS replicates per the BLS ATUS user's guide",
   "subtitle": "What a row represents, which weight, and where the uncertainty comes from",
   "title": "Six surveys at a glance",
   "type": "table"

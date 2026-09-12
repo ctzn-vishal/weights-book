@@ -86,7 +86,7 @@
       "seed": 631
     }
   },
-  "generated_at": "2026-09-11T23:51:07+00:00",
+  "generated_at": "2026-09-12T00:35:43+00:00",
   "inputs": [
     {
       "note": "No survey data. Every number is simulated by sim.R (R 4.6.1, fixest 0.14.2)",
@@ -94,9 +94,9 @@
       "rows": null
     }
   ],
-  "key": "ch6lab",
+  "key": "ch7",
   "reps": 1000,
-  "slug": "ch06-lab-clustering",
+  "slug": "ch07-cluster-choice",
   "software": {
     "R": "4.6.1",
     "fixest": "0.14.2",
@@ -140,7 +140,7 @@
       "detail": "pyfixest 0.60.0, vcov={'CRV1': 'state'}; coefficient matches to 1.1e-13",
       "fixest": 0.10438954,
       "pyfixest": 0.10438954,
-      "rel_diff": 7.35e-12,
+      "rel_diff": 7.36e-12,
       "status": "PASS"
     },
     {

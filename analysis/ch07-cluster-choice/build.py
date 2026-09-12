@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Lab 6 (key ch6lab): Which cluster? The variance menu in fixest, checked by simulation.
+Chapter 7 (key ch7): Which cluster? The variance menu in fixest, checked by simulation.
 
     python build.py            regenerate artifacts/ from _scratch/sim_results.json
     python build.py --run      run sim.R first (about 10 minutes at 1,000 replications)
@@ -31,7 +31,7 @@ RESULTS = SCR / "sim_results.json"
 OPENING_CSV = SCR / "opening_draw.csv"
 RSCRIPT = r"C:\Program Files\R\R-4.6.1\bin\x64\Rscript.exe"
 
-KEY, SLUG = "ch6lab", "ch06-lab-clustering"
+KEY, SLUG = "ch7", "ch07-cluster-choice"
 TIMES, EN, MINUS = "\u00d7", "\u2013", "\u2212"
 
 # ------------------------------------------------------------------ design metadata
@@ -404,8 +404,8 @@ def main() -> None:
             "randomness": "The design itself: new shocks, new assignment, new regressor in every draw; nothing is sampled from a real population",
             "variance_estimator": f"Monte Carlo: binomial standard error about {fmt_pct1(mc_se)} at a true rate of 5%",
             "assumptions": "The designs are stylized: Gaussian shocks, equal cluster sizes, AR(1) persistence, and an exponential spatial covariance. They fix the mechanism, not the magnitude, of each problem",
-            "facts": ["ch6lab.reps", "ch6lab.mc_se_at_5", "ch6lab.rej_moulton_iid", "ch6lab.rej_moulton_state",
-                      "ch6lab.rej_did_g50_state", "ch6lab.rej_twoway_twoway", "ch6lab.rej_spatial_conley300", "ch6lab.rej_common_dk"],
+            "facts": ["ch7.reps", "ch7.mc_se_at_5", "ch7.rej_moulton_iid", "ch7.rej_moulton_state",
+                      "ch7.rej_did_g50_state", "ch7.rej_twoway_twoway", "ch7.rej_spatial_conley300", "ch7.rej_common_dk"],
         }
     }
 

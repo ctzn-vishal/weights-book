@@ -70,7 +70,7 @@
       "rows": 3422888
     }
   ],
-  "key": "ch7",
+  "key": "ch8",
   "producer_documents": {
     "BLS ATUS user's guide (June 2026)": "https://www.bls.gov/tus/atususersguide.pdf",
     "BLS CPS sample redesign": "https://www.bls.gov/cps/methods/sample_redesign_2025.htm",
@@ -88,7 +88,7 @@
     "NHANES tutorial: variance estimation": "https://wwwn.cdc.gov/nchs/nhanes/tutorials/varianceestimation.aspx"
   },
   "producer_documents_read": "2026-09-10",
-  "slug": "ch07-field-guide",
+  "slug": "ch08-field-guide",
   "status": "draft",
   "validation": [
     {

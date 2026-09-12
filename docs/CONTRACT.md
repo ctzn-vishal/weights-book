@@ -64,7 +64,8 @@ regenerated in Box and re-exported.
 | `ch04-regression` | `ch4` | What Are We Weighting For? | C-ch0405 |
 | `ch05-hidden-weights` | `ch5` | Hidden Weights Under Heterogeneous Effects | C-ch0405 |
 | `ch06-clustering` | `ch6` | Sampling Design, Assignment Design, and Clustering | C-ch06 |
-| `ch07-field-guide` | `ch7` | Field Guide: Six Surveys, Declared | C-ch0007 |
+| `ch07-cluster-choice` | `ch7` | Whose Decision Was It? Clustering by the Source of Variation | integrator |
+| `ch08-field-guide` | `ch8` | Field Guide: Six Surveys, Declared | C-ch0007 |
 | `appendix-a-notation` | `appA` | Notation and Crosswalk | C-ch0007 |
 | `appendix-b-derivations` | `appB` | Scoped Derivations | C-ch0007 |
 | `appendix-c-reproducibility` | `appC` | Data, Code, and Reproducibility | C-ch0007 |

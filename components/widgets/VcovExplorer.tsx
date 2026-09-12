@@ -3,8 +3,8 @@ import type { VcovMenuFigure } from '@/lib/types';
 import { VcovExplorerClient } from './VcovExplorer.client';
 
 /**
- * Lab 6: one coefficient, several `vcov` arguments. `id` names a figure of
- * type "vcov-menu" (CONTRACT section 9), for example "ch6lab.vcov_menu".
+ * Chapter 7: one coefficient, several `vcov` arguments. `id` names a figure of
+ * type "vcov-menu" (CONTRACT section 9), for example "ch7.vcov_menu".
  */
 export function VcovExplorer({ id }: { id: string }) {
   const data = getFigure<VcovMenuFigure>(id);

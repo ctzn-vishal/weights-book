@@ -1,5 +1,5 @@
 {
-  "key": "ch7",
+  "key": "ch8",
   "ledgers": {
     "nhis_smoking": {
       "assumptions": "The public pseudo-strata and PSUs approximate the confidential design; nonresponse and calibration adjustments remove nonresponse bias; self-reports are accurate. An external benchmark (NCHS's published rate) is a check, not truth.",
@@ -7,11 +7,11 @@
       "estimator": "Hajek weighted proportion over sample adults with a known smoking status, declared on the whole 2024 file and estimated as a domain.",
       "explicit_weights": "SAMPWEIGHT (NCHS WTFA_A): base weights adjusted for nonresponse and calibrated to age by sex, age by race and ethnicity, education, housing tenure, and region by MSA status.",
       "facts": [
-        "ch7.nhis_smoking",
-        "ch7.nhis_df",
-        "ch7.nhis_strata",
-        "ch7.nhis_psus",
-        "ch7.nhis_crv1_ratio"
+        "ch8.nhis_smoking",
+        "ch8.nhis_df",
+        "ch8.nhis_strata",
+        "ch8.nhis_psus",
+        "ch8.nhis_crv1_ratio"
       ],
       "implicit_weights": "None beyond the explicit weights: a proportion gives each adult influence in proportion to SAMPWEIGHT.",
       "randomness": "Sampling of address clusters (PSUs) within strata and of households within clusters, plus response; the weight adjustments are themselves estimated.",

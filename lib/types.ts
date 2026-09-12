@@ -227,7 +227,7 @@ export interface VcovOption {
   /** The substring of `code` that changes between options (highlighted). */
   arg: Record<CodeLang, string>;
 }
-/** Lab 6: one coefficient under several vcov arguments (VcovExplorer). */
+/** Chapter 7: one coefficient under several vcov arguments (VcovExplorer). */
 export interface VcovMenuFigure extends FigureBase {
   type: 'vcov-menu';
   coef: number;

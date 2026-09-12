@@ -1,5 +1,5 @@
 {
-  "key": "ch6lab",
+  "key": "ch7",
   "ledgers": {
     "simulation": {
       "assumptions": "The designs are stylized: Gaussian shocks, equal cluster sizes, AR(1) persistence, and an exponential spatial covariance. They fix the mechanism, not the magnitude, of each problem",
@@ -7,14 +7,14 @@
       "estimator": "Share of 1,000 independent draws in which fixest's p-value, under that vcov argument and its default small-sample corrections, is below 0.05",
       "explicit_weights": "None (unweighted OLS in every design)",
       "facts": [
-        "ch6lab.reps",
-        "ch6lab.mc_se_at_5",
-        "ch6lab.rej_moulton_iid",
-        "ch6lab.rej_moulton_state",
-        "ch6lab.rej_did_g50_state",
-        "ch6lab.rej_twoway_twoway",
-        "ch6lab.rej_spatial_conley300",
-        "ch6lab.rej_common_dk"
+        "ch7.reps",
+        "ch7.mc_se_at_5",
+        "ch7.rej_moulton_iid",
+        "ch7.rej_moulton_state",
+        "ch7.rej_did_g50_state",
+        "ch7.rej_twoway_twoway",
+        "ch7.rej_spatial_conley300",
+        "ch7.rej_common_dk"
       ],
       "implicit_weights": "None beyond OLS",
       "randomness": "The design itself: new shocks, new assignment, new regressor in every draw; nothing is sampled from a real population",

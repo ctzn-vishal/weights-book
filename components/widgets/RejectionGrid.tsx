@@ -3,9 +3,9 @@ import type { TableFigure } from '@/lib/types';
 import { RejectionGridClient, type RejectionRow } from './RejectionGrid.client';
 
 /**
- * Lab 6: the simulation results as a sortable, filterable grid. `id` names a
+ * Chapter 7: the simulation results as a sortable, filterable grid. `id` names a
  * figure of type "table" whose rows carry design, estimator, code, reject,
- * ratio, and verdict (built by ch06-lab-clustering/build.py).
+ * ratio, and verdict (built by ch07-cluster-choice/build.py).
  */
 export function RejectionGrid({ id }: { id: string }) {
   const fig = getFigure<TableFigure>(id);

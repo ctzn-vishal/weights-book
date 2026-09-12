@@ -1,4 +1,4 @@
-# Lab 6 (key ch6lab): the clustering menu, checked by simulation with fixest.
+# Chapter 7 (key ch7): the clustering menu, checked by simulation with fixest.
 #
 #   Rscript sim.R            writes _scratch/sim_results.json and _scratch/opening_draw.csv
 #   REPS=50 Rscript sim.R    quick run

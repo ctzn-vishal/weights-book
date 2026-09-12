@@ -1,0 +1,165 @@
+import { VcovExplorer } from '@/components/widgets/VcovExplorer'
+import { RejectionGrid } from '@/components/widgets/RejectionGrid'
+
+## Four studies, one question
+
+In April 1992 New Jersey raised its minimum wage from $4.25 to $5.05 an hour and Pennsylvania did not. Card and Krueger surveyed fast-food restaurants on both sides of the border before and after, and compared the change in employment <Cite id="card1994" />. In the mid-1980s Tennessee assigned more than eleven thousand kindergarteners and their teachers, by lottery within each school, to small classes or regular ones, and followed them for years <Cite id="krueger1999" />. In sub-Saharan Africa, year-to-year swings in rainfall move agricultural income, and Miguel, Satyanath, and Sergenti used them to ask whether negative income shocks raise the risk of civil conflict <Cite id="miguel2004" />. Between 1990 and 2007 Chinese import competition hit American local labor markets unevenly, according to each market's mix of industries, and Autor, Dorn, and Hanson used that unevenness to measure the effect on manufacturing employment and wages <Cite id="autor2013" />.
+
+Each of these studies has a regression at its center, and each regression has a standard error. Before reading on, ask of each one: what would you cluster on, and why? A state, a school, a classroom, a country, a commuting zone, a year? Nothing? The answers differ, and the reason they differ is the subject of this chapter. It is not the correlation of the residuals, which is present in every one of these settings at several levels at once. It is where the variation that identifies the coefficient comes from: who or what decided that this unit got this value of the regressor, at what level the decision was made, and how far its consequences reach.
+
+<Callout kind="predict" title="Predict first">
+
+Rank the four studies by how many independent pieces of information their regression of interest really rests on. Card and Krueger surveyed about four hundred restaurants; Project STAR enrolled thousands of children in a few hundred classrooms; the conflict study covers about forty countries over twenty years; the trade study has more than seven hundred commuting zones in two periods. Which has the fewest effective observations, and is it the one with the fewest rows?
+
+</Callout>
+
+[Chapter 6](/ch06-clustering) worked through one such study in full, Medicaid expansion in the American Community Survey, and gave the principle: a standard error describes a repetition, and clustering is a question about which observations would move together if the study were run again, through the sampling of units or through the assignment of the regressor <Cite id="abadie2023" />. This chapter applies that principle across the designs economists use most, and then checks it. For each design we build a simulated version in which the source of variation is fixed by construction and the true effect is exactly zero, run every plausible standard error, and count how often a nominal 5 percent test rejects a truth it should reject 5 percent of the time. A standard error that rejects a true null half the time is describing a repetition that never happens.
+
+## A classroom lottery
+
+Project STAR is the cleanest case because the researchers know exactly what was randomized. Within each participating school, students and teachers were assigned by lottery to a small class, a regular class, or a regular class with an aide. The unit of assignment was the class: every child in a given classroom got the same treatment, the same teacher, and the same year of shared experience. If the experiment were run again, the lottery would produce different classrooms, and a whole classroom's worth of children would change treatment together. That is the repetition the standard error should describe, and it is why Krueger clustered by classroom rather than treating each child as an independent draw.
+
+Now change one thing. Suppose the program had instead been assigned child by child within each classroom, a tutoring voucher handed to half the children in every room. Children in the same classroom still share a teacher, a peer group, and a school, and their test scores are still correlated within the room. But the lottery no longer moves classrooms; it moves children. Under a repetition, the same classrooms exist and the same children sit in them, and only the voucher changes hands. There is no classroom-level repetition for a classroom-clustered standard error to describe, and <Cite id="abadie2023" narrative /> show that clustering anyway is conservative, sometimes severely so. The correlation of outcomes within classrooms is identical in the two designs. What differs is the level at which the treatment was assigned.
+
+The simulation makes both versions. Forty schools with 4 classrooms each and <Fact id="ch7.exp_n" /> students, school and classroom shocks, a treatment effect that varies by classroom around an average of exactly zero, and school fixed effects. In the child-by-child arm, the heteroskedasticity-robust standard error rejects the true null <Fact id="ch7.rej_exp_individual_hetero" /> of the time, and clustering by classroom rejects it <Fact id="ch7.rej_exp_individual_class" /> of the time: an interval so wide it almost never rejects anything, including a false null. In the classroom arm, the same robust standard error rejects the truth <Fact id="ch7.rej_exp_classroom_hetero" /> of the time, while clustering by classroom rejects <Fact id="ch7.rej_exp_classroom_class" /> and clustering by school <Fact id="ch7.rej_exp_classroom_school" />. Same schools, same children, same correlations. The lottery decides the cluster.
+
+## A state variable in an individual regression
+
+Long before difference-in-differences became the workhorse, Moulton studied a simpler situation that is still everywhere: a regression of an individual outcome, a wage, on a variable that is measured for the individual's state, such as the state's unemployment rate or its right-to-work status <Cite id="moulton1990" />. With tens of thousands of workers and fifty states, the textbook standard error treats each worker as a fresh draw of the state variable. But the state variable takes only fifty values. Every worker in Ohio has Ohio's unemployment rate, and every worker in Ohio also shares whatever unobserved conditions Ohio's labor market carries that year. Two hundred workers per state make each state's average wage precise; they do not create two hundred independent observations of the relationship between state unemployment and wages.
+
+For a regressor that is constant within equal-sized groups, the amount by which the textbook standard error is too small has a closed form, $$\sqrt{1 + (m-1)\rho}$$, where $$m$$ is the group size and $$\rho$$ the within-group correlation of the errors (Appendix B). It grows with the group size, which is what makes the problem so severe in large microdata. In the simulated version, 50 states with 200 people each, <Fact id="ch7.moulton_n" /> observations, an individual covariate, and a state shock giving a within-state error correlation of <Fact id="ch7.moulton_icc" />, the formula predicts that the correct standard error is <Fact id="ch7.moulton_pred" /> the textbook one. The state-clustered standard error comes out <Fact id="ch7.ratio_moulton_state" /> the textbook one on average. The textbook standard error rejects the true null <Fact id="ch7.rej_moulton_iid" /> of the time. The heteroskedasticity-robust standard error rejects it <Fact id="ch7.rej_moulton_hetero" /> of the time, essentially the same figure, which is a lesson in itself: heteroskedasticity was never the problem, so the robust estimator repairs nothing. Clustering by state rejects <Fact id="ch7.rej_moulton_state" /> of the time.
+
+Card and Krueger's study is this design at its limit. The minimum wage varied at the state level and there were two states. Clustering by state is not an option with two clusters; there is no within-state repetition to average over and no between-state variation to estimate a variance from. The honest statement is that the study has one treated unit and one comparison unit, and that the inference rests either on the assumption that restaurants within a state are independent given the state, or on a model of state-level shocks, or on a group-level regression of the kind <Cite id="donald2007" narrative /> proposed for exactly this problem. A few hundred restaurants do not change that count.
+
+## A policy that switches on and stays on
+
+Most state-policy studies do not have one border and two years. They have a panel: fifty states observed over twenty years, a policy that switches on in some states in some years and stays on, and state and year fixed effects to absorb permanent differences between states and common shocks to all of them. The coefficient on the policy indicator is a difference-in-differences. Where does its variation come from? From the states that adopted, in the years after they adopted, compared with themselves before and with states that did not adopt. The policy was assigned to a state, for all subsequent years at once. And the state's unobserved conditions, its industry mix, its politics, its labor market, persist from one year to the next.
+
+<Cite id="bertrand2004" narrative /> showed what this does to the standard error. They took Current Population Survey wage data, assigned placebo laws to randomly chosen states in randomly chosen years, and ran the standard difference-in-differences regression. A placebo law does nothing, so a 5 percent test should reject 5 percent of the time. With conventional standard errors it rejected far more often, because the persistent state shocks and the persistent policy indicator together mean that a state's twenty years of data are closer to one observation than to twenty. State and year fixed effects do not help: they remove a state's average and a year's average, not the shock a state carries from one year into the next.
+
+The simulated version has 50 states, 20 years, 10 people per state-year, <Fact id="ch7.did_n" /> observations, state shocks that follow a first-order autoregression with coefficient $$\rho = 0.8$$, and a placebo policy adopted by half the states in a year drawn between the sixth and the fifteenth. The robust standard error rejects the true null <Fact id="ch7.rej_did_g50_hetero" /> of the time. Clustering by state-year, a common and defensible-looking choice that lets the 10 people in a cell be correlated but treats a state's consecutive years as independent, rejects <Fact id="ch7.rej_did_g50_stateyear" />. Clustering by state rejects <Fact id="ch7.rej_did_g50_state" />, and two-way clustering by state and year <Fact id="ch7.rej_did_g50_twoway" />. The state is where the policy was assigned and where the shocks persist. The state-year cell is a level with no mechanism behind it.
+
+Fifty states is a comfortable number of clusters. Many policy studies have far fewer: the handful of states that adopted a particular reform, the ten countries in a currency union, the six cities in a pilot. With 10 states, and <Fact id="ch7.did10_n" /> observations, clustering by state still rejects the truth <Fact id="ch7.rej_did_g10_state" /> of the time in the simulation, but only because the design is friendly: equal-sized states, half of them treated, and a $$t$$ reference distribution with $$G-1$$ degrees of freedom. When the treated clusters are few or unusually large, the cluster-robust standard error with $$t(G-1)$$ critical values can fail badly, and the wild cluster bootstrap or the jackknife of Chapter 6 becomes the appropriate check <Cite id="mackinnon2017,mackinnon2023" />. The count of clusters is part of the design, not a detail of the software.
+
+<Figure n="7.1" caption="The state-policy panel with one draw of data. Only the variance estimator changes. Clustering by state, the level at which the placebo policy was assigned, gives a standard error several times the textbook value; the intermediate options describe neither the sampling nor the assignment.">
+  <Chart id="ch7.opening_ratios" />
+</Figure>
+
+## Two dimensions that do not nest
+
+A regression of bilateral trade flows on tariffs or distance has a row for every exporter-importer pair. Everything Germany exports shares German shocks; everything shipped to Brazil shares Brazilian shocks. Neither group contains the other. A firm-year panel in finance has firm shocks that persist over time and year shocks that hit every firm; <Cite id="petersen2009" narrative /> documented how often published standard errors accounted for one and not the other. A regression of outcomes by region and industry, of the kind that arises when a policy varies by industry and its consequences are measured across places, has regional shocks and industry shocks in the same cell.
+
+When the two dimensions are nested, the rule is to cluster at the coarser level, because the coarser cluster contains the finer one. When they are not, no single clustering covers both, and <Cite id="cameron2011" narrative /> showed how to combine them: the variance clustered by the first dimension, plus the variance clustered by the second, minus the variance clustered by their intersection. The simulated version has 50 regions and 30 industries, <Fact id="ch7.twoway_cells" /> cells, with a region component and an industry component in both the regressor and the error. The robust standard error rejects the truth <Fact id="ch7.rej_twoway_hetero" /> of the time. Clustering by region alone rejects <Fact id="ch7.rej_twoway_region" /> and by industry alone <Fact id="ch7.rej_twoway_industry" />; each captures one dimension and misses the other. Two-way clustering rejects <Fact id="ch7.rej_twoway_twoway" />.
+
+Two things go wrong in practice. Analysts sometimes cluster by the intersection, region-by-industry, believing it to be the more conservative choice; with one observation per cell it is the robust standard error under another name. And the two-way variance is a difference of matrices and need not be positive definite, so software repairs it, and reports that it has.
+
+## Shocks that travel over the map
+
+Rainfall does not respect borders. When Miguel, Satyanath, and Sergenti instrument economic growth with rainfall growth, a dry year in one country is usually a dry year in its neighbors, and so are the unobserved conditions that raise the risk of conflict. Distance to a new road, exposure to a nearby mine, a neighboring county's policy: each of these regressors varies smoothly over space, and so do the unobserved determinants of the outcomes they explain. The natural clusters, countries or counties or states, are administrative lines drawn for other reasons, and a point just inside one is as correlated with its neighbor across the line as with its neighbor inside it.
+
+<Cite id="conley1999" narrative /> proposed a variance estimator for this case that dispenses with groups. Any two observations may be correlated, with a weight that declines with the distance between them and reaches zero at a cutoff chosen by the analyst. The simulated version places <Fact id="ch7.spatial_points" /> points on a lattice half a degree apart, roughly 40 to 55 kilometers, and draws the regressor and the error as spatial fields whose correlation decays exponentially with a range of 150 kilometers, plus white noise. It also draws 25 arbitrary administrative blocks of 8 by 8 points, the kind of unit an analyst clusters by for want of anything better.
+
+The robust standard error rejects the truth <Fact id="ch7.rej_spatial_hetero" /> of the time. Clustering by the 25 blocks rejects <Fact id="ch7.rej_spatial_block" />: the blocks catch correlation among points that happen to share a block and none across a boundary. A distance cutoff of 100 kilometers, shorter than the range of the dependence, rejects <Fact id="ch7.rej_spatial_conley100" />. A cutoff of 300 kilometers, twice the range, rejects <Fact id="ch7.rej_spatial_conley300" />, the best of the options and still a few points above nominal, as kernel estimators of a variance tend to be in finite samples. A cutoff of 600 kilometers rejects <Fact id="ch7.rej_spatial_conley600" />, worse than 300: a wider window averages over far more pairs and the variance estimate itself becomes noisy. The cutoff is a bandwidth, with the usual trade-off, and reporting several is part of the analysis. <Cite id="barrios2012" narrative /> make the connection back to state policies: when outcomes are spatially correlated across state lines, clustering by state does not remove all of the dependence, and whether the remainder matters depends on how the policy was assigned across the map.
+
+## Shocks that hit everyone at once
+
+Cross-country growth regressions, macro panels, and asset-pricing panels share a different structure. A recession, an oil price, a change in the world interest rate hits every unit in the same period, persists into the next, and hits some units harder than others. Unit and period fixed effects remove each unit's average and each period's average exposure, but not the part of the common shock that a heavily exposed unit feels more than a lightly exposed one, and that part is correlated across all units within a period and across neighboring periods. <Cite id="driscoll1998" narrative /> extended the Newey–West estimator to this setting: sum the scores across all units within each period, then apply a kernel over time to the period sums <Cite id="newey1987" />. The period sums are the effective observations, so the estimator needs a long time dimension.
+
+The simulated version has 50 units over 400 periods, a monthly panel of a few decades, with <Fact id="ch7.common_n" /> observations, unit and period fixed effects, and two independent first-order autoregressive common factors with $$\rho = 0.7$$, one entering the regressor and one the error, with the same unit-specific loadings on both, so that units exposed to the one shock are exposed to the other. Clustering by unit rejects the truth <Fact id="ch7.rej_common_unit" /> of the time and Newey–West within unit <Fact id="ch7.rej_common_nw" />: both allow any persistence within a unit and no correlation between units in the same period, which is where the dependence lives. Two-way clustering by unit and period rejects <Fact id="ch7.rej_common_twoway" />; the period clusters capture the contemporaneous correlation across units and treat consecutive periods as independent, which the persistent factors violate. Driscoll–Kraay with eight lags rejects <Fact id="ch7.rej_common_dk" />, the closest of the options and still above nominal, for the same finite-sample reason as the spatial kernel. In a shorter panel the same design gave the same ranking with every rate higher.
+
+## A design that is not on the menu
+
+The China shock study has a regressor that is neither a state policy nor a smooth field over the map. Each commuting zone's exposure to Chinese imports is a weighted average of national industry-level import shocks, weighted by the zone's initial employment shares in those industries. Two commuting zones with similar industry mixes, one in North Carolina and one in Ohio, receive nearly the same shock, whatever the distance between them, and their outcomes are correlated for the same reason. <Cite id="adao2019" narrative /> showed that in this shift-share design the repetition that matters is the draw of industry shocks, not the draw of regions, and that clustering by state or by commuting zone can understate the uncertainty badly while a spatial kernel misses it entirely, since the dependence follows industry mix rather than geography. The remedy organizes the inference around the shocks themselves, at the industry level. No entry on the ordinary variance menu does this, and the point generalizes: when the regressor is built from a small number of underlying shocks, count the shocks.
+
+<Callout kind="predict" title="Predict first">
+
+Across the six simulated designs, which is the most often wrong: the textbook standard error, the heteroskedasticity-robust one, or one-way clustering at the finest level available? And is there any design in which clustering at a coarser level than the design requires produces a rejection rate above 5 percent?
+
+</Callout>
+
+<Figure n="7.2" caption="In every design the estimator that follows the source of variation sits near the 5 percent line. Estimators that ignore a dimension of the dependence sit far to the right; estimators that are coarser than the design requires sit at or below the line; the two kernel estimators land a few points above it.">
+  <Chart id="ch7.rejection_rates" />
+</Figure>
+
+Each design draws <Fact id="ch7.reps" /> data sets, so the Monte Carlo standard error of a rejection rate near 5 percent is about <Fact id="ch7.mc_se_at_5" /> points: a rate near 5 percent is a pass, and a rate of 10 percent is not noise. The grid below holds the same results with the mean ratio of each standard error to the textbook value, which measures how much of the uncertainty the textbook formula never saw. Sort by any column, or filter to one design.
+
+<RejectionGrid id="ch7.rejection_table" />
+
+## What the examples have in common
+
+The six designs agree on one procedure, and it begins with the regressor rather than the residuals.
+
+1. **Ask who or what decided the value of the regressor, and at what level.** A legislature decided for a state; a lottery decided for a classroom; the weather decided for a region of the map; a national trade shock decided for every place with a given industry mix. That level is the first candidate for the cluster. Correlated residuals below it do not by themselves call for clustering, and correlated residuals above it are not removed by fixed effects.
+2. **In a nested hierarchy, follow the assignment up.** Children in classrooms in schools: cluster by classroom when classrooms are assigned, by school when schools are, and not at all when children are, whatever the intraclass correlation. This is the sense in which the "cluster at the coarser level" rule holds, inside the full sampling-and-assignment statement <Cite id="abadie2023" />.
+3. **When two dimensions of dependence do not nest, use both.** Exporter and importer, firm and year, region and industry. Two-way clustering is not clustering by the intersection.
+4. **When dependence follows a distance rather than a group, use a kernel.** Over the map for spatial shocks, over time within a unit for serial correlation, over time across all units for common shocks. The cutoff should cover the range of the dependence, and a much wider cutoff degrades the estimate rather than protecting it.
+5. **Count the clusters before trusting the answer.** With fewer than about 50, report the jackknife or the wild cluster bootstrap beside the conventional estimate; with fewer than about 10, randomization inference or a group-level model <Cite id="cameron2015,mackinnon2023" />. Two states is one comparison, however many restaurants.
+6. **When the regressor is built from a few underlying shocks, count the shocks.** Shift-share exposures, and any design in which a national or global shock reaches units through a known exposure, need inference organized around the shocks <Cite id="adao2019" />.
+7. **Write the argument down.** The standard error in a published table should come from a choice the analyst made and can defend in the terms above, never from a software default.
+
+The worksheet at the end of [Chapter 6](/ch06-clustering#filling-in-the-worksheet) asks for the same inputs, the sampling mechanism, the assignment mechanism, and the number of clusters, and returns the same recommendations. This chapter is the evidence that the recommendations hold when the truth is known.
+
+## The tools
+
+Everything above is one argument to one function. In fixest the argument is `vcov`; pyfixest mirrors it; Stata's `vce()` option covers most of the same ground <Cite id="berge2026" />.
+
+| What it allows | fixest | pyfixest |
+|---|---|---|
+| Independent, identically distributed errors | `vcov = "iid"` | `vcov = "iid"` |
+| Any heteroskedasticity, no correlation (HC1) | `vcov = "hetero"` | `vcov = "hetero"` |
+| Any correlation within a group, none between (CRV1) | `vcov = ~state` | `vcov = {"CRV1": "state"}` |
+| Correlation within either of two non-nested groups | `vcov = ~region + industry` | `vcov = {"CRV1": "region+industry"}` |
+| Correlation within the intersection of two groups | `vcov = ~state^year` | `vcov = {"CRV1": "state_year"}` on a constructed column |
+| Serial correlation within a unit up to a lag (Newey–West) | `vcov = NW(4) ~ id + time` | `vcov = "NW"`, `vcov_kwargs = {"lag": 4, ...}` |
+| Cross-sectional and serial correlation in a panel (Driscoll–Kraay) | `vcov = DK(4) ~ time` | `vcov = "DK"`, `vcov_kwargs = {"lag": 4, ...}` |
+| Spatial correlation within a distance cutoff (Conley) | `vcov = conley(300) ~ lat + lon` | not yet available |
+| Leave-one-cluster-out jackknife (CRV3) | not built in; the `summclust` package computes it for fixest models | `vcov = {"CRV3": "state"}` |
+
+Two facts about the tool matter more than any row. The default moved: through version `0.12`, fixest clustered by the first fixed effect whenever a model had fixed effects, and since `0.13.0` the default is IID for every estimation, so the same script reports different standard errors depending on which version is installed. pyfixest `0.60` also reports IID unless told otherwise. And the small-sample correction is built in: fixest's defaults scale a clustered variance by $$G/(G-1)$$ and use a $$t$$ distribution on $$G - 1$$ degrees of freedom, where $$G$$ is the number of clusters or the smaller of the two counts under two-way clustering, matching Stata's conventions <Cite id="cameron2015" />. Every rejection rate in this chapter includes that adjustment.
+
+```r
+library(fixest)
+f <- feols(y ~ d | state + year, data = panel)
+etable(f, vcov = list("iid", "hetero", ~state^year, ~state + year, ~state, DK(4) ~ year))
+```
+
+```python
+import pyfixest as pf
+panel["state_year"] = panel["state"].astype(str) + "_" + panel["year"].astype(str)
+for v in ["iid", "hetero", {"CRV1": "state_year"}, {"CRV1": "state+year"}, {"CRV1": "state"}]:
+    print(v, pf.feols("y ~ d | state + year", data=panel, vcov=v).se()["d"])
+```
+
+The explorer below runs that loop on one draw of the state-policy panel: <Fact id="ch7.open_n" /> observations, <Fact id="ch7.open_treated" /> adopting states, a coefficient of <Fact id="ch7.open_coef" /> whose true value is zero. Under the textbook variance its p-value is <Fact id="ch7.open_p_iid" />; clustered by state, <Fact id="ch7.open_p_state" />. Across the options the largest standard error is <Fact id="ch7.open_span" /> the smallest. Each choice shows what the estimator lets the errors do, what it returns, and the one argument that changed.
+
+<VcovExplorer id="ch7.vcov_menu" />
+
+<SideNote>The chapter reports fixest's answers. The opening draw's IID, HC1, state-year, state, and two-way standard errors were recomputed with pyfixest and agree to the displayed precision; the comparison is in the chapter's manifest. Conley standard errors are not yet implemented in pyfixest.</SideNote>
+
+<Ledger id="ch7.simulation" />
+
+<Closing>
+
+<Learned>
+
+In four published designs and two more that economists use constantly, the standard error that describes the study's repetition follows the source of the identifying variation: the classroom lottery, the state legislature, the shock that travels over the map or hits every unit at once, the industry shocks behind a shift-share exposure. In every simulated version with a known truth, the estimator that followed that source rejected a true null within a few points of 5 percent, and the two kernel estimators were the ones that fell short. Estimators that ignored a dimension of the dependence rejected the truth <Fact id="ch7.rej_moulton_iid" /> of the time when a regressor varied only by state, <Fact id="ch7.rej_did_g50_stateyear" /> when a panel's state shocks persisted and the analyst clustered by state-year, and <Fact id="ch7.rej_spatial_hetero" /> when a regressor and its error were both spatially correlated. Clustering coarser than the design requires cost precision and stayed at or near the nominal level.
+
+</Learned>
+
+<Changed>
+
+The method changed nothing about any coefficient, and in each design it changed the standard error by a factor the design predicted: <Fact id="ch7.ratio_moulton_state" /> for the state-level regressor against a Moulton prediction of <Fact id="ch7.moulton_pred" />. It replaced a question about residuals with a question about the regressor: who decided its value, at what level, along how many dimensions, and over what distance. The answers select the standard error, and the software argument follows.
+
+</Changed>
+
+<NotEstablished>
+
+- **That these rejection rates transfer to any particular study.** The simulations fix a mechanism and a magnitude. Real intraclass correlations, persistence, and spatial ranges differ, and so do the consequences of ignoring them.
+- **That the matching estimator is exact in small samples.** Each design has enough clusters, periods, or spatial extent for its estimator to work with standard corrections. The 10-state design was deliberately friendly; unequal or few treated clusters need the remedies of Chapter 6.
+- **That the right cutoff is knowable from the data alone.** The spatial and Driscoll–Kraay results depend on a cutoff and a lag chosen with the dependence range in view. In practice the range is an assumption, and reporting several cutoffs is part of the analysis.
+- **That the finite-population and superpopulation questions coincide.** In the child-by-child lottery, clustering by classroom is conservative because every classroom is observed and the target is the average effect over those classrooms. For an average over a population of classrooms from which these were drawn, the clustered interval is the relevant one. That is a choice of estimand, and the simulation took one side of it.
+- **That any of the coefficients means anything causal.** Every simulated design is a placebo with a true effect of zero, and the four published studies each rest on identifying assumptions of their own. Standard errors describe the repetition; identification is a separate question that no choice of standard error answers.
+
+</NotEstablished>
+
+</Closing>

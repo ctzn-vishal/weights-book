@@ -114,7 +114,7 @@ A survey weight is not one thing, and the booklet gives each part its own symbol
 
 A standard error is a statement about a hypothetical repetition, and the analysis has to say which one.
 
-- *Sampling*: redraw the sample under the same design. NHANES draws counties, and its public file supports only <Fact id="ch7.nhanes_df" /> design degrees of freedom for the August 2021–August 2023 cycle; BRFSS treats every respondent as a separate sampling unit, which leaves it <Fact id="ch7.brfss_df" /> design degrees of freedom in 2024. Both are called complex surveys, and their uncertainty comes from opposite places ([Chapter 3](/ch03-design#two-complex-surveys-opposite-uncertainty)).
+- *Sampling*: redraw the sample under the same design. NHANES draws counties, and its public file supports only <Fact id="ch8.nhanes_df" /> design degrees of freedom for the August 2021–August 2023 cycle; BRFSS treats every respondent as a separate sampling unit, which leaves it <Fact id="ch8.brfss_df" /> design degrees of freedom in 2024. Both are called complex surveys, and their uncertainty comes from opposite places ([Chapter 3](/ch03-design#two-complex-surveys-opposite-uncertainty)).
 - *Assignment*: rerun the process that decided who was treated. When a policy varies across states, the number of independent assignments is the number of states, however many records there are ([Chapter 6](/ch06-clustering); <Cite id="abadie2023" />).
 - *Response*: repeat the process that decided who answered. Because nonresponse and calibration adjustments are estimated from the sample, the weights themselves vary from sample to sample.
 - *Model*: treat the finite population as one draw from a superpopulation. When every unit is observed, sampling uncertainty disappears, but assignment and model uncertainty can remain <Cite id="abadie2020" />.
@@ -159,7 +159,7 @@ The same objects travel under different names in different fields. This is a sho
 
 - **Describing a population** (a prevalence, a rate, a mean, a gap between groups): [Chapter 1](/ch01-estimands) on estimands, [Chapter 2](/ch02-weights) on where weights come from, [Chapter 3](/ch03-design) on design-based uncertainty, and [Lab 3](/ch03-lab-replicates) on replicate weights.
 - **Estimating a regression coefficient or an effect**: [Chapter 4](/ch04-regression) on explicit weighting, [Chapter 5](/ch05-hidden-weights) on implicit weights under heterogeneous effects, and [Chapter 6](/ch06-clustering) on clustering as a question about sampling and assignment design.
-- **Declaring a specific survey**: [Chapter 7](/ch07-field-guide), with release guides for six surveys and declarations in Python, R, and Stata.
+- **Declaring a specific survey**: [Chapter 8](/ch08-field-guide), with release guides for six surveys and declarations in Python, R, and Stata.
 - **Checking a symbol, a derivation, or a data source**: [Appendix A](/appendix-a-notation) for notation and the crosswalk, [Appendix B](/appendix-b-derivations) for derivations with their conditions, and [Appendix C](/appendix-c-reproducibility) for data, code, and validation.
 
 ## Before Chapter 1

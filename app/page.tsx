@@ -19,7 +19,7 @@ const ROUTES = [
   { who: 'Everyone', href: '/ch00-start-here', go: 'Chapter 0', rest: 'the three decisions, one at a time' },
   { who: 'Describing a population', href: '/ch01-estimands', go: 'Chapters 1–3', rest: 'estimands, weights, and design-based uncertainty' },
   { who: 'Regression and causal questions', href: '/ch04-regression', go: 'Chapters 4–6', rest: 'explicit and hidden weights, and clustering' },
-  { who: 'Working with one survey', href: '/ch07-field-guide', go: 'Chapter 7', rest: 'the field guide to six surveys' },
+  { who: 'Working with one survey', href: '/ch08-field-guide', go: 'Chapter 8', rest: 'the field guide to six surveys' },
 ];
 
 export default function Home() {
