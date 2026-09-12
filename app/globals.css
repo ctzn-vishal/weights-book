@@ -107,6 +107,11 @@
   --topbar-h:   3.25rem;
 
   --shadow-pop: 0 10px 28px oklch(0.2 0.02 260 / 0.13), 0 2px 6px oklch(0.2 0.02 260 / 0.08);
+
+  /* code grounds: inline code takes a faint tint of the canvas, fenced code a sunken panel */
+  --code-inline-bg: oklch(0.955 0.006 90);
+  --code-bg:        var(--surface-sunken);
+  --code-border:    var(--border);
 }
 
 /* Dark: a warm charcoal ground and soft paper-white ink, not black and white. Body text sits near
@@ -151,6 +156,11 @@
   --role-unweighted: oklch(0.660 0.014 260);
   --role-naive:      oklch(0.580 0.012 260);
   --shadow-pop: 0 10px 28px oklch(0 0 0 / 0.45), 0 2px 6px oklch(0 0 0 / 0.3);
+  /* shiki's github-dark-dimmed tokens were tuned for a cool #22272e ground; a slightly cooler,
+     deeper sunken panel keeps them legible without breaking the warm page */
+  --code-inline-bg: oklch(0.300 0.007 75);
+  --code-bg:        oklch(0.205 0.007 70);
+  --code-border:    oklch(0.330 0.008 75);
 }
 
 @theme inline {
@@ -509,20 +519,34 @@ html:has(.bk-drawer[open]) { overflow: hidden; }
 
 .bk-prose :where(hr) { border: 0; height: 1px; width: 30%; margin: 2.6em auto; background: var(--border-strong); }
 
+/* Inline code: a quiet tint, no hard outline, so it does not stud a serif line with boxes. */
 .bk-prose :where(:not(pre) > code) {
-  font-family: var(--font-mono); font-size: 0.84em;
-  background: var(--surface-sunken); border: 1px solid var(--border); border-radius: 4px;
-  padding: 0.06em 0.3em;
+  font-family: var(--font-mono); font-size: 0.84em; font-weight: 450;
+  background: var(--code-inline-bg);
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--border) 70%, transparent);
+  border-radius: 4px;
+  padding: 0.08em 0.34em;
+  overflow-wrap: anywhere;
 }
+.bk-prose :where(a > code) { color: inherit; }
+
+/* Fenced code: a sunken panel with the language as a small tag in the top-right corner. The tag
+   sits on its own ground so a long first line never runs under it. */
 .bk-code { position: relative; }
 .bk-code pre {
-  font-family: var(--font-mono); font-size: 0.8125rem; line-height: 1.6; tab-size: 2;
-  background: var(--surface-sunken); border: 1px solid var(--border); border-radius: 6px;
-  padding: 0.95rem 1rem; overflow-x: auto;
+  font-family: var(--font-mono); font-size: 0.8125rem; line-height: 1.62; tab-size: 2;
+  background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 8px;
+  padding: 1rem 1.1rem 1.05rem; overflow-x: auto;
+  scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent;
 }
+.bk-code:has(.bk-code-lang) pre { padding-top: 1.55rem; }
 .bk-code-lang {
-  position: absolute; top: 0.4rem; right: 0.6rem;
-  font: 500 0.625rem var(--font-sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted);
+  position: absolute; top: 0; right: 0.9rem; z-index: 1;
+  padding: 0.22rem 0.5rem 0.24rem;
+  border: 1px solid var(--code-border); border-top: 0; border-radius: 0 0 5px 5px;
+  background: var(--code-bg);
+  font: 550 0.6rem/1 var(--font-sans); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted);
+  user-select: none;
 }
 
 /* Syntax highlighting (rehype-pretty-code / shiki). Each token carries both themes as
@@ -531,7 +555,11 @@ html:has(.bk-drawer[open]) { overflow: hidden; }
 .bk-code pre [data-line] { padding: 0; }
 .bk-code code[data-theme] span { color: var(--shiki-light); }
 html.dark .bk-code code[data-theme] span { color: var(--shiki-dark); }
-.bk-code pre [data-highlighted-line] { background: var(--accent-subtle); margin: 0 -1rem; padding: 0 1rem; }
+.bk-code pre [data-highlighted-line] {
+  background: var(--accent-subtle); box-shadow: inset 3px 0 0 var(--accent);
+  margin: 0 -1.1rem; padding: 0 1.1rem;
+}
+.bk-code pre ::selection { background: color-mix(in oklch, var(--accent) 28%, transparent); }
 
 .bk-table-scroll { overflow-x: auto; }
 
@@ -596,39 +624,63 @@ html.dark .bk-code code[data-theme] span { color: var(--shiki-dark); }
 @keyframes fact-pop-in { from { opacity: 0; } }
 .fact-pop.is-above { top: auto; bottom: 100%; padding-top: 0; padding-bottom: 0.5rem; }
 .fact-card {
-  display: block; padding: 0.75rem 0.9rem 0.8rem;
+  display: block; padding: 0.8rem 0.95rem 0.85rem;
   background: var(--surface); color: var(--text);
-  border: 1px solid var(--border-strong); border-radius: 8px; box-shadow: var(--shadow-pop);
-  font: 400 0.78rem/1.45 var(--font-sans); font-style: normal; letter-spacing: 0; text-transform: none;
+  border: 1px solid var(--border-strong); border-radius: 10px; box-shadow: var(--shadow-pop);
+  font: 400 0.78rem/1.45 var(--font-sans); font-style: normal; font-weight: 400; letter-spacing: 0; text-transform: none;
+  text-decoration: none;
 }
-.fact-head { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.82rem; }
+/* on the dark ground a raised card needs a light edge as well as a shadow */
+.dark .fact-card { border-color: var(--border-strong); box-shadow: var(--shadow-pop), inset 0 1px 0 oklch(1 0 0 / 0.05); }
+.fact-head {
+  display: block; margin-bottom: 0.55rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
+  font-weight: 600; font-size: 0.9rem; font-variant-numeric: tabular-nums;
+}
 .fact-head .u { font-weight: 400; color: var(--text-secondary); }
-.fact-rows { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.28rem 0.75rem; }
-.fact-k { color: var(--text-muted); font-weight: 500; }
+.fact-rows { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.3rem 0.8rem; }
+.fact-k {
+  color: var(--text-muted); font-weight: 600; font-size: 0.66rem; letter-spacing: 0.07em; text-transform: uppercase;
+  padding-top: 0.12em;
+}
 .fact-v { color: var(--text); overflow-wrap: anywhere; }
 @media (max-width: 40rem) {
   .fact-pop {
     position: fixed; left: 0.75rem; right: 0.75rem; top: auto; bottom: 0.75rem;
-    width: auto; padding: 0; transform: none;
+    width: auto; max-width: none; padding: 0; transform: none;
   }
   .fact-pop.is-above { bottom: 0.75rem; padding: 0; }
+  /* a bottom sheet: never taller than the screen, scrolls inside if a note runs long */
+  .fact-card { max-height: min(60vh, 24rem); overflow-y: auto; overscroll-behavior: contain; }
+  .fact-rows { grid-template-columns: minmax(5.5rem, max-content) minmax(0, 1fr); }
 }
 
 /* ============================================================== KeyNumber */
 
+/* A quiet stat tile: one raised card, the number large and tabular, its reading and its interval under it. */
 .keynum {
-  margin: 2.1rem 0; padding: 1.1rem 0 1.15rem;
-  border-top: 1px solid var(--border-strong); border-bottom: 1px solid var(--border);
+  margin: 2.1rem 0; padding: 1.15rem 1.35rem 1.2rem;
+  border: 1px solid var(--border); border-radius: 12px; background: var(--surface);
+  box-shadow: 0 1px 2px oklch(0.2 0.02 60 / 0.04);
   font-family: var(--font-sans);
+  position: relative;
 }
+.keynum::before {
+  content: ""; position: absolute; left: 1.35rem; top: 0; width: 2.25rem; height: 3px;
+  border-radius: 0 0 3px 3px; background: var(--accent);
+}
+.dark .keynum { box-shadow: none; }
 .keynum-value {
-  font-weight: 600; font-size: clamp(2.2rem, 1.7rem + 2vw, 3rem); line-height: 1.05; letter-spacing: -0.02em;
-  color: var(--text);
+  padding-top: 0.25rem;
+  font-weight: 600; font-size: clamp(2.2rem, 1.7rem + 2vw, 3rem); line-height: 1.05; letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums; color: var(--text);
 }
 .keynum-value .fact-num { text-decoration-thickness: 2px; text-underline-offset: 0.12em; }
 .keynum-unit { margin-left: 0.45rem; font-size: 1rem; font-weight: 500; letter-spacing: 0; color: var(--text-secondary); }
-.keynum-label { margin-top: 0.5rem; max-width: 36rem; font-size: 0.95rem; line-height: 1.45; color: var(--text-secondary); }
-.keynum-ci { margin-top: 0.3rem; font-size: 0.8rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.keynum-label { margin-top: 0.55rem; max-width: 36rem; font-size: 0.95rem; line-height: 1.45; color: var(--text-secondary); text-wrap: pretty; }
+.keynum-ci {
+  margin-top: 0.45rem; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.02em;
+  color: var(--text-muted); font-variant-numeric: tabular-nums;
+}
 
 /* ============================================================== Figure and charts */
 
@@ -651,13 +703,20 @@ html.dark .bk-code code[data-theme] span { color: var(--shiki-dark); }
     margin-right: calc(-1 * (var(--margin-gap) + var(--margin-w) + 2rem + var(--rail-w)));
   }
 }
+/* The caption sits under a hairline and leads with the figure number in small caps. */
 .bk-figcaption {
-  margin-top: 0.85rem; max-width: var(--measure);
+  margin-top: 0.9rem; padding-top: 0.6rem; max-width: var(--measure);
+  border-top: 1px solid var(--border);
   font-family: var(--font-sans); font-size: 0.875rem; line-height: 1.5; color: var(--text-secondary);
+  text-wrap: pretty;
 }
-.bk-fignum { font-weight: 650; color: var(--text); margin-right: 0.3rem; }
-.bk-figmeta { display: block; margin-top: 0.35rem; font-size: 0.78rem; color: var(--text-muted); }
-.bk-figmeta + .bk-figmeta { margin-top: 0.15rem; }
+.bk-fignum {
+  margin-right: 0.35rem;
+  font-weight: 650; font-variant-caps: all-small-caps; letter-spacing: 0.06em; font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+.bk-figmeta { display: block; margin-top: 0.4rem; font-size: 0.75rem; line-height: 1.5; color: var(--text-muted); }
+.bk-figmeta + .bk-figmeta { margin-top: 0.1rem; }
 
 .ch { font-family: var(--font-sans); }
 .ch-head { margin-bottom: 0.7rem; }
@@ -749,37 +808,82 @@ html.dark .bk-code code[data-theme] span { color: var(--shiki-dark); }
 
 /* ============================================================== Callout */
 
+/* Six kinds, one grammar: a small kind label (glyph or swatch + small caps), an optional serif title,
+   the body. Each kind sets three tokens (rule, ground, label ink) and a frame:
+     note        left rule, sunken ground             (an aside)
+     warning     left rule in --warning, warm tint     (a trap)
+     definition  left rule in --cat-1, open ground     (a term for the rest of the book)
+     box         full hairline frame on --surface      (provenance, a classic replication)
+     predict     dashed accent frame, warm tint        (an invitation to guess before reading on)
+     draft       dotted grey frame, muted              (an author's note that will not ship) */
 .co {
   --co-rule: var(--border-strong); --co-bg: var(--surface-sunken); --co-ink: var(--text-secondary);
-  margin: 1.9rem 0; padding: 0.85rem 1.1rem 1rem;
-  border-left: 3px solid var(--co-rule); border-radius: 0 6px 6px 0; background: var(--co-bg);
+  margin: 1.9rem 0; padding: 0.95rem 1.25rem 1.05rem;
+  border-left: 3px solid var(--co-rule); border-radius: 0 8px 8px 0; background: var(--co-bg);
   font-size: 0.95em;
 }
 .co-label {
-  display: flex; align-items: center; gap: 0.4rem;
-  font: 600 0.7rem/1.3 var(--font-sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--co-ink);
+  display: flex; align-items: center; gap: 0.45rem;
+  font: 650 0.7rem/1.3 var(--font-sans); letter-spacing: 0.09em; text-transform: uppercase; color: var(--co-ink);
 }
-.co-label svg { width: 0.95rem; height: 0.95rem; }
-.co-title { margin-top: 0.3rem; font-family: var(--font-serif); font-weight: 600; font-size: 1.03em; line-height: 1.35; }
-.co-body { margin-top: 0.45rem; }
+.co-label svg { width: 1rem; height: 1rem; flex-shrink: 0; }
+.co-swatch { width: 0.5rem; height: 0.5rem; border-radius: 2px; background: var(--co-rule); flex-shrink: 0; }
+.co-title {
+  margin-top: 0.35rem;
+  font-family: var(--font-serif); font-weight: 600; font-size: 1.06em; line-height: 1.35; letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+.co-body { margin-top: 0.5rem; }
 .co-body > * + * { margin-top: 0.75em; }
+.co-body > :last-child { margin-bottom: 0; }
+
 .co-warning {
-  --co-rule: var(--warning); --co-ink: color-mix(in oklch, var(--warning) 55%, var(--text));
-  --co-bg: color-mix(in oklch, var(--warning) 8%, var(--canvas));
+  --co-rule: var(--warning);
+  --co-ink: color-mix(in oklch, var(--warning) 60%, var(--text));
+  --co-bg: color-mix(in oklch, var(--warning) 9%, var(--canvas));
 }
-.co-definition { --co-rule: var(--text); --co-bg: transparent; --co-ink: var(--text); border-left-width: 2px; border-radius: 0; padding-block: 0.3rem 0.4rem; }
+.dark .co-warning {
+  --co-ink: color-mix(in oklch, var(--warning) 80%, var(--text));
+  --co-bg: color-mix(in oklch, var(--warning) 11%, var(--surface));
+}
+
+.co-definition {
+  --co-rule: var(--cat-1); --co-bg: transparent; --co-ink: var(--cat-1);
+  border-left-width: 2px; border-radius: 0; padding: 0.3rem 0 0.4rem 1.15rem;
+}
+.co-definition .co-title { font-style: italic; font-size: 1.1em; }
+
 .co-box {
-  --co-bg: var(--surface); --co-ink: var(--text-secondary);
-  border: 1px solid var(--border-strong); border-radius: 6px; padding: 1.05rem 1.25rem 1.15rem;
+  --co-bg: var(--surface); --co-ink: var(--text-secondary); --co-rule: var(--text-secondary);
+  border: 1px solid var(--border-strong); border-left-width: 1px; border-radius: 8px;
+  padding: 1.05rem 1.3rem 1.2rem;
+  box-shadow: 0 1px 2px oklch(0.2 0.02 60 / 0.04);
 }
+.dark .co-box { box-shadow: none; }
+.co-box .co-label { padding-bottom: 0.55rem; border-bottom: 1px solid var(--border); }
+.co-box .co-title { margin-top: 0.7rem; }
+.co-box .co-label + .co-body { margin-top: 0.75rem; }
+
+/* Predict first: an invitation. The frame is dashed like a worksheet line, the ground warm, and the
+   label carries the question-mark glyph; nothing here should read as a warning. */
 .co-predict {
-  --co-ink: var(--accent-ink); --co-bg: color-mix(in oklch, var(--accent-subtle) 55%, var(--canvas));
-  border: 1.5px dashed var(--accent); border-radius: 8px; padding: 0.95rem 1.2rem 1.05rem;
+  --co-ink: var(--accent-ink);
+  --co-bg: color-mix(in oklch, var(--accent-subtle) 60%, var(--canvas));
+  border: 1.5px dashed color-mix(in oklch, var(--accent) 80%, transparent); border-radius: 10px;
+  padding: 1rem 1.3rem 1.1rem;
 }
+.co-predict .co-label { font-weight: 650; }
+.co-predict .co-label svg { width: 1.1rem; height: 1.1rem; }
+.co-predict .co-body { font-size: 1.02em; }
+.dark .co-predict { --co-bg: color-mix(in oklch, var(--accent-subtle) 55%, var(--canvas)); }
+
 .co-draft {
-  --co-ink: var(--text-muted); --co-bg: transparent;
-  border: 1px dashed var(--border-strong); border-radius: 6px; color: var(--text-secondary);
+  --co-ink: var(--text-muted); --co-bg: transparent; --co-rule: var(--border-strong);
+  border: 1px dotted var(--border-strong); border-radius: 8px; color: var(--text-secondary);
+  font-family: var(--font-sans); font-size: 0.9em; line-height: 1.55;
 }
+.co-draft .co-title { font-family: var(--font-sans); font-size: 1em; }
+.co-draft .co-swatch { border-radius: 999px; }
 
 /* ============================================================== SideNote */
 
@@ -799,67 +903,111 @@ html.dark .bk-code code[data-theme] span { color: var(--shiki-dark); }
 
 /* ============================================================== Ledger */
 
+/* A definition-list table in the style of a journal's summary table: a heavy top rule, small-caps row
+   labels, hairlines between rows and a stronger rule before each block. On narrow screens each row
+   stacks, label above value. */
 .ledger {
-  margin: 2.2rem 0; font-family: var(--font-sans);
+  margin: 2.4rem 0; font-family: var(--font-sans);
   border-top: 2px solid var(--text); border-bottom: 1px solid var(--border-strong);
 }
 .ledger-head {
-  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.75rem;
-  padding: 0.75rem 0 0.7rem; border-bottom: 1px solid var(--border-strong);
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.85rem;
+  padding: 0.8rem 0 0.75rem; border-bottom: 1px solid var(--border-strong);
 }
-.ledger-eyebrow { font-size: 0.6875rem; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-ink); }
-.ledger-title { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 600; line-height: 1.35; color: var(--text); }
+.ledger-eyebrow { font-size: 0.6875rem; font-weight: 650; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-ink); }
+.ledger-title { font-family: var(--font-serif); font-size: 1.08rem; font-weight: 600; line-height: 1.35; color: var(--text); text-wrap: balance; }
 .ledger-grid { margin: 0; }
-.ledger-row { display: grid; grid-template-columns: 1fr; gap: 0.1rem; padding: 0.6rem 0; border-top: 1px solid var(--border); }
+.ledger-row { display: grid; grid-template-columns: 1fr; gap: 0.15rem; padding: 0.6rem 0; border-top: 1px solid var(--border); }
 .ledger-row:first-child { border-top: 0; }
-.ledger-row.grp { border-top-color: var(--border-strong); }
-.ledger-row dt { font-size: 0.78rem; font-weight: 600; color: var(--text-secondary); padding-top: 0.1rem; }
-.ledger-row dd { margin: 0; font-size: 0.875rem; line-height: 1.5; color: var(--text); text-wrap: pretty; }
-@media (min-width: 40rem) {
-  .ledger-row { grid-template-columns: 10.5rem minmax(0, 1fr); gap: 1rem; }
+.ledger-row.grp { border-top: 1px solid var(--border-strong); padding-top: 0.75rem; }
+.ledger-row dt {
+  font-size: 0.86rem; font-weight: 600; font-variant-caps: all-small-caps; letter-spacing: 0.07em;
+  color: var(--text-secondary); padding-top: 0.05rem; line-height: 1.4;
 }
-.ledger-facts { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
+.ledger-row dd { margin: 0; font-size: 0.875rem; line-height: 1.55; color: var(--text); text-wrap: pretty; }
+@media (min-width: 40rem) {
+  .ledger-row { grid-template-columns: 10.5rem minmax(0, 1fr); gap: 1.1rem; padding: 0.65rem 0; }
+  .ledger-row.grp { padding-top: 0.8rem; }
+}
+.ledger-facts { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.05rem 0 0; padding: 0; list-style: none; }
 .ledger-chip {
   display: inline-flex; align-items: baseline; gap: 0.35rem;
-  padding: 0.12rem 0.6rem; border: 1px solid var(--border); border-radius: 999px; background: var(--surface);
+  padding: 0.14rem 0.65rem; border: 1px solid var(--border); border-radius: 999px; background: var(--surface);
   font-size: 0.8rem; font-variant-numeric: tabular-nums;
 }
-.ledger-chip .u { font-size: 0.75rem; color: var(--text-muted); }
+.ledger-chip:hover { border-color: var(--border-strong); }
+.ledger-chip .u { font-size: 0.74rem; color: var(--text-muted); }
 
 /* ============================================================== Closing, Details, Cite */
 
-.closing { margin: 3rem 0 1rem; display: grid; gap: 0.9rem; }
+/* Closing: three panels under one rule. Each carries a coloured left bar and a label in its colour:
+   learned in --positive, changed in the accent, and the limits panel, the book's honesty panel, in
+   ink, framed heavier, on a slightly sunken ground. */
+.closing { margin: 3.25rem 0 1rem; padding-top: 1.5rem; border-top: 1px solid var(--border-strong); display: grid; gap: 0.9rem; }
 .closing-panel {
-  padding: 0.95rem 1.2rem 1.1rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface);
+  --cl-bar: var(--border-strong); --cl-ink: var(--text-secondary);
+  position: relative;
+  padding: 1rem 1.3rem 1.15rem 1.45rem; border: 1px solid var(--border); border-radius: 10px; background: var(--surface);
   font-size: 0.97em;
 }
+.closing-panel::before {
+  content: ""; position: absolute; left: -1px; top: 0.9rem; bottom: 0.9rem; width: 3px;
+  border-radius: 0 3px 3px 0; background: var(--cl-bar);
+}
 .closing-label {
-  margin-bottom: 0.5rem;
-  font: 650 0.7rem/1.3 var(--font-sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary);
+  margin-bottom: 0.55rem;
+  font: 650 0.7rem/1.3 var(--font-sans); letter-spacing: 0.09em; text-transform: uppercase; color: var(--cl-ink);
 }
 .closing-body > * + * { margin-top: 0.7em; }
+.closing-panel.is-learned { --cl-bar: var(--positive); --cl-ink: color-mix(in oklch, var(--positive) 80%, var(--text)); }
+.closing-panel.is-changed { --cl-bar: var(--accent); --cl-ink: var(--accent-ink); }
 .closing-panel.is-limits {
-  border: 1.5px solid var(--text-secondary); border-left-width: 5px; border-left-color: var(--text);
+  --cl-bar: var(--text); --cl-ink: var(--text);
+  margin-top: 0.35rem;
+  border: 1.5px solid var(--text-secondary); border-left: 5px solid var(--text);
+  padding-left: 1.3rem;
+  background: color-mix(in oklch, var(--text) 3%, var(--surface));
 }
-.closing-panel.is-limits .closing-label { color: var(--text); font-size: 0.74rem; }
+.closing-panel.is-limits::before { display: none; }
+.closing-panel.is-limits .closing-label { font-size: 0.74rem; }
+.closing-panel.is-limits .closing-body { font-size: 1.01em; }
+.dark .closing-panel.is-limits { background: color-mix(in oklch, var(--text) 4%, var(--surface)); }
 
-.bk-details { margin: 1.6rem 0; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); }
+/* Details: a disclosure whose summary is a row with a chevron that turns to point down when open. */
+.bk-details {
+  margin: 1.7rem 0; border: 1px solid var(--border); border-radius: 8px; background: var(--surface);
+  overflow: hidden; transition: border-color 140ms ease;
+}
+.bk-details:hover, .bk-details:focus-within { border-color: var(--border-strong); }
 .bk-details > summary {
-  display: flex; align-items: center; gap: 0.55rem; padding: 0.65rem 1rem;
-  cursor: pointer; list-style: none; border-radius: 6px;
+  display: flex; align-items: center; gap: 0.6rem; padding: 0.7rem 1rem 0.7rem 0.85rem;
+  cursor: pointer; list-style: none;
   font: 600 0.875rem/1.4 var(--font-sans); color: var(--text);
+  transition: background-color 140ms ease;
+  -webkit-tap-highlight-color: transparent;
 }
 .bk-details > summary::-webkit-details-marker { display: none; }
-.bk-details > summary::before {
-  content: ""; flex-shrink: 0; width: 0.45rem; height: 0.45rem;
-  border-right: 1.5px solid var(--text-muted); border-bottom: 1.5px solid var(--text-muted);
-  transform: rotate(-45deg); transition: transform 150ms ease;
+.bk-details > summary::marker { content: ""; }
+.bk-details > summary:focus-visible { outline-offset: -2px; border-radius: 8px; }
+.bk-details-chev {
+  flex-shrink: 0; width: 0.95rem; height: 0.95rem; color: var(--text-muted);
+  transition: transform 180ms cubic-bezier(0.2, 0, 0, 1), color 140ms ease;
 }
-.bk-details[open] > summary::before { transform: rotate(45deg); }
-.bk-details[open] > summary { border-bottom: 1px solid var(--border); border-radius: 6px 6px 0 0; }
+.bk-details[open] > summary .bk-details-chev { transform: rotate(90deg); color: var(--accent-ink); }
+.bk-details > summary:hover .bk-details-chev { color: var(--text); }
+.bk-details-summary { flex: 1 1 auto; min-width: 0; }
+.bk-details > summary::after {
+  content: "Show"; margin-left: auto; flex-shrink: 0;
+  font: 500 0.66rem/1 var(--font-sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted);
+}
+.bk-details[open] > summary::after { content: "Hide"; }
 .bk-details > summary:hover { background: var(--surface-sunken); }
-.bk-details-body { padding: 0.9rem 1.1rem 1.05rem; }
+.bk-details[open] > summary { border-bottom: 1px solid var(--border); }
+.bk-details-body { padding: 1rem 1.2rem 1.1rem; font-size: 0.97em; }
 .bk-details-body > * + * { margin-top: 0.8em; }
+.bk-details-body > .bk-code:first-child { margin-top: 0; }
+/* code or a data table inside a disclosure keeps to the panel's own width */
+.bk-details-body .bk-code { max-width: 100%; }
 
 .cite a { color: inherit; text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 0.18em; }
 .cite a:hover { color: var(--accent-ink); text-decoration-color: var(--accent); }

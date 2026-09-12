@@ -1,8 +1,6 @@
-A survey declaration can be wrong even when the estimate looks plausible. Two declarations show how.
+Every September the Census Bureau publishes the share of Americans who went without health insurance for the whole of the previous year, estimated from the Current Population Survey's Annual Social and Economic Supplement, and every September someone sets out to reproduce it. The 2025 file gives them what IPUMS documents: the person weight `ASECWT` and its <Fact id="ch8.asec_n_reps" /> replicate weights. Ask `svy` (version `0.28`, the version tested here) for the share uninsured in calendar 2024 twice, once with the default estimation call and once with `method="replication"` and `variance_center="estimate"`. Both calls return <Fact id="ch8.asec_uninsured" />. Both look like a successful replication. The default call reports <Fact id="ch8.asec_df_default" /> degrees of freedom and a standard error of <Fact id="ch8.asec_se_default" /> percentage points; the replication call reports <Fact id="ch8.asec_df" /> degrees of freedom and <Fact id="ch8.asec_se_rep" />, <Fact id="ch8.asec_se_ratio" /> the default value. Only the second matches the Census Bureau's formula computed by hand. The first number gives the default call away: it ignored the declared replicate weights and linearized as if every person were an independent draw, so its degrees of freedom are the sample size minus one. The interval is <Fact id="ch8.asec_uninsured" ci />. Nothing warned. Declaring a design and using it are different steps, and a year-over-year change that clears the first standard error need not clear the second.
 
-The CPS ASEC 2025 declaration, as IPUMS documents it, names the person weight `ASECWT` and its <Fact id="ch8.asec_n_reps" /> replicate weights. Ask `svy` (version `0.28`, the version tested here) for the share of people uninsured for all of calendar 2024, once with the default estimation call and once with `method="replication"` and `variance_center="estimate"`. Both calls return <Fact id="ch8.asec_uninsured" />. The default call reports <Fact id="ch8.asec_df_default" /> degrees of freedom; the replication call reports <Fact id="ch8.asec_df" />. The first number gives the default call away: it ignored the declared replicate weights and linearized as if every person were an independent draw, so its degrees of freedom are the sample size minus one. Declaring a design and using it are different steps. The standard error moves from <Fact id="ch8.asec_se_default" /> to <Fact id="ch8.asec_se_rep" /> percentage points, <Fact id="ch8.asec_se_ratio" /> the default value, and the replicate value matches the Census Bureau's formula computed by hand. The interval is <Fact id="ch8.asec_uninsured" ci />. Nothing warned.
-
-Declare BRFSS 2024 as CDC documents it: the final weight, the strata `_STSTR`, and the PSU `_PSU`. Ask for any national prevalence and R's `survey` package stops, and `svy` raises a `SingletonError`: <Fact id="ch8.brfss_singletons" /> strata in the full national file hold a single respondent, and a stratum with one PSU has no within-stratum variation to measure. Code that silently skips such strata, as many hand-rolled formulas do, treats them as contributing no variance at all. The declaration is incomplete until it includes a rule for single-PSU strata.
+The second failure is loud. Declare BRFSS 2024 as CDC documents it, with the final weight, the strata `_STSTR`, and the PSU `_PSU`, and ask for any national prevalence. R's `survey` package stops, and `svy` raises a `SingletonError`: <Fact id="ch8.brfss_singletons" /> strata in the full national file hold a single respondent, and a stratum with one PSU has no within-stratum variation to measure. Code that silently skips such strata, as many hand-rolled formulas do, treats them as contributing no variance at all. The declaration is incomplete until it includes a rule for single-PSU strata.
 
 The six guides below each declare one current release: what it is and whom it covers, which weight, which variance method with which constant and degrees of freedom, what to do about lonely PSUs and pooled years, where the series break, and the traps that catch careful analysts. The chapter's build script generates them from the data pipeline's design manifests, the producers' documentation, and counts taken from the data, and every item says where it came from. Jump to a survey: [ACS](#acs-2024-1-year), [CPS ASEC](#cps-asec-2025), [NHIS](#nhis-2024), [ATUS](#atus-2024), [NHANES](#nhanes-august-2021august-2023), [BRFSS](#brfss-2024).
 
@@ -17,13 +15,23 @@ Each guide is a table with three columns: the item, the declaration, and its pro
 - **verified in this build**: a behavior the build script confirmed by running code.
 - **book guidance**: an editorial recommendation where neither manifest nor producer states a rule.
 
-Each guide is followed by its declaration in three dialects. The Python (`svy`) and R (`survey`) declarations for NHIS, NHANES, BRFSS, ATUS, and CPS ASEC were executed against the book's store by the build script and give the same estimates and standard errors in both languages. The ACS declarations were not run on the full replicate file, which is three gigabytes; their calls were checked on a synthetic frame with the same column names. The Stata declarations follow the producers' published examples and were not executed, because Stata is not installed on the build machine. Paths point at the book's store; adapt them to your own extract.
+Each guide carries its declaration in three dialects, folded into a block below the table. The Python (`svy`) and R (`survey`) declarations for NHIS, NHANES, BRFSS, ATUS, and CPS ASEC were executed against the book's store by the build script and give the same estimates and standard errors in both languages. The ACS declarations were checked on a synthetic frame with the same column names, not on the three-gigabyte replicate file. The Stata declarations follow the producers' published examples and were not executed, because Stata is not installed on the build machine.
 
-A variance tier is a property of the extract, not a choice. Replicate designs (ACS, CPS ASEC) and Taylor designs (NHIS, NHANES, BRFSS) support design-based uncertainty. The book's ATUS extract carries weights only, so a standard error computed from it ignores the design and is not a design-based standard error; nothing in the extract says whether it errs high or low. ATUS can carry an estimand lesson in this book, but not an uncertainty lesson.
+A variance tier is a property of the extract, not a choice. Replicate designs (ACS, CPS ASEC) and Taylor designs (NHIS, NHANES, BRFSS) support design-based uncertainty. The book's ATUS extract carries weights only, so a standard error computed from it is not design-based, and nothing in the extract says whether it errs high or low.
+
+<Details summary="Variable names in the code">
 
 The code mixes three kinds of name, and a copy has to keep them apart. In the ACS, CPS ASEC, NHIS, and ATUS snippets, UPPERCASE names are IPUMS variables. In the NHANES snippets they are NCHS names, except `CYCLE_YEAR`, which the book's store adds. The BRFSS snippets use the store's names: `xststr`, `xpsu`, and `xllcpwt` are CDC's `_STSTR`, `_PSU`, and `_LLCPWT`, and `iyear` and `Health` are harmonized store variables; `Health` has two levels, and `"Poor"` means fair or poor. Lowercase outcomes such as `uninsured`, `uninsured_ly`, `current_smoker`, and `htn_measured` are derived in the store, and `fairpoor` is built in the snippet itself; an extract of your own has to define them. Within each survey, the three languages use the same target, the same rule for missing outcomes, and the same variance method.
 
+</Details>
+
 ## Six surveys at a glance
+
+<Callout kind="predict" title="Predict first">
+
+The ACS has by far the most records of the six surveys and NHANES examines the fewest people. Rank the six by design degrees of freedom, the number of independent pieces of design information each release carries. Is the order the same as the order of record counts?
+
+</Callout>
 
 <Figure n="8.1" caption="Design degrees of freedom differ by four orders of magnitude across six surveys that are all called complex; the number of records says little about the number of independent units." width="wide">
   <Chart id="ch8.surveys_at_a_glance" />
@@ -33,11 +41,15 @@ Figure 8.1 separates things that the phrase "complex survey" lumps together. Two
 
 ## ACS 2024 1-year
 
-The American Community Survey's 2024 1-year sample holds <Fact id="ch8.acs_n_persons" /> person records in the IPUMS extract. Its public design lives entirely in replicate weights: <Fact id="ch8.acs_n_reps" /> person weights and as many household weights, built by successive difference replication. The variance is the constant <Fact id="ch8.acs_scale" /> times the sum of squared deviations of the replicate estimates from the full-sample estimate, with <Fact id="ch8.acs_df" /> degrees of freedom. There are no strata or PSUs to declare alongside them: IPUMS says to treat the sample as a single stratum. Person estimates use `PERWT`; household estimates use `HHWT` on the first person of each household. Figure 8.2 lists each item of the declaration with its provenance.
+The American Community Survey is the annual census in miniature: the source of the country's small-area statistics on income, commuting, housing, and coverage, and the sample behind Chapters 4 to 6 of this book. The trap that catches careful analysts is the published margin of error. The public-use microdata are a subsample of the full ACS, so a correct replicate standard error from the PUMS will not reproduce the margin the Census Bureau publishes from the full sample, and an analyst who reads the gap as a failed replication goes looking for a bug that is not there.
+
+The 2024 1-year sample holds <Fact id="ch8.acs_n_persons" /> person records in the IPUMS extract. Its public design lives entirely in replicate weights: <Fact id="ch8.acs_n_reps" /> person weights and as many household weights, built by successive difference replication. The variance is the constant <Fact id="ch8.acs_scale" /> times the sum of squared deviations of the replicate estimates from the full-sample estimate, with <Fact id="ch8.acs_df" /> degrees of freedom. There are no strata or PSUs to declare alongside them: IPUMS says to treat the sample as a single stratum. Person estimates use `PERWT`; household estimates use `HHWT` on the first person of each household. Figure 8.2 lists each item of the declaration with its provenance.
 
 <Figure n="8.2" caption="The ACS declaration is carried by replicate weights alone: no strata or PSUs, a fixed variance constant, and degrees of freedom set by the number of replicates.">
   <Chart id="ch8.guide_acs" />
 </Figure>
+
+<Details summary="Declare it in Python, R, and Stata">
 
 ```python
 # Paths point at the book's store; adapt them to your own extract.
@@ -93,15 +105,21 @@ svyset [pweight=perwt], vce(sdr) sdrweight(repwtp1-repwtp80) dof(79) mse
 svy: mean uninsured
 ```
 
-Two traps deserve more than a table row. The first is the `svy` default call, which ignores declared replicate weights: the build script confirmed it on frames laid out like the ACS and the ASEC, and the assertion in the snippet turns the silent failure into a loud one. The second is that the PUMS is a subsample of the full ACS, so a correct replicate standard error from the PUMS will not reproduce the margin of error the Census Bureau publishes from the full sample. That is a different estimate, not a failed replication.
+</Details>
+
+One more trap deserves more than a table row: the `svy` default call, which ignores declared replicate weights. The build script confirmed it on frames laid out like the ACS and the ASEC, and the assertion in the Python declaration turns the silent failure into a loud one.
 
 ## CPS ASEC 2025
 
-The Annual Social and Economic Supplement is fielded in the first months of the year and asks about the year before: the 2025 file describes income, poverty, and coverage in calendar 2024. The IPUMS extract has <Fact id="ch8.asec_n_persons" /> person records with a positive supplement weight. Its <Fact id="ch8.asec_n_reps" /> replicate weights combine successive difference replication in self-representing strata with modified half-sample replication elsewhere; the variance constant is <Fact id="ch8.asec_scale" />, and the degrees of freedom are <Fact id="ch8.asec_df" />. Some replicate weights are negative. They are legitimate for variance estimation, which is why IPUMS declares them as importance weights in Stata (Figure 8.3).
+The Annual Social and Economic Supplement is the source of the official income, poverty, and health-insurance statistics; it is fielded in the first months of the year and asks about the year before, so the 2025 file describes calendar 2024. Its trap is the sign of the replicate weights. Some are negative, Stata refuses negative probability weights, and an analyst who meets the error is tempted to truncate or drop the offending replicates. They are legitimate for variance estimation, which is why IPUMS declares them as importance weights in Stata (Figure 8.3).
+
+The IPUMS extract has <Fact id="ch8.asec_n_persons" /> person records with a positive supplement weight. Its <Fact id="ch8.asec_n_reps" /> replicate weights combine successive difference replication in self-representing strata with modified half-sample replication elsewhere; the variance constant is <Fact id="ch8.asec_scale" />, and the degrees of freedom are <Fact id="ch8.asec_df" />.
 
 <Figure n="8.3" caption="CPS ASEC 2025 needs all 160 replicate weights, deviations taken from the full-sample estimate, and Stata iweights because some replicate weights are negative.">
   <Chart id="ch8.guide_cps_asec" />
 </Figure>
+
+<Details summary="Declare it in Python, R, and Stata">
 
 ```python
 # Paths point at the book's store; adapt them to your own extract.
@@ -156,17 +174,25 @@ svyset [iweight=asecwt], sdrweight(repwtp1-repwtp160) vce(sdr) dof(159) mse
 svy: mean uninsured_ly
 ```
 
-The `svy` call has a second option that matters. With `method="replication"` alone, `svy` centers the replicate deviations on the mean of the replicates rather than on the full-sample estimate. The Census formula uses the full-sample estimate, which is what `variance_center="estimate"` and R's `mse = TRUE` select; the two versions differ slightly, and only one of them is the producer's. One more `svy 0.28` behavior, verified in this build: once the replication method is requested, it honors the `scale` and `df` arguments of its replicate-weight specification. Only the default call ignores the specification, and it ignores all of it.
+Two `svy 0.28` behaviors were verified in the build. Once the replication method is requested, `svy` honors the `scale` and `df` arguments of its replicate-weight specification; only the default call ignores the specification, and it ignores all of it. And with `method="replication"` alone, `svy` centers the replicate deviations on the mean of the replicates rather than on the full-sample estimate; the Census formula uses the full-sample estimate, which is what `variance_center="estimate"` and R's `mse = TRUE` select.
+
+</Details>
+
+The centering is not a software detail. Deviations taken from the replicate mean and from the full-sample estimate give slightly different variances, and only the second is the producer's.
 
 ## NHIS 2024
 
-The National Health Interview Survey is a Taylor-linearization design (Figure 8.4). The 2024 public file holds <Fact id="ch8.nhis_n_adults" /> sample adults and <Fact id="ch8.nhis_n_children" /> sample children, each with a weight that sums to the adult or child population. The design has <Fact id="ch8.nhis_strata" /> strata and <Fact id="ch8.nhis_psus" /> PSUs, so the common rule of PSUs minus strata gives <Fact id="ch8.nhis_df" /> degrees of freedom. NCHS cautions that the rule is not directly applicable to the NHIS design and that it depends on the variable, and says a normal approximation may be adequate when a variable is spread across most clusters.
+The National Health Interview Survey is the principal source on the health of the civilian noninstitutionalized population: coverage, conditions, access, and behaviors such as smoking, reported quarterly. Its trap is in the PSU codes. There are only <Fact id="ch8.nhis_psu_codes" /> distinct codes, reused across strata, so a PSU is identified by the pair of stratum and PSU, and code that groups or clusters on the PSU code alone merges areas from different strata without a warning.
 
-The trap is in the PSU codes. There are only <Fact id="ch8.nhis_psu_codes" /> distinct codes, reused across strata, so a PSU is identified by the pair of stratum and PSU. `svy` nests PSU codes within the declared strata on its own, and R's `svydesign` stops with an error unless told `nest = TRUE`; both behaviors were confirmed by the build. Code that groups or clusters on the PSU code alone gets no warning. For adult current cigarette smoking, <Fact id="ch8.nhis_smoking" ci />, the declared design gives a standard error of <Fact id="ch8.nhis_se_taylor" /> percentage points. A cluster-robust shortcut on the stratum-PSU key gives <Fact id="ch8.nhis_se_crv1" />, <Fact id="ch8.nhis_crv1_ratio" /> the design-based standard error, because it ignores the strata and so omits the stratification gain ([Appendix B](/appendix-b-derivations)). Clustering on the PSU code alone, which merges PSUs from different strata, gives <Fact id="ch8.nhis_se_label" />, <Fact id="ch8.nhis_label_ratio" /> the design-based figure, and nothing about it looks wrong.
+The 2024 public file holds <Fact id="ch8.nhis_n_adults" /> sample adults and <Fact id="ch8.nhis_n_children" /> sample children, each with a weight that sums to the adult or child population. The design has <Fact id="ch8.nhis_strata" /> strata and <Fact id="ch8.nhis_psus" /> PSUs, so the common rule of PSUs minus strata gives <Fact id="ch8.nhis_df" /> degrees of freedom. NCHS cautions that the rule is not directly applicable to the NHIS design and that it depends on the variable, and says a normal approximation may be adequate when a variable is spread across most clusters (Figure 8.4).
+
+The cost of the PSU trap is measurable. For adult current cigarette smoking, <Fact id="ch8.nhis_smoking" ci />, the declared design gives a standard error of <Fact id="ch8.nhis_se_taylor" /> percentage points. A cluster-robust shortcut on the stratum-PSU key gives <Fact id="ch8.nhis_se_crv1" />, <Fact id="ch8.nhis_crv1_ratio" /> the design-based standard error, because it ignores the strata and so omits the stratification gain ([Appendix B](/appendix-b-derivations)). Clustering on the PSU code alone gives <Fact id="ch8.nhis_se_label" />, <Fact id="ch8.nhis_label_ratio" /> the design-based figure, and nothing about it looks wrong. `svy` nests PSU codes within the declared strata on its own, and R's `svydesign` stops with an error unless told `nest = TRUE`; both behaviors were confirmed by the build.
 
 <Figure n="8.4" caption="NHIS 2024 is a Taylor design whose PSU codes repeat across strata: every declaration must nest PSUs within strata, and pooled years keep the same PSUs.">
   <Chart id="ch8.guide_nhis" />
 </Figure>
+
+<Details summary="Declare it in Python, R, and Stata">
 
 ```python
 # Paths point at the book's store; adapt them to your own extract.
@@ -207,21 +233,25 @@ svyset psu [pweight=sampweight], strata(strata) vce(linearized) singleunit(cente
 svy, subpop(if astatflg==1): mean current_smoker
 ```
 
-The cast in the Python declaration is another verified trap: `svy 0.28` raises an error when a `where=` condition refers to an 8- or 16-bit integer column, as the IPUMS status flags are stored. The outcome itself may stay narrow. The estimate is a domain estimate, declared on the whole file and restricted with `where=`; every PSU keeps adults, so here it equals the estimate on the adult rows, and the build confirms that it does.
+The cast in the Python declaration is a verified trap of its own: `svy 0.28` raises an error when a `where=` condition refers to an 8- or 16-bit integer column, as the IPUMS status flags are stored. The outcome itself may stay narrow.
 
-Two more rules complete the declaration. Every stratum in the full 2024 file has at least <Fact id="ch8.nhis_min_psus" /> PSUs, so single-PSU strata arise only in small domains, where the manifest's rule (centering, equivalent to R's `adjust`) applies and PSUs retained should be reported beside the standard error. And <Fact id="ch8.nhis_shared_psus" /> of the 2024 PSUs also appear in 2023, because the 2016–2025 design keeps its areas for the decade. NCHS therefore pools years by dividing the weight by the number of years and keeping the stratum and PSU identifiers as they are. Treating each year's PSUs as separate clusters would treat recurring areas as independent.
+</Details>
+
+The smoking estimate is a domain estimate, declared on the whole file and restricted to sample adults; every PSU keeps adults, so it equals the estimate on the adult rows, and the build confirms that it does. Two more rules complete the declaration. Every stratum in the full 2024 file has at least <Fact id="ch8.nhis_min_psus" /> PSUs, so single-PSU strata arise only in small domains, where the manifest's rule (centering, equivalent to R's `adjust`) applies and PSUs retained should be reported beside the standard error. And <Fact id="ch8.nhis_shared_psus" /> of the 2024 PSUs also appear in 2023, because the 2016–2025 design keeps its areas for the decade. NCHS therefore pools years by dividing the weight by the number of years and keeping the stratum and PSU identifiers as they are. Treating each year's PSUs as separate clusters would treat recurring areas as independent.
 
 <Ledger id="ch8.nhis_smoking" />
 
 ## ATUS 2024
 
-The American Time Use Survey interviews one person per household, drawn from households that have finished their final CPS interview, about a single designated day. The 2024 file has <Fact id="ch8.atus_n" /> respondents (Figure 8.5). The design assigns a quarter of the sample to each weekend day and a tenth to each weekday, and the weight, `WT06`, returns weekdays to about five-sevenths of person-days. It sums to person-days, not persons: an average over the weighted file is an average over days.
+The American Time Use Survey is the country's only continuous record of how people spend their days, and the source of the "how much do Americans work" estimands of Chapter 1. Its trap is the unit. The weight `WT06` sums to person-days, not persons, so an average over the weighted file is an average over days, and a standard error computed from the book's extract, which carries no design variables, is not a design-based standard error however carefully it is labeled.
 
-The book's extract carries no strata, PSUs, or replicate weights, so any standard error computed from it treats diary days as a weighted sample of independent draws. That is not a design-based standard error, and it can miss the design variance in either direction. BLS and IPUMS supply <Fact id="ch8.atus_n_reps" /> replicate weights for each final weight; the variance is <Fact id="ch8.atus_scale" /> times the sum of squared deviations from the full-sample estimate, the four coming from replicate factors of $$1.7$$, $$1.0$$, and $$0.3$$. The declaration below shows both the store's weights-only form and the replicate form to use once the replicate weights are added to the extract.
+The survey interviews one person per household, drawn from households that have finished their final CPS interview, about a single designated day; the 2024 file has <Fact id="ch8.atus_n" /> respondents (Figure 8.5). The design assigns a quarter of the sample to each weekend day and a tenth to each weekday, and the weight returns weekdays to about five-sevenths of person-days. BLS and IPUMS supply <Fact id="ch8.atus_n_reps" /> replicate weights for each final weight; the variance is <Fact id="ch8.atus_scale" /> times the sum of squared deviations from the full-sample estimate, the four coming from replicate factors of $$1.7$$, $$1.0$$, and $$0.3$$. The declaration shows both the store's weights-only form and the replicate form to use once the replicate weights are added to the extract.
 
 <Figure n="8.5" caption="The book's ATUS extract supports only weights-only standard errors, which ignore the design; the producer's replicate weights restore a design-based variance.">
   <Chart id="ch8.guide_atus" />
 </Figure>
+
+<Details summary="Declare it in Python, R, and Stata">
 
 ```python
 # Paths point at the book's store; adapt them to your own extract.
@@ -268,17 +298,23 @@ svyset [pweight=wt06]
 svy: mean bls_work
 ```
 
+</Details>
+
 The 2020 file needs its own weight, `WT20`, because collection stopped from mid-March to early May; it represents only the days covered, and it must never be spliced into the same column as `WT06`.
 
 ## NHANES August 2021–August 2023
 
-NHANES interviews people at home and examines them in a mobile center, and the two stages have different weights. In the August 2021–August 2023 cycle <Fact id="ch8.nhanes_n_int" /> people were interviewed and <Fact id="ch8.nhanes_n_exam" /> of them examined. Examination variables, and laboratory variables measured on every examinee, use the exam weight `WTMEC2YR`, alone or combined with interview variables; interview-only analyses use `WTINT2YR`. Analytes measured on a subsample carry their own weights, such as the fasting subsample's `WTSAF2YR`, and this release adds a phlebotomy weight. NCHS's rule is to use the weight of the smallest subsample whose variables enter the analysis (Figure 8.6 lists the alternates). The public design is masked: <Fact id="ch8.nhanes_strata" /> pseudo-strata of two pseudo-PSUs each, <Fact id="ch8.nhanes_psus" /> in all, which leaves <Fact id="ch8.nhanes_df" /> design degrees of freedom however many people are examined (Figure 8.6).
+NHANES is the one national survey that measures rather than asks: it interviews people at home and then examines them in a mobile center, which is why the hypertension figures of Chapter 3 rest on blood-pressure readings instead of self-report. Its trap is the calendar. Two earlier files overlap, the 2017–2018 cycle and the 2017–March 2020 pre-pandemic file, and they cover the same field period with different participant numbers; an analyst who stacks them to gain sample size counts the same people twice.
 
-This cycle is not a continuation of earlier ones. It dropped the oversampling by race, Hispanic origin, and income, selected everyone aged 0 to 19 or 60 and older in a sampled household, used a self-administered screener, and had much lower response rates; NCHS's assessment found no major bias that weighting did not address. Blood pressure has been measured with an oscillometric device since 2017, which reads lower than the earlier auscultatory method. And two earlier files overlap: the 2017–2018 cycle and the 2017–March 2020 pre-pandemic file cover the same field period with different participant numbers, so they must never be analyzed together.
+In the August 2021–August 2023 cycle <Fact id="ch8.nhanes_n_int" /> people were interviewed and <Fact id="ch8.nhanes_n_exam" /> of them examined, and the two stages have different weights. Examination variables, and laboratory variables measured on every examinee, use the exam weight `WTMEC2YR`, alone or combined with interview variables; interview-only analyses use `WTINT2YR`. Analytes measured on a subsample carry their own weights, such as the fasting subsample's `WTSAF2YR`, and this release adds a phlebotomy weight. NCHS's rule is to use the weight of the smallest subsample whose variables enter the analysis (Figure 8.6 lists the alternates). The public design is masked: <Fact id="ch8.nhanes_strata" /> pseudo-strata of two pseudo-PSUs each, <Fact id="ch8.nhanes_psus" /> in all, which leaves <Fact id="ch8.nhanes_df" /> design degrees of freedom however many people are examined.
+
+This cycle is not a continuation of earlier ones. It dropped the oversampling by race, Hispanic origin, and income, selected everyone aged 0 to 19 or 60 and older in a sampled household, used a self-administered screener, and had much lower response rates; NCHS's assessment found no major bias that weighting did not address. Blood pressure has been measured with an oscillometric device since 2017, which reads lower than the earlier auscultatory method.
 
 <Figure n="8.6" caption="NHANES August 2021–August 2023 has two pseudo-PSUs per pseudo-stratum, so its design degrees of freedom are few, and its weight depends on whether a variable comes from the interview or the exam.">
   <Chart id="ch8.guide_nhanes" />
 </Figure>
+
+<Details summary="Declare it in Python, R, and Stata">
 
 ```python
 # Paths point at the book's store; adapt them to your own extract.
@@ -316,17 +352,21 @@ svyset sdmvpsu [pweight=wtmec2yr], strata(sdmvstra) vce(linearized)
 svy, subpop(if ridageyr>=18 & wtmec2yr>0): mean htn_measured
 ```
 
+</Details>
+
 With so few degrees of freedom, the choice between a normal and a t interval is not cosmetic, and a domain that loses a PSU in any stratum loses a real share of the design. Keep R's default lonely-PSU setting, which stops, so that a collapsed stratum is noticed rather than absorbed.
 
 ## BRFSS 2024
 
-BRFSS is a telephone survey run by the states, designed for state-level estimates. The 2024 public file has <Fact id="ch8.brfss_n" /> respondents in <Fact id="ch8.brfss_jurisdictions" /> jurisdictions: 49 states, the District of Columbia, Guam, Puerto Rico, and the US Virgin Islands. Tennessee could not collect enough data to meet the minimum requirements, so a national estimate from this file describes adults in participating jurisdictions and should be labeled that way. Coverage changes from year to year: the 2023 file omits Kentucky and Pennsylvania, and the 2021 file omits Florida.
+The Behavioral Risk Factor Surveillance System is a telephone survey run by the states, designed for state-level estimates of health behaviors and conditions, and pooled into the largest health survey in the country. Its trap is the word "national". Tennessee could not collect enough data to meet the minimum requirements in 2024, so an estimate from this file describes adults in participating jurisdictions and should be labeled that way; coverage changes from year to year, since the 2023 file omits Kentucky and Pennsylvania and the 2021 file omits Florida.
 
-The weight is built in stages. A design weight combines the telephone stratum's weight, the number of adults in the household, and the number of landline phones; respondents reachable on both landline and cell phone get a compositing adjustment; the combined design weights are truncated within regions; and the result is raked to state population margins, with age by sex last. The book's store keeps only the final weight; [Chapter 2](/ch02-weights) rebuilds the chain from the raw file. The variance design has <Fact id="ch8.brfss_strata" /> strata and <Fact id="ch8.brfss_psus" /> PSUs, one per respondent, which gives <Fact id="ch8.brfss_df" /> design degrees of freedom. BRFSS uncertainty comes from weighting and stratification, not from clustering: the opposite of NHANES (Figure 8.7).
+The 2024 public file has <Fact id="ch8.brfss_n" /> respondents in <Fact id="ch8.brfss_jurisdictions" /> jurisdictions: 49 states, the District of Columbia, Guam, Puerto Rico, and the US Virgin Islands. The weight is built in stages. A design weight combines the telephone stratum's weight, the number of adults in the household, and the number of landline phones; respondents reachable on both landline and cell phone get a compositing adjustment; the combined design weights are truncated within regions; and the result is raked to state population margins, with age by sex last. The book's store keeps only the final weight; [Chapter 2](/ch02-weights) rebuilds the chain from the raw file. The variance design has <Fact id="ch8.brfss_strata" /> strata and <Fact id="ch8.brfss_psus" /> PSUs, one per respondent, which gives <Fact id="ch8.brfss_df" /> design degrees of freedom. BRFSS uncertainty comes from weighting and stratification, not from clustering: the opposite of NHANES (Figure 8.7).
 
 <Figure n="8.7" caption="BRFSS 2024 describes adults in participating jurisdictions, not the whole country; every respondent is a PSU, and single-respondent strata make a lonely-PSU rule part of the declaration.">
   <Chart id="ch8.guide_brfss" />
 </Figure>
+
+<Details summary="Declare it in Python, R, and Stata">
 
 ```python
 # Paths point at the book's store; adapt them to your own extract.
@@ -370,11 +410,13 @@ svyset _psu [pweight=_llcpwt], strata(_ststr) vce(linearized) singleunit(centere
 svy: mean fairpoor
 ```
 
+</Details>
+
 Module questions asked on only some questionnaire versions need the version weights, and states that used more than one version need their weights combined in proportion to sample size, as CDC's module documentation shows. Every measure in BRFSS is self-reported; weighting can repair who is represented, but not how they answered ([Chapter 3](/ch03-design)).
 
 ## Three worksheets
 
-The worksheets turn the book's argument into checklists. Each item is a decision to make and write down, not a box to tick for its own sake; the Analysis Ledger is where the answers go.
+Each item below is a decision to make and write down; the Analysis Ledger is where the answers go.
 
 ### Describing a population
 
@@ -425,7 +467,7 @@ Every sentence leaves a decision unstated: which population, which definition, w
 
 Each clause fills a field of the Analysis Ledger, and the referee's checklist below asks for the same fields.
 
-## Rosetta: svy, R, and Stata
+## The tools: svy, R, and Stata
 
 The same tasks in three languages. The `svy` column was checked against `svy 0.28` on this machine; the R column uses the `survey` package; the Stata column uses official `svy` syntax and was not executed.
 
@@ -467,4 +509,29 @@ Ten questions to ask of any survey-based result before it is submitted, each tie
 
 ## Keeping the guides current
 
-A guide is only as current as its "Last verified" row. The guides are rebuilt, not edited: when a producer revises a release, when the pipeline adds the machine-readable design fields that eleven of its manifests still lack, or when a new release is pinned, the build script regenerates every table and snippet and reruns the checks against the store. The American National Election Studies are the next guide to add. What the guides cannot do is certify an analysis. They fix the declaration, which is necessary for a defensible standard error and not sufficient for a defensible conclusion; the conclusion still depends on the estimand, the weights the estimator chose, and the repetition the analysis claims to describe.
+A guide is only as current as its "Last verified" row. The guides are rebuilt, not edited: when a producer revises a release, when the pipeline adds the machine-readable design fields most of its manifests still lack, or when a new release is pinned, the build script regenerates every table and snippet and reruns the checks. The American National Election Studies are the next guide to add.
+
+<Closing>
+
+<Learned>
+
+Six releases that are all called complex surveys carry their designs in three different places. The ACS and the CPS ASEC carry theirs entirely in replicate weights, with <Fact id="ch8.acs_df" /> and <Fact id="ch8.asec_df" /> degrees of freedom fixed by the producer. NHIS, NHANES, and BRFSS carry theirs in strata and PSUs, with <Fact id="ch8.nhis_df" />, <Fact id="ch8.nhanes_df" />, and <Fact id="ch8.brfss_df" /> degrees of freedom: a few dozen counties at one extreme, every respondent a PSU at the other. The book's ATUS extract carries no design at all. Record counts predict none of this.
+
+</Learned>
+
+<Changed>
+
+Running the declarations, rather than reading them, changed three of them. The `svy` default call ignores declared replicate weights, so the ASEC standard error rose to <Fact id="ch8.asec_se_ratio" /> its default value once the replication method was requested. NHIS PSU codes repeat across strata, so nesting is required, and a shortcut clustered on the PSU code alone reports a standard error <Fact id="ch8.nhis_label_ratio" /> the design-based one. BRFSS has <Fact id="ch8.brfss_singletons" /> single-respondent strata in the full file, so a lonely-PSU rule is part of the declaration, not a small-domain afterthought.
+
+</Changed>
+
+<NotEstablished>
+
+- **That the Stata declarations run.** They follow the producers' published examples and were not executed, because Stata is not installed on the build machine.
+- **That the ACS declarations behave on the full file.** They were checked on a synthetic frame with the same column names, not on the three-gigabyte replicate file.
+- **Any design-based uncertainty for ATUS.** The extract carries weights only; a standard error from it is not design-based and can err in either direction.
+- **That a correct declaration makes a defensible conclusion.** The guides fix the declaration, which is necessary for a defensible standard error and not sufficient; the conclusion still depends on the estimand, the weights the estimator chose, and the repetition the analysis claims to describe.
+
+</NotEstablished>
+
+</Closing>

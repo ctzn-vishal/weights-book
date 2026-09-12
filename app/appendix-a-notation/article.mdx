@@ -1,6 +1,8 @@
-One notation runs through the booklet, and it is stricter than software. Statistical packages call almost any column of positive numbers a weight; this book gives each kind of weight its own symbol and never reuses one for another.
+One notation runs through the booklet, and it is stricter than software. Stata will accept the ACS person weight as `[pweight=perwt]`, `[aweight=perwt]`, or `[fweight=perwt]` and return the same regression coefficient three times with three different standard errors, because the three keywords assert three different things about what the column means. This book gives each of those meanings its own symbol and never reuses one for another.
 
 ## The notation contract
+
+Nine symbols cover every weight the booklet uses. The first four are the stages of a survey weight, from the design's inclusion probability to the number shipped on the file; the next three are the other things software calls a weight; the last two are weights that an analysis constructs rather than receives.
 
 | Symbol | Name | What it is | Where it does its work |
 |---|---|---|---|
@@ -14,9 +16,9 @@ One notation runs through the booklet, and it is stricter than software. Statist
 | $$s_a$$ | standardization weight | the share of age group $$a$$ in a fixed standard population | Chapter 3 |
 | $$\omega_i$$ | implicit weight | the weight a regression places on unit $$i$$'s conditional effect | Chapters 4 and 5 |
 
-The symbol $$w$$ is never overloaded merely because software calls everything a weight. A frequency weight changes the number of observations; a precision weight changes the variance attributed to each observation; a survey weight changes the population a sum represents. The three can give the same point estimate and three different standard errors.
+A frequency weight changes the number of observations; a precision weight changes the variance attributed to each observation; a survey weight changes the population a sum represents. The three can give the same point estimate and three different standard errors, which is why $$w$$ is never overloaded.
 
-Supporting notation:
+The design and the regression each need a few more letters. A stratified two-stage survey has strata indexed by $$h$$ and PSUs by $$j$$; a cluster-robust variance has $$G$$ clusters of average size $$\bar m$$; a treatment-effect regression has cells $$x$$ with a treated share and a contrast in each.
 
 | Symbol | Meaning |
 |---|---|
@@ -50,6 +52,8 @@ Coverage honesty follows from the list: when a release omits a state, the target
 
 ## What software calls a weight
 
+IPUMS's Stata example for the CPS ASEC declares the replicate weights as `[iweight=]`, not `[pweight=]`, because some of them are negative and Stata refuses a negative probability weight. That is the clearest sign that a weight keyword is an assertion about the column, not a formatting choice. The table maps each keyword the booklet's three languages use to the symbol it asserts.
+
 | Software syntax | Symbol in this book | What the software assumes |
 |---|---|---|
 | Stata `[pweight=]` | $$w_i$$ | sampling weights; implies a robust (linearized) variance |
@@ -66,7 +70,7 @@ The table's lesson is narrow. A weighted regression coefficient is the same numb
 
 ## The master crosswalk
 
-Each row names one object in three dialects. The last column states the condition under which the translation holds; where a condition is missing, the translation is an analogy, not an identity.
+A survey statistician's primary sampling unit, an econometrician's cluster, and a trialist's unit of assignment are one object described in three seminar rooms; a stratum, by contrast, has no standard econometric name at all, which is one reason the stratification gain goes missing from cluster-robust standard errors. Each row of the table names one such object in the three dialects. The last column states the condition under which the translation holds; where a condition is missing, the translation is an analogy, not an identity.
 
 | Survey statistics | Econometrics | Causal inference | Condition or caveat |
 |---|---|---|---|
@@ -96,7 +100,7 @@ Each row names one object in three dialects. The last column states the conditio
 
 ## A note on the seed crosswalk
 
-The booklet began from an article that compared survey statistics and econometrics in a seven-row table. Readers do not need that article to use this appendix. Its table was right about the direction of the analogy and wrong in several of its equivalences, and the corrections are binding everywhere in the booklet.
+The booklet began from an article that compared survey statistics and econometrics in a seven-row table. Its table was right about the direction of the analogy and wrong in several of its equivalences; the corrections are binding everywhere in the booklet, and a reader does not need the article to use this appendix.
 
 <Details summary="The seven corrections, and one about NHANES">
 

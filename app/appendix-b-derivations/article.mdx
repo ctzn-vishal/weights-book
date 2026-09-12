@@ -1,4 +1,4 @@
-This appendix collects the derivations the chapters lean on. Each is scoped: it states the conditions under which the result holds and says what happens when a condition fails. None is new; the point is to have the conditions written next to the algebra. Every stated identity or approximation was also checked numerically on synthetic data built to satisfy its conditions; Figure B.1 at the end summarizes the checks.
+Five derivations carry the chapters' arguments, and none of them is new. What this appendix adds is the scope: each result is stated with the conditions under which it holds, next to the algebra, with a note on what happens when a condition fails. Every identity and approximation was also checked numerically on synthetic data built to satisfy its conditions; Figure B.1 at the end summarizes the checks.
 
 | Derivation | The question it answers | Used in | Kind of result and the condition that matters most |
 |---|---|---|---|
@@ -42,7 +42,7 @@ The right-hand side is a Horvitz–Thompson estimator of the total of the residu
 
 </Details>
 
-Conditions. The design must give every unit of the target population a positive, known $$\pi_i$$, and the weights must be $$1/\pi_i$$. Units with $$\pi_i = 0$$ are outside what any weighting can recover: that is coverage, not estimation. Responses must be complete and measured without error. Once the weights are $$w_i = d_i g_i$$ with nonresponse and calibration adjustments, the estimator is a calibration estimator: design-consistent under conditions on the control totals, approximately unbiased only if the response model holds, and its variance should reflect the calibration, either by linearizing with the calibration residuals or with replicate weights that repeat the weighting. The general statement, binding in the booklet, is that correct inclusion weights give design-unbiased or consistent estimators for *specified finite-population quantities*; which one depends on the estimand and the estimator.
+Conditions. The design must give every unit of the target population a positive, known $$\pi_i$$, and the weights must be $$1/\pi_i$$. Units with $$\pi_i = 0$$ are outside what any weighting can recover: that is coverage, not estimation. Responses must be complete and measured without error. Once the weights are $$w_i = d_i g_i$$ with nonresponse and calibration adjustments, the estimator is a calibration estimator: design-consistent under conditions on the control totals, approximately unbiased only if the response model holds, and with a variance that should reflect the calibration, either by linearizing with the calibration residuals or with replicate weights that repeat the weighting. The binding statement follows: correct inclusion weights give design-unbiased or consistent estimators for *specified finite-population quantities*, and which of the two depends on the estimand and the estimator.
 
 ## Taylor linearization for a ratio mean, and when it coincides with CRV1
 
@@ -99,7 +99,7 @@ Taylor linearization keeps only the within-stratum part, with the factors $$n_h/
 
 </Details>
 
-Conditions. The two are identical in a given sample with one stratum, the same clusters (PSUs nested in strata and identified by the stratum-PSU pair), the with-replacement approximation in both (no finite population correction), the same weights, and either an intercept-only model or acceptance of the $$(N_{\text{obs}} - 1)/(N_{\text{obs}} - K)$$ factor. With several strata they are not identical. When the strata do not predict the outcome, the two agree approximately in expectation over repeated samples, not sample by sample: CRV1's between-stratum term and Taylor linearization's larger finite-sample factors offset on average. When the strata do predict the outcome, CRV1 keeps between-stratum variation that the design removed, and it is conservative. Intervals also need matching degrees of freedom: PSUs minus strata for Taylor linearization, commonly $$G - 1$$ for CRV1. On real data the difference is visible. For adult cigarette smoking in NHIS 2024, CRV1 on the stratum-PSU key reproduces Taylor linearization with the strata ignored, and it is <Fact id="ch8.nhis_crv1_ratio" /> the Taylor standard error that uses the strata; clustering on the PSU code alone, which merges PSUs from different strata, gives <Fact id="ch8.nhis_label_ratio" /> ([Chapter 7](/ch08-field-guide#nhis-2024)).
+Conditions. The two are identical in a given sample with one stratum, the same clusters (PSUs nested in strata and identified by the stratum-PSU pair), the with-replacement approximation in both (no finite population correction), the same weights, and either an intercept-only model or acceptance of the $$(N_{\text{obs}} - 1)/(N_{\text{obs}} - K)$$ factor. With several strata they are not identical. When the strata do not predict the outcome, the two agree approximately in expectation over repeated samples, not sample by sample: CRV1's between-stratum term and Taylor linearization's larger finite-sample factors offset on average. When the strata do predict the outcome, CRV1 keeps between-stratum variation that the design removed, and it is conservative. Intervals also need matching degrees of freedom: PSUs minus strata for Taylor linearization, commonly $$G - 1$$ for CRV1. On real data the difference is visible. For adult cigarette smoking in NHIS 2024, CRV1 on the stratum-PSU key reproduces Taylor linearization with the strata ignored, and it is <Fact id="ch8.nhis_crv1_ratio" /> the Taylor standard error that uses the strata; clustering on the PSU code alone, which merges PSUs from different strata, gives <Fact id="ch8.nhis_label_ratio" /> ([Chapter 8](/ch08-field-guide#nhis-2024)).
 
 ## The Moulton factor as a special case
 
@@ -174,7 +174,13 @@ and $$\beta = \E[\tilde D Y]/\E[\tilde D^2]$$ averages these over the cells. In 
 
 The weights favor cells in which treatment is split evenly; cells in which nearly everyone or nearly no one is treated contribute almost nothing, whatever their size. The targets one might have wanted weight cells differently: a population average effect weights by $$\Pr(X{=}x)$$, the effect on the treated by $$\Pr(X{=}x \mid D{=}1)$$, which is proportional to $$\Pr(X{=}x)\,p_x$$. A constant $$\tau_x$$, or the same treated share in every cell, makes all three coincide. Equal treatment variance, the same $$p_x(1 - p_x)$$ in every cell, is weaker. It makes the regression's weights proportional to $$\Pr(X{=}x)$$, so the regression then targets the population average effect, but it does not bring the effect on the treated along: cells with treated shares $$p$$ and $$1 - p$$ have the same variance and different weights $$\Pr(X{=}x)\,p_x$$.
 
-**Additive controls alongside the cells.** Chapter 5 adds age, age squared, and sex to the cell dummies, entered additively: $$Y_i = \sum_x \alpha_x \mathbf{1}\{X_i = x\} + \beta D_i + Z_i'\gamma + e_i$$. The identity still holds exactly in sample, for adjusted outcomes. Because $$(\hat\alpha, \hat\beta, \hat\gamma)$$ minimizes the (weighted) sum of squared residuals jointly, $$(\hat\alpha, \hat\beta)$$ also minimizes it with $$\gamma$$ held at $$\hat\gamma$$. That restricted problem is the saturated regression of the adjusted outcome $$\tilde Y_i = Y_i - Z_i'\hat\gamma$$ on $$D_i$$ and the cell dummies, to which the derivation above applies, with or without survey weights. So $$\hat\beta$$ is the variance-weighted average of within-cell differences in mean adjusted outcomes. The contrasts are net of one profile $$Z_i'\hat\gamma$$ fitted on the whole sample, whose coefficients depend on how $$D$$ and $$Z$$ covary within cells; they are not the contrasts that separate regressions within each cell would give.
+Chapter 5 adds age, age squared, and sex to the cell dummies, entered additively. The identity survives, for adjusted outcomes.
+
+<Details summary="Derivation: additive controls alongside the cells">
+
+The model is $$Y_i = \sum_x \alpha_x \mathbf{1}\{X_i = x\} + \beta D_i + Z_i'\gamma + e_i$$. Because $$(\hat\alpha, \hat\beta, \hat\gamma)$$ minimizes the (weighted) sum of squared residuals jointly, $$(\hat\alpha, \hat\beta)$$ also minimizes it with $$\gamma$$ held at $$\hat\gamma$$. That restricted problem is the saturated regression of the adjusted outcome $$\tilde Y_i = Y_i - Z_i'\hat\gamma$$ on $$D_i$$ and the cell dummies, to which the derivation above applies, with or without survey weights. So $$\hat\beta$$ is the variance-weighted average of within-cell differences in mean adjusted outcomes, exactly in sample. The contrasts are net of one profile $$Z_i'\hat\gamma$$ fitted on the whole sample, whose coefficients depend on how $$D$$ and $$Z$$ covary within cells; they are not the contrasts that separate regressions within each cell would give.
+
+</Details>
 
 Survey weights change the distribution the average is taken over, not its form. Weighted least squares with inclusion weights replaces the sample's cell shares and treated shares with their population counterparts, so the survey-weighted coefficient estimates the population version of the variance-weighted average: the population linear projection coefficient of this saturated model, which in general is not the population average effect. Solon, Haider, and Wooldridge put the point in estimand terms: under unmodeled heterogeneity, weighting delivers the population projection rather than the population average of the heterogeneous effects, and the constructive response is to model the heterogeneity and then summarize it over the population of interest <Cite id="solon2015" />. A gap between the weighted and unweighted coefficients is then a diagnostic, of heterogeneity interacting with the design, of misspecification, or of endogenous sampling, rather than a verdict on which is right <Cite id="dumouchel1983" />.
 
@@ -188,7 +194,11 @@ Every cell's treatment effect is positive: one, one, and five. Can the OLS coeff
 
 </Callout>
 
-It can, once the control is linear and the treatment probability is not. Let $$L(X)$$ denote the linear projection of $$D$$ on $$(1, X)$$. If treatment is ignorable given $$X$$ and $$\E[Y(0) \mid X]$$ is linear in $$X$$, then
+It can, once the control is linear and the treatment probability is not: with three cells whose effects are one, one, and five, a linear control and a treatment probability that bends produce a negative coefficient.
+
+<Details summary="The arithmetic of a negative implicit weight">
+
+Let $$L(X)$$ denote the linear projection of $$D$$ on $$(1, X)$$. If treatment is ignorable given $$X$$ and $$\E[Y(0) \mid X]$$ is linear in $$X$$, then
 
 $$
 \beta_{\text{OLS}} = \frac{\E\left[p(X)\,\{1 - L(X)\}\,\tau(X)\right]}{\E\left[p(X)\,\{1 - L(X)\}\right]},
@@ -199,6 +209,8 @@ and the implicit weight $$p(x)\{1 - L(x)\}$$ is negative wherever $$L(x) \gt 1$$
 $$
 \beta_{\text{OLS}} = 0.140(1) + 1.131(1) - 0.271(5) \approx -0.086 .
 $$
+
+</Details>
 
 Every effect is positive and the coefficient is negative. Saturating the control restores the nonnegative weights $$p_x(1 - p_x)$$. With linear controls, the implied weights on individual units can also be negative, the regression extrapolating beyond the data, which is why they are worth computing <Cite id="chattopadhyay2023" />. The binding statement follows: equal case weights do not imply equal weighting of heterogeneous conditional effects.
 

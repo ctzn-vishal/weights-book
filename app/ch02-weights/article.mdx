@@ -1,46 +1,30 @@
 import { WeightBuilder } from '@/components/widgets/WeightBuilder'
 
-Among <Fact id="ch2.brfss_n_fmd" /> respondents to the 2024 Behavioral Risk Factor Surveillance System (BRFSS) who gave a valid count of poor mental health days, <Fact id="ch2.brfss_fmd_unweighted" /> reported frequent mental distress: 14 or more of the past 30 days on which their mental health was not good. Apply the final survey weight to the same answers and the estimate is <Fact id="ch2.brfss_fmd_final" ci />. No answer changed. How much each answer counted did.
+## One respondent, thousands of adults
 
-Frequent mental distress (FMD) is a self-reported count of days, not a clinical diagnosis. The respondents are adults in the 49 states and the District of Columbia that released 2024 data, and because only valid answers enter, the estimate describes prevalence among adults who would answer the question. BRFSS is the state-based telephone survey run by CDC and state health departments, and each record carries a final weight, `_LLCPWT`: the number of adults that respondent stands for. Where the <Fact id="ch2.brfss_fmd_gap_pp" /> percentage points between the two estimates come from is a question about how that weight was built.
+Somewhere in the 2024 Behavioral Risk Factor Surveillance System (BRFSS) file is a respondent who answered a telephone interviewer's questions and, in the estimates CDC publishes, stands for <Fact id="ch2.brfss_weight_max" /> adults. The median respondent stands for <Fact id="ch2.brfss_weight_median" />. The average Vermont respondent stands for <Fact id="ch2.brfss_mean_w_vt" /> adults and the average California respondent for <Fact id="ch2.brfss_mean_w_ca" />, because Vermont supplied <Fact id="ch2.brfss_n_vt" /> interviews and California <Fact id="ch2.brfss_n_ca" /> for adult populations of very different size. These numbers are the final weight, `_LLCPWT`, and across the <Fact id="ch2.brfss_n_target" /> respondents in the states and the District of Columbia they add up to <Fact id="ch2.brfss_weight_total" /> adults.
 
-## One survey, two prevalences
-
-Most analysts' first line of code returns the unweighted share:
-
-```python
-brfss.filter(pl.col("fmd").is_not_null())["fmd"].mean()
-```
-
-The line runs, and its result reads like a prevalence. It is the share of *respondents*, and respondents are not a sample in which every adult had the same chance of appearing.
+The weight decides how much each answer counts. Among the <Fact id="ch2.brfss_n_fmd" /> respondents who gave a valid count of poor mental health days, <Fact id="ch2.brfss_fmd_unweighted" /> reported frequent mental distress: 14 or more of the past 30 days on which their mental health was not good. Weighted, the same answers give <Fact id="ch2.brfss_fmd_final" ci />. No answer changed. The <Fact id="ch2.brfss_fmd_gap_pp" /> percentage points between the two figures come from the weight, and the weight is the product of five steps, each with its own reason. This chapter takes it apart step by step, asks how much of it can be rebuilt from the public file, and then asks what a person's weight means when it is no longer the inverse of a probability.
 
 <KeyNumber id="ch2.brfss_fmd_final" label="Frequent mental distress, adults in the 49 states and DC that released 2024 BRFSS data" />
 
-"Use the weight" settles which number to report. It does not say what the weight did. `_LLCPWT` is the last of five links, and CDC ships every intermediate weight on the public file, so the estimate can be computed at each link. The first three are design weights: they undo known differences in the chance of being sampled, arising from the telephone stratum, the number of adults and phones in the household, and the chance of being reachable on both a landline and a cell phone. The fourth truncates the design weight and puts it on the population scale. The fifth rakes the weights until they reproduce population totals by age, sex, race and ethnicity, education, and other characteristics, state by state.
+Frequent mental distress (FMD) is a self-reported count of days, not a clinical diagnosis. BRFSS is the state-based telephone survey run by CDC and state health departments, and every record carries the final weight along with every intermediate weight, so the estimate can be computed at each step of the construction. The first three steps are design weights: they undo known differences in the chance of being sampled, arising from the telephone stratum, the number of adults and phones in the household, and the chance of being reachable on both a landline and a cell phone. The fourth truncates the design weight and puts it on the population scale. The fifth rakes the weights until they reproduce population totals by age, sex, race and ethnicity, education, and other characteristics, state by state.
+
+## Five links in a chain
 
 <Callout kind="predict" title="Predict first">
+
 Young adults report frequent mental distress more often than older adults and are harder to reach and interview. Which link do you expect to move the estimate most, and in which direction? Does every link push the same way?
+
 </Callout>
 
 <Figure n="2.1" caption="The estimate moves at every link of the weight chain, in both directions, and the final raking step moves it most. Only the final value is an estimate; the intermediate values are diagnostics.">
 <Chart id="ch2.waterfall" />
 </Figure>
 
-### What moved the estimate
+The path is not monotone (Figure 2.1). The stratum weight raises the estimate from <Fact id="ch2.brfss_fmd_unweighted" /> to <Fact id="ch2.brfss_fmd_strwt" />. The adults-and-phones factor lowers it to <Fact id="ch2.brfss_fmd_wt2rake" />. The dual-frame factor raises it to <Fact id="ch2.brfss_fmd_composite" />. The raking input lowers it to <Fact id="ch2.brfss_fmd_llcpwt2" />. Raking lifts it to <Fact id="ch2.brfss_fmd_final" />.
 
-The path is not monotone (Figure 2.1):
-
-1. The stratum weight raises the estimate from <Fact id="ch2.brfss_fmd_unweighted" /> to <Fact id="ch2.brfss_fmd_strwt" />.
-2. The adults-and-phones factor lowers it to <Fact id="ch2.brfss_fmd_wt2rake" />.
-3. The dual-frame factor raises it to <Fact id="ch2.brfss_fmd_composite" />.
-4. The raking input lowers it to <Fact id="ch2.brfss_fmd_llcpwt2" />.
-5. Raking lifts it to <Fact id="ch2.brfss_fmd_final" />.
-
-The figure keeps three kinds of value apart: the unweighted share, the design stages rebuilt from public variables, and the two weights CDC supplies but a user cannot rebuild. The design stages are not even on the population scale. Summed over respondents, `_STRWT` totals <Fact id="ch2.brfss_strwt_total" />: telephone numbers thinned by nonresponse, not adults. At that scale the dual-frame factor cuts the weighted share of dual users from <Fact id="ch2.share_dual_wt2rake" /> to <Fact id="ch2.share_dual_composite" />.
-
-The fourth link does two things at once, so its movement is not the effect of truncation alone. CDC's Overview describes truncation at this step; the data also show a rescaling. `_LLCPWT2` totals <Fact id="ch2.brfss_llcpwt2_total" />, its total in each state is between <Fact id="ch2.brfss_l2_ratio_lo" /> and <Fact id="ch2.brfss_l2_ratio_hi" /> times the final weight's, and the dual-user share is back at <Fact id="ch2.share_dual_llcpwt2" />, essentially its final value. Because the rescaling differs from state to state, it can move the national estimate on its own.
-
-Part of the early movement is geography. BRFSS gives every state a sample large enough for state estimates, so small states are heavily oversampled. The average California respondent stands for <Fact id="ch2.brfss_mean_w_ca" /> adults and the average Vermont respondent for <Fact id="ch2.brfss_mean_w_vt" />: California supplied <Fact id="ch2.brfss_n_ca" /> interviews and Vermont <Fact id="ch2.brfss_n_vt" />, for adult populations of very different size. Weighting respondents equally within each state, but holding every state at its final weighted total, already moves the unweighted figure to <Fact id="ch2.brfss_fmd_statenorm" />.
+The design stages are not even on the population scale: summed over respondents, `_STRWT` totals <Fact id="ch2.brfss_strwt_total" />, telephone numbers thinned by nonresponse rather than adults. Part of the early movement is geography. BRFSS gives every state a sample large enough for state estimates, so small states are heavily oversampled; weighting respondents equally within each state, but holding every state at its final weighted total, already moves the unweighted figure to <Fact id="ch2.brfss_fmd_statenorm" />.
 
 Raking is the largest move, and the one that reallocates people (Figure 2.2). Adults aged 18–24 are <Fact id="ch2.share_age1824_unw" /> of respondents and <Fact id="ch2.share_age1824_final" /> of weighted adults; adults 65 and older fall from <Fact id="ch2.share_age65_unw" /> to <Fact id="ch2.share_age65_final" />. College graduates fall from <Fact id="ch2.share_college_unw" /> to <Fact id="ch2.share_college_final" />, and adults without a high school diploma rise from <Fact id="ch2.share_lths_unw" /> to <Fact id="ch2.share_lths_final" />; the design weights barely touch education. Cell-only adults rise from <Fact id="ch2.share_cellonly_unw" /> to <Fact id="ch2.share_cellonly_final" />.
 
@@ -48,29 +32,11 @@ Raking is the largest move, and the one that reallocates people (Figure 2.2). Ad
 <Chart id="ch2.waterfall_shares" />
 </Figure>
 
-Age shows the mechanism most plainly. Under the final weight, FMD is <Fact id="ch2.brfss_fmd_age1824" /> among adults 18–24 and <Fact id="ch2.brfss_fmd_age65" /> among adults 65 and older, so shifting weight toward the young raises the overall estimate. That is an accounting consistent with the direction of the change, not a decomposition of it: raking adjusts every margin at once, and age, education, and phone status overlap. The weights also spread as they move down the chain. Their coefficient of variation is <Fact id="ch2.brfss_cv_strwt" /> for the stratum weight, <Fact id="ch2.brfss_cv_llcpwt2" /> for the raking input, and <Fact id="ch2.brfss_cv_final" /> after raking. Under the final weight the median respondent stands for <Fact id="ch2.brfss_weight_median" /> adults, and the largest weight is <Fact id="ch2.brfss_weight_max" />.
+Age shows the mechanism most plainly. Under the final weight, FMD is <Fact id="ch2.brfss_fmd_age1824" /> among adults 18–24 and <Fact id="ch2.brfss_fmd_age65" /> among adults 65 and older, so shifting weight toward the young raises the overall estimate. That is an accounting consistent with the direction of the change, not a decomposition of it: raking adjusts every margin at once, and age, education, and phone status overlap. The weights also spread as they move down the chain. Their coefficient of variation is <Fact id="ch2.brfss_cv_strwt" /> for the stratum weight, <Fact id="ch2.brfss_cv_llcpwt2" /> for the raking input, and <Fact id="ch2.brfss_cv_final" /> after raking. The respondent who stands for <Fact id="ch2.brfss_weight_max" /> adults is a product of that spread.
 
-## Who the number is about
+### What each link does
 
-A prevalence needs a population, and this one is not the United States. The 2024 public file holds <Fact id="ch2.brfss_n_file" /> interviews, none of them from Tennessee, which could not collect enough data to meet CDC's minimum for release <Cite id="brfss2024" />. It does include Guam, Puerto Rico, and the US Virgin Islands, which draw simple random samples of landline numbers rather than the stratified samples the states use. The target here is **adults in the 49 states and the District of Columbia that released 2024 data**. The <Fact id="ch2.brfss_n_terr" /> territorial interviews are set aside, leaving <Fact id="ch2.brfss_n_target" /> respondents whose final weights add up to <Fact id="ch2.brfss_weight_total" /> adults. BRFSS asks about mental health in one question, `MENTHLTH`, coded as a count of days, 88 for none, and 77 or 99 for don't know or refused. The <Fact id="ch2.brfss_fmd_missing_share" /> who answered don't know or refused are excluded from the outcome, so the estimand is prevalence among adults who would answer.
-
-The missing state is not a rounding error. In 2022, the most recent year in which all 50 states and DC released data, Tennessee's respondents represented <Fact id="ch2.tn_2022_adults" /> adults, <Fact id="ch2.tn_2022_share" /> of the weighted total. The set of jurisdictions also changes from year to year, so a trend or pooled estimate labeled "U.S. adults" describes a population that shifts beneath it (Figure 2.3).
-
-<Figure n="2.3" caption="The jurisdictions in the BRFSS public file change from year to year: 2024 omits Tennessee, 2023 Kentucky and Pennsylvania, 2021 Florida, and 2019 New Jersey.">
-<Chart id="ch2.coverage" />
-</Figure>
-
-<SideNote>A second trap: <Fact id="ch2.brfss_iyear_2025" /> records in the 2024 file carry an interview year (`IYEAR`) of 2025. Select a survey year by file, not by interview date.</SideNote>
-
-## Five links in a chain
-
-CDC's 2024 Overview documents how each link is made <Cite id="brfss2024" />, and every definition below was checked against the file.
-
-1. **Stratum weight, `_STRWT`.** States sample telephone numbers within strata defined by geography and, for landlines, by the density of listed household numbers. `_STRWT` is the count of numbers in the stratum divided by the count selected: the inverse of the stratum's sampling fraction.
-2. **Adults and phones, `_WT2RAKE`.** A landline call reaches a household, and the interviewer picks one adult at random, so an adult's chance of selection falls with the number of adults $$A_i$$ in the household and rises with its number of residential landline numbers $$k_i$$. The factor applies to the <Fact id="ch2.brfss_n_landline" /> landline respondents. A cell phone reaches a person, so the <Fact id="ch2.brfss_n_cell" /> cell-frame respondents get a factor of one.
-3. **Dual-frame factor, `_DUALCOR`.** Since 2014 every adult reached on a cell phone is eligible, so an adult with both kinds of phone could have been sampled from either frame. These dual users, <Fact id="ch2.brfss_dual_share" /> of respondents, get a compositing factor $$\lambda_s$$ if reached by landline and $$1-\lambda_s$$ if reached by cell. The factor is set by state and ranges from <Fact id="ch2.brfss_lambda_min" /> to <Fact id="ch2.brfss_lambda_max" /> for landline-frame dual users.
-4. **Raking input, `_LLCPWT2`.** The composite design weight is truncated within geographic regions at the mean plus or minus $$1.96$$ standard deviations and, as the data show, rescaled to the population scale state by state.
-5. **Final weight, `_LLCPWT`.** Raking, or iterative proportional fitting, adjusts the weights until they reproduce population totals on eight margins in every state: sex by age, race and ethnicity, education, marital status, home ownership, sex by race, age by race, and telephone ownership. States with sub-state regions or large counties add regional and county margins. The totals come from Claritas population estimates, the 2019–2023 American Community Survey, and NCHS estimates of wireless-only households.
+CDC's 2024 Overview documents how each link is made <Cite id="brfss2024" />, and every definition was checked against the file. The stratum weight `_STRWT` is the inverse of the sampling fraction for telephone numbers in the respondent's stratum. The adults-and-phones factor applies to the <Fact id="ch2.brfss_n_landline" /> landline respondents, whose chance of selection falls with the number of adults $$A_i$$ in the household and rises with its number of landline numbers $$k_i$$; a cell phone reaches a person, so the <Fact id="ch2.brfss_n_cell" /> cell-frame respondents get a factor of one. The dual-frame factor handles the <Fact id="ch2.brfss_dual_share" /> of respondents who could have been sampled from either frame, with a state-specific compositing factor $$\lambda_s$$ that ranges from <Fact id="ch2.brfss_lambda_min" /> to <Fact id="ch2.brfss_lambda_max" /> for landline-frame dual users. The raking input `_LLCPWT2` truncates the composite design weight within geographic regions at the mean plus or minus $$1.96$$ standard deviations and, as the data show, rescales it state by state. The final weight `_LLCPWT` rakes to population totals on eight margins in every state: sex by age, race and ethnicity, education, marital status, home ownership, sex by race, age by race, and telephone ownership.
 
 The first three links multiply into the design weight $$d_i$$, which reflects each adult's chance of selection, and the last two act as an adjustment $$g_i$$, so that the final weight is $$w_i = d_i g_i$$. The design weight is
 
@@ -82,6 +48,14 @@ c_i &= \begin{cases} \lambda_s & \text{dual user reached by landline} \\ 1-\lamb
 $$
 
 with $$A_i = k_i = 1$$ on the cell frame.
+
+<Details summary="Each link as CDC documents it, and the fourth link in detail">
+
+States sample telephone numbers within strata defined by geography and, for landlines, by the density of listed household numbers; `_STRWT` is the count of numbers in the stratum divided by the count selected. A landline call reaches a household and the interviewer picks one adult at random, which is where the adults-and-phones factor comes from. Since 2014 every adult reached on a cell phone is eligible, so an adult with both kinds of phone could have been sampled from either frame and gets $$\lambda_s$$ if reached by landline and $$1-\lambda_s$$ if reached by cell. Raking is iterative proportional fitting; states with sub-state regions or large counties add regional and county margins, and the control totals come from Claritas population estimates, the 2019–2023 American Community Survey, and NCHS estimates of wireless-only households.
+
+At the `_STRWT` scale the dual-frame factor cuts the weighted share of dual users from <Fact id="ch2.share_dual_wt2rake" /> to <Fact id="ch2.share_dual_composite" />. The fourth link then does two things at once, so its movement is not the effect of truncation alone. CDC's Overview describes truncation at this step; the data also show a rescaling. `_LLCPWT2` totals <Fact id="ch2.brfss_llcpwt2_total" />, its total in each state is between <Fact id="ch2.brfss_l2_ratio_lo" /> and <Fact id="ch2.brfss_l2_ratio_hi" /> times the final weight's, and the dual-user share is back at <Fact id="ch2.share_dual_llcpwt2" />, essentially its final value. Because the rescaling differs from state to state, it can move the national estimate on its own.
+
+</Details>
 
 ### What can be rebuilt
 
@@ -95,13 +69,31 @@ The chain has three kinds of link (Figure 2.4), and the difference matters to an
 <Chart id="ch2.waterfall_table" />
 </Figure>
 
+## Who the number is about
+
+A prevalence needs a population, and this one is not the United States. The 2024 public file holds <Fact id="ch2.brfss_n_file" /> interviews, none of them from Tennessee, which could not collect enough data to meet CDC's minimum for release <Cite id="brfss2024" />. It does include Guam, Puerto Rico, and the US Virgin Islands, which draw simple random samples of landline numbers rather than the stratified samples the states use. The target here is **adults in the 49 states and the District of Columbia that released 2024 data**. The <Fact id="ch2.brfss_n_terr" /> territorial interviews are set aside. BRFSS asks about mental health in one question, `MENTHLTH`, coded as a count of days, 88 for none, and 77 or 99 for don't know or refused. The <Fact id="ch2.brfss_fmd_missing_share" /> who answered don't know or refused are excluded from the outcome, so the estimand is prevalence among adults who would answer.
+
+The missing state is not a rounding error. In 2022, the most recent year in which all 50 states and DC released data, Tennessee's respondents represented <Fact id="ch2.tn_2022_adults" /> adults, <Fact id="ch2.tn_2022_share" /> of the weighted total. The set of jurisdictions also changes from year to year, so a trend or pooled estimate labeled "U.S. adults" describes a population that shifts beneath it (Figure 2.3).
+
+<Figure n="2.3" caption="The jurisdictions in the BRFSS public file change from year to year: 2024 omits Tennessee, 2023 Kentucky and Pennsylvania, 2021 Florida, and 2019 New Jersey.">
+<Chart id="ch2.coverage" />
+</Figure>
+
+<SideNote>A second trap: <Fact id="ch2.brfss_iyear_2025" /> records in the 2024 file carry an interview year (`IYEAR`) of 2025. Select a survey year by file, not by interview date.</SideNote>
+
 <Ledger id="ch2.brfss_fmd" />
 
 <SideNote>As a check on coding and weights, the file reproduces CDC's own weighted tabulation of the calculated variable `_MENT14D`: <Fact id="ch2.brfss_ment14d_codebook" /> of all 2024 records, territories included and nonresponse in the denominator, as printed in the codebook.</SideNote>
 
-### How uncertain the estimate is
+## How uncertain the estimate is
 
-BRFSS declares strata (`_STSTR`) and a primary sampling unit (`_PSU`), but the PSU is the respondent's sequence number: each respondent is its own PSU. The design is stratified and single-stage. The target population has <Fact id="ch2.brfss_strata" /> strata, and the FMD estimate has <Fact id="ch2.brfss_df" /> design degrees of freedom: respondents with a valid answer minus strata. The full national file in [Chapter 7](/ch07-field-guide#brfss-2024), territories included, has more. Of the strata, <Fact id="ch2.brfss_singletons" /> hold a single respondent, where a variance formula that needs two units per stratum has nothing to work with. R's `survey` package stops on them by default, which is the right default. This chapter centers each lone unit at the grand mean, the rule in CDC's own R example; removing them instead changes the standard error only in its fifth significant digit.
+BRFSS declares strata (`_STSTR`) and a primary sampling unit (`_PSU`), but the PSU is the respondent's sequence number: each respondent is its own PSU. The design is stratified and single-stage. The target population has <Fact id="ch2.brfss_strata" /> strata, and the FMD estimate has <Fact id="ch2.brfss_df" /> design degrees of freedom: respondents with a valid answer minus strata. Of the strata, <Fact id="ch2.brfss_singletons" /> hold a single respondent, where a variance formula that needs two units per stratum has nothing to work with. This chapter centers each lone unit at the grand mean, the rule in CDC's own R example; removing them instead changes the standard error only in its fifth significant digit.
+
+The design-based standard error is <Fact id="ch2.se_as_sampling" /> percentage points. It treats the final weights as fixed, although raking is itself estimated from the sample <Cite id="lumley2010" />. A calibration-aware linearization, or replicate weights that repeat the raking, would carry that part of the variance too. The public file carries no replicate weights, and not all of the raking margins or their control totals, so it supports neither directly.
+
+<Details summary="In code: the declaration in Python and R">
+
+The full national file in [Chapter 8](/ch08-field-guide#brfss-2024), territories included, has more strata and more degrees of freedom. R's `survey` package stops on singleton strata by default, which is the right default; the option below overrides it.
 
 ```python
 import svy
@@ -116,7 +108,9 @@ des <- svydesign(ids = ~1, strata = ~xststr, weights = ~xllcpwt, data = brfss)
 svymean(~fmd, des, na.rm = TRUE, deff = "replace")
 ```
 
-Both give a standard error of <Fact id="ch2.se_as_sampling" /> percentage points and agree to at least six significant digits. That standard error treats the final weights as fixed, although raking is itself estimated from the sample <Cite id="lumley2010" />. A calibration-aware linearization, or replicate weights that repeat the raking, would carry that part of the variance too. The public file carries no replicate weights, and not all of the raking margins or their control totals, so it supports neither directly.
+Both give a standard error of <Fact id="ch2.se_as_sampling" /> percentage points and agree to at least six significant digits.
+
+</Details>
 
 ## Inverse probabilities, and where they end
 
@@ -142,15 +136,13 @@ A weekday diary has $$\pi_i \propto 0.10$$ and gets $$d_i \propto 10$$; a weeken
 <Chart id="ch2.atus_day_weights" />
 </Figure>
 
-The published weight, `WT06`, gives <Fact id="ch2.atus_work_weighted" /> minutes, which matches the published BLS figure to rounding <Cite id="bls_atus" />. It still carries the day allocation: the average weekday diary has <Fact id="ch2.atus_wt_ratio" /> times the weight of the average weekend diary, near the design ratio of $$10/4$$, and weekends get <Fact id="ch2.atus_weekend_share_wt06" /> of weighted person-days. The remaining distance comes from the rest of the weight, the $$g_i$$ in $$w_i = d_i g_i$$: other design factors (ATUS oversamples some demographic groups), a nonresponse adjustment, and calibration to population totals. The day-of-week part of $$d_i$$ is documented exactly; $$g_i$$ is not something a user can rebuild.
+The published weight, `WT06`, gives <Fact id="ch2.atus_work_weighted" /> minutes, which matches the published BLS figure to rounding <Cite id="bls_atus" />. It still carries the day allocation: the average weekday diary has <Fact id="ch2.atus_wt_ratio" /> times the weight of the average weekend diary, near the design ratio of $$10/4$$, and weekends get <Fact id="ch2.atus_weekend_share_wt06" /> of weighted person-days. The remaining distance is the $$g_i$$ in $$w_i = d_i g_i$$: other design factors, a nonresponse adjustment, and calibration to population totals, none of which a user can rebuild.<SideNote>This ATUS extract has no design variables, so it carries an estimand lesson and no uncertainty lesson. A standard error computed from `WT06` alone would leave out the design.</SideNote>
 
 <Ledger id="ch2.atus_design_weight" />
 
-This ATUS extract has no design variables, so it carries an estimand lesson and no uncertainty lesson. A standard error computed from `WT06` alone would leave out the design, and nothing in the extract says whether it would come out too small or too large.
-
 ### Where the probability interpretation ends
 
-The rescaling in `_LLCPWT2` and the raking in `_LLCPWT` make the sample reproduce known population totals, and they rest on a model of nonresponse: within the raked categories, respondents resemble nonrespondents. <Cite id="gelman2007" narrative /> opens by calling survey weighting "a mess." Weights in practice, he stresses, are generally not inverse probabilities of selection: they typically combine selection probabilities with adjustments for nonresponse. He adds that using weights beyond a simple mean or ratio is not straightforward, and that even a weighted mean's standard error is hard to get right. The alternative he explores is to model survey responses given every variable that affects inclusion and nonresponse and then poststratify, which he concedes quickly becomes complicated.
+The rescaling in `_LLCPWT2` and the raking in `_LLCPWT` make the sample reproduce known population totals, and they rest on a model of nonresponse: within the raked categories, respondents resemble nonrespondents. <Cite id="gelman2007" narrative /> opens by calling survey weighting "a mess." Weights in practice, he stresses, are generally not inverse probabilities of selection: they combine selection probabilities with adjustments for nonresponse, and once they do, a weighted mean's standard error is no longer straightforward and anything beyond a mean or ratio is harder still. The respondent who stands for <Fact id="ch2.brfss_weight_max" /> adults does not have a one-in-<Fact id="ch2.brfss_weight_max" /> chance of selection. That number says how many adults, in the raked categories the respondent belongs to, the sample was short of.
 
 ### What software calls a weight
 
@@ -160,7 +152,7 @@ The word "weight" also names three different objects in statistical software.
 - A **precision (analytic) weight** $$a_i$$ says observation $$i$$ has variance $$\sigma^2/a_i$$, as when each record is a mean over $$a_i$$ people.
 - A **sampling weight** $$w_i = d_i\, g_i$$ says the record represents $$w_i$$ population units, with a variance that depends on the design that produced it.
 
-All three give the same weighted mean and different standard errors. Read as a frequency weight, `_LLCPWT` treats every weighted adult as interviewed and gives a standard error of <Fact id="ch2.se_as_frequency" /> percentage points for FMD; read as a precision weight, <Fact id="ch2.se_as_analytic" />; read as a sampling weight with the declared design, <Fact id="ch2.se_as_sampling" />. Stata's `fweight`, `aweight`, and `pweight`, and the `weights` argument of R's `lm` (a precision weight), each commit to one reading whether or not the user meant it.
+All three give the same weighted mean and different standard errors. Read as a frequency weight, `_LLCPWT` treats every weighted adult as interviewed and gives a standard error of <Fact id="ch2.se_as_frequency" /> percentage points for FMD; read as a precision weight, <Fact id="ch2.se_as_analytic" />; read as a sampling weight with the declared design, <Fact id="ch2.se_as_sampling" />.<SideNote>Stata's `fweight`, `aweight`, and `pweight`, and the `weights` argument of R's `lm` (a precision weight), each commit to one reading whether or not the user meant it.</SideNote>
 
 <Callout kind="box" title="Two effective sample sizes for one BRFSS estimate">
 
@@ -180,7 +172,11 @@ Neither is "the" effective sample size of BRFSS. The regression-effective sample
 
 ## Trimming: precision bought with bias
 
-Large weights make estimates noisy, so producers trim them, as CDC does to the design weight before raking. Analysts are sometimes tempted to trim the final weight themselves. Figure 2.7 caps `_LLCPWT` at each state's 99th or 95th percentile and then rescales all of the state's weights to restore the state's total, so state totals do not change.
+Large weights make estimates noisy, so producers trim them, as CDC does to the design weight before raking. Analysts are sometimes tempted to trim the final weight themselves, and the respondent standing for <Fact id="ch2.brfss_weight_max" /> adults is the kind of record that invites it. Figure 2.7 caps `_LLCPWT` at each state's 99th or 95th percentile and then rescales all of the state's weights to restore the state's total, so state totals do not change.
+
+<Callout kind="predict" title="Predict first">
+Within a state, which respondents carry the largest final weights: the groups raking pushed up, or the groups it pushed down? If the largest weights are capped, will the FMD estimate rise or fall?
+</Callout>
 
 <Figure n="2.7" caption="Capping the final weight shrinks the standard error modestly, moves the estimate, and undoes part of the raking; re-raking restores the margins and gives back some precision.">
 <Chart id="ch2.trimming" />
@@ -198,9 +194,15 @@ In the synthetic population below, one group is oversampled, and younger adults 
 
 <WeightBuilder />
 
-The widget runs a simplified version of that chain on a synthetic population with a known answer: design weights for an oversampled group, a nonresponse adjustment within age-by-degree cells, raking to known age-by-degree and group totals, trimming at a cap you set (a multiple of the mean weight, with the excess spread over the other weights), and a final re-raking so the margins hold after trimming. BRFSS truncates the design weight before raking; the widget trims after raking and then rakes again, the iteration described in the previous section. It reports the estimate, $$\CV(w)$$, and $$\nKish$$ at each stage, and its three-interpretations panel shows one weighted mean with three standard errors, one for each reading of the same numbers as frequency, precision, or sampling weights. A final button reruns the whole pipeline on fresh samples and reports the repeated-sampling spread of the final estimate, the quantity the sampling-weight standard error is trying to estimate.
+The widget runs a simplified version of the BRFSS chain on a synthetic population with a known answer: design weights for an oversampled group, a nonresponse adjustment within age-by-degree cells, raking to known margins, trimming at a cap you set, and a final re-raking. It reports the estimate, $$\CV(w)$$, and $$\nKish$$ at each stage; its three-interpretations panel shows one weighted mean with three standard errors; and a final button reruns the pipeline on fresh samples and reports the repeated-sampling spread of the final estimate, the quantity the sampling-weight standard error is trying to estimate.
 
 In this population the answer to the prediction is: away from the truth, on average. At the default cap, trimming raises $$\nKish$$ in nearly every sample and pulls the estimate down. The largest weights belong to the young adults and adults without a degree whom nonresponse made scarce, so capping them moves the estimate back toward the respondents' composition. In any one sample the trimmed estimate can land nearer the truth by chance. Re-raking restores the margins and, on average, returns the estimate to about where raking left it.
+
+<Details summary="How the widget's chain differs from CDC's">
+
+BRFSS truncates the design weight before raking; the widget trims after raking and then rakes again, the iteration described in the previous section. The cap is a multiple of the mean weight, and the excess is spread over the other weights so the total is unchanged.
+
+</Details>
 
 <Callout kind="note" title="A new case">
 
