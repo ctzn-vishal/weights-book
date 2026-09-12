@@ -18,7 +18,7 @@ const COVER_ALT = `Cover of ${book.title}: ${book.subtitle}, by ${book.author}. 
 const ROUTES = [
   { who: 'Everyone', href: '/ch00-start-here', go: 'Chapter 0', rest: 'the three decisions, one at a time' },
   { who: 'Describing a population', href: '/ch01-estimands', go: 'Chapters 1–3', rest: 'estimands, weights, and design-based uncertainty' },
-  { who: 'Regression and causal questions', href: '/ch04-regression', go: 'Chapters 4–6', rest: 'explicit and hidden weights, and clustering' },
+  { who: 'Regression and causal questions', href: '/ch04-regression', go: 'Chapters 4–7', rest: 'explicit and hidden weights, and where to cluster' },
   { who: 'Working with one survey', href: '/ch08-field-guide', go: 'Chapter 8', rest: 'the field guide to six surveys' },
 ];
 
@@ -46,18 +46,44 @@ export default function Home() {
           </div>
 
           <div className="cv-hero-text">
-            <p className="cv-eyebrow">An online booklet</p>
+            <p className="cv-eyebrow">An online book</p>
             <p className="cv-lede">
-              In the November 2020 Current Population Survey, <Fact id="ch1.turnout_census_2020" /> of citizen adults
-              reported voting under the Census Bureau&apos;s convention. Count only the people who answered the voting
-              question and the figure becomes <Fact id="ch1.turnout_resp_2020" />; drop the survey weights from that and it
-              moves only to <Fact id="ch1.turnout_unw_2020" />.
+              In September 2022 the Census Bureau reported that <Fact id="ch1.pov_spm_child_2021" /> of American children
+              were poor, a record low, and that <Fact id="ch1.pov_off_child_2021" /> were poor, in the same release, from
+              the same survey. A study of Medicaid expansion in the American Community Survey has a standard error
+              <Fact id="ch6.ratio_state_hc1" /> as large once the question is which states decided, not how many people were
+              interviewed. A league table of state uninsured rates looks definitive, and the survey&apos;s own replicate
+              weights can tell apart <Fact id="ch3lab.adj_sig_sdr" /> of its 50 neighbouring pairs.
             </p>
             <p>
-              The gap is about who stays in the denominator, not about the weights, and neither figure reveals how the
-              people who did not answer actually voted. Before asking which estimate is right, an analyst has to say what it
-              describes, how each observation counts toward it, and what could have come out differently.
+              None of these is a mistake. Each is a weighted number answering a question nobody wrote down: who it
+              describes, how each observation counts, and what could have come out differently. The cover shows a beam
+              balanced on a pivot set to one side. Move the pivot and the same circles tip the other way. A survey weight,
+              a regression&apos;s hidden weight, a choice of cluster: each one moves the pivot. This book is about noticing
+              where it sits, and saying so in print.
             </p>
+            <ul className="cv-moments" aria-label="Three moments from the book">
+              <li>
+                <Link href="/ch01-estimands">
+                  <span className="cv-moment-num">
+                    <Fact id="ch1.pov_spm_child_2021" /> and <Fact id="ch1.pov_off_child_2021" />
+                  </span>
+                  <span className="cv-moment-txt">Two child poverty rates, one year, one survey. Chapter 1 asks what each one is a rate of.</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/ch06-clustering">
+                  <span className="cv-moment-num"><Fact id="ch6.ratio_state_hc1" /></span>
+                  <span className="cv-moment-txt">The standard error when thirty states, not a million records, are the units. Chapters 6 and 7 ask whose decision it was.</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/ch03-lab-replicates">
+                  <span className="cv-moment-num"><Fact id="ch3lab.adj_sig_sdr" /> of 50</span>
+                  <span className="cv-moment-txt">Neighbouring states a ranking can actually tell apart. Lab 3 lets the replicate weights speak.</span>
+                </Link>
+              </li>
+            </ul>
             <blockquote className="cv-mnemonic">
               <p>What is this number a weighted average of, and who chose the weights?</p>
             </blockquote>
