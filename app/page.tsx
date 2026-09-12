@@ -48,19 +48,28 @@ export default function Home() {
           <div className="cv-hero-text">
             <p className="cv-eyebrow">An online book</p>
             <p className="cv-lede">
-              In September 2022 the Census Bureau reported that <Fact id="ch1.pov_spm_child_2021" /> of American children
-              were poor, a record low, and that <Fact id="ch1.pov_off_child_2021" /> were poor, in the same release, from
-              the same survey. A study of Medicaid expansion in the American Community Survey has a standard error{' '}
-              <Fact id="ch6.ratio_state_hc1" /> as large once the question is which states decided, not how many people were
-              interviewed. A league table of state uninsured rates looks definitive, and the survey&apos;s own replicate
-              weights can tell apart <Fact id="ch3lab.adj_sig_sdr" /> of its 50 neighbouring pairs.
+              You have the public-use file open. The referee report is due, or the second-year paper is, and the questions
+              that stop you are not in the econometrics sequence. Should I use the weights, and which column is the weight?
+              Why does my replication of a Census number come out different? My advisor says cluster by state and the
+              referee says by county; who is right, and how would I know? Is the standard error the software printed the
+              standard error of anything?
             </p>
             <p>
-              None of these is a mistake. Each is a weighted number answering a question nobody wrote down: who it
-              describes, how each observation counts, and what could have come out differently. The cover shows a beam
-              balanced on a pivot set to one side. Move the pivot and the same circles tip the other way. A survey weight,
-              a regression&apos;s hidden weight, a choice of cluster: each one moves the pivot. This book is about noticing
-              where it sits, and saying so in print.
+              This book answers those questions with the surveys you actually use and numbers you can check. In one
+              release the Census Bureau reported that <Fact id="ch1.pov_spm_child_2021" /> of American children were poor
+              and that <Fact id="ch1.pov_off_child_2021" /> were. A Medicaid-expansion regression on the American Community
+              Survey has a standard error <Fact id="ch6.ratio_state_hc1" /> as large once the question is which states
+              decided, not how many people were interviewed. A ranking of state uninsured rates looks definitive, and the
+              survey&apos;s own replicate weights can tell apart <Fact id="ch3lab.adj_sig_sdr" /> of its 50 neighbouring
+              pairs. None of these is a mistake. Each is a weighted number answering a question nobody wrote down: who it
+              describes, how each observation counts, and what could have come out differently.
+            </p>
+            <p>
+              The cover shows a beam balanced on a pivot set to one side. Move the pivot and the same circles tip the other
+              way. A survey weight, a regression&apos;s hidden weight, a choice of cluster: each one moves the pivot. Every
+              chapter starts from a real study or a published number, works the question by hand before any software, and
+              ends by saying what the analysis does not establish. The examples come from political science, labor and
+              health economics, and public health, because that is where the questions come from.
             </p>
             <ul className="cv-moments" aria-label="Three moments from the book">
               <li>
@@ -96,8 +105,10 @@ export default function Home() {
               </a>
             </div>
             <p className="cv-fine">
-              For doctoral students and applied researchers who have taken an econometrics sequence but no course in survey
-              sampling. The data are public surveys: the ACS, the CPS, the American Time Use Survey, NHANES, NHIS, and BRFSS.
+              Written for doctoral students and applied researchers in economics, political science, sociology, psychology,
+              marketing, and public health who have taken an econometrics or statistics sequence but no course in survey
+              sampling. The data are public surveys: the ACS, the CPS, the American Time Use Survey, NHANES, NHIS, and BRFSS,
+              with code in Python, R, and Stata.
             </p>
           </div>
         </div>
