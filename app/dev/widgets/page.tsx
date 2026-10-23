@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { PopulationSampler } from '@/components/widgets/PopulationSampler';
 import { WeightBuilder } from '@/components/widgets/WeightBuilder';
@@ -22,7 +23,13 @@ function Section({ name, usage, children }: { name: string; usage: string; child
   );
 }
 
+/**
+ * Development page, not part of the book. A 404 in Vercel production builds (VERCEL_ENV=production,
+ * the deployment vishalsingh.org/weights serves) and wherever HIDE_DEV_ROUTES=true is set at build
+ * time; local dev and preview deployments keep it.
+ */
 export default function WidgetDemoPage() {
+  if (process.env.HIDE_DEV_ROUTES === 'true' || process.env.VERCEL_ENV === 'production') notFound();
   return (
     <main className="mx-auto w-full min-w-0 max-w-3xl px-4 py-10">
       <h1 className="font-sans text-2xl font-semibold text-ink">Widget demo</h1>
