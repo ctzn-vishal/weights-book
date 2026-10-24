@@ -1,0 +1,151 @@
+{
+ "alt": "A horizontal centre line near minus 8 percentage points with an upper and a lower line fanning out from it as M-bar grows from 0 to 4. The upper line crosses zero just below M-bar equal to 3.",
+ "annotations": [
+  {
+   "label": "Set reaches zero",
+   "x": 2.9609
+  }
+ ],
+ "format": "num1",
+ "note": "Point estimates only. The outer lines are the ends of the identified set given the estimated coefficients; they are not confidence limits. Confidence sets that add sampling uncertainty are a planned addition.",
+ "series": [
+  {
+   "name": "Upper end of set",
+   "role": "muted",
+   "segments": [
+    [
+     {
+      "x": 0.0,
+      "y": -7.9703
+     },
+     {
+      "x": 0.5,
+      "y": -6.6244
+     },
+     {
+      "x": 1.0,
+      "y": -5.2785
+     },
+     {
+      "x": 1.5,
+      "y": -3.9325
+     },
+     {
+      "x": 2.0,
+      "y": -2.5866
+     },
+     {
+      "x": 2.5,
+      "y": -1.2407
+     },
+     {
+      "x": 3.0,
+      "y": 0.1052
+     },
+     {
+      "x": 3.5,
+      "y": 1.4512
+     },
+     {
+      "x": 4.0,
+      "y": 2.7971
+     }
+    ]
+   ]
+  },
+  {
+   "name": "Exact parallel trends",
+   "role": "design",
+   "segments": [
+    [
+     {
+      "x": 0.0,
+      "y": -7.9703
+     },
+     {
+      "x": 0.5,
+      "y": -7.9703
+     },
+     {
+      "x": 1.0,
+      "y": -7.9703
+     },
+     {
+      "x": 1.5,
+      "y": -7.9703
+     },
+     {
+      "x": 2.0,
+      "y": -7.9703
+     },
+     {
+      "x": 2.5,
+      "y": -7.9703
+     },
+     {
+      "x": 3.0,
+      "y": -7.9703
+     },
+     {
+      "x": 3.5,
+      "y": -7.9703
+     },
+     {
+      "x": 4.0,
+      "y": -7.9703
+     }
+    ]
+   ]
+  },
+  {
+   "name": "Lower end of set",
+   "role": "muted",
+   "segments": [
+    [
+     {
+      "x": 0.0,
+      "y": -7.9703
+     },
+     {
+      "x": 0.5,
+      "y": -9.3162
+     },
+     {
+      "x": 1.0,
+      "y": -10.6622
+     },
+     {
+      "x": 1.5,
+      "y": -12.0081
+     },
+     {
+      "x": 2.0,
+      "y": -13.354
+     },
+     {
+      "x": 2.5,
+      "y": -14.6999
+     },
+     {
+      "x": 3.0,
+      "y": -16.0459
+     },
+     {
+      "x": 3.5,
+      "y": -17.3918
+     },
+     {
+      "x": 4.0,
+      "y": -18.7377
+     }
+    ]
+   ]
+  }
+ ],
+ "source": "IPUMS USA, ACS 1-year samples 2011–2019; PERWT-weighted event study from Chapter 6; relative-magnitudes restriction of Rambachan and Roth (2023)",
+ "subtitle": "Identified set for the average 2014–2019 effect as the allowed violation of parallel trends grows; evaluated at the point estimates",
+ "title": "The Medicaid estimate keeps its sign until post-period drift reaches about three times the largest pre-period change",
+ "type": "line",
+ "x_label": "M̄: allowed post-period step, as a multiple of the largest pre-period step",
+ "y_label": "Average effect on the uninsured share, 2014–2019 (percentage points)"
+}

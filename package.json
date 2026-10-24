@@ -7,7 +7,7 @@
     "registry": "node scripts/gen-registry.mjs",
     "verify": "node --import tsx scripts/verify-book.mjs",
     "dev": "npm run registry && next dev",
-    "build": "npm run registry && npm run verify && next build && node scripts/check-built-html.mjs",
+    "build": "npm run registry && npm run verify && next build && node --import tsx scripts/check-built-html.mjs",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "npm run registry && tsc --noEmit",

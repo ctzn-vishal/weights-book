@@ -66,6 +66,7 @@ regenerated in Box and re-exported.
 | `ch06-clustering` | `ch6` | Sampling Design, Assignment Design, and Clustering | C-ch06 |
 | `ch07-cluster-choice` | `ch7` | Whose Decision Was It? Clustering by the Source of Variation | integrator |
 | `ch08-field-guide` | `ch8` | Field Guide: Six Surveys, Declared | C-ch0007 |
+| `ch09-identification` | `ch9` | Can These Data Identify the Quantity? | integrator |
 | `appendix-a-notation` | `appA` | Notation and Crosswalk | C-ch0007 |
 | `appendix-b-derivations` | `appB` | Scoped Derivations | C-ch0007 |
 | `appendix-c-reproducibility` | `appC` | Data, Code, and Reproducibility | C-ch0007 |
@@ -129,6 +130,12 @@ Keys are lower_snake_case. A fact's global id is `<key>.<fact_key>`, for example
   "facts": ["ch1.atus_work_weighted"]
 }
 ```
+
+A ledger may also carry an optional `identification` object (Chapter 9), printed between
+Estimand and Estimator. Every field is one sentence and every field is optional:
+`claim_type`, `observed`, `assumption`, `made_true_by` (the design, or an argument),
+`without_assumption` (the identified set, or "unbounded"), `sensitivity` (the parameter
+value at which the conclusion changes). Ledgers without it render as before.
 
 **Figure** — `figures/<figure_key>.json`. Common fields: `type` (required),
 `title`, `subtitle`, `alt` (required: one sentence saying what the chart shows),

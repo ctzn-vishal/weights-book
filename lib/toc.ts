@@ -27,7 +27,7 @@ export interface TocEntry {
 }
 
 export interface TocPart {
-  /** "Start here", "Part I · Describing populations", "Appendices". */
+  /** "Start here", "Part I · Describing populations", "Part IV · Identification", "Appendices". */
   title: string;
   entries: TocEntry[];
 }
@@ -150,6 +150,20 @@ export const book: BookManifest = {
           title: 'Field Guide: Six Surveys, Declared',
           dek: 'Design facts, declaration code, and known traps for six public surveys, generated from their design manifests.',
           credential: 'ACS · CPS ASEC · NHIS · NHANES · BRFSS · ATUS',
+          status: 'draft',
+        },
+      ],
+    },
+    {
+      title: 'Part IV · Identification',
+      entries: [
+        {
+          slug: 'ch09-identification',
+          key: 'ch9',
+          number: '9',
+          title: 'Can These Data Identify the Quantity?',
+          dek: 'Before any weight is applied, a prior question: given who and what is missing from the file, and why, do the data determine the number at all, and under which assumption?',
+          credential: 'CPS Voting 2020 · ACS 2011–2019 · bounds and breakdown values · planned replications marked',
           status: 'draft',
         },
       ],

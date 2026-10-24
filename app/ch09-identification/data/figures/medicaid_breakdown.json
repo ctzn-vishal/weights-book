@@ -1,0 +1,89 @@
+{
+ "alt": "Table of the six post-expansion years and their average: the event-study coefficient, the drift a violation could accumulate per unit of M-bar, and the breakdown value of M-bar, which falls from about 6.7 in 2014 to about 2.0 in 2019.",
+ "columns": [
+  {
+   "align": "left",
+   "key": "year",
+   "label": "Year"
+  },
+  {
+   "align": "right",
+   "format": "int",
+   "key": "k",
+   "label": "Years after 2013"
+  },
+  {
+   "align": "right",
+   "format": "num1",
+   "key": "coef",
+   "label": "Coefficient (pts)"
+  },
+  {
+   "align": "right",
+   "format": "num2",
+   "key": "drift",
+   "label": "Drift allowed per unit of M̄ (pts)"
+  },
+  {
+   "align": "right",
+   "format": "num2",
+   "key": "breakdown",
+   "label": "Breakdown M̄"
+  }
+ ],
+ "note": "Evaluated at the point estimates; sampling uncertainty would lower every breakdown value.",
+ "rows": [
+  {
+   "breakdown": 6.7405,
+   "coef": -5.1841,
+   "drift": 0.7691,
+   "k": 1,
+   "year": "2014"
+  },
+  {
+   "breakdown": 5.1078,
+   "coef": -7.8568,
+   "drift": 1.5382,
+   "k": 2,
+   "year": "2015"
+  },
+  {
+   "breakdown": 3.5832,
+   "coef": -8.2675,
+   "drift": 2.3073,
+   "k": 3,
+   "year": "2016"
+  },
+  {
+   "breakdown": 2.9571,
+   "coef": -9.0973,
+   "drift": 3.0764,
+   "k": 4,
+   "year": "2017"
+  },
+  {
+   "breakdown": 2.1546,
+   "coef": -8.2856,
+   "drift": 3.8455,
+   "k": 5,
+   "year": "2018"
+  },
+  {
+   "breakdown": 1.9786,
+   "coef": -9.1306,
+   "drift": 4.6146,
+   "k": 6,
+   "year": "2019"
+  },
+  {
+   "breakdown": 2.9609,
+   "coef": -7.9703,
+   "drift": 2.6919,
+   "k": null,
+   "year": "Average, 2014–2019"
+  }
+ ],
+ "source": "IPUMS USA, ACS 1-year samples 2011–2019; PERWT-weighted event study from Chapter 6",
+ "title": "Later years tolerate less drift per year, because a violation has had longer to accumulate",
+ "type": "table"
+}

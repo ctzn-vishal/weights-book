@@ -36,10 +36,24 @@ export interface Fact {
 }
 
 /** The Analysis Ledger (v3 section 2.1). */
+/**
+ * Optional identification block (Chapter 9): what connects the observed data to
+ * the target. Every field is a sentence; the Ledger prints the ones present.
+ */
+export interface LedgerIdentification {
+  claim_type?: string;
+  observed?: string;
+  assumption?: string;
+  made_true_by?: string;
+  without_assumption?: string;
+  sensitivity?: string;
+}
+
 export interface Ledger {
   title: string;
   target_population: string;
   estimand: string;
+  identification?: LedgerIdentification;
   estimator: string;
   explicit_weights: string;
   implicit_weights: string;

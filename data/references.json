@@ -72,6 +72,24 @@
       "volume": null,
       "year": 2026
     },
+    "angrist1996": {
+      "authors": [
+        "Joshua D. Angrist",
+        "Guido W. Imbens",
+        "Donald B. Rubin"
+      ],
+      "doi": "10.1080/01621459.1996.10476902",
+      "issue": "434",
+      "pages": "444–455",
+      "publisher": null,
+      "short": "Angrist, Imbens, and Rubin",
+      "title": "Identification of Causal Effects Using Instrumental Variables",
+      "url": "https://doi.org/10.1080/01621459.1996.10476902",
+      "venue": "Journal of the American Statistical Association",
+      "verified": "Crossref API (works/10.1080/01621459.1996.10476902), 2026-09-19",
+      "volume": "91",
+      "year": 1996
+    },
     "angrist1998": {
       "authors": [
         "Joshua D. Angrist"
@@ -87,6 +105,40 @@
       "verified": "Crossref API (works/10.2307/2998558), 2026-09-10 for title/author/volume/issue/year; closing page cross-checked against the Econometric Society's own publications listing (pp. 249–288), since Crossref's `page` field gives only 249.",
       "volume": "66",
       "year": 1998
+    },
+    "angristevans1998": {
+      "authors": [
+        "Joshua D. Angrist",
+        "William N. Evans"
+      ],
+      "doi": null,
+      "issue": "3",
+      "pages": "450–477",
+      "publisher": null,
+      "short": "Angrist and Evans",
+      "title": "Children and Their Parents' Labor Supply: Evidence from Exogenous Variation in Family Size",
+      "url": "https://www.jstor.org/stable/116844",
+      "venue": "American Economic Review",
+      "verified": "PARTIAL, 2026-09-19: title and authors confirmed against the Crossref record of the NBER working paper (works/10.3386/w5778, 1996). The AER version has no Crossref DOI; volume 88, issue 3, pages 450–477, year 1998, and the JSTOR stable URL are entered from the standard citation and were NOT independently fetched. Confirm before the verification pass.",
+      "volume": "88",
+      "year": 1998
+    },
+    "ansolabehere2012": {
+      "authors": [
+        "Stephen Ansolabehere",
+        "Eitan Hersh"
+      ],
+      "doi": "10.1093/pan/mps023",
+      "issue": "4",
+      "pages": "437–459",
+      "publisher": null,
+      "short": "Ansolabehere and Hersh",
+      "title": "Validation: What Big Data Reveal About Survey Misreporting and the Real Electorate",
+      "url": "https://doi.org/10.1093/pan/mps023",
+      "venue": "Political Analysis",
+      "verified": "Crossref API (works/10.1093/pan/mps023), 2026-09-19",
+      "volume": "20",
+      "year": 2012
     },
     "aronow2016": {
       "authors": [
@@ -211,6 +263,24 @@
       "volume": "55",
       "year": 2017
     },
+    "bloom2024": {
+      "authors": [
+        "Nicholas Bloom",
+        "Ruobing Han",
+        "James Liang"
+      ],
+      "doi": "10.1038/s41586-024-07500-2",
+      "issue": "8018",
+      "pages": "920–925",
+      "publisher": null,
+      "short": "Bloom, Han, and Liang",
+      "title": "Hybrid Working from Home Improves Retention without Damaging Performance",
+      "url": "https://doi.org/10.1038/s41586-024-07500-2",
+      "venue": "Nature",
+      "verified": "Crossref API (works/10.1038/s41586-024-07500-2), 2026-09-19",
+      "volume": "630",
+      "year": 2024
+    },
     "bls2026": {
       "authors": [
         "U.S. Bureau of Labor Statistics"
@@ -262,6 +332,22 @@
       "verified": "Crossref API (works/10.1146/annurev-statistics-011516-012958), 2026-09-10",
       "volume": "3",
       "year": 2016
+    },
+    "borjas2017": {
+      "authors": [
+        "George J. Borjas"
+      ],
+      "doi": "10.1177/0019793917692945",
+      "issue": "5",
+      "pages": "1077–1110",
+      "publisher": null,
+      "short": "Borjas",
+      "title": "The Wage Impact of the Marielitos: A Reappraisal",
+      "url": "https://doi.org/10.1177/0019793917692945",
+      "venue": "ILR Review",
+      "verified": "Crossref API (works/10.1177/0019793917692945), 2026-09-19",
+      "volume": "70",
+      "year": 2017
     },
     "bradley2021": {
       "authors": [
@@ -370,6 +456,22 @@
       "volume": "50",
       "year": 2015
     },
+    "card1990": {
+      "authors": [
+        "David Card"
+      ],
+      "doi": "10.1177/001979399004300205",
+      "issue": "2",
+      "pages": "245–257",
+      "publisher": null,
+      "short": "Card",
+      "title": "The Impact of the Mariel Boatlift on the Miami Labor Market",
+      "url": "https://doi.org/10.1177/001979399004300205",
+      "venue": "ILR Review",
+      "verified": "Crossref API (works/10.1177/001979399004300205), 2026-09-19",
+      "volume": "43",
+      "year": 1990
+    },
     "card1994": {
       "authors": [
         "David Card",
@@ -386,6 +488,24 @@
       "verified": "Not machine-verified on 2026-09-11 (AER 1994 has no Crossref DOI; JSTOR stable 2118030 from the author's knowledge). Check volume 84, issue 4, pages 772–793 against JSTOR before final",
       "volume": "84",
       "year": 1994
+    },
+    "card2008": {
+      "authors": [
+        "David Card",
+        "Carlos Dobkin",
+        "Nicole Maestas"
+      ],
+      "doi": "10.1257/aer.98.5.2242",
+      "issue": "5",
+      "pages": "2242–2258",
+      "publisher": null,
+      "short": "Card, Dobkin, and Maestas",
+      "title": "The Impact of Nearly Universal Insurance Coverage on Health Care Utilization: Evidence from Medicare",
+      "url": "https://doi.org/10.1257/aer.98.5.2242",
+      "venue": "American Economic Review",
+      "verified": "Crossref API (works/10.1257/aer.98.5.2242), 2026-09-19",
+      "volume": "98",
+      "year": 2008
     },
     "census_acs_dm": {
       "authors": [
@@ -436,6 +556,23 @@
       "verified": "Crossref API (works/10.1093/biomet/asac058), 2026-09-10. Online-first 2022-10-29; official Biometrika print issue (Vol. 110 No. 3) is dated 2023-08-14, matching the key.",
       "volume": "110",
       "year": 2023
+    },
+    "clemens2019": {
+      "authors": [
+        "Michael A. Clemens",
+        "Jennifer Hunt"
+      ],
+      "doi": "10.1177/0019793918824597",
+      "issue": "4",
+      "pages": "818–857",
+      "publisher": null,
+      "short": "Clemens and Hunt",
+      "title": "The Labor Market Effects of Refugee Waves: Reconciling Conflicting Results",
+      "url": "https://doi.org/10.1177/0019793918824597",
+      "venue": "ILR Review",
+      "verified": "Crossref API (works/10.1177/0019793918824597), 2026-09-19",
+      "volume": "72",
+      "year": 2019
     },
     "conley1999": {
       "authors": [
@@ -639,6 +776,24 @@
       "volume": "23",
       "year": 1997
     },
+    "gerber2008": {
+      "authors": [
+        "Alan S. Gerber",
+        "Donald P. Green",
+        "Christopher W. Larimer"
+      ],
+      "doi": "10.1017/S000305540808009X",
+      "issue": "1",
+      "pages": "33–48",
+      "publisher": null,
+      "short": "Gerber, Green, and Larimer",
+      "title": "Social Pressure and Voter Turnout: Evidence from a Large-Scale Field Experiment",
+      "url": "https://doi.org/10.1017/S000305540808009X",
+      "venue": "American Political Science Review",
+      "verified": "Crossref API (works/10.1017/S000305540808009X), 2026-09-19",
+      "volume": "102",
+      "year": 2008
+    },
     "goodmanbacon2021": {
       "authors": [
         "Andrew Goodman-Bacon"
@@ -673,6 +828,22 @@
       "volume": null,
       "year": 2017
     },
+    "holland1986": {
+      "authors": [
+        "Paul W. Holland"
+      ],
+      "doi": "10.1080/01621459.1986.10478354",
+      "issue": "396",
+      "pages": "945–960",
+      "publisher": null,
+      "short": "Holland",
+      "title": "Statistics and Causal Inference",
+      "url": "https://doi.org/10.1080/01621459.1986.10478354",
+      "venue": "Journal of the American Statistical Association",
+      "verified": "Crossref API (works/10.1080/01621459.1986.10478354), 2026-09-19",
+      "volume": "81",
+      "year": 1986
+    },
     "horvitz1952": {
       "authors": [
         "D. G. Horvitz",
@@ -689,6 +860,23 @@
       "verified": "Crossref API (works/10.1080/01621459.1952.10483446), 2026-09-10",
       "volume": "47",
       "year": 1952
+    },
+    "hur2013": {
+      "authors": [
+        "Aram Hur",
+        "Christopher H. Achen"
+      ],
+      "doi": "10.1093/poq/nft042",
+      "issue": "4",
+      "pages": "985–993",
+      "publisher": null,
+      "short": "Hur and Achen",
+      "title": "Coding Voter Turnout Responses in the Current Population Survey",
+      "url": "https://doi.org/10.1093/poq/nft042",
+      "venue": "Public Opinion Quarterly",
+      "verified": "Crossref API (works/10.1093/poq/nft042), 2026-09-19",
+      "volume": "77",
+      "year": 2013
     },
     "ipums_atus": {
       "authors": [
@@ -970,6 +1158,22 @@
       "volume": "232",
       "year": 2023
     },
+    "manski2003": {
+      "authors": [
+        "Charles F. Manski"
+      ],
+      "doi": "10.1007/b97478",
+      "issue": null,
+      "pages": null,
+      "publisher": "Springer",
+      "short": "Manski",
+      "title": "Partial Identification of Probability Distributions",
+      "url": "https://doi.org/10.1007/b97478",
+      "venue": null,
+      "verified": "Crossref API (works/10.1007/b97478), 2026-09-19 for title, publisher (Springer-Verlag), year, and series (Springer Series in Statistics); the Crossref record carries no author field, so the author is taken from the book's title page as universally cited (Charles F. Manski).",
+      "volume": null,
+      "year": 2003
+    },
     "mcdonald2020": {
       "authors": [
         "Michael P. McDonald"
@@ -1135,6 +1339,23 @@
       "volume": null,
       "year": 2017
     },
+    "peri2019": {
+      "authors": [
+        "Giovanni Peri",
+        "Vasil Yasenov"
+      ],
+      "doi": "10.3368/jhr.54.2.0217.8561R1",
+      "issue": "2",
+      "pages": "267–309",
+      "publisher": null,
+      "short": "Peri and Yasenov",
+      "title": "The Labor Market Effects of a Refugee Wave: Synthetic Control Method Meets the Mariel Boatlift",
+      "url": "https://doi.org/10.3368/jhr.54.2.0217.8561R1",
+      "venue": "Journal of Human Resources",
+      "verified": "Crossref API (works/10.3368/jhr.54.2.0217.8561R1), 2026-09-19; Crossref splits the title and subtitle into separate fields",
+      "volume": "54",
+      "year": 2019
+    },
     "petersen2009": {
       "authors": [
         "Mitchell A. Petersen"
@@ -1170,6 +1391,23 @@
       "volume": null,
       "year": 2024
     },
+    "rambachan2023": {
+      "authors": [
+        "Ashesh Rambachan",
+        "Jonathan Roth"
+      ],
+      "doi": "10.1093/restud/rdad018",
+      "issue": "5",
+      "pages": "2555–2591",
+      "publisher": null,
+      "short": "Rambachan and Roth",
+      "title": "A More Credible Approach to Parallel Trends",
+      "url": "https://doi.org/10.1093/restud/rdad018",
+      "venue": "Review of Economic Studies",
+      "verified": "Crossref API (works/10.1093/restud/rdad018), 2026-09-19",
+      "volume": "90",
+      "year": 2023
+    },
     "roth2022": {
       "authors": [
         "Jonathan Roth"
@@ -1185,6 +1423,22 @@
       "verified": "Crossref API (works/10.1257/aeri.20210236), 2026-09-10",
       "volume": "4",
       "year": 2022
+    },
+    "rubin1976": {
+      "authors": [
+        "Donald B. Rubin"
+      ],
+      "doi": "10.1093/biomet/63.3.581",
+      "issue": "3",
+      "pages": "581–592",
+      "publisher": null,
+      "short": "Rubin",
+      "title": "Inference and Missing Data",
+      "url": "https://doi.org/10.1093/biomet/63.3.581",
+      "venue": "Biometrika",
+      "verified": "Crossref API (works/10.1093/biomet/63.3.581), 2026-09-19",
+      "volume": "63",
+      "year": 1976
     },
     "sloczynski2022": {
       "authors": [

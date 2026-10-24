@@ -1,0 +1,282 @@
+## Is the gap eight points, four, or not in the file?
+
+You finished Chapter 1 with two turnout gaps from one file. Under the Census convention, non-Hispanic White citizens voted at a rate <Fact id="ch1.turnout_gap_race_census_2020" /> percentage points above non-Hispanic Black citizens in November 2020. Among the people who answered the voting question, the gap is <Fact id="ch1.turnout_gap_race_resp_2020" /> points. Both analysts used the supplement weight. A third analyst, handed the same Current Population Survey (CPS) file, declines to pick a convention and reports what the file supports with no assumption about the people who gave no answer: a gap somewhere between <Fact id="ch9.gap_lower_2020" /> and <Fact id="ch9.gap_upper_2020" /> points. That range is <Fact id="ch9.gap_width_2020" /> points wide, it includes zero, and a standard error has nothing to do with it. A CPS ten times larger, with the same pattern of missing answers, would return the same range.
+
+The three decisions this book has taught so far, the target, the way each record counts, and the repetition behind the uncertainty, all assume that a prior question has been settled. Given who and what is missing from the file, and why, do the data determine the target at all? That is the question of identification, and it sits between the first decision and the second.
+
+> **Target.** What quantity? **Identification.** Can these data determine it, and under what assumption? **Contribution.** How does each record enter the estimator? **Uncertainty.** What could have come out differently?
+
+The book has been answering this question in pieces: the two turnout conventions in [Chapter 1](/ch01-estimands), the raking margins in [Chapter 2](/ch02-weights), the interlude on measured and reported blood pressure in [Chapter 3](/ch03-design), the merged cells in [Chapter 5](/ch05-hidden-weights), and the callout in [Chapter 6](/ch06-clustering) that took parallel trends as given. This chapter collects the pieces into one model, uses it on numbers the earlier chapters already produced, and marks the places where new data and new case studies will go.
+
+<Callout kind="draft" title="Status of this chapter">
+
+Everything computed here comes from artifacts that Chapters 1 through 6 already export; no new microdata was read. Blocks labelled **Placeholder** mark a planned case study or dataset. Each says what the case will teach, what has to be acquired, and which numbers will fill it. No number from an outside study appears until it has been reproduced through the book's pipeline.
+
+</Callout>
+
+## What "identified" means
+
+<Callout kind="definition" title="Identified">
+
+A target is *identified* if it could be computed exactly from an unlimited amount of data collected the same way: the same frame, the same response behavior, the same instruments, the same process deciding who is treated. It is *partially identified* if such data would narrow it to a set of values and no further. It is *unidentified* if such data would say nothing about it <Cite id="manski2003" />.
+
+</Callout>
+
+The definition separates two things that a confidence interval blends together. Sampling uncertainty shrinks as the sample grows. An identification problem does not, because it concerns what the data-collection process can reveal at any sample size. The order of the questions follows: decide what the quantity is <Cite id="lundberg2021" />, ask whether this process can reveal it, and only then choose an estimator and a standard error.
+
+<Callout kind="predict" title="Predict first">
+
+Suppose the Census Bureau had interviewed ten times as many households in November 2020, with the same share declining to answer the voting question. The respondents-only gap and the Census-convention gap would each be estimated more precisely. Would the two numbers move toward each other?
+
+</Callout>
+
+They would not. Each convention fills the missing answers with a different assumption, and a larger sample supplies more missing answers in the same proportion. The distance between the conventions is an identification fact. So is the wider range the third analyst reported.
+
+## Five reasons a cell is empty
+
+Picture the table you would need to compute the target with no assumptions: one row for every person in the target population, one column for every outcome, and, for a causal question, one column for the outcome under each treatment. Any real file fills only part of that table. A cell can be empty for five reasons, and the book has already met four of them.
+
+| Why the cell is empty | The assumption that fills it | What can make the assumption credible | Where the book meets it |
+|---|---|---|---|
+| The person is outside the frame | The excluded resemble the covered, or the target is narrowed to the frame | Frame documentation; coverage studies | [Chapter 1](/ch01-estimands#five-populations), five populations |
+| The person was not sampled | None needed under a probability design | The design itself: known selection probabilities | [Chapter 2](/ch02-weights), design weights |
+| The person did not respond | Within weighting cells, respondents stand for nonrespondents | Response studies; calibration to known totals | [Chapter 1](/ch01-estimands), turnout; [Chapter 2](/ch02-weights), raking |
+| The quantity was not measured, or was measured with error | The report equals the quantity, or the error is known | Validation against records or instruments | [Chapter 3](/ch03-design#interlude-weighting-repairs-representation-not-measurement), blood pressure; [Chapter 4](/ch04-regression), top-coded wages |
+| The person was not observed under that treatment | Treatment is independent of the outcomes it would produce, outright or given covariates; or a comparison group's trend stands in | Random assignment; a documented assignment rule; an argued comparison | [Chapter 6](/ch06-clustering), parallel trends |
+
+The second row is the only one that needs no assumption, and it is the one survey weights were invented for. A design weight is exact because the sampler chose the probabilities. Every later adjustment to the weight, for nonresponse and for calibration, is an assumption from the third row written as a number: within the cells the adjustment uses, the people who answered stand for the people who did not. <Cite id="rubin1976" narrative /> named the condition under which that works, missing at random given what is observed, and it is a statement about the world that the file cannot check.
+
+The fifth row is the causal one. For each person, only the outcome under the treatment they received is observed, and the outcome under the alternative is an empty cell for everyone <Cite id="holland1986" />. An inverse-propensity weight fills those cells the way a nonresponse weight fills the third row's, under an assumption of the same form with a different name. Random assignment is the case in which the assumption is true because someone made it true. That is why this chapter treats description and causation together: the table is the same table, and the question in each row is whether the assumption is supplied by the design or by an argument.
+
+## Missing answers: turnout as a set
+
+Take the third row first, with the numbers from Chapter 1. For a group $$g$$, let $$r_g$$ be the weighted share who answered the voting question, $$v_g$$ the share of those who reported voting, and $$q_g$$ the unknown share of nonrespondents who voted. Turnout in the group is
+
+$$
+T_g(q_g) = r_g\, v_g + (1 - r_g)\, q_g .
+$$
+
+The file delivers $$r_g$$ and $$v_g$$. It is silent on $$q_g$$. The Census convention sets $$q_g = 0$$ and the respondents-only convention sets $$q_g = v_g$$, so the two published-looking numbers are two points on one line. With no assumption, $$q_g$$ can be anything from zero to one, and turnout among all citizen adults lies between <Fact id="ch1.turnout_census_2020" /> and <Fact id="ch9.turnout_upper_2020" />. The width of that set is the nonresponse share, <Fact id="ch1.turnout_nonresp_2020" />, and nothing else. For White citizens the set runs from <Fact id="ch1.turnout_census_white_2020" /> to <Fact id="ch9.turnout_upper_white_2020" />; for Black citizens, whose nonresponse was <Fact id="ch1.turnout_nonresp_black_2020" /> against <Fact id="ch1.turnout_nonresp_white_2020" />, from <Fact id="ch1.turnout_census_black_2020" /> to <Fact id="ch9.turnout_upper_black_2020" /> (Figure 9.1).
+
+<Figure n="9.1" caption="Each group's turnout is a line, not a point: it rises from the Census-convention rate by exactly that group's nonresponse share as the assumed voting rate among nonrespondents goes from none to all. Lines are identities in the observed weighted components, 2020 CPS.">
+
+<Chart id="ch9.turnout_dial" />
+
+</Figure>
+
+The horizontal axis of Figure 9.1 is the device this chapter uses throughout. It orders assumptions from weak to strong and shows the answer as a function of the assumption. <Cite id="manski2003" narrative /> calls the trade the law of decreasing credibility: a stronger assumption buys a sharper answer and is believed by fewer readers. A report that shows the whole axis lets each reader stop where their own belief stops.
+
+### A gap has two dials
+
+A difference between groups has one unknown per group, and they need not move together. The lower worst case pairs no voting among White nonrespondents with universal voting among Black nonrespondents; the upper worst case reverses the pairing. Figure 9.2 lists the scenarios.
+
+<Figure n="9.2" caption="The Census convention and the respondents-only convention are two rows of a longer table. With no assumption about nonrespondents the gap is not signed; assuming any common voting rate among both groups' nonrespondents keeps it positive.">
+
+<Chart id="ch9.gap_scenarios" />
+
+</Figure>
+
+<Callout kind="predict" title="Predict first">
+
+Suppose you are willing to assume that nonrespondents voted at the same rate in both groups, whatever that rate was. Is the sign of the gap identified? Is its size?
+
+</Callout>
+
+Under a common rate $$q$$ the gap is the Census-convention gap minus $$q$$ times the difference in nonresponse shares, so it falls from <Fact id="ch1.turnout_gap_race_census_2020" /> points at $$q = 0$$ to <Fact id="ch9.gap_common_all_voted_2020" /> points if every nonrespondent voted. It would reach zero only at a common rate of <Fact id="ch9.gap_zero_common_rate" />, which no population can supply. The common-rate assumption therefore identifies the sign and leaves the size to a range about six points wide. That is a weaker assumption than either convention makes, and it is enough for a paper whose claim is that a gap exists.
+
+To erase the gap, Black nonrespondents must have voted more often than White nonrespondents, and by a wide margin (Figure 9.3). If no White nonrespondent voted, <Fact id="ch9.gap_zero_black_rate_if_white_zero" /> of Black nonrespondents would have had to. If White nonrespondents voted at the rate of White respondents, the figure is <Fact id="ch9.gap_zero_black_rate_if_white_resp" />. Once the White nonrespondent rate passes <Fact id="ch9.gap_zero_white_rate_max" />, no Black rate suffices. A reader can now judge the claim "there was a turnout gap in 2020" by asking whether those combinations are believable, which is a question about voters and not about software.
+
+<Figure n="9.3" caption="The zero-gap frontier lies above the equal-rates line everywhere: the gap disappears only if Black citizens who skipped the voting question voted at far higher rates than White citizens who skipped it. Identities in observed weighted components, 2020 CPS.">
+
+<Chart id="ch9.gap_frontier" />
+
+</Figure>
+
+<Ledger id="ch9.turnout_bounds" />
+
+### What the bounds leave out
+
+The bounds answer one row of the table. They take every reported vote at face value, and surveys overstate voting: people who did not vote say they did, and the overstatement is larger among the educated and the politically engaged <Cite id="ansolabehere2012" />. That is the fourth row, and it explains a fact Chapter 1 noted in passing. The Census convention lands near the rate implied by official vote totals <Cite id="mcdonald2020" />, and it does so because two errors offset: counting every nonrespondent as a nonvoter pulls the estimate down, and overreporting among respondents pushes it up <Cite id="hur2013" />. An estimate that agrees with a benchmark has not thereby identified anything, and nothing guarantees that the two errors offset equally within each racial group. The bounds also inherit the frame: citizens in prisons, nursing homes, and on active military duty are in no cell of the file.
+
+<Callout kind="draft" title="Placeholder: validated turnout">
+
+**Will teach.** Measurement as an identification problem with its own bounds: reported against record-validated turnout for the same respondents, and how overreporting differs by group.
+
+**To acquire.** A survey with votes matched to voter files; the Cooperative Election Study is the candidate. Confirm which waves carry validated-vote variables and the terms of use.
+
+**Numbers that will fill it.** Overreport rates overall and by race and education; the turnout gap under reported and validated votes; bounds on CPS turnout that allow for both nonresponse and misreporting.
+
+</Callout>
+
+## A weight is an assumption written as a number
+
+Chapter 0 opened with one file and two numbers. Of the <Fact id="ch2.brfss_n_fmd" /> adults who answered the 2024 Behavioral Risk Factor Surveillance System question on mental health, <Fact id="ch2.brfss_fmd_unweighted" /> reported frequent mental distress; with the final weight the figure is <Fact id="ch2.brfss_fmd_final" />, a difference of <Fact id="ch2.brfss_fmd_gap_pp" /> percentage points. [Chapter 2](/ch02-weights) traced how the weight is built. Read as an identification argument, the construction says this: the design weight undoes known selection probabilities and needs no assumption; the raking step then asserts that, within the margins it uses, adults who picked up the phone and agreed to the interview have the same distress rate as adults who did not. The weighted number is identified under that assertion. The unweighted number is identified under a stronger one, that respondents resemble the adult population outright.
+
+Two consequences follow. A weight repairs representation on the dimensions it was built from and on nothing else, so the choice of raking margins is a choice of identifying assumption, and a different defensible set of margins is a different assumption with a different answer. And sample size does not substitute for the assumption. When the decision to respond is correlated with the outcome, the error does not shrink as the sample grows; <Cite id="meng2018" narrative /> shows that it is governed by that correlation and by the share of the population left out, which is how a survey of hundreds of thousands can miss by more than a careful poll of a thousand <Cite id="bradley2021" />.
+
+<Callout kind="draft" title="Placeholder: the big-data paradox, with numbers">
+
+**Will teach.** A very large nonprobability sample against a small probability sample and an administrative benchmark, all estimating one quantity in one month: first-dose COVID-19 vaccination among U.S. adults in spring 2021.
+
+**To acquire.** The published weekly estimates and benchmark series used by <Cite id="bradley2021" narrative />; public aggregates suffice, and no microdata is needed.
+
+**Numbers that will fill it.** Each survey's estimate, sample size, and error against the benchmark; the data-defect correlation each error implies; the size of the simple random sample with the same mean squared error.
+
+</Callout>
+
+## Measurement identifies a different quantity
+
+Weights cannot move an estimate from one construct to another. Asked whether a health professional ever told them they had high blood pressure, adults answer yes at nearly the same rate in three surveys: <Fact id="ch3.brfss_bphigh" />, <Fact id="ch3.nhis_hyp" />, and <Fact id="ch3.nhanes_selfreport" />. Measured blood pressure plus medication use, which only the National Health and Nutrition Examination Survey collects, gives <Fact id="ch3.htn_prev" />. In the language of this chapter, an interview identifies the prevalence of a remembered diagnosis. It does not identify the prevalence of hypertension, at any sample size and under any weight, because undiagnosed adults are in the fourth row of the table: the quantity was never measured on them. Even a measurement identifies the quantity only as the instrument defines it. Switching the same examinees from one blood-pressure protocol to the other moved prevalence by <Fact id="ch3.instr_diff" ci /> percentage points with representation held fixed by construction.
+
+Top-coding is the same problem in one tail. In Chapter 4's wage sample, <Fact id="ch4.topcode_share" /> of records carry their state's top-code value in place of their wage income. The share of workers above the cap is identified. Their mean is not, and any statistic that depends on it, a mean, a variance, a coefficient in levels, is identified only after a distributional assumption about the tail. A median or a share below a threshold sidesteps the problem because it never asks what the tail contains.
+
+## No support: an empty cell is an unidentified contrast
+
+[Chapter 5](/ch05-hidden-weights) averaged the home–commute wage contrast over <Fact id="ch5.n_cells" /> occupation-by-education cells. To give every cell enough home workers and enough commuters, the build merged thin cells <Fact id="ch5.n_merges" /> times, and in <Fact id="ch5.lowp_n_cells" /> cells fewer than one worker in twenty works from home. A cell with no home workers has no contrast. No weight can create one, because a weight multiplies observations and there are none to multiply. The population-share average over all cells is then unidentified for the part of the population living in that cell.
+
+Three exits exist, and each is an identification decision that belongs in the report. Narrow the target to the cells with support, and say whose average it now is. Collect data where support is missing. Or merge the empty cell with a neighbor, which assumes the contrast is the same in both; the merges in Chapter 5 are assumptions of exactly this kind, recorded in its closing panel. What the analysis should not do is let a regression extrapolate across the gap silently, which is what a linear specification does when it is asked for an average over cells it never saw.
+
+## The fifth reason: the outcome under the other treatment
+
+Chapter 4 reported three versions of the home–commute wage gap: about <Fact id="ch4.raw_wls_pct" /> unadjusted, <Fact id="ch4.adj_wls_pct" /> after adjusting for age, sex, and education, and <Fact id="ch4.occind_wls_pct" /> within detailed occupation, industry, and state. Each is identified as a description: an unlimited American Community Survey would deliver each exactly. None is identified as the effect of working from home, and the reason is the fifth row. For every home worker, the wage they would earn commuting is an empty cell, and the file holds no information about how workers and employers decided who works where. Adding controls changes which description is reported. It converts the description into an effect only under the assumption that, within the controls, the decision was unrelated to what each worker would earn either way. Nobody chose that assumption for its credibility; it arrives with the regression.
+
+What would identify the effect is a known assignment process. Chapter 7 asked "whose decision was it?" in order to find the repetition behind a standard error. The same question decides identification. If an employer offers a hybrid schedule to workers chosen by a rule unrelated to their outcomes, the comparison of offered and not-offered workers identifies the effect of the offer, for those workers, and the rule that made the assignment also defines what could have come out differently. One mechanism does both jobs. When the mechanism is a state legislature or a worker's own choice, the identifying assumption has to be argued instead, and the rest of this chapter is about how to report an argued assumption honestly.
+
+<Callout kind="draft" title="Placeholder: a randomized study">
+
+**Will teach.** Identification by design: the offer against its receipt, outcomes that go missing when a person leaves the study, and whose effect a trial identifies.
+
+**Candidates.** The randomized hybrid-work trial of <Cite id="bloom2024" narrative />, which keeps the subject of Chapters 4 and 5 and changes the source of identification; or the Michigan mailing experiment of <Cite id="gerber2008" narrative />, whose outcome is a voter-file record and so connects to this chapter's turnout example.
+
+**To acquire.** One public replication package, after an audit of its files and terms of use.
+
+**Numbers that will fill it.** One reproduced primary result with its ledger; a flow from assigned to treated to observed; trimming bounds for outcomes lost to attrition.
+
+</Callout>
+
+## An assumption with a dial: Medicaid and parallel trends
+
+[Chapter 6](/ch06-clustering) estimated that the January 2014 Medicaid expansion changed the uninsured share among low-income adults by <Fact id="ch6.ci_state" ci /> percentage points, and said in a callout that the number is causal only if uninsurance in the expansion states would otherwise have moved in parallel with the comparison states. It then took the assumption as given, because its subject was the standard error. Here the assumption gets the treatment turnout got: an axis from weak to strong, and the answer as a function of position on it.
+
+The pre-period offers a yardstick. Before 2014 the gap between the two groups of states moved from year to year by small amounts: the event-study coefficients for 2011 and 2012 are <Fact id="ch6.lead_2011" /> and <Fact id="ch6.lead_2012" /> points against a 2013 reference, so the largest year-to-year change was <Fact id="ch9.did_maxpre" /> points. <Cite id="rambachan2023" narrative /> propose restricting the unknown post-period violation of parallel trends by that yardstick: from one year to the next, the violation may change by at most $$\bar M$$ times the largest pre-period change. With $$\bar M = 0$$ parallel trends holds exactly. With $$\bar M = 1$$ the comparison states' trend may drift from the counterfactual as fast as the two groups ever drifted apart before the policy. Writing $$\hat\beta_k$$ for the coefficient $$k$$ years after 2013 and $$\Delta_{\text{pre}}$$ for the yardstick, the effect in that year is restricted to
+
+$$
+\hat\beta_k \;\pm\; k\,\bar M\,\Delta_{\text{pre}} .
+$$
+
+<Callout kind="predict" title="Predict first">
+
+The 2019 coefficient is larger in magnitude than the 2014 coefficient. Which of the two years' conclusions survives a larger $$\bar M$$?
+
+</Callout>
+
+The 2014 conclusion does, by a wide margin. A violation has had one year to accumulate by 2014 and six by 2019, so the set around the 2019 coefficient widens six times as fast. The 2014 effect keeps its sign until $$\bar M$$ reaches <Fact id="ch9.did_breakdown_2014" />; the 2019 effect until <Fact id="ch9.did_breakdown_2019" /> (Figure 9.5). For the average of the six post-period coefficients, <Fact id="ch9.did_avg_post" /> points, the set at $$\bar M = 2$$ runs from <Fact id="ch9.did_set_m2_low" /> to <Fact id="ch9.did_set_m2_high" />, and it reaches zero at $$\bar M =$$ <Fact id="ch9.did_breakdown_avg" /> (Figure 9.4). In words: the conclusion that expansion lowered uninsurance fails only if, in every year after 2013, the comparison states drifted from the expansion states' counterfactual about three times as fast as the two groups ever diverged in the years before.
+
+<Figure n="9.4" caption="The average effect keeps its sign until the allowed post-period drift is about three times the largest pre-period change. The outer lines are the ends of the identified set at the point estimates; they are not confidence limits.">
+
+<Chart id="ch9.medicaid_dial" />
+
+</Figure>
+
+<Figure n="9.5" caption="Breakdown values fall with distance from the policy date: the long-run effect is the larger estimate and the more assumption-dependent one. Evaluated at the point estimates, ACS 2011–2019.">
+
+<Chart id="ch9.medicaid_breakdown" />
+
+</Figure>
+
+Three limits apply, and the first is the reason this section is a draft. These sets are computed at the point estimates. The pre-period coefficients are themselves estimated, with state-clustered standard errors between half a point and one point, so the yardstick is noisy and the post-period coefficients are too; sets that account for both are wider, and the breakdown values smaller. The yardstick rests on two pre-period steps, because the window opens in 2011. And a small pre-period change is weak evidence that post-period violations are small: Chapter 6 already cited <Cite id="roth2022" narrative /> on how little power pre-trend tests have against the violations that matter. The dial does not defend parallel trends. It states how much of it the conclusion needs.
+
+<Callout kind="draft" title="Placeholder: confidence sets for the Medicaid dial">
+
+**Will teach.** The difference between an identified set and a confidence set for it: the first widens with the assumption, the second with the assumption and the sample.
+
+**To compute.** Rambachan and Roth's robust confidence sets from Chapter 6's event-study coefficients and their state-clustered covariance matrix, which the Chapter 6 build must export; the R package `HonestDiD` implements them.
+
+**Numbers that will fill it.** Robust breakdown values for 2014, 2019, and the average; the confidence set at $$\bar M = 1$$ beside Chapter 6's interval.
+
+</Callout>
+
+The sample rules are a second kind of sensitivity, and Chapter 6 already reported it. Adding back the states with earlier coverage moves the coefficient to <Fact id="ch6.sens_prior_beta" />; dropping states with small pre-2014 programs moves it to <Fact id="ch6.sens_strict_beta" />. Those changes leave the identifying assumption alone and move the target: they change which states' effect is being estimated, so each needs its own ledger. Keeping the two kinds apart, a change in the assumption and a change in the target, is most of what a robustness section is for.
+
+<Ledger id="ch9.medicaid_sensitivity" />
+
+## Four moves for every case
+
+The turnout and Medicaid sections made the same four moves, and the planned case studies will make them in the same order so that they can be compared.
+
+1. **Replicate.** Reproduce one published or previously reported number from its inputs, and record what did not reproduce.
+2. **Ledger.** State the target and the identification block: what is observed, the named assumption, and whether the design or an argument makes it credible.
+3. **Remove.** Report the answer without the assumption, as a set, or the value of a sensitivity parameter at which the conclusion changes.
+4. **Redefine.** Change the sample rules or the definition of the quantity, and label each change as a change of target, of assumption, of estimator, or of repetition.
+
+<Callout kind="draft" title="Placeholder: one city, several answers (the Mariel boatlift on the CPS)">
+
+**Will teach.** Sample definition as the identification decision. <Cite id="card1990" narrative /> found little effect of the 1980 Cuban arrivals on Miami wages; <Cite id="borjas2017" narrative /> found a large decline for one subgroup; <Cite id="peri2019" narrative /> found none with a synthetic comparison city; <Cite id="clemens2019" narrative /> traced part of the disagreement to a change in CPS coverage of low-skill Black men around 1980. The published estimates differ mainly in who is in the sample, which makes the dispute a lesson from Part I inside a causal question.
+
+**To acquire.** An IPUMS CPS extract for the relevant years and cities, plus the merged outgoing-rotation files if hourly earnings are not in IPUMS for 1979 to 1985; the public replication package of Peri and Yasenov.
+
+**Numbers that will fill it.** Each paper's headline estimate reproduced under its own sample rules; cell sizes for Miami by rule; the estimate as the rules change one at a time, each change labelled by kind.
+
+</Callout>
+
+<Callout kind="draft" title="Placeholder: Medicare at 65, with survey weights">
+
+**Will teach.** A threshold as the source of identification, run with the survey machinery of Part I: health coverage jumps at age 65 <Cite id="card2008" />, the public files report age in whole years, and retirement changes at the same age.
+
+**To acquire.** Nothing new to license: the National Health Interview Survey and the American Community Survey are already in the pipeline. The paper's exact years and age coding must be reconstructed.
+
+**Numbers that will fill it.** The coverage discontinuity with design-based standard errors; its sensitivity to bandwidth and to excluding ages next to the threshold; the same design with and without weights, and which target each answers.
+
+</Callout>
+
+<Callout kind="draft" title="Placeholder: an instrument on IPUMS data">
+
+**Will teach.** An instrument identifies an effect for the people whose treatment it changes, and for no one else <Cite id="angrist1996" />. The sibling-sex instrument for family size <Cite id="angristevans1998" /> runs on the 1980 census sample that IPUMS distributes; the same specification on a recent American Community Survey shows what happens to the first stage as fertility falls.
+
+**To acquire.** IPUMS USA extracts for 1980 and a recent year.
+
+**Numbers that will fill it.** First stage, reduced form, and their ratio in both years; the share of mothers whose family size the instrument moves.
+
+</Callout>
+
+<Callout kind="draft" title="Placeholder: the author's own case studies">
+
+**Will teach.** One case per identification strategy where the public replications leave a gap for this book's readers: a marketing or retail outcome, a platform experiment with incomplete take-up, a geographic rollout with spillovers.
+
+**Constraint.** The pipeline exports aggregates only, so a proprietary case can appear with its reproducibility tier stated on the page: reproduced from inputs by the author, not by the reader. The four moves still apply, including alternative sample rules published as aggregates.
+
+</Callout>
+
+<Callout kind="note" title="A new case">
+
+A retailer emails a satisfaction survey to every customer who bought in the last year. About one in ten answers, and the mean score among those who answer is high. The analytics team weights respondents to match all customers on region and spending tier and reports the weighted mean with a narrow interval. Which rows of the five-reason table apply, what does the weighted mean assume, and what could the team report without that assumption?
+
+<Details summary="One answer">
+
+The frame is complete and everyone was "sampled," so the first two rows are not at issue. The third row carries the analysis: nine in ten cells are empty because customers did not respond. The weighted mean assumes that within a region and spending tier, customers who answered are as satisfied as customers who did not, and the narrow interval describes sampling variation that barely exists here; it says nothing about that assumption. The score is bounded, so the team can report the worst-case range: respondents' mean times the response share, plus the nonresponse share times the lowest and highest possible scores. With one in ten responding, that range covers most of the scale, which is the honest summary of what the survey identifies. A defensible narrower claim needs a stated assumption, for example that nonrespondents are no more satisfied than respondents, which turns the weighted mean into an upper bound. The fourth row applies too if the score is compared with a measure collected another way.
+
+</Details>
+
+</Callout>
+
+<Closing>
+<Learned>
+
+With no assumption about the <Fact id="ch1.turnout_nonresp_2020" /> of citizen adults who gave no answer, the 2020 CPS puts turnout between <Fact id="ch1.turnout_census_2020" /> and <Fact id="ch9.turnout_upper_2020" /> and the White–Black gap between <Fact id="ch9.gap_lower_2020" /> and <Fact id="ch9.gap_upper_2020" /> points. Assuming only that both groups' nonrespondents voted at a common rate keeps the gap between <Fact id="ch9.gap_common_all_voted_2020" /> and <Fact id="ch1.turnout_gap_race_census_2020" /> points. At the point estimates, Chapter 6's Medicaid effect keeps its sign until post-period departures from parallel trends reach <Fact id="ch9.did_breakdown_avg" /> times the largest pre-period change on average, <Fact id="ch9.did_breakdown_2014" /> times for 2014, and <Fact id="ch9.did_breakdown_2019" /> times for 2019.
+
+</Learned>
+<Changed>
+
+No estimate changed. What changed is what is reported around it: the assumption that turns the observed data into the target is named, the answer is shown without it, and the point at which the conclusion fails is a number. Weights, conventions about nonrespondents, merged cells, and parallel trends are treated as the same kind of object, an assumption that fills empty cells, supplied either by a design or by an argument.
+
+</Changed>
+<NotEstablished>
+
+- **Which turnout convention is right.** The bounds say what the file supports; they do not locate the truth inside the set. Reported votes are taken at face value, and the frame's exclusions are outside every bound.
+- **Sampling uncertainty around any bound.** The turnout extract carries no design information, and the Medicaid sets are evaluated at the point estimates. Confidence sets are planned and will be wider.
+- **That parallel trends holds, or fails.** A breakdown value says how much of the assumption the conclusion needs. Two pre-period steps are a short yardstick, and both are estimated with error.
+- **Any causal effect of working from home.** The chapter explains why the ACS contrasts do not identify one. The randomized study that would is a placeholder.
+- **Anything about the planned cases.** Mariel, Medicare at 65, the instrument, validated turnout, and the vaccination surveys are described from the published literature. None has been reproduced here, and no number from them appears.
+
+</NotEstablished>
+</Closing>

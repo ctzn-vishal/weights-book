@@ -36,10 +36,12 @@ const errors = [];
 const warnings = [];
 
 let toc;
+let taskRoutes;
 try {
   toc = await import('../lib/toc.ts');
+  ({ taskRoutes } = await import('../lib/task-routes.ts'));
 } catch (e) {
-  console.error(`verify-book: cannot import lib/toc.ts (${e.message}). Run with: node --import tsx scripts/verify-book.mjs`);
+  console.error(`verify-book: cannot import book navigation (${e.message}). Run with: node --import tsx scripts/verify-book.mjs`);
   process.exit(1);
 }
 
@@ -80,6 +82,19 @@ for (const e of entries) {
   if (existsSync(pagePath)) {
     const m = /chapterPage\(\s*['"]([^'"]+)['"]/.exec(readFileSync(pagePath, 'utf8'));
     if (m && m[1] !== e.slug) errors.push(`app/${e.slug}/page.tsx calls chapterPage('${m[1]}'); expected '${e.slug}'`);
+  }
+}
+
+const taskIds = new Set();
+for (const task of taskRoutes) {
+  if (taskIds.has(task.id)) errors.push(`lib/task-routes.ts: duplicate task id "${task.id}"`);
+  taskIds.add(task.id);
+  for (const destination of [task, ...(task.related ? [task.related] : [])]) {
+    if (!slugs.has(destination.slug)) errors.push(`lib/task-routes.ts: task "${task.id}" has unknown slug "${destination.slug}"`);
+    else if (!PAGE_FILES.some((f) => existsSync(join(appDir, destination.slug, f)))) {
+      errors.push(`lib/task-routes.ts: task "${task.id}" points to a placeholder chapter "${destination.slug}"`);
+    }
+    if (!destination.heading) errors.push(`lib/task-routes.ts: task "${task.id}" has no section heading`);
   }
 }
 

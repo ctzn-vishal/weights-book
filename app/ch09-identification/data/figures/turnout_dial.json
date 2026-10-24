@@ -1,0 +1,183 @@
+{
+ "alt": "Three straight rising lines, for all citizen adults, non-Hispanic White citizens, and non-Hispanic Black citizens. Each starts at the Census-convention rate when no nonrespondent is assumed to have voted and rises by that group's nonresponse share when all are assumed to have voted. The Black line is lowest at the left and rises fastest, because Black nonresponse is highest.",
+ "annotations": [
+  {
+   "label": "Census convention",
+   "x": 0
+  },
+  {
+   "label": "Every nonrespondent voted",
+   "x": 100
+  }
+ ],
+ "format": "pct1",
+ "note": "Each line is an identity, not an estimate: observed weighted components plus an assumed rate. The respondents-only convention sits where the assumed rate equals each group's own respondent rate. Sampling error, misreported votes, and frame exclusions are not shown.",
+ "series": [
+  {
+   "name": "Non-Hispanic White",
+   "role": "cat1",
+   "segments": [
+    [
+     {
+      "x": 0,
+      "y": 0.709369
+     },
+     {
+      "x": 10,
+      "y": 0.72331
+     },
+     {
+      "x": 20,
+      "y": 0.73725
+     },
+     {
+      "x": 30,
+      "y": 0.751191
+     },
+     {
+      "x": 40,
+      "y": 0.765132
+     },
+     {
+      "x": 50,
+      "y": 0.779073
+     },
+     {
+      "x": 60,
+      "y": 0.793013
+     },
+     {
+      "x": 70,
+      "y": 0.806954
+     },
+     {
+      "x": 80,
+      "y": 0.820895
+     },
+     {
+      "x": 90,
+      "y": 0.834835
+     },
+     {
+      "x": 100,
+      "y": 0.848776
+     }
+    ]
+   ]
+  },
+  {
+   "name": "All citizen adults",
+   "role": "design",
+   "segments": [
+    [
+     {
+      "x": 0,
+      "y": 0.667671
+     },
+     {
+      "x": 10,
+      "y": 0.68339
+     },
+     {
+      "x": 20,
+      "y": 0.699109
+     },
+     {
+      "x": 30,
+      "y": 0.714828
+     },
+     {
+      "x": 40,
+      "y": 0.730547
+     },
+     {
+      "x": 50,
+      "y": 0.746266
+     },
+     {
+      "x": 60,
+      "y": 0.761985
+     },
+     {
+      "x": 70,
+      "y": 0.777704
+     },
+     {
+      "x": 80,
+      "y": 0.793423
+     },
+     {
+      "x": 90,
+      "y": 0.809142
+     },
+     {
+      "x": 100,
+      "y": 0.824861
+     }
+    ]
+   ]
+  },
+  {
+   "name": "Non-Hispanic Black",
+   "role": "cat2",
+   "segments": [
+    [
+     {
+      "x": 0,
+      "y": 0.627983
+     },
+     {
+      "x": 10,
+      "y": 0.648001
+     },
+     {
+      "x": 20,
+      "y": 0.668019
+     },
+     {
+      "x": 30,
+      "y": 0.688038
+     },
+     {
+      "x": 40,
+      "y": 0.708056
+     },
+     {
+      "x": 50,
+      "y": 0.728074
+     },
+     {
+      "x": 60,
+      "y": 0.748092
+     },
+     {
+      "x": 70,
+      "y": 0.76811
+     },
+     {
+      "x": 80,
+      "y": 0.788129
+     },
+     {
+      "x": 90,
+      "y": 0.808147
+     },
+     {
+      "x": 100,
+      "y": 0.828165
+     }
+    ]
+   ]
+  }
+ ],
+ "source": "IPUMS CPS, November 2020 Voting and Registration Supplement; weighted by VOSUPPWT; derived from Chapter 1's components",
+ "subtitle": "Implied turnout among citizen adults as the assumed voting rate of nonrespondents goes from none to all",
+ "title": "Turnout in 2020 depends on what is assumed about the people who gave no answer",
+ "type": "line",
+ "x_label": "Assumed share of nonrespondents who voted (%)",
+ "y_domain": [
+  0.6,
+  0.9
+ ],
+ "y_label": "Implied share of citizen adults who voted"
+}

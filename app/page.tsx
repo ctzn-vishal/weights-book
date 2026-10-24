@@ -5,6 +5,7 @@ import { Fact } from '@/components/book/Fact';
 import { FactPositioner } from '@/components/book/FactPositioner';
 import { TopBar } from '@/components/book/SiteChrome';
 import { SITE_URL } from '@/lib/site';
+import { findTask, taskHref } from '@/lib/task-routes';
 import { book, entryHref, entryLabel, splitPartTitle } from '@/lib/toc';
 import cover from '@/public/cover.png';
 
@@ -17,9 +18,10 @@ const COVER_ALT = `Cover of ${book.title}: ${book.subtitle}, by ${book.author}. 
 
 const ROUTES = [
   { who: 'Everyone', href: '/ch00-start-here', go: 'Chapter 0', rest: 'the three decisions, one at a time' },
-  { who: 'Describing a population', href: '/ch01-estimands', go: 'Chapters 1–3', rest: 'estimands, weights, and design-based uncertainty' },
-  { who: 'Regression and causal questions', href: '/ch04-regression', go: 'Chapters 4–7', rest: 'explicit and hidden weights, and where to cluster' },
-  { who: 'Working with one survey', href: '/ch08-field-guide', go: 'Chapter 8', rest: 'the field guide to six surveys' },
+  { who: 'Describing a population', href: taskHref(findTask('turnout-denominator')), go: 'Chapters 1–3', rest: 'estimands, weights, and design-based uncertainty' },
+  { who: 'Regression and causal questions', href: taskHref(findTask('weighted-regression')), go: 'Chapters 4–7', rest: 'explicit and hidden weights, and where to cluster' },
+  { who: 'Working with one survey', href: taskHref(findTask('choose-survey')), go: 'Chapter 8', rest: 'the field guide to six surveys' },
+  { who: 'Asking whether the data can answer at all', href: taskHref(findTask('nonresponse-assumption')), go: 'Chapter 9', rest: 'identification: what the file determines, and under which assumption' },
 ];
 
 export default function Home() {
@@ -52,8 +54,20 @@ export default function Home() {
               that stop you are not in the econometrics sequence. Should I use the weights, and which column is the weight?
               Why does my replication of a Census number come out different? My advisor says cluster by state and the
               referee says by county; who is right, and how would I know? Is the standard error the software printed the
-              standard error of anything?
+              standard error of anything? And can this file answer my question at all, or only under an assumption I
+              have not written down?
             </p>
+            <div className="cv-actions">
+              <Link className="cv-cta" href="/ch00-start-here">
+                Start reading: Chapter 0 <span aria-hidden="true">→</span>
+              </Link>
+              <Link className="cv-more" href="/tasks">
+                Find an answer
+              </Link>
+              <a className="cv-more" href="#cv-contents">
+                Browse the contents
+              </a>
+            </div>
             <p>
               This book answers those questions with the surveys you actually use and numbers you can check. In one
               release the Census Bureau reported that <Fact id="ch1.pov_spm_child_2021" /> of American children were poor
@@ -61,17 +75,23 @@ export default function Home() {
               Survey has a standard error <Fact id="ch6.ratio_state_hc1" /> as large once the question is which states
               decided, not how many people were interviewed. A ranking of state uninsured rates looks definitive, and the
               survey&apos;s own replicate weights can tell apart <Fact id="ch3lab.adj_sig_sdr" /> of its 50 neighbouring
-              pairs. None of these is a mistake. Each is a weighted number answering a question nobody wrote down: who it
-              describes, how each observation counts, and what could have come out differently.
+              pairs. One election file supports a Black–White turnout gap of{' '}
+              <Fact id="ch1.turnout_gap_race_census_2020" /> points or <Fact id="ch1.turnout_gap_race_resp_2020" />, and
+              with no assumption about the people who gave no answer, anything from <Fact id="ch9.gap_lower_2020" /> to{' '}
+              <Fact id="ch9.gap_upper_2020" />. None of these is a mistake. Each is a number answering a question nobody
+              wrote down: who it describes, whether the data can determine it, how each observation counts, and what could
+              have come out differently.
             </p>
             <p>
               The cover shows a beam balanced on a pivot set to one side. Move the pivot and the same circles tip the other
               way. A survey weight, a regression&apos;s hidden weight, a choice of cluster: each one moves the pivot. Every
               chapter starts from a real study or a published number, works the question by hand before any software, and
-              ends by saying what the analysis does not establish. The examples come from political science, labor and
+              ends by saying what the analysis does not establish. The last part asks the question underneath all of them,
+              for descriptions and for effects: which assumption connects this file to the quantity, and what is left when
+              the assumption is removed. The examples come from political science, labor and
               health economics, and public health, because that is where the questions come from.
             </p>
-            <ul className="cv-moments" aria-label="Three moments from the book">
+            <ul className="cv-moments" aria-label="Four moments from the book">
               <li>
                 <Link href="/ch01-estimands">
                   <span className="cv-moment-num">
@@ -92,18 +112,18 @@ export default function Home() {
                   <span className="cv-moment-txt">Neighbouring states a ranking can actually tell apart. Lab 3 lets the replicate weights speak.</span>
                 </Link>
               </li>
+              <li>
+                <Link href="/ch09-identification">
+                  <span className="cv-moment-num">
+                    <Fact id="ch9.gap_lower_2020" /> to <Fact id="ch9.gap_upper_2020" />
+                  </span>
+                  <span className="cv-moment-txt">The turnout gap one file supports before anyone assumes how nonrespondents voted. Chapter 9 asks what the data can determine.</span>
+                </Link>
+              </li>
             </ul>
             <blockquote className="cv-mnemonic">
               <p>What is this number a weighted average of, and who chose the weights?</p>
             </blockquote>
-            <div className="cv-actions">
-              <Link className="cv-cta" href="/ch00-start-here">
-                Start reading: Chapter 0 <span aria-hidden="true">→</span>
-              </Link>
-              <a className="cv-more" href="#cv-contents">
-                Browse the contents
-              </a>
-            </div>
             <p className="cv-fine">
               Written for doctoral students and applied researchers in economics, political science, sociology, psychology,
               marketing, and public health who have taken an econometrics or statistics sequence but no course in survey

@@ -10,6 +10,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { taskRoutes } from '../lib/task-routes.ts';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const distDir = process.env.NEXT_DIST_DIR || '.next';
@@ -42,10 +43,25 @@ for (const file of files) {
   bad.push({ file: relative(root, file).split('\\').join('/'), titles });
 }
 
-if (bad.length) {
-  for (const b of bad) {
-    console.error(`check-built-html: ERROR  ${b.file}: KaTeX error${b.titles.length ? `: ${b.titles.slice(0, 3).join(' | ')}` : ''}`);
+const missingSections = [];
+const headingsBySlug = new Map();
+for (const task of taskRoutes) {
+  for (const destination of [task, ...(task.related ? [task.related] : [])]) {
+    if (!headingsBySlug.has(destination.slug)) {
+      const page = join(serverApp, `${destination.slug}.html`);
+      const headings = existsSync(page)
+        ? new Set([...readFileSync(page, 'utf8').matchAll(/<h[23]\b[^>]*\bid="([^"]+)"/g)].map((m) => m[1]))
+        : new Set();
+      headingsBySlug.set(destination.slug, headings);
+    }
+    if (!headingsBySlug.get(destination.slug).has(destination.heading)) {
+      missingSections.push(`${task.id}: /${destination.slug}#${destination.heading}`);
+    }
   }
-  process.exit(1);
 }
-console.log(`check-built-html: ${files.length} prerendered page(s), no katex-error.`);
+for (const b of bad) {
+  console.error(`check-built-html: ERROR  ${b.file}: KaTeX error${b.titles.length ? `: ${b.titles.slice(0, 3).join(' | ')}` : ''}`);
+}
+for (const section of missingSections) console.error(`check-built-html: ERROR  missing task section ${section}`);
+if (bad.length || missingSections.length) process.exit(1);
+console.log(`check-built-html: ${files.length} prerendered page(s), no katex-error or missing task sections.`);

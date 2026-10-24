@@ -18,7 +18,7 @@ const sans = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swa
 const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-jetbrains', display: 'swap' });
 
 const description =
-  'A field guide for applied researchers on survey weights, sampling design, and estimands: what a weighted number describes, how each observation counts, and what could have come out differently.';
+  'A field guide for applied researchers on survey weights, sampling design, estimands, and identification: what a number describes, whether the data can determine it, how each observation counts, and what could have come out differently.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),

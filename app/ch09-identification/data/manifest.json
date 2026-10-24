@@ -1,0 +1,67 @@
+{
+ "code": "build.py",
+ "generated_at": "2026-09-19T15:21:09Z",
+ "inputs": [
+  {
+   "note": "2020 CPS turnout components by group (exported aggregates; no microdata read)",
+   "path": "book/chapters/ch01-estimands/artifacts/facts.json",
+   "rows": null
+  },
+  {
+   "note": "Expansion coefficient and event-study facts",
+   "path": "book/chapters/ch06-clustering/artifacts/facts.json",
+   "rows": null
+  },
+  {
+   "note": "Year-by-year event-study coefficients, 2011 to 2019",
+   "path": "book/chapters/ch06-clustering/artifacts/figures/event_study.json",
+   "rows": null
+  }
+ ],
+ "key": "ch9",
+ "slug": "ch09-identification",
+ "validation": [
+  {
+   "abs_error": 0.0,
+   "check": "All citizen adults: Census-convention rate equals (1 - nonresponse share) x respondents' rate",
+   "pass": true,
+   "tolerance": 5e-06
+  },
+  {
+   "abs_error": 1e-06,
+   "check": "Non-Hispanic White: Census-convention rate equals (1 - nonresponse share) x respondents' rate",
+   "pass": true,
+   "tolerance": 5e-06
+  },
+  {
+   "abs_error": 1e-06,
+   "check": "Non-Hispanic Black: Census-convention rate equals (1 - nonresponse share) x respondents' rate",
+   "pass": true,
+   "tolerance": 5e-06
+  },
+  {
+   "abs_error": 0.0,
+   "check": "White-Black gap under the Census convention matches Chapter 1's fact",
+   "pass": true,
+   "tolerance": 5e-06
+  },
+  {
+   "abs_error": 0.0,
+   "check": "White-Black gap among respondents matches Chapter 1's fact",
+   "pass": true,
+   "tolerance": 5e-06
+  },
+  {
+   "abs_error": 4.2e-05,
+   "check": "Event-study figure coefficients match Chapter 6's lead_2011 and event_2019 facts to 4 decimals",
+   "pass": true,
+   "tolerance": 0.0002
+  },
+  {
+   "abs_error": 0.005096,
+   "check": "Simple average of post-period event-study coefficients against Chapter 6's pooled coefficient (informational)",
+   "pass": true,
+   "tolerance": null
+  }
+ ]
+}

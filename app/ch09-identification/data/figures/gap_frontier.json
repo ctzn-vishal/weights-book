@@ -1,0 +1,117 @@
+{
+ "alt": "A rising line that starts near 41 percent when no White nonrespondent voted and reaches 100 percent when about 85 percent of White nonrespondents voted. A second line marks equal rates in the two groups and lies below the first everywhere, so no common rate erases the gap.",
+ "format": "num1",
+ "note": "Above the frontier the gap reverses sign. The equal-rates line marks a common voting rate among both groups' nonrespondents. The frontier is an identity in the observed weighted components and carries no sampling interval.",
+ "series": [
+  {
+   "name": "Zero-gap frontier",
+   "role": "highlight",
+   "segments": [
+    [
+     {
+      "x": 0,
+      "y": 40.656
+     },
+     {
+      "x": 5,
+      "y": 44.138
+     },
+     {
+      "x": 10,
+      "y": 47.62
+     },
+     {
+      "x": 15,
+      "y": 51.102
+     },
+     {
+      "x": 20,
+      "y": 54.584
+     },
+     {
+      "x": 25,
+      "y": 58.066
+     },
+     {
+      "x": 30,
+      "y": 61.548
+     },
+     {
+      "x": 35,
+      "y": 65.03
+     },
+     {
+      "x": 40,
+      "y": 68.5121
+     },
+     {
+      "x": 45,
+      "y": 71.9941
+     },
+     {
+      "x": 50,
+      "y": 75.4761
+     },
+     {
+      "x": 55,
+      "y": 78.9581
+     },
+     {
+      "x": 60,
+      "y": 82.4401
+     },
+     {
+      "x": 65,
+      "y": 85.9221
+     },
+     {
+      "x": 70,
+      "y": 89.4041
+     },
+     {
+      "x": 75,
+      "y": 92.8861
+     },
+     {
+      "x": 80,
+      "y": 96.3681
+     },
+     {
+      "x": 85,
+      "y": 99.8501
+     },
+     {
+      "x": 85.2152,
+      "y": 100.0
+     }
+    ]
+   ]
+  },
+  {
+   "name": "Equal rates",
+   "role": "muted",
+   "segments": [
+    [
+     {
+      "x": 0,
+      "y": 0.0
+     },
+     {
+      "x": 100,
+      "y": 100.0
+     }
+    ]
+   ]
+  }
+ ],
+ "source": "IPUMS CPS, November 2020 Voting and Registration Supplement; weighted by VOSUPPWT; derived from Chapter 1's components",
+ "subtitle": "Voting rate among Black nonrespondents at which the 2020 White–Black gap is zero, for each assumed rate among White nonrespondents",
+ "title": "Erasing the turnout gap requires Black nonrespondents to have voted far more often than White nonrespondents",
+ "type": "line",
+ "x_label": "Assumed share of White nonrespondents who voted (%)",
+ "y_domain": [
+  0,
+  100
+ ],
+ "y_label": "Share of Black nonrespondents who must have voted for a zero gap (%)"
+}

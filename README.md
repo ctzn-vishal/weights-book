@@ -4,8 +4,10 @@
 
 An online booklet on three decisions hidden inside "should I use the survey
 weights?": the population quantity being targeted, the way observations enter the
-estimator, and the sampling or assignment design that governs uncertainty. Every
-chapter is built on real public survey data (ACS, CPS, ATUS, NHIS, NHANES, BRFSS).
+estimator, and the sampling or assignment design that governs uncertainty. Part IV
+adds the question underneath them: whether the data identify the target, for
+descriptive and causal quantities alike. Every chapter is built on real public survey
+data (ACS, CPS, ATUS, NHIS, NHANES, BRFSS).
 
 **Status: first draft.** Pages carry a draft banner and are excluded from search
 indexing until the verification pass is complete.

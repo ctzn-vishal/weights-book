@@ -1,0 +1,58 @@
+{
+ "key": "ch9",
+ "ledgers": {
+  "medicaid_sensitivity": {
+   "assumptions": "The pre-period is informative about the size of post-period violations; only two pre-period steps are available, and both are estimated with error",
+   "estimand": "Average effect of the January 2014 expansion on the uninsured share in the expansion cohort, 2014–2019",
+   "estimator": "Year-by-year event-study coefficients from Chapter 6's PERWT-weighted regression with state and year fixed effects; identified sets formed as coefficient ± (years since 2013) × M̄ × (largest pre-period step)",
+   "explicit_weights": "PERWT, as in Chapter 6",
+   "facts": [
+    "ch6.beta",
+    "ch9.did_avg_post",
+    "ch9.did_maxpre",
+    "ch9.did_breakdown_avg",
+    "ch9.did_breakdown_2014",
+    "ch9.did_breakdown_2019"
+   ],
+   "identification": {
+    "assumption": "Parallel trends between cohort and comparison states; no anticipation; no spillovers across states",
+    "claim_type": "Causal by assumption, not by design",
+    "made_true_by": "Argument. States chose expansion; nothing in the design makes the comparison states' trend the cohort's counterfactual",
+    "observed": "State-year uninsured shares in the cohort and comparison states, before and after 2014",
+    "sensitivity": "At the point estimates the average effect's identified set reaches zero when each post-period step of the violation is about three times the largest pre-period step",
+    "without_assumption": "Unbounded. With the relative-magnitudes restriction, the identified set widens in proportion to M̄ and the years since 2013"
+   },
+   "implicit_weights": "As in Chapter 6; the average over years weights the six post-period coefficients equally",
+   "randomness": "Not quantified in this calculation",
+   "target_population": "Civilian and military household population ages 19–64 with family income at or below 138% of the poverty threshold, in the 30 design states of Chapter 6, 2011–2019",
+   "title": "Medicaid expansion and uninsurance: how much the conclusion leans on parallel trends",
+   "variance_estimator": "None. Evaluated at the point estimates; HonestDiD confidence sets that add state-clustered sampling uncertainty are planned"
+  },
+  "turnout_bounds": {
+   "assumptions": "Reported votes are taken at face value, although surveys overstate voting; people outside the CPS frame (institutions, active military) are outside every bound",
+   "estimand": "Share who reported voting; the White minus Black difference in that share",
+   "estimator": "Identities in observed weighted components: lower bound r·v, upper bound r·v + (1 − r), where r is the share answering and v the rate among them",
+   "explicit_weights": "VOSUPPWT (CPS Voting and Registration Supplement weight), equal to the basic monthly weight for every citizen adult it counts",
+   "facts": [
+    "ch1.turnout_census_2020",
+    "ch9.turnout_upper_2020",
+    "ch9.gap_lower_2020",
+    "ch9.gap_upper_2020",
+    "ch9.gap_common_all_voted_2020"
+   ],
+   "identification": {
+    "assumption": "None for the bounds. The Census convention adds: no nonrespondent voted. The respondents-only convention adds: within each group, nonrespondents voted at the respondents' rate",
+    "claim_type": "Descriptive, partially identified",
+    "made_true_by": "Neither convention is made true by the design. The supplement weight does not adjust for people who skipped the voting questions",
+    "observed": "The weighted share who answered the voting question and the reported voting rate among them, by group",
+    "sensitivity": "The gap is zero only if Black nonrespondents voted at a much higher rate than White nonrespondents; no common rate erases it",
+    "without_assumption": "Turnout lies between the Census-convention rate and that rate plus the nonresponse share; the gap lies in an interval as wide as the two groups' nonresponse shares added together"
+   },
+   "implicit_weights": "None",
+   "randomness": "CPS sampling of households; not quantified here, because the extract carries no design information (Chapter 1)",
+   "target_population": "U.S. citizens 18 and older in the civilian noninstitutional population, not in the armed forces, November 2020; and the non-Hispanic White and non-Hispanic Black citizens among them",
+   "title": "What the 2020 CPS identifies about turnout, and what it leaves to assumption",
+   "variance_estimator": "None attached. Bounds address missing answers; sampling intervals around each bound are a separate, planned addition"
+  }
+ }
+}

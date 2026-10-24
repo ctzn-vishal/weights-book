@@ -1,0 +1,52 @@
+{
+ "alt": "Table of five assumptions about citizens who gave no answer to the 2020 voting question and the White-Black turnout gap each implies, from the lower worst-case bound through the respondents-only and Census conventions to the upper worst-case bound.",
+ "columns": [
+  {
+   "align": "left",
+   "key": "scenario",
+   "label": "Scenario"
+  },
+  {
+   "align": "left",
+   "key": "assumption",
+   "label": "What is assumed about people who gave no answer"
+  },
+  {
+   "align": "right",
+   "format": "num1",
+   "key": "gap",
+   "label": "White − Black gap (pts)"
+  }
+ ],
+ "note": "Scenarios are assumptions applied to observed weighted components. None carries a sampling interval, and none addresses misreported votes.",
+ "rows": [
+  {
+   "assumption": "No White nonrespondent voted; every Black nonrespondent voted",
+   "gap": -11.8796,
+   "scenario": "Lower worst case"
+  },
+  {
+   "assumption": "Every nonrespondent in both groups voted",
+   "gap": 2.0611,
+   "scenario": "Everyone voted"
+  },
+  {
+   "assumption": "Each group's nonrespondents voted at the rate of its respondents",
+   "gap": 3.9122,
+   "scenario": "Respondents only"
+  },
+  {
+   "assumption": "No nonrespondent in either group voted",
+   "gap": 8.1386,
+   "scenario": "Census convention"
+  },
+  {
+   "assumption": "Every White nonrespondent voted; no Black nonrespondent voted",
+   "gap": 22.0793,
+   "scenario": "Upper worst case"
+  }
+ ],
+ "source": "IPUMS CPS, November 2020 Voting and Registration Supplement; weighted by VOSUPPWT; derived from Chapter 1's components",
+ "title": "The same file supports a White–Black turnout gap anywhere in a 34-point range until nonrespondents are described",
+ "type": "table"
+}

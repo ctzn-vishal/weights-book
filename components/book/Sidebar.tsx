@@ -19,6 +19,7 @@ export function TocNav({ currentSlug, sections = false }: { currentSlug?: string
       <Link href="/" className="bk-toc-home">
         {book.title}
       </Link>
+      <Link href="/tasks" className="bk-toc-tasks">Find an answer</Link>
       {book.parts.map((part) => {
         const { label, name } = splitPartTitle(part.title);
         return (
